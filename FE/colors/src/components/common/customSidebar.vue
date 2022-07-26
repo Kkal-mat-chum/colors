@@ -1,6 +1,7 @@
 <template>
   <div class="sidebar">
-    <img src="../../assets/logo_vertical.png" />
+    <img class="logo_sidebar" src="../../assets/logo_vertical.png" />
+    <p></p>
   </div>
 </template>
 
@@ -35,5 +36,9 @@ export default {};
 
 .active {
   background: #d0d1ff;
+}
+
+.logo_sidebar {
+  width: 140px;
 }
 </style>
