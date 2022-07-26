@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <sidebar></sidebar>
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -7,6 +8,17 @@
     <router-view />
   </div>
 </template>
+
+<script>
+import sidebar from "./components/common/customSidebar.vue";
+
+export default {
+  name: "app",
+  components: {
+    sidebar,
+  },
+};
+</script>
 
 <style>
 #app {
