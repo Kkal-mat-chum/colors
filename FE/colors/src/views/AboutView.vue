@@ -2,7 +2,12 @@
   <div class="about">
     <customSidebarVue></customSidebarVue>
     <h1>This is an about page</h1>
-    <customButton class="testButton" btnText="BUTTON" @click="testClick">testButton</customButton>
+    <customButton class="testButton" btnText="BUTTON" @click="showModal = true">testButton</customButton>
+    <customModal v-show="showModal" @close-modal="showModal = false" titleText="testmodal">
+      <content>
+        <customButton btnText="CLOSE" @click="showModal = false"></customButton>
+      </content>
+    </customModal>
   </div>
 </template>
 
@@ -11,6 +16,11 @@ import customSidebarVue from "@/components/common/customSidebar.vue";
 export default {
   components: {
     customSidebarVue,
+  },
+  data() {
+    return {
+      showModal: false,
+    };
   },
   methods: {
     testClick() {

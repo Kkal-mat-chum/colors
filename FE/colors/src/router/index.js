@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
 import sighUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
+import modifyUser from "../components/user/customUpdateUser.vue";
 
 Vue.use(VueRouter);
 
@@ -28,14 +29,19 @@ const routes = [
     component: MyPageView,
   },
   {
-    path: "/sighup",
-    name: "sighUp",
-    component: sighUp,
+    path: "/signup",
+    name: "signUp",
+    component: signUp,
   },
   {
     path: "/login",
     name: "logIn",
     component: logIn,
+  },
+  {
+    path: "/modifyuser",
+    name: "modifyUser",
+    component: modifyUser,
   },
 ];
 
