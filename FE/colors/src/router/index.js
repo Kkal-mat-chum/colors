@@ -2,6 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
+import sighUp from "../components/user/customSignUp.vue";
+import logIn from "../components/user/customLogIn.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -23,6 +26,16 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     component: MyPageView,
+  },
+  {
+    path: "/sighup",
+    name: "sighUp",
+    component: sighUp,
+  },
+  {
+    path: "/login",
+    name: "logIn",
+    component: logIn,
   },
 ];
 
