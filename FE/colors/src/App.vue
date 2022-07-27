@@ -1,20 +1,68 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <router-link to="/about">Go to About</router-link>
     <router-view />
   </div>
 </template>
 
+<script>
+export default {
+  name: "app",
+};
+</script>
+
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Pretendard";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-Black.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-Bold.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-ExtraBold.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-ExtraLight.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-Light.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-Medium.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-Regular.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-SemiBold.otf");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("@/assets/font/Pretendard-Thin.otf");
 }
 
 nav {
