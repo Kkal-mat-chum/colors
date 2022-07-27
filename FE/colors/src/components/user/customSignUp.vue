@@ -47,8 +47,11 @@ body {
   margin: 0;
 }
 .title {
-  position: relative;
+  position: absolute;
   width: 100%;
+  display: grid;
+  justify-content: left;
+  margin-left: 5%;
 }
 .signUpPage {
   position: absolute;
@@ -89,13 +92,13 @@ body {
   color: #6667ab;
   font-weight: 900;
   font-size: 150%;
-  width: 95%;
+  width: 100%;
 }
 .hrStyle {
-  width: 100%;
-  position: relative;
-  height: 0.4%;
-  margin-top: 2%;
+  width: 40%;
+  position: absolute;
+  height: 1px;
+  margin: 33px 0 0 5%;
   background-color: #6667ab;
 }
 .userInfo {

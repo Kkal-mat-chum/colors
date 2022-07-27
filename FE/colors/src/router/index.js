@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import signUp from "../components/user/customSignUp.vue";
+import logIn from "../components/user/customLogIn.vue";
+import modifyUser from "../components/user/customUpdateUser.vue";
 
 Vue.use(VueRouter);
 
@@ -23,6 +25,16 @@ const routes = [
     path: "/signup",
     name: "signUp",
     component: signUp,
+  },
+  {
+    path: "/login",
+    name: "logIn",
+    component: logIn,
+  },
+  {
+    path: "/modifyuser",
+    name: "modifyUser",
+    component: modifyUser,
   },
 ];
 
