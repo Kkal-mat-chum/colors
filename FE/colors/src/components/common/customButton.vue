@@ -1,13 +1,17 @@
 <template>
-  <button>test</button>
+  <v-btn class="customButton" v-on="$listeners" v-bind="$attrs">{{ btnText }}</v-btn>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    btnText: String,
+  },
+};
 </script>
 
-<style>
-button {
+<style scoped>
+.customButton {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -15,7 +19,7 @@ button {
   margin: 0;
   padding: 0.5rem 1rem;
 
-  font-family: "Pretendard";
+  /* font-family: "Pretendard"; */
   text-align: center;
   text-decoration: none;
 
@@ -23,8 +27,8 @@ button {
   width: auto;
 
   background-color: #ffffff;
-  border-color: #d0d1ff;
-  border-radius: 4px;
+  border: 4px solid #d0d1ff;
+  border-radius: 10px;
 
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
@@ -35,7 +39,7 @@ button {
   color: #6667ab;
 }
 
-button:hover {
+.customButton:hover {
   background-color: #d0d1ff;
 }
 </style>
