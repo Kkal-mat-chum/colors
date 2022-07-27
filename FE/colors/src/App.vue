@@ -1,18 +1,12 @@
 <template>
   <div id="app">
-    <sidebar></sidebar>
     <router-view />
   </div>
 </template>
 
 <script>
-import sidebar from "./components/common/customSidebar.vue";
-
 export default {
   name: "app",
-  components: {
-    sidebar,
-  },
 };
 </script>
 
