@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style scoped>
-.customButton {
+button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -39,7 +39,7 @@ export default {
   color: #6667ab;
 }
 
-.customButton:hover {
+button:hover {
   background-color: #d0d1ff;
 }
 </style>
