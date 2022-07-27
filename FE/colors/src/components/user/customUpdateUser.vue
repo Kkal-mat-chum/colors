@@ -13,10 +13,10 @@
         <label for="pwlabel" class="modifyLabel">비밀번호</label>
       </div>
       <div class="modifyInputs">
-        <input type="text" class="modifyInput" id="nickLabel" />
-        <input type="text" class="modifyInput" id="nameLabel" />
-        <input type="text" class="modifyInput" id="emailLabel" />
-        <input type="text" class="modifyInput" id="pwLabel" />
+        <input type="text" class="modifyInput" id="nickLabel" placeholder="닉네임을 입력해주세요." />
+        <input type="text" class="modifyInput" id="nameLabel" placeholder="이름을 입력해주세요." />
+        <input type="text" class="modifyInput" id="emailLabel" placeholder="이메일을 입력해주세요." />
+        <input type="text" class="modifyInput" id="pwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
         <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
@@ -49,8 +49,10 @@ body {
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 35%;
-  height: 75%;
+  width: 537.75px;
+  height: 558px;
+  /* width: 35%;
+  height: 75%; */
   left: 399px;
   top: 117px;
   border: 10px solid #000000;
@@ -96,7 +98,7 @@ body {
   position: absolute;
   height: 1px;
   margin: 18% 0 0 10%;
-  background-color: #6667ab;
+  background-color: #d0d1ff;
 }
 .dummyMargin1 {
   width: 10%;
@@ -120,7 +122,7 @@ body {
   margin: 0.6rem 0rem 2.5rem 0rem;
   margin-top: 15%;
   margin-bottom: 45%;
-  color: #000000;
+  color: #6667ab;
   font-size: 17px;
 }
 .modifyInputs {
@@ -134,7 +136,8 @@ body {
   margin-bottom: 8%;
   margin-top: 2%;
   /* margin-left: 2%; */
-  padding: 8px 5px;
+  padding: 8px;
+  border: 2px solid #d0d1ff;
   border-radius: 5px;
   border-color: #d0d1ff;
   font-size: 16px;
@@ -160,16 +163,17 @@ body {
   /* margin-bottom: 1rem; */
 }
 #nickCheckBtn {
-  height: 8%;
+  margin-top: 5%;
+  height: 15%;
 }
 #infoChangeBtn {
   margin-bottom: 5%;
 }
 #pwChangeBtn {
-  width: 35%;
+  width: 48%;
 }
 #byeBtn {
-  width: 35%;
+  width: 48%;
   color: red;
 }
 </style>
