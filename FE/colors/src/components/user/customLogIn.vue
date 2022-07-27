@@ -6,6 +6,14 @@
         <div class="logInAlarm">아이디 또는 비밀번호를 확인하세요.</div>
         <div class="logInTitle">로그인</div>
         <hr class="logInHrStyle" />
+        <div class="logInLabel">아이디</div>
+        <div class="logInInput">
+          <input type="text" placeholder="아이디를 입력하세요." id="logInpageInput" class="logInpageInput" />
+        </div>
+        <div class="logInLabelPw">비밀번호</div>
+        <div class="logInInput">
+          <input type="text" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInpageInput" />
+        </div>
       </div>
     </div>
   </div>
@@ -27,7 +35,7 @@ export default {};
 .logInBox {
   box-sizing: border-box;
   position: relative;
-  width: 40%;
+  width: 30%;
   height: 50%;
   opacity: 0.8;
   top: 0;
@@ -50,9 +58,37 @@ export default {};
   margin: 4% 2% 0 0;
 }
 .logInHrStyle {
+  display: flex;
   width: 40%;
   height: 1px;
+  border-radius: 5px;
   margin: 3px 0 0 5%;
-  background-color: #6667ab;
+  background-color: #d0d1ff;
+  margin-left: 13%;
+}
+.logInpageInput[type="text"] {
+  display: flex;
+  margin: 1% 0 3% 15%;
+  width: 70%;
+  border-radius: 5px;
+  border: 2px solid #d0d1ff;
+  height: 30px;
+}
+.logInLabel {
+  display: flex;
+  margin: 5% 0 0 15%;
+  color: #d0d1ff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.logInLabelPw {
+  display: flex;
+  margin: 5% 0 0 15%;
+  color: #d0d1ff;
+  font-size: 13px;
+  font-weight: 600;
+}
+input::placeholder {
+  color: #d0d1ff;
 }
 </style>
