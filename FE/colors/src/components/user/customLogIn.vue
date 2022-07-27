@@ -14,7 +14,7 @@
         <div class="logInInput">
           <input type="text" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInpageInput" />
         </div>
-        <customButton btnText="로그인" class="idPwSearch"></customButton>
+        <customButton btnText="로그인" id="idPwSearch"></customButton>
         <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch"></customButton>
         <customButton btnText="회원가입" class="idPwSearch"></customButton>
       </div>
@@ -94,10 +94,10 @@ export default {};
 input::placeholder {
   color: #d0d1ff;
 }
-.idPwSearch {
+#idPwSearch {
   display: flex;
   margin: 2% 0 2% 15%;
-  width: 63%;
+  width: 72%;
   justify-content: center;
 }
 </style>
