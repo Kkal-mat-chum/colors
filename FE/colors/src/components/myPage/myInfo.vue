@@ -33,11 +33,11 @@ export default {};
 <style>
 .infoTitle {
   text-align: left;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 .infoTitle h4 {
-  margin-top: 13px;
-  margin-bottom: 3px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .info {
   text-align: left;
