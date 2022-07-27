@@ -14,6 +14,9 @@
         <div class="logInInput">
           <input type="text" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInpageInput" />
         </div>
+        <customButton btnText="로그인" class="idPwSearch"></customButton>
+        <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch"></customButton>
+        <customButton btnText="회원가입" class="idPwSearch"></customButton>
       </div>
     </div>
   </div>
@@ -23,14 +26,14 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .mainPicture {
-  margin-top: 5%;
+  margin-top: 0;
 }
 .logInPage .logInInfo {
   display: flex;
   justify-content: center;
-  margin-top: 5%;
+  margin-top: 2%;
 }
 .logInBox {
   box-sizing: border-box;
@@ -90,5 +93,11 @@ export default {};
 }
 input::placeholder {
   color: #d0d1ff;
+}
+.idPwSearch {
+  display: flex;
+  margin: 2% 0 2% 15%;
+  width: 63%;
+  justify-content: center;
 }
 </style>
