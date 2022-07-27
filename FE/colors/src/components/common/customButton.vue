@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="customButton" v-on="$listeners" v-bind="$attrs">{{ btnText }}</v-btn>
+  <button class="customButton" v-on="$listeners" v-bind="$attrs">{{ btnText }}</button>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style scoped>
-.customButton {
+button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -27,7 +27,7 @@ export default {
   width: auto;
 
   background-color: #ffffff;
-  border: 4px solid #d0d1ff;
+  border: 3px solid #d0d1ff;
   border-radius: 10px;
 
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -39,7 +39,7 @@ export default {
   color: #6667ab;
 }
 
-.customButton:hover {
+button:hover {
   background-color: #d0d1ff;
 }
 </style>
