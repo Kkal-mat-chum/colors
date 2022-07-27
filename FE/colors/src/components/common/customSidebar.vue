@@ -21,7 +21,7 @@ export default {};
 /* Rectangle 1 */
 .sidebar {
   height: 100%;
-  width: 140px;
+  width: 120px;
   position: fixed;
   display: block;
   top: 0;
@@ -48,20 +48,20 @@ export default {};
 }
 
 .logo_sidebar {
-  width: 150px;
+  width: 130px;
   margin-bottom: 2rem;
 }
 
 .Active {
-  filter: opacity(0.9) drop-shadow(0 0 0 #4a4d74);
+  filter: opacity(0.8) drop-shadow(0 0 0 #4a4d74);
 }
 
 li img:hover {
-  filter: opacity(0.5) drop-shadow(0 0 0 #ffffff);
+  filter: opacity(0.4) drop-shadow(0 0 0 #ffffff);
 }
 
 .sideBarIcon {
-  filter: opacity(0.5) drop-shadow(0 0 0 #8c95d1);
+  filter: opacity(0.4) drop-shadow(0 0 0 #8c95d1);
 }
 
 .logOutIcon {
