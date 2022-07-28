@@ -6,6 +6,7 @@ import signUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
 import deleteUser from "../components/user/customDeleteUser.vue";
+import updatePW from "../components/user/custumUpdatePW.Vue";
 
 Vue.use(VueRouter);
 
@@ -48,6 +49,11 @@ const routes = [
     path: "/deleteuser",
     name: "deleteUser",
     component: deleteUser,
+  },
+  {
+    path: "/updatepw",
+    name: "updatePW",
+    component: updatePW,
   },
 ];
 
