@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import MyPageView from "../views/MyPageView.vue";
 import signUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
@@ -20,6 +21,12 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+
+  {
+    path: "/mypage",
+    name: "mypage",
+    component: MyPageView,
   },
   {
     path: "/signup",
