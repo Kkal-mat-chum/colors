@@ -39,12 +39,13 @@ export default {
   background: #ffffff;
   border: 3px solid #d0d1ff;
   border-radius: 10px;
+  overflow-y: hidden;
 }
 .modalTopLine {
   justify-content: flex-end;
   display: flex;
   margin-bottom: -20px;
-  margin-top: -8%;
+  margin-top: -50px;
 }
 
 .modalClose {
