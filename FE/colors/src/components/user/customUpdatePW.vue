@@ -46,7 +46,7 @@ body {
   border-radius: 10px;
 }
 .titleUpdatePW {
-  margin-top: 9%;
+  margin-top: 13%;
   margin-left: 10%;
   font-size: 150%;
   font-weight: 900;
@@ -61,16 +61,16 @@ body {
   margin-left: 10%;
 }
 .updatePW1 {
-  height: 24%;
+  height: 30%;
   text-align: left;
 }
 .updatePW2 {
-  height: 41%;
+  height: 30%;
   display: flex;
   flex-direction: row;
 }
 .updatePW3 {
-  height: 35%;
+  height: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,6 +110,7 @@ body {
   height: 10%;
 }
 #updatePWCheckBtn {
+  margin-top: 1%;
   width: 70%;
   color: red;
 }
