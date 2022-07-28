@@ -7,16 +7,16 @@
     <div class="update2">
       <div class="UpdateUserdummyMargin1"></div>
       <div class="modifyLabels">
-        <label for="nickLabel" class="modifyLabel">닉네임</label><br />
-        <label for="nameLabel" class="modifyLabel">이름</label><br />
-        <label for="emailLabel" class="modifyLabel">이메일</label><br />
-        <label for="pwlabel" class="modifyLabel">비밀번호</label>
+        <label for="updateUserNickLabel" class="modifyLabel">닉네임</label><br />
+        <label for="updateUserNameLabel" class="modifyLabel">이름</label><br />
+        <label for="updateUserEmailLabel" class="modifyLabel">이메일</label><br />
+        <label for="updateUserPwlabel" class="modifyLabel">비밀번호</label>
       </div>
       <div class="modifyInputs">
-        <input type="text" class="modifyInput" id="nickLabel" placeholder="닉네임을 입력해주세요." />
-        <input type="text" class="modifyInput" id="nameLabel" placeholder="이름을 입력해주세요." />
-        <input type="text" class="modifyInput" id="emailLabel" placeholder="현재 이메일" />
-        <input type="password" class="modifyPwInput" id="pwLabel" placeholder="비밀번호를 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserNickLabel" placeholder="닉네임을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserNameLabel" placeholder="이름을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserEmailLabel" placeholder="현재 이메일" />
+        <input type="password" class="modifyPwInput" id="updateUserPwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
         <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
@@ -62,7 +62,7 @@ body {
   display: flex;
   justify-content: flex-start;
   position: relative;
-  height: 25%;
+  height: 27%;
   /* left: 0px;
   top: 0px; */
   background: white;
@@ -72,7 +72,7 @@ body {
   display: flex;
   flex-direction: row;
   position: relative;
-  height: 53%;
+  height: 40%;
   right: 0px;
   top: 0px;
 }
@@ -116,9 +116,9 @@ body {
   width: 20%;
 }
 .modifyLabels {
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: space-evenly; */
+  justify-content: space-evenly;
   width: 13%;
   /* padding-left: 3%; */
   /* margin-left: 5%; */
@@ -126,22 +126,23 @@ body {
 }
 .modifyLabel {
   display: inline-block;
-  margin: 0.6rem 0rem 2.5rem 0rem;
-  margin-top: 15%;
-  margin-bottom: 45%;
+  /* margin: 0.6rem 0rem 2.5rem 0rem; */
+  /* margin-top: 15%; */
+  /* margin-bottom: 45%; */
   color: #6667ab;
   font-size: 17px;
 }
 .modifyInputs {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   width: 45%;
 }
 .modifyInput[type="text"] {
   width: 85%;
-  margin-bottom: 8%;
-  margin-top: 2%;
+  /* margin-bottom: 8%; */
+  /* margin-top: 2%; */
   /* margin-left: 2%; */
   padding: 8px;
   border: 2px solid #d0d1ff;
@@ -151,8 +152,8 @@ body {
 }
 .modifyPwInput[type="password"] {
   width: 85%;
-  margin-bottom: 8%;
-  margin-top: 2%;
+  /* margin-bottom: 8%; */
+  /* margin-top: 2%; */
   /* margin-left: 2%; */
   padding: 8px;
   border: 2px solid #d0d1ff;
@@ -181,14 +182,15 @@ body {
   /* margin-bottom: 1rem; */
 }
 #nickCheckBtn {
-  margin-top: 5%;
+  /* margin-top: 5%; */
   height: 15%;
 }
-#emailLabel {
+#updateUserEmailLabel {
   background-color: #ececec;
   color: #000000;
 }
 #infoChangeBtn {
+  margin-top: 12%;
   margin-bottom: 5%;
 }
 #pwChangeBtn {
