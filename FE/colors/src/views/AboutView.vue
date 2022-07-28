@@ -3,7 +3,7 @@
     <customSidebarVue></customSidebarVue>
     <h1>This is an about page</h1>
     <customButton class="testButton" btnText="BUTTON" @click="showModal = true">testButton</customButton>
-    <customModal v-show="showModal" @close-modal="showModal = false" titleText="testmodal">
+    <customModal class="testModal" v-show="showModal" @close-modal="showModal = false" titleText="testmodal">
       <content>
         <customButton btnText="CLOSE" @click="showModal = false"></customButton>
       </content>
@@ -30,8 +30,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .testButton {
   font: 2rem "pretendard ExtraBold";
+}
+.testModal .modal {
+  width: 90%;
+  height: 40%;
 }
 </style>
