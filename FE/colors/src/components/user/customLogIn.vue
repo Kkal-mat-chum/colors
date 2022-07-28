@@ -8,11 +8,11 @@
         <hr class="logInHrStyle" />
         <div class="logInLabel">아이디</div>
         <div class="logInInput">
-          <input type="text" placeholder="아이디를 입력하세요." id="logInpageInput" class="logInpageInput" />
+          <input type="text" placeholder="아이디를 입력하세요." id="logInInput" class="logInIdInput" />
         </div>
         <div class="logInLabelPw">비밀번호</div>
         <div class="logInInput">
-          <input type="text" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInpageInput" />
+          <input type="password" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInPwInput" />
         </div>
         <customButton btnText="로그인" class="idPwSearch"></customButton>
         <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch"></customButton>
@@ -69,7 +69,15 @@ export default {};
   background-color: #d0d1ff;
   margin-left: 13%;
 }
-.logInpageInput[type="text"] {
+.logInIdInput[type="text"] {
+  display: flex;
+  margin: 1% 0 3% 15%;
+  width: 70%;
+  border-radius: 5px;
+  border: 2px solid #d0d1ff;
+  height: 30px;
+}
+.logInPwInput[type="password"] {
   display: flex;
   margin: 1% 0 3% 15%;
   width: 70%;
