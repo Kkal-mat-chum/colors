@@ -1,19 +1,40 @@
 <template>
-  <div class="sighUpPage">
-    <div class="sighUp1">
-      <div class="sighUpWord">
+  <div class="signUpPage">
+    <div class="signUp1">
+      <div class="signUpWord">
         <div class="title">회원관리</div>
         <hr class="hrStyle" />
       </div>
       <div class="userInfo">
         <div class="textBox">
-          <label for="nickLabel">닉네임</label>
-          <input type="text" class="nickInput" />
-          <div>121313</div>
+          <div class="labelBoxs">
+            <label for="nickLabel" class="userlabel">닉네임</label><br />
+            <label for="idLabel" class="userlabel">아이디</label><br />
+            <label for="pwLabel" class="userlabel">비밀번호</label><br />
+            <label for="pwcheckLabel" class="userlabel">비밀번호 확인</label><br />
+            <label for="nameLabel" class="userlabel">이름</label><br />
+            <label for="emailLabel" class="userlabel">이메일</label><br />
+            <label for="emailcheckLabel" class="userlabel">이메일 확인</label>
+          </div>
+          <div class="inputBoxs">
+            <input type="text" class="userInput" id="nickLabel" placeholder="닉네임을 입력해주세요." /><br />
+            <input type="text" class="userInput" id="idLabel" placeholder="영문 숫자 포함 6자리 이상" /><br />
+            <input type="text" class="userInput" id="pwLabel" placeholder="영문 숫자 포함 8자리 이상" /><br />
+            <input type="text" class="userInput" id="pwcheckLabel" placeholder="다시 입력해주세요." /><br />
+            <input type="text" class="userInput" id="nameLabel" placeholder="이름을 입력해주세요." /><br />
+            <input type="text" class="userInput" id="emailLabel" placeholder="이메일을 입력해주세요" /><br />
+            <input type="text" class="userInput" id="emailcheckLabel" placeholder="전송된 인증 번호를 입력하세요." />
+          </div>
+          <!-- <div class="inputCheckBoxs">
+            <button>중복 확인</button>
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="sighUp2">123</div>
+    <div class="signUp2">
+      <img src="../../assets/join_img1.png" alt="join_img" class="join_img" />
+      <img src="../../assets/logo_with_slogan.png" alt="logo & slogan" class="logoSlogan" />
+    </div>
   </div>
 </template>
 
@@ -21,7 +42,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 body {
   margin: 0;
 }
@@ -32,7 +53,7 @@ body {
   justify-content: left;
   margin-left: 5%;
 }
-.sighUpPage {
+.signUpPage {
   position: absolute;
   width: 80%;
   height: 100%;
@@ -41,7 +62,7 @@ body {
   -webkit-text-size-adjust: 100%;
   margin: 0 10% 0 10%;
 }
-.sighUp1 {
+.signUp1 {
   display: grid;
   position: relative;
   width: 50%;
@@ -50,17 +71,21 @@ body {
   top: 0px;
   background: white;
   justify-content: left;
-  box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
+  box-shadow: 10px 1px 10px rgba(168, 168, 168, 0.4);
 }
-.sighUp2 {
+.signUp2 {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 50%;
   height: 100%;
   right: 0px;
   top: 0px;
 }
-.sighUpWord {
-  margin-left: 0;
+.signUpWord {
+  margin-left: 5%;
   position: absolute;
   top: 10%;
   left: 0;
@@ -84,30 +109,70 @@ body {
 }
 label {
   color: #6667ab;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
+  /* padding-bottom: 50px; */
+  /* margin-bottom: 100px; */
 }
 .inputBox[type="text"] {
-  width: 100%;
+  width: 70%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
 }
-.nickLabel {
+.textBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+.labelBoxs {
+  text-align: left;
+}
+.inputCheckBoxs {
+  display: flex;
+  flex-direction: column;
+}
+button {
+  width: 100%;
+  /* margin-left: 20px; */
+  margin-bottom: 1em;
+  margin-left: 10px;
+  padding: 5px 0px;
+  border-radius: 5px;
+  border-color: #d0d1ff;
+  background-color: white;
+  color: #6667ab;
+}
+/* inputBox class */
+.userInput[type="text"] {
+  width: 110%;
+  margin-left: 20px;
+  margin-bottom: 14px;
+  padding: 10px 5px;
+  border-radius: 5px;
+  border-color: #d0d1ff;
+}
+::placeholder {
+  color: #dfdfcd;
+}
+/* label class */
+.userlabel {
+  display: inline-block;
   position: relative;
+  margin: 5px 2px 29px 0px;
   top: 1px;
   left: 1px;
-  padding: 0.8em 0.5em;
+  /* padding: 0.8em 0.5em; */
   color: #6667ab;
   cursor: text;
 }
-.textBox {
-  width: 100%;
+.join_img {
+  margin: 25px 0px 0px 0px;
+  width: 65%;
 }
-.nickInput[type="text"] {
-  width: 70%;
-  margin-left: 20px;
-  border-radius: 5px;
-  border-color: #6667ab;
+.logoSlogan {
+  margin-top: 10px;
+  width: 80%;
 }
 </style>
