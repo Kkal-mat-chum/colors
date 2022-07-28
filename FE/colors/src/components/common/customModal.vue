@@ -1,8 +1,10 @@
 <template>
   <div class="modal-overlay" @click="$emit('close-modal')">
     <div class="modal" @click.stop>
-      <div class="close" @click="$emit('close-modal')">X</div>
-      <p class="title">{{ titleText }}</p>
+      <div class="modalTopLine">
+        <img class="modalClose" @click="$emit('close-modal')" src="@/assets/close.png" width="20" height="24" />
+      </div>
+      <p class="modalTitle">{{ titleText }}</p>
       <slot />
     </div>
   </div>
@@ -37,17 +39,21 @@ export default {
   background: #ffffff;
   border: 3px solid #d0d1ff;
   border-radius: 10px;
+  overflow-y: hidden;
 }
-.close {
-  text-align: right;
+.modalTopLine {
+  justify-content: flex-end;
+  display: flex;
+  margin-bottom: -20px;
+  margin-top: -50px;
+}
+
+.modalClose {
   margin-right: 1rem;
-  margin-top: -10%;
-  font: 20px "prtendard ExtraBold";
-  color: #6667ab;
   cursor: pointer;
 }
 
-.title {
+.modalTitle {
   font-family: "Pretendard ExtraBold";
   font-size: 35px;
   color: #6667ab;
@@ -57,12 +63,12 @@ export default {
   position: relative;
 }
 
-.title:after {
+.modalTitle:after {
   content: "";
   width: 140%;
   display: block;
   position: absolute;
-  margin-top: 50px;
+  /* margin-top: 50px; */
   border-bottom: 5px solid #d0d1ff;
 }
 </style>
