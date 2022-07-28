@@ -1,11 +1,11 @@
 <template>
   <div class="customUpdateUserPage">
     <div class="update1">
-      <div class="title">회원 정보 수정</div>
-      <hr class="hrStyle" />
+      <div class="titleCustomUpdateUser">회원 정보 수정</div>
+      <hr class="updateUserhrStyle" />
     </div>
     <div class="update2">
-      <div class="dummyMargin1"></div>
+      <div class="UpdateUserdummyMargin1"></div>
       <div class="modifyLabels">
         <label for="nickLabel" class="modifyLabel">닉네임</label><br />
         <label for="nameLabel" class="modifyLabel">이름</label><br />
@@ -21,10 +21,10 @@
       <div class="modifyButtons">
         <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
       </div>
-      <div class="dummyMargin2"></div>
+      <div class="UpdateUserdummyMargin2"></div>
     </div>
     <div class="update3">
-      <div class="dummyMargin3"></div>
+      <div class="UpdateUserdummyMargin3"></div>
       <div class="modifyBottomBtns">
         <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="testClick">testButton</customButton>
         <div class="update3_row2">
@@ -32,7 +32,7 @@
           <customButton class="nickCheckBtn" id="byeBtn" btnText="회원 탈퇴" @click="testClick">testButton</customButton>
         </div>
       </div>
-      <div class="dummyMargin3"></div>
+      <div class="UpdateUserdummyMargin3"></div>
     </div>
   </div>
 </template>
@@ -59,7 +59,8 @@ body {
   border-radius: 10px;
 }
 .update1 {
-  /* display: grid; */
+  display: flex;
+  justify-content: flex-start;
   position: relative;
   height: 25%;
   /* left: 0px;
@@ -83,38 +84,44 @@ body {
   right: 0px;
   top: 0px;
 }
-.title {
-  margin-top: 8%;
-  margin-left: 10% !important;
+.titleCustomUpdateUser {
+  margin-top: 13%;
+  margin-left: 15%;
+  font-size: 150%;
+  font-weight: 900;
+  color: #6667ab;
+  /* margin-left: 10% !important;
   position: absolute;
   top: 10%;
   left: 0;
-  /* color: #6667ab; */
-  font-weight: 900;
-  font-size: 150%;
+  text-align: left;
+  display: grid;
+  justify-content: left;
+  width: 60% !important; */
 }
-.hrStyle {
-  width: 40%;
+.updateUserhrStyle {
+  width: 30%;
   position: absolute;
   height: 1px;
-  margin: 18% 0 0 10%;
+  margin: 20% 0 0 15%;
   background-color: #d0d1ff;
 }
-.dummyMargin1 {
-  width: 10%;
+.UpdateUserdummyMargin1 {
+  width: 17%;
 }
-.dummyMargin2 {
+.UpdateUserdummyMargin2 {
   width: 5%;
 }
-.dummyMargin3 {
+.UpdateUserdummyMargin3 {
   width: 20%;
 }
 .modifyLabels {
   /* display: flex;
   flex-direction: column;
   justify-content: space-evenly; */
-  width: 15%;
-  padding-left: 3%;
+  width: 13%;
+  /* padding-left: 3%; */
+  /* margin-left: 5%; */
   text-align: left;
 }
 .modifyLabel {
@@ -129,10 +136,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
+  width: 45%;
 }
 .modifyInput[type="text"] {
-  width: 80%;
+  width: 85%;
   margin-bottom: 8%;
   margin-top: 2%;
   /* margin-left: 2%; */
@@ -143,7 +150,7 @@ body {
   font-size: 16px;
 }
 .modifyPwInput[type="password"] {
-  width: 80%;
+  width: 85%;
   margin-bottom: 8%;
   margin-top: 2%;
   /* margin-left: 2%; */

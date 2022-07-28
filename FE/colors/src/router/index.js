@@ -5,6 +5,7 @@ import MyPageView from "../views/MyPageView.vue";
 import signUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
+import deleteUser from "../components/user/customDeleteUser.vue";
 
 Vue.use(VueRouter);
 
@@ -42,6 +43,11 @@ const routes = [
     path: "/modifyuser",
     name: "modifyUser",
     component: modifyUser,
+  },
+  {
+    path: "/deleteuser",
+    name: "deleteUser",
+    component: deleteUser,
   },
 ];
 
