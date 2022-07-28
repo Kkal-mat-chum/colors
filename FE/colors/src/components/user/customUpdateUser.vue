@@ -15,7 +15,7 @@
       <div class="modifyInputs">
         <input type="text" class="modifyInput" id="nickLabel" placeholder="닉네임을 입력해주세요." />
         <input type="text" class="modifyInput" id="nameLabel" placeholder="이름을 입력해주세요." />
-        <input type="text" class="modifyInput" id="emailLabel" placeholder="이메일을 입력해주세요." />
+        <input type="text" class="modifyInput" id="emailLabel" placeholder="현재 이메일" />
         <input type="text" class="modifyInput" id="pwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
@@ -85,11 +85,11 @@ body {
 }
 .title {
   margin-top: 8%;
-  margin-left: 10%;
+  margin-left: 10% !important;
   position: absolute;
   top: 10%;
   left: 0;
-  color: #6667ab;
+  /* color: #6667ab; */
   font-weight: 900;
   font-size: 150%;
 }
@@ -165,6 +165,10 @@ body {
 #nickCheckBtn {
   margin-top: 5%;
   height: 15%;
+}
+#emailLabel {
+  background-color: #ececec;
+  color: #000000;
 }
 #infoChangeBtn {
   margin-bottom: 5%;
