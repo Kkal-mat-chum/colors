@@ -2,8 +2,8 @@
   <div class="signUpPage">
     <div class="signUp1">
       <div class="signUpWord">
-        <div class="title">회원관리</div>
-        <hr class="hrStyle" />
+        <div class="signUptitle">회원 가입</div>
+        <hr class="signUphrStyle" />
       </div>
       <div class="userInfo">
         <div class="textBox">
@@ -46,12 +46,18 @@ export default {};
 body {
   margin: 0;
 }
-.title {
+.signUptitle {
   position: absolute;
   width: 100%;
   display: grid;
   justify-content: left;
   margin-left: 5%;
+  margin-top: 18%;
+  /* margin-top: 13%;
+  margin-left: 15%;
+  font-size: 150%;
+  font-weight: 900;
+  color: #6667ab; */
 }
 .signUpPage {
   position: absolute;
@@ -94,11 +100,11 @@ body {
   font-size: 150%;
   width: 100%;
 }
-.hrStyle {
-  width: 40%;
+.signUphrStyle {
+  width: 35%;
   position: absolute;
   height: 1px;
-  margin: 33px 0 0 5%;
+  margin: 27% 0 0 5%;
   background-color: #6667ab;
 }
 .userInfo {
