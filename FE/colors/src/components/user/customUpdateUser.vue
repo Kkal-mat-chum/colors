@@ -1,30 +1,30 @@
 <template>
   <div class="customUpdateUserPage">
     <div class="update1">
-      <div class="title">회원 정보 수정</div>
-      <hr class="hrStyle" />
+      <div class="titleCustomUpdateUser">회원 정보 수정</div>
+      <hr class="updateUserhrStyle" />
     </div>
     <div class="update2">
-      <div class="dummyMargin1"></div>
+      <div class="UpdateUserdummyMargin1"></div>
       <div class="modifyLabels">
-        <label for="nickLabel" class="modifyLabel">닉네임</label><br />
-        <label for="nameLabel" class="modifyLabel">이름</label><br />
-        <label for="emailLabel" class="modifyLabel">이메일</label><br />
-        <label for="pwlabel" class="modifyLabel">비밀번호</label>
+        <label for="updateUserNickLabel" class="modifyLabel">닉네임</label><br />
+        <label for="updateUserNameLabel" class="modifyLabel">이름</label><br />
+        <label for="updateUserEmailLabel" class="modifyLabel">이메일</label><br />
+        <label for="updateUserPwlabel" class="modifyLabel">비밀번호</label>
       </div>
       <div class="modifyInputs">
-        <input type="text" class="modifyInput" id="nickLabel" />
-        <input type="text" class="modifyInput" id="nameLabel" />
-        <input type="text" class="modifyInput" id="emailLabel" />
-        <input type="text" class="modifyInput" id="pwLabel" />
+        <input type="text" class="modifyInput" id="updateUserNickLabel" placeholder="닉네임을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserNameLabel" placeholder="이름을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserEmailLabel" placeholder="현재 이메일" />
+        <input type="password" class="modifyPwInput" id="updateUserPwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
         <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
       </div>
-      <div class="dummyMargin2"></div>
+      <div class="UpdateUserdummyMargin2"></div>
     </div>
     <div class="update3">
-      <div class="dummyMargin3"></div>
+      <div class="UpdateUserdummyMargin3"></div>
       <div class="modifyBottomBtns">
         <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="testClick">testButton</customButton>
         <div class="update3_row2">
@@ -32,7 +32,7 @@
           <customButton class="nickCheckBtn" id="byeBtn" btnText="회원 탈퇴" @click="testClick">testButton</customButton>
         </div>
       </div>
-      <div class="dummyMargin3"></div>
+      <div class="UpdateUserdummyMargin3"></div>
     </div>
   </div>
 </template>
@@ -49,17 +49,20 @@ body {
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 35%;
-  height: 75%;
+  width: 537.75px;
+  height: 558px;
+  /* width: 35%;
+  height: 75%; */
   left: 399px;
   top: 117px;
   border: 10px solid #000000;
   border-radius: 10px;
 }
 .update1 {
-  /* display: grid; */
+  display: flex;
+  justify-content: flex-start;
   position: relative;
-  height: 25%;
+  height: 27%;
   /* left: 0px;
   top: 0px; */
   background: white;
@@ -69,7 +72,7 @@ body {
   display: flex;
   flex-direction: row;
   position: relative;
-  height: 53%;
+  height: 40%;
   right: 0px;
   top: 0px;
 }
@@ -81,60 +84,79 @@ body {
   right: 0px;
   top: 0px;
 }
-.title {
-  margin-top: 8%;
-  margin-left: 10%;
+.titleCustomUpdateUser {
+  margin-top: 13%;
+  margin-left: 15%;
+  font-size: 150%;
+  font-weight: 900;
+  color: #6667ab;
+  /* margin-left: 10% !important;
   position: absolute;
   top: 10%;
   left: 0;
-  color: #6667ab;
-  font-weight: 900;
-  font-size: 150%;
+  text-align: left;
+  display: grid;
+  justify-content: left;
+  width: 60% !important; */
 }
-.hrStyle {
-  width: 40%;
+.updateUserhrStyle {
+  width: 30%;
   position: absolute;
   height: 1px;
-  margin: 18% 0 0 10%;
-  background-color: #6667ab;
+  margin: 20% 0 0 15%;
+  background-color: #d0d1ff;
 }
-.dummyMargin1 {
-  width: 10%;
+.UpdateUserdummyMargin1 {
+  width: 17%;
 }
-.dummyMargin2 {
+.UpdateUserdummyMargin2 {
   width: 5%;
 }
-.dummyMargin3 {
+.UpdateUserdummyMargin3 {
   width: 20%;
 }
 .modifyLabels {
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: space-evenly; */
-  width: 15%;
-  padding-left: 3%;
+  justify-content: space-evenly;
+  width: 13%;
+  /* padding-left: 3%; */
+  /* margin-left: 5%; */
   text-align: left;
 }
 .modifyLabel {
   display: inline-block;
-  margin: 0.6rem 0rem 2.5rem 0rem;
-  margin-top: 15%;
-  margin-bottom: 45%;
-  color: #000000;
+  /* margin: 0.6rem 0rem 2.5rem 0rem; */
+  /* margin-top: 15%; */
+  /* margin-bottom: 45%; */
+  color: #6667ab;
   font-size: 17px;
 }
 .modifyInputs {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  width: 50%;
+  width: 45%;
 }
 .modifyInput[type="text"] {
-  width: 80%;
-  margin-bottom: 8%;
-  margin-top: 2%;
+  width: 85%;
+  /* margin-bottom: 8%; */
+  /* margin-top: 2%; */
   /* margin-left: 2%; */
-  padding: 8px 5px;
+  padding: 8px;
+  border: 2px solid #d0d1ff;
+  border-radius: 5px;
+  border-color: #d0d1ff;
+  font-size: 16px;
+}
+.modifyPwInput[type="password"] {
+  width: 85%;
+  /* margin-bottom: 8%; */
+  /* margin-top: 2%; */
+  /* margin-left: 2%; */
+  padding: 8px;
+  border: 2px solid #d0d1ff;
   border-radius: 5px;
   border-color: #d0d1ff;
   font-size: 16px;
@@ -160,16 +182,22 @@ body {
   /* margin-bottom: 1rem; */
 }
 #nickCheckBtn {
-  height: 8%;
+  /* margin-top: 5%; */
+  height: 15%;
+}
+#updateUserEmailLabel {
+  background-color: #ececec;
+  color: #000000;
 }
 #infoChangeBtn {
+  margin-top: 12%;
   margin-bottom: 5%;
 }
 #pwChangeBtn {
-  width: 35%;
+  width: 48%;
 }
 #byeBtn {
-  width: 35%;
+  width: 48%;
   color: red;
 }
 </style>
