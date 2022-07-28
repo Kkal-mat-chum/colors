@@ -1,48 +1,50 @@
 <template>
   <div class="mypage">
     <sidebar></sidebar>
-    <div class="title">
-      <h1>마이페이지</h1>
-      <hr class="under" />
-    </div>
-    <div class="contents">
-      <div class="personInfo">
-        <div class="profileImg">
-          <img class="profileimgfile" src="@/assets/mypage/img.png" alt="" />
-          <img class="grade" src="@/assets/mypage/Group 65.svg" alt="" />
-        </div>
-        <div class="myInfo">
-          <myinfo></myinfo>
-        </div>
-        <div class="updateInfo">
-          <a>회원정보 수정</a>
-        </div>
+    <div class="mypageStyle">
+      <div class="title">
+        <h1>마이페이지</h1>
+        <hr class="under" />
       </div>
-      <div class="colorpallete">
-        <div class="colorpalleteTitle">
-          <h2>컬러 팔레트 내역</h2>
-          <div class="nowColor">
-            <div class="colorName">
-              <p>#E3D3FF</p>
-              <p>Pale Lime Yellow</p>
-            </div>
+      <div class="contents">
+        <div class="personInfo">
+          <div class="profileImg">
+            <img class="profileimgfile" src="@/assets/mypage/img.png" alt="" />
+            <img class="grade" src="@/assets/mypage/Group 65.svg" alt="" />
+          </div>
+          <div class="myInfo">
+            <myinfo></myinfo>
+          </div>
+          <div class="updateInfo">
+            <a>회원정보 수정</a>
           </div>
         </div>
-        <div class="palleteBorder">
-          <div class="PalleteTitle">
-            <p>개인</p>
-            <colorpallete class="pallete"></colorpallete>
-          </div>
-          <div class="PalleteTitle">
-            <p>단체</p>
-            <colorpallete class="pallete"></colorpallete>
-          </div>
-          <div class="PalleteTitle">
-            <div class="random">
-              <div><p>랜덤</p></div>
-              <div class="con"><p>면접 복장으로 어느 색이 잘 어울릴까요?</p></div>
+        <div class="colorpallete">
+          <div class="colorpalleteTitle">
+            <h2>컬러 팔레트 내역</h2>
+            <div class="nowColor">
+              <div class="colorName">
+                <p>#E3D3FF</p>
+                <p>Pale Lime Yellow</p>
+              </div>
             </div>
-            <colorpallete class="pallete"></colorpallete>
+          </div>
+          <div class="palleteBorder">
+            <div class="PalleteTitle">
+              <p>개인</p>
+              <colorpallete class="pallete"></colorpallete>
+            </div>
+            <div class="PalleteTitle">
+              <p>단체</p>
+              <colorpallete class="pallete"></colorpallete>
+            </div>
+            <div class="PalleteTitle">
+              <div class="random">
+                <div><p>랜덤</p></div>
+                <div class="con"><p>면접 복장으로 어느 색이 잘 어울릴까요?</p></div>
+              </div>
+              <colorpallete class="pallete"></colorpallete>
+            </div>
           </div>
         </div>
       </div>
@@ -65,27 +67,31 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* 마이페이지 전체 틀 */
 .mypage {
   margin-left: 180px;
   width: 1350px;
 }
+.mypageStyle {
+  display: flex;
+}
 
 /* 마이페이지 title */
 .title {
-  text-align: left;
+  display: inline;
   color: #6667ab;
   width: 60% !important;
   margin-top: -90px;
-  margin-left: 280px !important;
+  margin-left: 113px !important;
 }
 .title > h1 {
-  margin-bottom: 8px;
+  margin-bottom: 2px;
+  margin-left: -3%;
 }
 .under {
   width: 200px;
-  margin: 0;
+  margin: 0 0 3px 345px;
   border: 0;
   height: 3px;
   background: #d0d1ff;
@@ -93,7 +99,7 @@ export default {
 
 /* 마이페이지 contents */
 .contents {
-  margin-top: 100px;
+  margin-top: 90px;
   display: flex;
   width: 60%;
   margin-left: 20%;
