@@ -95,7 +95,7 @@ export default {
 
 /* 마이페이지 title */
 .title {
-  margin-left: 20%;
+  margin-left: 25%;
 }
 .title h1 {
   display: flex;
