@@ -16,7 +16,7 @@
         <input type="text" class="modifyInput" id="nickLabel" placeholder="닉네임을 입력해주세요." />
         <input type="text" class="modifyInput" id="nameLabel" placeholder="이름을 입력해주세요." />
         <input type="text" class="modifyInput" id="emailLabel" placeholder="현재 이메일" />
-        <input type="text" class="modifyInput" id="pwLabel" placeholder="비밀번호를 입력해주세요." />
+        <input type="password" class="modifyPwInput" id="pwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
         <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
@@ -132,6 +132,17 @@ body {
   width: 50%;
 }
 .modifyInput[type="text"] {
+  width: 80%;
+  margin-bottom: 8%;
+  margin-top: 2%;
+  /* margin-left: 2%; */
+  padding: 8px;
+  border: 2px solid #d0d1ff;
+  border-radius: 5px;
+  border-color: #d0d1ff;
+  font-size: 16px;
+}
+.modifyPwInput[type="password"] {
   width: 80%;
   margin-bottom: 8%;
   margin-top: 2%;
