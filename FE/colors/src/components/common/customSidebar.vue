@@ -3,11 +3,18 @@
     <ul class="sidebar__nav">
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
-        <li><img class="Active" src="../../assets/home_icon.png" /></li>
-        <li><img class="sideBarIcon" src="../../assets/topic_icon.png" /></li>
-        <li><img class="sideBarIcon" src="../../assets/myPage_icon.png" /></li>
+        <router-link tag="li" class-active="Active" to="/about">
+          <img class="sideBarIcon" src="../../assets/home_icon.png" />
+        </router-link>
+        <router-link tag="li" class-active="Active" to="/signup">
+          <img class="sideBarIcon" src="../../assets/topic_icon.png" />
+        </router-link>
+        <router-link tag="li" class-active="Active" to="/mypage">
+          <img class="sideBarIcon" src="../../assets/myPage_icon.png" />
+        </router-link>
       </div>
     </ul>
+    <p>{{ activeIcon }}</p>
     <div>
       <img class="sideBarIcon logOutIcon" src="../../assets/logOut_icon.png" />
     </div>
@@ -33,21 +40,6 @@ export default {};
   box-shadow: 5px 1px 40px 10px rgba(238, 238, 238, 0.4);
 }
 
-.sidebar a {
-  display: block;
-  text-align: center;
-  transition: all 0.3s ease;
-  color: white;
-}
-
-.sidebar a:hover {
-  background-color: #6667ab;
-}
-
-.active {
-  background: #d0d1ff;
-}
-
 .logo::after {
   content: "";
   width: 40%;
@@ -64,16 +56,16 @@ export default {};
   margin-bottom: 2rem;
 }
 
-.Active {
-  filter: opacity(0.8) drop-shadow(0 0 0 #4a4d74);
-}
-
-.icons img:hover {
-  filter: opacity(0.4) drop-shadow(0 0 0 #ffffff);
+li.router-link-active {
+  filter: opacity(1) drop-shadow(0 0 0 #393ba7);
 }
 
 .sideBarIcon {
   filter: opacity(0.4) drop-shadow(0 0 0 #8c95d1);
+}
+
+.icons img:hover {
+  filter: opacity(0.3) drop-shadow(0 0 0 #ffffff);
 }
 
 .logOutIcon:hover {
