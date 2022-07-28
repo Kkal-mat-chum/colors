@@ -68,7 +68,7 @@ export default {};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 45%;
+  height: 40%;
 }
 .deleteNotice {
   display: flex;
@@ -78,7 +78,7 @@ export default {};
   text-align: left;
 }
 .delete3 {
-  height: 45%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: start;
