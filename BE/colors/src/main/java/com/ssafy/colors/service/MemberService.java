@@ -1,12 +1,7 @@
-package com.ssafy.colors.api.service;
+package com.ssafy.colors.service;
 
+import com.ssafy.colors.request.MemberReq;
 
-import com.ssafy.colors.api.response.Member;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Service
-public class MemberService {
-
-
+public interface MemberService {
+    public boolean saveMember(MemberReq memberReq);
 }
