@@ -12,8 +12,8 @@
       <div class="delete3">
         <!-- dd -->
         <div class="dummyMarginDelete2"></div>
-        <customButton id="deleteSureBtn" btnText="확 인" @click="testClick">testButton</customButton>
-        <customButton id="deleteCancleBtn" btnText="취 소" @click="testClick">testButton</customButton>
+        <customButton id="deleteSureBtn" btnText="확 인" @click="goLogin">testButton</customButton>
+        <customButton id="deleteCancleBtn" btnText="취 소" @click="goMypage">testButton</customButton>
         <!-- <div class="dummyMarginDelete2"></div> -->
       </div>
     </div>
@@ -21,7 +21,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    goMypage() {
+      this.$router.go(0);
+    },
+    goLogin() {
+      this.$router.push("/login");
+    },
+  },
+};
 </script>
 
 <style>

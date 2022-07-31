@@ -14,14 +14,20 @@
     </div>
     <div class="updatePW3">
       <div class="dummyMarginUpdatePW3"></div>
-      <customButton class="updatePWCheckBtn" id="updatePWCheckBtn" btnText="확 인" @click="testClick">testButton</customButton>
-      <customButton class="updatePWCancleBtn" id="updatePWCancleBtn" btnText="취 소" @click="testClick">testButton</customButton>
+      <customButton class="updatePWCheckBtn" id="updatePWCheckBtn" btnText="확 인" @click="modifyPw">testButton</customButton>
+      <customButton class="updatePWCancleBtn" id="updatePWCancleBtn" btnText="취 소" @click="cancelPw">testButton</customButton>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    cancelPw() {
+      this.$router.go("/mypage");
+    },
+  },
+};
 </script>
 
 <style>
