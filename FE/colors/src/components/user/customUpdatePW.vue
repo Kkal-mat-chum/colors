@@ -25,7 +25,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  // data() {
+  //   return {
+  //     showModal: false,
+  //   };
+  // },
+  // methods: {
+  //   testClick() {
+  //     console.log("clicked");
+  //   },
+  // },
+};
 </script>
 
 <style>

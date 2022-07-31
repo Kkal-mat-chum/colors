@@ -29,6 +29,11 @@
         <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="testClick">testButton</customButton>
         <div class="update3_row2">
           <customButton class="nickCheckBtn" id="pwChangeBtn" btnText="비밀번호 변경" @click="testClick">testButton</customButton>
+          <customModal class="modifyPwModal" v-show="modifyPwModal" @close-modal="modifyPwModal = false" titleText="modifyPwModal">
+            <content>
+              <modify-pw></modify-pw>
+            </content>
+          </customModal>
           <customButton class="nickCheckBtn" id="byeBtn" btnText="회원 탈퇴" @click="testClick">testButton</customButton>
         </div>
       </div>
@@ -38,7 +43,17 @@
 </template>
 
 <script>
-export default {};
+import ModifyPw from "@/components/user/customUpdatePW.vue";
+export default {
+  data() {
+    return {
+      modifyPwModal: false,
+    };
+  },
+  components: {
+    ModifyPw,
+  },
+};
 </script>
 
 <style>
@@ -183,7 +198,7 @@ body {
 }
 #nickCheckBtn {
   /* margin-top: 5%; */
-  height: 15%;
+  height: 18%;
 }
 #updateUserEmailLabel {
   background-color: #ececec;
