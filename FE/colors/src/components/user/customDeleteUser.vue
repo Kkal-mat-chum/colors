@@ -1,10 +1,6 @@
 <template>
   <div>
     <div class="deleteUserPage">
-      <div class="delete1">
-        <div class="titleDeleteUser">회원 탈퇴</div>
-        <hr class="deleteUserhystyle" />
-      </div>
       <div class="delete2">
         <div class="dummyMarginDelete1"></div>
         <div class="deleteNotice">
@@ -30,21 +26,18 @@ export default {};
 
 <style>
 .deleteUserPage {
-  position: absolute;
   display: flex;
   flex-direction: column;
   width: 537.75px;
   height: 350px;
   /* width: 35%;
   height: 75%; */
-  left: 399px;
   top: 117px;
-  border: 10px solid #000000;
-  border-radius: 10px;
+  margin-left: 15%;
 }
 .titleDeleteUser {
   margin-top: 9%;
-  margin-left: 10%;
+  margin-left: 40%;
   font-size: 150%;
   font-weight: 900;
   color: #6667ab;

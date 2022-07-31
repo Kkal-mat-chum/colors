@@ -1,9 +1,5 @@
 <template>
   <div class="customUpdatePWPage">
-    <div class="updatePW1">
-      <div class="titleUpdatePW">비밀번호 변경</div>
-      <hr class="updatePWhystyle" />
-    </div>
     <div class="updatePW2">
       <div class="dummyMarginUpdatePW1"></div>
       <div class="updatePWLabels">
@@ -40,14 +36,12 @@ body {
   height: 450px;
   /* width: 35%;
   height: 75%; */
-  left: 399px;
-  top: 117px;
-  border: 10px solid #000000;
+  margin-left: 7%;
   border-radius: 10px;
 }
 .titleUpdatePW {
   margin-top: 13%;
-  margin-left: 10%;
+  margin-left: 13%;
   font-size: 150%;
   font-weight: 900;
   color: #6667ab;
