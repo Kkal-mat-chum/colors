@@ -2,6 +2,7 @@ package com.ssafy.colors.service;
 
 import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.repository.MemberRepository;
+import com.ssafy.colors.request.Mail;
 import com.ssafy.colors.request.MemberReq;
 import com.ssafy.colors.util.RandomStringGenerator;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,9 @@ public class MemberServiceImpl implements MemberService {
     MemberRepository memberRepository;
     @Autowired
     RandomStringGenerator randomStringGenerator;
+
+    @Autowired
+    MailService mailService;
 
     @Override
     public boolean checkID(String inputId) {
@@ -55,19 +59,6 @@ public class MemberServiceImpl implements MemberService {
         } catch (Exception e) {
             return false;
         }
-
-        if (findById.get(0).getEmail().equals(email)) {
-            Mail mail = new Mail();
-            mail.setAddress(email);
-            mail.setMessage("임시비밀번호는 1234 입니다.");
-            mail.setTitle("임시비밀번호");
-
-            mailService.mailSend(mail);
-            findById.get(0).setPassword("1234");
-            return true;
-        }
-        return false;
-
     }
 
     @Override
@@ -99,6 +90,14 @@ public class MemberServiceImpl implements MemberService {
 
         // if result > 0 (성공) 이메일 전송
         // else false return
+
+//        Mail mail = Mail.builder()
+//                .address("pfcskms1997@naver.com")
+//                .title("[깔맞춤] 임시 비밀번호 발송")
+//                .message("임시비밀번호 : <strong>" + randomPwd + "</strong>")
+//                .build();
+//
+//        mailService.mailSend(mail);
 
         return result > 0 ? true : false;
     }

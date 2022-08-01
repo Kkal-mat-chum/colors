@@ -1,12 +1,13 @@
 package com.ssafy.colors.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@ToString
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Mail {
 
     private String address;
