@@ -15,7 +15,9 @@
           <hr />
         </div>
         <colorpallete class="pallete"></colorpallete>
-        <div class="selectColor"></div>
+        <div class="selectColor">
+          <colorchoice></colorchoice>
+        </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기"></customButton>
         <customButton class="votebtn" btnText="투표하기"></customButton>
         <customButton class="exitbtn" btnText="종료"></customButton>
@@ -28,6 +30,7 @@
 import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
+import colorchoice from "@/components/videochat/colorChoice.vue";
 
 export default {
   name: "aloneMeeting",
@@ -35,6 +38,7 @@ export default {
     sidebar,
     webcam,
     colorpallete,
+    colorchoice,
   },
 };
 </script>
