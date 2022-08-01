@@ -68,7 +68,7 @@ export default {};
   text-align: left;
 }
 .titleInIdpwfind {
-  /* color: #6667ab; */
+  color: #6667ab;
   font-size: 150%;
   margin-bottom: 5%;
   font-weight: 900;
