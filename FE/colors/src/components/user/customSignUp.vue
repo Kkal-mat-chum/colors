@@ -8,27 +8,27 @@
       <div class="userInfo">
         <div class="textBox">
           <div class="labelBoxs">
-            <label for="nickLabel" class="userlabel">닉네임</label><br />
             <label for="idLabel" class="userlabel">아이디</label><br />
             <label for="pwLabel" class="userlabel">비밀번호</label><br />
             <label for="pwcheckLabel" class="userlabel">비밀번호 확인</label><br />
             <label for="nameLabel" class="userlabel">이름</label><br />
+            <label for="nickLabel" class="userlabel">닉네임</label><br />
             <label for="emailLabel" class="userlabel">이메일</label><br />
             <label for="emailcheckLabel" class="userlabel">이메일 확인</label>
           </div>
           <div class="inputBoxs">
-            <input type="text" class="userInput" id="nickLabel" placeholder="닉네임을 입력해주세요." /><br />
             <input type="text" class="userInput" id="idLabel" placeholder="영문 숫자 포함 6자리 이상" /><br />
             <input type="text" class="userInput" id="pwLabel" placeholder="영문 숫자 포함 8자리 이상" /><br />
             <input type="text" class="userInput" id="pwcheckLabel" placeholder="다시 입력해주세요." /><br />
             <input type="text" class="userInput" id="nameLabel" placeholder="이름을 입력해주세요." /><br />
+            <input type="text" class="userInput" id="nickLabel" placeholder="닉네임을 입력해주세요." /><br />
             <input type="text" class="userInput" id="emailLabel" placeholder="이메일을 입력해주세요" /><br />
             <input type="text" class="userInput" id="emailcheckLabel" placeholder="전송된 인증 번호를 입력하세요." />
           </div>
           <div class="inputCheckBoxs">
-            <customButton class="signUpnickCheckBtn" id="signUpnickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
             <customButton class="signUpIDCheckBtn" id="signUpIDCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
             <div class="dummyMarginSignUp1"></div>
+            <customButton class="signUpnickCheckBtn" id="signUpnickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
             <customButton class="signUpEmailCheckBtn" id="signUpEmailCheckBtn" btnText="이메일 인증" @click="testClick">testButton</customButton>
             <div class="dummyMarginSignUp2"></div>
           </div>
