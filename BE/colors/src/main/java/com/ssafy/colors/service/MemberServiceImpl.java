@@ -65,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
         }
         if (findById.get(0).getEmail().equals(email)) {
             Mail mail = new Mail();
-            mail.setAddress("wjdghks6086@naver.com");
+            mail.setAddress(email);
             mail.setMessage("임시비밀번호는 1234 입니다.");
             mail.setTitle("임시비밀번호");
 
