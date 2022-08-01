@@ -1,9 +1,5 @@
 <template>
   <div class="customUpdateUserPage">
-    <div class="update1">
-      <div class="titleCustomUpdateUser">회원 정보 수정</div>
-      <hr class="updateUserhrStyle" />
-    </div>
     <div class="update2">
       <div class="UpdateUserdummyMargin1"></div>
       <div class="modifyLabels">
@@ -27,14 +23,18 @@
       <div class="UpdateUserdummyMargin3"></div>
       <div class="modifyBottomBtns">
         <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="testClick">testButton</customButton>
-        <div class="update3_row2">
-          <customButton class="nickCheckBtn" id="pwChangeBtn" btnText="비밀번호 변경" @click="testClick">testButton</customButton>
-          <customModal class="modifyPwModal" v-show="modifyPwModal" @close-modal="modifyPwModal = false" titleText="modifyPwModal">
-            <content>
-              <modify-pw></modify-pw>
-            </content>
-          </customModal>
-          <customButton class="nickCheckBtn" id="byeBtn" btnText="회원 탈퇴" @click="testClick">testButton</customButton>
+        <div class="a">
+          <div class="removeUser"></div>
+          <div class="update3_row2">
+            <custom-button class="updateUserPw" id="pwChangeBtn" btnText="비밀번호 변경" @click="updatePwShowModal = true"></custom-button>
+            <custom-button class="nickCheckBtn" id="byeBtn" btnText="회원 탈퇴" @click="deleteShowModal = true">testButton</custom-button>
+            <custom-modal class="updateUserPwModal" id="updateUserPwModal" v-show="updatePwShowModal" @close-modal="updatePwShowModal = false" titleText="비밀번호 변경">
+              <content><custom-updatepw></custom-updatepw></content>
+            </custom-modal>
+            <custom-modal class="removeUserModal" id="deleteUserModal" v-show="deleteShowModal" @close-modal="deleteShowModal = false" titleText="회원 탈퇴">
+              <content><custome-delete-user></custome-delete-user></content>
+            </custom-modal>
+          </div>
         </div>
       </div>
       <div class="UpdateUserdummyMargin3"></div>
@@ -43,15 +43,23 @@
 </template>
 
 <script>
-import ModifyPw from "@/components/user/customUpdatePW.vue";
+import CustomUpdatepw from "@/components/user/customUpdatePW.vue";
+import CustomeDeleteUser from "./customDeleteUser.vue";
 export default {
+  components: {
+    CustomUpdatepw,
+    CustomeDeleteUser,
+  },
   data() {
     return {
-      modifyPwModal: false,
+      updatePwShowModal: false,
+      deleteShowModal: false,
     };
   },
-  components: {
-    ModifyPw,
+  methods: {
+    testClick() {
+      console.log("123");
+    },
   },
 };
 </script>
@@ -61,21 +69,19 @@ body {
   margin: 0;
 }
 .customUpdateUserPage {
-  position: absolute;
   display: flex;
+  justify-content: center;
   flex-direction: column;
+  margin: -70px 0 0 100px;
   width: 537.75px;
   height: 558px;
   /* width: 35%;
   height: 75%; */
-  left: 399px;
-  top: 117px;
-  border: 10px solid #000000;
   border-radius: 10px;
 }
 .update1 {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   position: relative;
   height: 27%;
   /* left: 0px;
@@ -179,16 +185,9 @@ body {
 .modifyButtons {
   width: 20%;
   display: flex;
-  flex-direction: row;
 }
 .nickCheckBtn {
   padding: 0;
-}
-.update3_row2 {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 .modifyBottomBtns {
   width: 60%;
@@ -214,5 +213,13 @@ body {
 #byeBtn {
   width: 48%;
   color: red;
+}
+.removeUser {
+  display: flex;
+  justify-content: right;
+}
+.update3_row2 {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

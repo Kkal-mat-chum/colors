@@ -1,9 +1,5 @@
 <template>
   <div class="customUpdatePWPage">
-    <div class="updatePW1">
-      <div class="titleUpdatePW">비밀번호 변경</div>
-      <hr class="updatePWhystyle" />
-    </div>
     <div class="updatePW2">
       <div class="dummyMarginUpdatePW1"></div>
       <div class="updatePWLabels">
@@ -18,24 +14,19 @@
     </div>
     <div class="updatePW3">
       <div class="dummyMarginUpdatePW3"></div>
-      <customButton class="updatePWCheckBtn" id="updatePWCheckBtn" btnText="확 인" @click="testClick">testButton</customButton>
-      <customButton class="updatePWCancleBtn" id="updatePWCancleBtn" btnText="취 소" @click="testClick">testButton</customButton>
+      <customButton class="updatePWCheckBtn" id="updatePWCheckBtn" btnText="확 인" @click="modifyPw">testButton</customButton>
+      <customButton class="updatePWCancleBtn" id="updatePWCancleBtn" btnText="취 소" @click="cancelPw">testButton</customButton>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  // data() {
-  //   return {
-  //     showModal: false,
-  //   };
-  // },
-  // methods: {
-  //   testClick() {
-  //     console.log("clicked");
-  //   },
-  // },
+  methods: {
+    cancelPw() {
+      this.$router.go("/mypage");
+    },
+  },
 };
 </script>
 
@@ -51,14 +42,12 @@ body {
   height: 450px;
   /* width: 35%;
   height: 75%; */
-  left: 399px;
-  top: 117px;
-  border: 10px solid #000000;
+  margin-left: 7%;
   border-radius: 10px;
 }
 .titleUpdatePW {
   margin-top: 13%;
-  margin-left: 10%;
+  margin-left: 13%;
   font-size: 150%;
   font-weight: 900;
   color: #6667ab;
