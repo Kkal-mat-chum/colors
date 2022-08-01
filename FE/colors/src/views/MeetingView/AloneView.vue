@@ -26,9 +26,8 @@
 
 <script>
 import sidebar from "@/components/common/customSidebar.vue";
-import webcam from "@/components/videoChat/webcamStream.vue";
+import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
-import "../../components/videoChat/colorChoice.js";
 
 export default {
   name: "aloneMeeting",
@@ -38,18 +37,6 @@ export default {
     colorpallete,
   },
 };
-
-colorpicker.show(
-  {
-    left: pos.left,
-    top: pos.bottom,
-    hideDelay: 2000, // 컬러피커가 열렸다가 숨겨질 타이밍을 지정합니다. 기본값은 2000 (2초)
-  },
-  color,
-  function (newColor) {
-    console.log(newColor);
-  }
-);
 </script>
 
 <style scoped>
