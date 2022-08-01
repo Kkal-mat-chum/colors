@@ -6,6 +6,9 @@ import enterPageView from "../views/EnterView.vue";
 import signUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
+import deleteUser from "../components/user/customDeleteUser.vue";
+import modifyPW from "../components/user/customUpdatePW.vue";
+import idPwFind from "../components/user/idPwFind.vue";
 
 Vue.use(VueRouter);
 
@@ -48,6 +51,21 @@ const routes = [
     path: "/enterPage",
     name: "enterPage",
     component: enterPageView,
+  },
+  {
+    path: "/deleteuser",
+    name: "deleteUser",
+    component: deleteUser,
+  },
+  {
+    path: "/modifypw",
+    name: "modifyPW",
+    component: modifyPW,
+  },
+  {
+    path: "/findidpw",
+    name: "findidpw",
+    component: idPwFind,
   },
 ];
 

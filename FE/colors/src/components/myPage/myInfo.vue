@@ -30,7 +30,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .infoTitle {
   text-align: left;
   margin-left: 15px;

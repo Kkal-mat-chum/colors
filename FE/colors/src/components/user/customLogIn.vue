@@ -14,16 +14,34 @@
         <div class="logInInput">
           <input type="password" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInPwInput" />
         </div>
-        <customButton btnText="로그인" class="idPwSearch"></customButton>
-        <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch"></customButton>
+        <customButton btnText="로그인" class="idPwSearch" :to="{ name: 'mypage' }"></customButton>
+        <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch" @click="findIdpwShowModal = true"></customButton>
         <customButton btnText="회원가입" class="signUp"></customButton>
+        <custom-modal class="findIdpwModal" id="findIdpwModal" v-show="findIdpwShowModal" @close-modal="findIdpwShowModal = false" titleText="아이디 / 비밀번호 찾기">
+          <content><find-idpw></find-idpw></content>
+        </custom-modal>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import FindIdpw from "@/components/user/idPwFind.vue";
+export default {
+  components: {
+    FindIdpw,
+  },
+  data() {
+    return {
+      findIdpwShowModal: false,
+    };
+  },
+  methods: {
+    testClick() {
+      console.lot("?");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -114,4 +132,7 @@ input::placeholder {
   width: 72%;
   justify-content: center;
 }
+/* #findIdpwModal {
+  height: 50%;
+} */
 </style>
