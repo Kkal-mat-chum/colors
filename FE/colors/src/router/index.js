@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
+import enterPageView from "../views/EnterView.vue";
 import signUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
@@ -42,6 +43,11 @@ const routes = [
     path: "/modifyuser",
     name: "modifyUser",
     component: modifyUser,
+  },
+  {
+    path: "/enterPage",
+    name: "enterPage",
+    component: enterPageView,
   },
 ];
 
