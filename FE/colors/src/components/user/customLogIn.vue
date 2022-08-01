@@ -14,7 +14,7 @@
         <div class="logInInput">
           <input type="password" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInPwInput" />
         </div>
-        <customButton btnText="로그인" class="idPwSearch"></customButton>
+        <customButton btnText="로그인" class="idPwSearch" :to="{ name: 'mypage' }"></customButton>
         <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch"></customButton>
         <customButton btnText="회원가입" class="signUp"></customButton>
       </div>

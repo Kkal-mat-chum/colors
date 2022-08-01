@@ -16,7 +16,10 @@
             <myinfo></myinfo>
           </div>
           <div class="updateInfo">
-            <a>회원정보 수정</a>
+            <custom-button class="updateUserInfo" btnText="회원정보수정" @click="showModal = true">회원정보수정</custom-button>
+            <custom-modal class="updateUserInfoModal" id="updateUserInfoModal" v-show="showModal" @close-modal="showModal = false" titleText="회원정보수정">
+              <cotent><modify-user></modify-user></cotent>
+            </custom-modal>
           </div>
         </div>
         <div class="colorpallete">
@@ -76,16 +79,27 @@
 import sidebar from "@/components/common/customSidebar.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import myinfo from "@/components/myPage/myInfo.vue";
+import ModifyUser from "@/components/user/customUpdateUser.vue";
 export default {
   name: "MyPage",
   components: {
     sidebar,
     colorpallete,
     myinfo,
+    ModifyUser,
+  },
+  data() {
+    return {
+      showModal: false,
+    };
+  },
+  methods: {
+    testClick() {
+      console.lot("이게맞음?");
+    },
   },
 };
 </script>
-
 <style scoped>
 /* 마이페이지 전체 틀 */
 .mypage {
@@ -276,5 +290,13 @@ export default {
 .pallete {
   float: left;
   margin-top: -10px;
+}
+/*모달 스타일 */
+#updateUserInfoModal {
+  width: 100%;
+  height: 120%;
+  display: flex;
+  justify-content: center;
+  margin-top: -4%;
 }
 </style>
