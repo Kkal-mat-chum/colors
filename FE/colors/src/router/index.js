@@ -3,11 +3,13 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
 import AloneView from "../views/MeetingView/AloneView.vue";
+import enterPageView from "../views/EnterView.vue";
 import signUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
 import deleteUser from "../components/user/customDeleteUser.vue";
 import modifyPW from "../components/user/customUpdatePW.vue";
+import idPwFind from "../components/user/idPwFind.vue";
 
 Vue.use(VueRouter);
 
@@ -52,6 +54,11 @@ const routes = [
     component: modifyUser,
   },
   {
+    path: "/enterPage",
+    name: "enterPage",
+    component: enterPageView,
+  },
+  {
     path: "/deleteuser",
     name: "deleteUser",
     component: deleteUser,
@@ -60,6 +67,11 @@ const routes = [
     path: "/modifypw",
     name: "modifyPW",
     component: modifyPW,
+  },
+  {
+    path: "/findidpw",
+    name: "findidpw",
+    component: idPwFind,
   },
 ];
 

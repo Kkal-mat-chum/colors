@@ -26,7 +26,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .testButton {
   font: 2rem "pretendard ExtraBold";
 }

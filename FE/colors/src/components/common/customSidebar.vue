@@ -3,20 +3,27 @@
     <ul class="sidebar__nav">
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
-        <router-link tag="li" class-active="Active" to="/about">
-          <img class="sideBarIcon" src="../../assets/home_icon.png" />
+        <router-link tag="li" class-active="Active" to="/enterPage">
+          <!-- <img class="sideBarIcon" src="../../assets/home_icon.png" /> -->
+          <i class="material-symbols-rounded loadedIcon">home</i>
+          <!-- <i class="fa-solid fa-house loadedIcon" style="font-size: 60px"></i> -->
         </router-link>
         <router-link tag="li" class-active="Active" to="/signup">
-          <img class="sideBarIcon" src="../../assets/topic_icon.png" />
+          <i class="material-icons-outlined loadedIcon">forum</i>
+          <!-- <i class="fa-message fa-regular loadedIcon" style="font-size: 60px"></i> -->
+          <!-- <img class="sideBarIcon" src="../../assets/topic_icon.png" /> -->
         </router-link>
         <router-link tag="li" class-active="Active" to="/mypage">
-          <img class="sideBarIcon" src="../../assets/myPage_icon.png" />
+          <i class="material-icons-outlined loadedIcon">account_circle</i>
+          <!-- <i class="fa-circle-user fa-regular loadedIcon" style="font-size: 60px"></i> -->
+          <!-- <img class="sideBarIcon" src="../../assets/myPage_icon.png" /> -->
         </router-link>
       </div>
     </ul>
-    <p>{{ activeIcon }}</p>
     <div>
-      <img class="sideBarIcon logOutIcon" src="../../assets/logOut_icon.png" />
+      <i class="material-icons-outlined loadedIcon">logout</i>
+      <!-- <i class="fa-solid fa-right-from-bracket loadedIcon" style="font-size: 60px"></i> -->
+      <!-- <img class="sideBarIcon logOutIcon" src="../../assets/logOut_icon.png" /> -->
     </div>
   </div>
 </template>
@@ -56,20 +63,18 @@ export default {};
   margin-bottom: 2rem;
 }
 
-li.router-link-active {
-  filter: opacity(1) drop-shadow(0 0 0 #393ba7);
+.router-link-active .loadedIcon {
+  color: #6667ab !important;
 }
 
-.sideBarIcon {
-  filter: opacity(0.4) drop-shadow(0 0 0 #8c95d1);
+.loadedIcon {
+  text-align: center;
+  font-size: 60px;
+  color: #d0d1ff;
 }
 
-.icons img:hover {
-  filter: opacity(0.3) drop-shadow(0 0 0 #ffffff);
-}
-
-.logOutIcon:hover {
-  filter: opacity(0.4) drop-shadow(0 0 0 #ffffff);
+.loadedIcon:hover {
+  color: #b9b9e8;
 }
 
 ul.sidebar__nav {
@@ -78,13 +83,13 @@ ul.sidebar__nav {
   list-style: none;
   padding-left: 0;
   margin-left: 0;
-  height: 85%;
+  height: 80%;
 }
 
 .icons {
   display: flex;
   flex-direction: column;
-  height: 400px;
+  height: 280px;
   justify-content: space-around;
 }
 
