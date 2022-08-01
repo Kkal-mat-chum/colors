@@ -1,9 +1,12 @@
 package com.ssafy.colors.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MemberReq {
     private String userid;
     private String password;
