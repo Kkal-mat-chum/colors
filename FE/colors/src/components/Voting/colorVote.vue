@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+    <i class="fa-solid fa-circle-chevron-right"></i>
+  </div>
 </template>
 
 <script>
