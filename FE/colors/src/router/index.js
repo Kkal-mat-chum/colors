@@ -8,6 +8,7 @@ import modifyUser from "../components/user/customUpdateUser.vue";
 import deleteUser from "../components/user/customDeleteUser.vue";
 import modifyPW from "../components/user/customUpdatePW.vue";
 import idPwFind from "../components/user/idPwFind.vue";
+import colorVote from "../components/Voting/colorVote.vue";
 
 Vue.use(VueRouter);
 
@@ -60,6 +61,11 @@ const routes = [
     path: "/findidpw",
     name: "findidpw",
     component: idPwFind,
+  },
+  {
+    path: "/colorVote",
+    name: "colorVote",
+    component: colorVote,
   },
 ];
 
