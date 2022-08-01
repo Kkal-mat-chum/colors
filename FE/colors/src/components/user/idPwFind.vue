@@ -50,7 +50,7 @@ export default {};
   width: 50%;
   height: 50%;
   left: 25%;
-  top: 33%;
+  top: 37%;
   /* border: 3px solid aqua; */
   display: flex;
   flex-direction: column;
@@ -131,6 +131,7 @@ export default {};
 .labelInIdpwFind {
   margin-top: 10%;
   text-align: center;
+  color: #6667ab;
 }
 #labelWarningInIdpwFind {
   color: red;
