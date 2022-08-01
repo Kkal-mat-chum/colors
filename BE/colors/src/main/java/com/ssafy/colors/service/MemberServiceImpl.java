@@ -7,10 +7,9 @@ import com.ssafy.colors.request.MemberReq;
 import com.ssafy.colors.util.RandomStringGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -30,12 +29,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean checkID(String inputId) {
-        return memberRepository.findFirstByUserId(inputId) != null ? true : false;
+        return memberRepository.findFirstByUserId(inputId) != null;
     }
 
     @Override
     public boolean checkNickname(String inputNickname) {
-        return memberRepository.findFirstByNickname(inputNickname) != null ? true : false;
+        return memberRepository.findFirstByNickname(inputNickname) != null;
     }
 
     @Override
@@ -84,22 +83,24 @@ public class MemberServiceImpl implements MemberService {
         System.out.println("LOWER PWD " + lower);
 
         int result = memberRepository.updatePassword(randomPwd, userId, email);
+        System.out.println("RES : " + result);
 
-        Member member = memberRepository.findByPasswordLike(lower);
-        System.out.println(member);
+//        Member member = memberRepository.findByPasswordLike(lower);
+//        System.out.println(member);
 
-        // if result > 0 (성공) 이메일 전송
-        // else false return
+        // 임시 비밀번호 변경 성공 시 사용자 메일로 전송
+        if(result > 0) {
+            Mail mail = Mail.builder()
+                    .address("user@naver.com")
+                    .title("[깔맞춤] 임시 비밀번호 발송")
+                    .message("임시비밀번호 : " + randomPwd)
+                    .build();
 
-//        Mail mail = Mail.builder()
-//                .address("pfcskms1997@naver.com")
-//                .title("[깔맞춤] 임시 비밀번호 발송")
-//                .message("임시비밀번호 : <strong>" + randomPwd + "</strong>")
-//                .build();
-//
-//        mailService.mailSend(mail);
-
-        return result > 0 ? true : false;
+            mailService.mailSend(mail);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -110,7 +111,7 @@ public class MemberServiceImpl implements MemberService {
 
         int result = memberRepository.updateMemberInfo(inputNickname, inputName, inputId);
 
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     @Override
@@ -118,14 +119,14 @@ public class MemberServiceImpl implements MemberService {
         String inputPwd = memberReq.getPassword();
         String inputId = memberReq.getUserid();
 
-        int result = memberRepository.updatePassword(inputPwd, inputId);
+        int result = memberRepository.changePassword(inputPwd, inputId);
 
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     @Override
     public boolean deleteMember(String userId) {
         int result = memberRepository.updateIsDeleted(userId);
-        return result > 0 ? true : false;
+        return result > 0;
     }
 }

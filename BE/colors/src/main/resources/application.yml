@@ -5,11 +5,11 @@ server:
     context-path: /api
 
 spring:
-  mail: 
+  mail:
     host: smtp.gmail.com
     port: 587
-    username: email
-    password: password
+    username: b208.colors@gmail.com
+    password: app-password
     properties:
       mail:
         smtp:
