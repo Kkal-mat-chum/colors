@@ -76,16 +76,16 @@
 </template>
 
 <script>
+import sidebar from "@/components/common/customSidebar.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import myinfo from "@/components/myPage/myInfo.vue";
-import sidebar from "@/components/common/customSidebar.vue";
 import ModifyUser from "@/components/user/customUpdateUser.vue";
 export default {
   name: "MyPage",
   components: {
+    sidebar,
     colorpallete,
     myinfo,
-    sidebar,
     ModifyUser,
   },
   data() {

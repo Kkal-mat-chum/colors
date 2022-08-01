@@ -19,7 +19,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .pallete {
   width: 250px;
   border: 1px solid #d0d1ff;
