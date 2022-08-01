@@ -1,13 +1,11 @@
 package com.ssafy.colors.database.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Table(name = "member")
@@ -22,7 +20,10 @@ public class Member extends BaseEntity {
     @Column(name = "user_id", length = 15, nullable = false)
     String userId;
 
-    @Column(name = "profile_url", length = 100, nullable = true)
+    @Column(name = "password" ,length = 30, nullable = false)
+    String password;
+
+    @Column(name = "profile_url", length = 100)
     String profileUrl;
 
     @Column(name = "name", length = 30, nullable = false)
@@ -31,23 +32,21 @@ public class Member extends BaseEntity {
     @Column(name = "nickname", length = 30, nullable = false)
     String nickname;
 
-    @Column(name = "email", length = 100, nullable = false)
+    @Column(name = "email", length = 100 , nullable = false)
     String email;
 
-    @Column(name = "point", nullable = false)
+    @Column(name = "point")
+    @ColumnDefault("0")
     int point;
 
-    @Column(name = "auth_grade", nullable = false)
+    @Column(name = "auth_grade")
+    @ColumnDefault("false")
     boolean authGrade;
 
     @Column(name = "reg_date", nullable = true)
     LocalDateTime regDate;
 
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = "is_deleted")
+    @ColumnDefault("false")
     boolean isDeleted;
-
-    @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(length = 30, nullable = false)
-    String password;
 }

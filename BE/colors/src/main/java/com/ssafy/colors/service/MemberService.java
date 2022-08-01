@@ -1,6 +1,8 @@
 package com.ssafy.colors.service;
 
+import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.request.MemberReq;
+import org.springframework.stereotype.Service;
 
 public interface MemberService {
     public boolean checkID(String inputId);

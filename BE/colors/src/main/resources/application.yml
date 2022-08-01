@@ -4,8 +4,18 @@ server:
   servlet:
     context-path: /api
 
-
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: email
+    password: password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8

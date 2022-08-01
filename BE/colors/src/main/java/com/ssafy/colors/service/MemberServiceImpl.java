@@ -4,18 +4,23 @@ import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.request.MemberReq;
 import com.ssafy.colors.util.RandomStringGenerator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
 
 @Service("memberService")
+@RequiredArgsConstructor
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberRepository memberRepository;
-
     @Autowired
     RandomStringGenerator randomStringGenerator;
 
@@ -111,58 +116,4 @@ public class MemberServiceImpl implements MemberService {
         int result = memberRepository.updateIsDeleted(userId);
         return result > 0 ? true : false;
     }
-
-//    @Override
-//    public boolean checkID(String inputId) {
-//        return memberRepository.checkDuplicatedID(inputId);
-//    }
-//
-//    @Override
-//    public boolean checkNickname(String inputNickname) {
-//        return memberRepository.checkDuplicatedNickname(inputNickname);
-//    }
-//
-//    @Override
-//    public boolean saveMember(MemberReq memberReq) {
-//        Member member = Member.builder()
-//                .userId(memberReq.getUserid())
-//                .password(memberReq.getPassword())
-//                .name(memberReq.getName())
-//                .nickname(memberReq.getNickname())
-//                .email(memberReq.getEmail())
-//                .point(0)
-//                .authGrade(false)
-//                .isDeleted(false)
-//                .build();
-//
-//        System.out.println(member);
-//
-////        member.setUserId(memberReq.getUserid());
-////        member.setPassword(memberReq.getPassword());
-////        member.setName(memberReq.getName());
-////        member.setNickname(memberReq.getNickname());
-////        member.setEmail(memberReq.getEmail());
-////        member.setPoint(0);
-////        member.setAuthGrade(false);
-////        member.setDeleted(false);
-//
-//        try {
-//            return memberRepository.save(member);
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
-//
-//    @Override
-//    public String findID(MemberReq memberReq) {
-//        return memberRepository.findID(memberReq);
-//    }
-//
-//    @Override
-//    public boolean findPassword(MemberReq memberReq) {
-//        // email로 비밀번호 보내는 로직 추가
-//        System.out.println("findPassword");
-//        System.out.println(memberRepository.findPassword(memberReq));
-//        return true;
-//    }
 }

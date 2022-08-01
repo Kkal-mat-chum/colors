@@ -27,5 +27,4 @@ public class Topic extends BaseEntity {
 
     @Column(name = "is_deleted", nullable = false)
     Boolean isDeleted;
-
 }
