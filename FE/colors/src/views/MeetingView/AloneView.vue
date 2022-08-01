@@ -30,7 +30,7 @@
 import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
-import colorchoice from "@/components/videochat/colorChoice.vue";
+import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 
 export default {
   name: "aloneMeeting",
