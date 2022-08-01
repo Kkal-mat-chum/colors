@@ -55,6 +55,19 @@ public class MemberServiceImpl implements MemberService {
         } catch (Exception e) {
             return false;
         }
+
+        if (findById.get(0).getEmail().equals(email)) {
+            Mail mail = new Mail();
+            mail.setAddress(email);
+            mail.setMessage("임시비밀번호는 1234 입니다.");
+            mail.setTitle("임시비밀번호");
+
+            mailService.mailSend(mail);
+            findById.get(0).setPassword("1234");
+            return true;
+        }
+        return false;
+
     }
 
     @Override
