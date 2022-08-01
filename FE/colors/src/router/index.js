@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
+import AloneView from "../views/MeetingView/AloneView.vue";
 import enterPageView from "../views/EnterView.vue";
 import signUp from "../components/user/customSignUp.vue";
 import logIn from "../components/user/customLogIn.vue";
@@ -31,6 +32,11 @@ const routes = [
     path: "/mypage",
     name: "mypage",
     component: MyPageView,
+  },
+  {
+    path: "/alone",
+    name: "alone",
+    component: AloneView,
   },
   {
     path: "/signup",
