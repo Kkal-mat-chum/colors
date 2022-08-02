@@ -64,7 +64,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 body {
   margin: 0;
 }
@@ -197,7 +197,7 @@ body {
 }
 #nickCheckBtn {
   /* margin-top: 5%; */
-  height: 15%;
+  height: 18%;
 }
 #updateUserEmailLabel {
   background-color: #ececec;

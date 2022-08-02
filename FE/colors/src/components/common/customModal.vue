@@ -1,8 +1,8 @@
 <template>
   <div class="modal-overlay" @click="$emit('close-modal')">
-    <div class="modal" @click.stop>
+    <div id="modalMain" class="modal" @click.stop>
       <div class="modalTopLine">
-        <img class="modalClose" @click="$emit('close-modal')" src="@/assets/close.png" width="20" height="24" />
+        <i class="fa-solid fa-xmark modalClose" @click="$emit('close-modal')"></i>
       </div>
       <p class="modalTitle">{{ titleText }}</p>
       <slot />
@@ -46,6 +46,8 @@ export default {
   display: flex;
   margin-bottom: -20px;
   margin-top: -50px;
+  font: 36px "Pretendard ExtraBold";
+  color: #6667ab;
 }
 
 .modalClose {
