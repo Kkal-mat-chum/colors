@@ -1,15 +1,30 @@
 <template>
   <div class="sidebar">
     <ul class="sidebar__nav">
-      <li><img class="logo_sidebar" src="../../assets/logo_vertical.png" /></li>
-      <hr />
+      <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
-        <li><img class="Active" src="../../assets/home_icon.png" /></li>
-        <li><img class="sideBarIcon" src="../../assets/topic_icon.png" /></li>
-        <li><img class="sideBarIcon" src="../../assets/myPage_icon.png" /></li>
+        <router-link tag="li" class-active="Active" to="/enterPage">
+          <!-- <img class="sideBarIcon" src="../../assets/home_icon.png" /> -->
+          <i class="material-symbols-rounded loadedIcon">home</i>
+          <!-- <i class="fa-solid fa-house loadedIcon" style="font-size: 60px"></i> -->
+        </router-link>
+        <router-link tag="li" class-active="Active" to="/signup">
+          <i class="material-icons-outlined loadedIcon">forum</i>
+          <!-- <i class="fa-message fa-regular loadedIcon" style="font-size: 60px"></i> -->
+          <!-- <img class="sideBarIcon" src="../../assets/topic_icon.png" /> -->
+        </router-link>
+        <router-link tag="li" class-active="Active" to="/mypage">
+          <i class="material-icons-outlined loadedIcon">account_circle</i>
+          <!-- <i class="fa-circle-user fa-regular loadedIcon" style="font-size: 60px"></i> -->
+          <!-- <img class="sideBarIcon" src="../../assets/myPage_icon.png" /> -->
+        </router-link>
       </div>
-      <li><img class="sideBarIcon logOutIcon" src="../../assets/logOut_icon.png" /></li>
     </ul>
+    <div>
+      <i class="material-icons-outlined loadedIcon">logout</i>
+      <!-- <i class="fa-solid fa-right-from-bracket loadedIcon" style="font-size: 60px"></i> -->
+      <!-- <img class="sideBarIcon logOutIcon" src="../../assets/logOut_icon.png" /> -->
+    </div>
   </div>
 </template>
 
@@ -17,11 +32,11 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 /* Rectangle 1 */
 .sidebar {
   height: 100%;
-  width: 140px;
+  width: 120px;
   position: fixed;
   display: block;
   top: 0;
@@ -32,42 +47,34 @@ export default {};
   box-shadow: 5px 1px 40px 10px rgba(238, 238, 238, 0.4);
 }
 
-.sidebar a {
-  display: block;
+.logo::after {
+  content: "";
+  width: 40%;
+  display: inline-flex;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  border-bottom: 5px solid #d0d1ff;
   text-align: center;
-  transition: all 0.3s ease;
-  color: white;
-}
-
-.sidebar a:hover {
-  background-color: #6667ab;
-}
-
-.active {
-  background: #d0d1ff;
+  justify-content: center;
 }
 
 .logo_sidebar {
-  width: 150px;
+  width: 130px;
   margin-bottom: 2rem;
 }
 
-.Active {
-  filter: opacity(0.9) drop-shadow(0 0 0 #4a4d74);
+.router-link-active .loadedIcon {
+  color: #6667ab !important;
 }
 
-li img:hover {
-  filter: opacity(0.5) drop-shadow(0 0 0 #ffffff);
+.loadedIcon {
+  text-align: center;
+  font-size: 60px;
+  color: #d0d1ff;
 }
 
-.sideBarIcon {
-  filter: opacity(0.5) drop-shadow(0 0 0 #8c95d1);
-}
-
-.logOutIcon {
-  position: absolute;
-  top: 90%;
-  left: 30%;
+.loadedIcon:hover {
+  color: #b9b9e8;
 }
 
 ul.sidebar__nav {
@@ -76,13 +83,14 @@ ul.sidebar__nav {
   list-style: none;
   padding-left: 0;
   margin-left: 0;
+  height: 80%;
 }
 
 .icons {
   display: flex;
   flex-direction: column;
-  height: max-content;
-  justify-content: space-between;
+  height: 280px;
+  justify-content: space-around;
 }
 
 .icons li img {
@@ -95,24 +103,3 @@ li {
   padding-left: 0;
 }
 </style>
-
-<!-- <style lang="scss" scoped>
-ul.sidebar__nav {
-  width: 100%;
-  position: relative;
-  li {
-    margin-bottom: 10px;
-    padding: 10px 0;
-    font-size: 0.9em;
-    color: #d2dae2;
-    cursor: pointer;
-    &.selected {
-      color: #4bcffa;
-    }
-    i {
-      width: 40px;
-      color: inherit;
-    }
-  }
-}
-</style> -->
