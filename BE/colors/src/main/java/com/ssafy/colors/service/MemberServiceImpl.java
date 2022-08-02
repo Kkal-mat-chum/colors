@@ -7,12 +7,10 @@ import com.ssafy.colors.request.MemberReq;
 import com.ssafy.colors.util.RandomStringGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 @Service("memberService")
 @RequiredArgsConstructor
@@ -21,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberRepository memberRepository;
+
     @Autowired
     RandomStringGenerator randomStringGenerator;
 
@@ -74,28 +73,19 @@ public class MemberServiceImpl implements MemberService {
     public boolean findPassword(MemberReq memberReq) {
         String userId = memberReq.getUserid();
         String email = memberReq.getEmail();
-
         String randomPwd = randomStringGenerator.generateRandomPassword(10);
-
         System.out.println("RAND PWD " + randomPwd);
 
-        String lower = randomPwd.toLowerCase(Locale.ROOT);
-        System.out.println("LOWER PWD " + lower);
-
         int result = memberRepository.updatePassword(randomPwd, userId, email);
-        System.out.println("RES : " + result);
-
-//        Member member = memberRepository.findByPasswordLike(lower);
-//        System.out.println(member);
 
         // 임시 비밀번호 변경 성공 시 사용자 메일로 전송
-        if(result > 0) {
+        if (result > 0) {
             Mail mail = Mail.builder()
-                    .address("user@naver.com")
+                    .address(email)
                     .title("[깔맞춤] 임시 비밀번호 발송")
                     .message("임시비밀번호 : " + randomPwd)
                     .build();
-
+            /* 무분별한 메일 전송 방지를 위해 개발 끝나고 테스트 할 때에만 주석 해제할 것 */
             mailService.mailSend(mail);
             return true;
         } else {

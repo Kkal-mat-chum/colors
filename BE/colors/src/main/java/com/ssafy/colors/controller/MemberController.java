@@ -4,7 +4,6 @@ package com.ssafy.colors.controller;
 import com.ssafy.colors.request.MemberReq;
 import com.ssafy.colors.service.MemberService;
 import com.ssafy.colors.util.ValidationChecker;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/member")
 public class MemberController {
 
