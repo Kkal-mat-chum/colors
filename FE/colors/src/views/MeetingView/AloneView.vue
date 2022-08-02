@@ -52,10 +52,10 @@ body {
 .contents {
   display: flex;
   margin-left: 120px;
-  height: 100%;
+  height: 100vh;
 }
 .camera {
-  width: 75%;
+  width: 155vh;
   text-align: center;
 }
 .webcam {
@@ -78,7 +78,7 @@ body {
   width: 150px;
 }
 .rightSidebar {
-  width: 25%;
+  width: 40vh;
   height: 100vh;
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
   text-align: center;
@@ -109,15 +109,13 @@ body {
 
 .selectColor {
   display: inline-block;
-  width: 200px;
-  height: 200px;
   background-color: #d0d1ff;
   margin-top: 25px;
 }
 
 .selectColorbtn {
   width: 200px;
-  margin-top: 8px;
+  margin-top: 20px;
 }
 
 .votebtn {

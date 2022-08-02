@@ -34,7 +34,7 @@ export default {
     },
     theme: {
       type: String,
-      default: "dark",
+      default: "light",
     },
     suckerHide: {
       type: Boolean,
