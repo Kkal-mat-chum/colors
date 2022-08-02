@@ -63,8 +63,6 @@ body {
   width: 500px;
   height: 300px;
   margin-top: 150px;
-  border: 2px solid #d0d1ff;
-  border-radius: 15px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
 }
 .buttons {
