@@ -75,6 +75,7 @@ export default {};
 
 .loadedIcon:hover {
   color: #b9b9e8;
+  cursor: pointer;
 }
 
 ul.sidebar__nav {
@@ -85,18 +86,12 @@ ul.sidebar__nav {
   margin-left: 0;
   height: 80%;
 }
-
 .icons {
   display: flex;
   flex-direction: column;
   height: 280px;
   justify-content: space-around;
 }
-
-.icons li img {
-  margin: 1rem auto;
-}
-
 li {
   list-style: none;
   margin-left: 0;
