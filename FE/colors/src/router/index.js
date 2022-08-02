@@ -12,6 +12,7 @@ import deleteUser from "../components/user/customDeleteUser.vue";
 import modifyPW from "../components/user/customUpdatePW.vue";
 import idPwFind from "../components/user/idPwFind.vue";
 import colorVote from "../components/Voting/colorVote.vue";
+import colorTournament from "../components/Voting/colorTournament.vue";
 
 Vue.use(VueRouter);
 
@@ -84,6 +85,11 @@ const routes = [
     path: "/colorVote",
     name: "colorVote",
     component: colorVote,
+  },
+  {
+    path: "/colorTournament",
+    name: "colorTournament",
+    component: colorTournament,
   },
 ];
 
