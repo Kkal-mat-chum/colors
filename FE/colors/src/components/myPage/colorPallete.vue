@@ -21,24 +21,25 @@ export default {};
 
 <style scoped>
 .pallete {
-  width: 250px;
+  width: 200px;
+  height: auto;
   border: 1px solid #d0d1ff;
   border-radius: 10px;
   background-color: white;
 }
 .up {
   display: flex;
-  margin-left: 15px;
+  justify-content: center;
 }
 .down {
   display: flex;
-  margin-left: 15px;
+  justify-content: center;
 }
 .color {
   float: left;
   border: 1px solid #d0d1ff;
-  width: 43px;
-  padding-bottom: 43px;
+  width: 35px;
+  padding-bottom: 35px;
   border-radius: 50%;
   margin: 5px;
 }
