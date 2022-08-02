@@ -10,6 +10,9 @@ import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
 import deleteUser from "../components/user/customDeleteUser.vue";
 import modifyPW from "../components/user/customUpdatePW.vue";
+import nameResult from "../components/Voting/nameResult.vue";
+import nickResult from "../components/Voting/nickResult.vue";
+import tournamentNameResult from "../components/Voting/tournamentNameResult.vue";
 import idPwFind from "../components/user/idPwFind.vue";
 import colorVote from "../components/Voting/colorVote.vue";
 import colorTournament from "../components/Voting/colorTournament.vue";
@@ -75,6 +78,21 @@ const routes = [
     path: "/modifypw",
     name: "modifyPW",
     component: modifyPW,
+  },
+  {
+    path: "/nameresult",
+    name: "nameResult",
+    component: nameResult,
+  },
+  {
+    path: "/nickresult",
+    name: "nickResult",
+    component: nickResult,
+  },
+  {
+    path: "/tournamentnameresult",
+    name: "tournamentNameResult",
+    component: tournamentNameResult,
   },
   {
     path: "/findidpw",
