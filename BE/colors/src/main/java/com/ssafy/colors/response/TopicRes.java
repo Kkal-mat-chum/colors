@@ -5,11 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TopicRes {
+public class TopicRes<T> {
 
-    private String title;
+    int cnt ;
 
-    private boolean recommend;
+    T topics;
 
-    private Long cnt;
 }
