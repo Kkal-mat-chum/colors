@@ -13,6 +13,7 @@ import modifyPW from "../components/user/customUpdatePW.vue";
 import idPwFind from "../components/user/idPwFind.vue";
 import colorVote from "../components/Voting/colorVote.vue";
 import colorTournament from "../components/Voting/colorTournament.vue";
+import topTenList from "@/views/top10ListView.vue";
 
 Vue.use(VueRouter);
 
@@ -90,6 +91,11 @@ const routes = [
     path: "/colorTournament",
     name: "colorTournament",
     component: colorTournament,
+  },
+  {
+    path: "/topTenTopic",
+    name: "topTenTopic",
+    component: topTenList,
   },
 ];
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <sidebar></sidebar>
+    <customSidebar />
     <div class="mypage">
       <div class="title">
         <h1>마이페이지</h1>
@@ -76,14 +76,12 @@
 </template>
 
 <script>
-import sidebar from "@/components/common/customSidebar.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import myinfo from "@/components/myPage/myInfo.vue";
 import ModifyUser from "@/components/user/customUpdateUser.vue";
 export default {
   name: "MyPage",
   components: {
-    sidebar,
     colorpallete,
     myinfo,
     ModifyUser,
