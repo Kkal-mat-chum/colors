@@ -3,9 +3,12 @@
     <customSidebar />
     <div class="dummyMarginColorVote1"></div>
     <div class="gridColorVote1">
-      <div class="labelColorVote">11:11</div>
-      <label for="colorVoteTitle" class="labelColorVote">자신과(와) 가장 어울리는 색을 선택해주세요.</label>
-      <div class="labelColorVote">3/5</div>
+      <div class="sidelabelColorVote">11:11</div>
+      <div class="titleColorVote">
+        <label for="nameColorVote" class="labelColorVote" id="nameColorVote">name</label>
+        <label for="colorVoteTitle" class="labelColorVote">과(와) 가장 어울리는 색을 선택하세요.</label>
+      </div>
+      <div class="sidelabelColorVote">3/5</div>
     </div>
     <div class="gridColorVote2">
       <div class="gridLeftBtnColorVote1">
@@ -112,6 +115,11 @@ export default {};
   margin: 0px 30px 0px 5px;
 }
 .labelColorVote {
+  color: #4a4d74;
+  font-size: 180%;
+  font-weight: 600;
+}
+.sidelabelColorVote {
   color: #6667ab;
   font-size: 180%;
   font-weight: 600;
@@ -121,9 +129,11 @@ export default {};
   flex-direction: row;
   justify-content: right;
 }
-
 #completeBtnColorVote {
   width: 20%;
   margin-right: 100px;
+}
+#nameColorVote {
+  color: #f34d75;
 }
 </style>
