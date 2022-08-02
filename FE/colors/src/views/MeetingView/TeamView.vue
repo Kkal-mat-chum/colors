@@ -4,9 +4,33 @@
     <div class="contents">
       <div class="camera">
         <webcam class="webcam"></webcam>
+        <div class="name">송 다 경</div>
         <div class="buttons">
           <customButton class="mute" btnText="음소거"></customButton>
           <customButton class="videostop" btnText="비디오 중지"></customButton>
+        </div>
+
+        <div class="anotherPerson">
+          <div class="p1">
+            <webcam class="webcam1"></webcam>
+            <div class="name">이 한 기</div>
+          </div>
+          <div class="p2">
+            <webcam class="webcam2"></webcam>
+            <div class="name">김 찬 일</div>
+          </div>
+          <div class="p3">
+            <webcam class="webcam3"></webcam>
+            <div class="name">김 민 영</div>
+          </div>
+          <div class="p4">
+            <webcam class="webcam4"></webcam>
+            <div class="name">오 정 환</div>
+          </div>
+          <div class="p5">
+            <webcam class="webcam5"></webcam>
+            <div class="name">강 민 성</div>
+          </div>
         </div>
       </div>
       <div class="rightSidebar">
@@ -19,8 +43,14 @@
           <colorchoice></colorchoice>
         </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기"></customButton>
-        <customButton class="votebtn" btnText="투표하기"></customButton>
-        <customButton class="exitbtn" btnText="종료"></customButton>
+        <div class="title">
+          <h2>미팅 코드</h2>
+          <hr />
+        </div>
+        <h2 class="code">A1ABEF13</h2>
+        <customButton class="btn" btnText="채팅"></customButton>
+        <customButton class="btn" btnText="투표하기"></customButton>
+        <customButton class="btn" btnText="종료"></customButton>
       </div>
     </div>
   </div>
@@ -60,15 +90,18 @@ body {
 }
 .webcam {
   display: inline-block;
-  width: 500px;
-  height: 300px;
-  margin-top: 150px;
+  width: 400px;
+  height: 250px;
+  margin-top: 30px;
   border: 2px solid #d0d1ff;
   border-radius: 15px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
 }
+.name {
+  margin-top: 5px;
+}
 .buttons {
-  margin-top: 50px;
+  margin-top: 8px;
 }
 .mute {
   width: 150px;
@@ -77,6 +110,32 @@ body {
 .videostop {
   width: 150px;
 }
+
+/* 참여자들 캠 */
+.anotherPerson {
+  margin-top: 20px;
+}
+.p1,
+.p2,
+.p3,
+.p4,
+.p5 {
+  display: inline-block;
+}
+.webcam1,
+.webcam2,
+.webcam3,
+.webcam4,
+.webcam5 {
+  width: 250px;
+  height: 160px;
+  margin: 10px 20px 10px 20px;
+  border: 2px solid #d0d1ff;
+  border-radius: 15px;
+  filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* 우측 사이드 바 */
 .rightSidebar {
   width: 40vh;
   height: 100vh;
@@ -84,13 +143,13 @@ body {
   text-align: center;
 }
 .title {
-  margin-left: 50px;
+  margin-left: 5vh;
 }
 .title h2 {
   display: flex;
   text-align: left;
   color: #6667ab;
-  margin: 30px 0 10px 0;
+  margin: 23px 0 10px 0;
 }
 
 .title > hr {
@@ -118,12 +177,12 @@ body {
   margin-top: 20px;
 }
 
-.votebtn {
-  margin-top: 120px;
-  width: 200px;
+.code {
+  margin: 10px;
 }
-.exitbtn {
+
+.btn {
   width: 200px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 </style>
