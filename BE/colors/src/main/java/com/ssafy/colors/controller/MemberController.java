@@ -74,8 +74,8 @@ public class MemberController {
         String inputId = params.getUserid();
         String inputPwd = params.getPassword();
 
-        if(!(validationChecker.idValidationCheck(inputId)
-                && validationChecker.pwdValidationCheck(inputPwd))){
+        if (!(validationChecker.idValidationCheck(inputId)
+                && validationChecker.pwdValidationCheck(inputPwd))) {
             result.put("message", FAIL);
         } else {
             if (memberService.saveMember(params)) {
@@ -96,7 +96,7 @@ public class MemberController {
         Map<String, Object> result = new HashMap<>();
         String userid = memberService.findID(params);
 
-        if(userid != null) {
+        if (userid != null) {
             result.put("userid", userid);
             result.put("message", SUCCESS);
         } else {
@@ -113,7 +113,7 @@ public class MemberController {
 
         Map<String, Object> result = new HashMap<>();
 
-        if(memberService.findPassword(params)) {
+        if (memberService.findPassword(params)) {
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);
@@ -122,13 +122,14 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 회원정보(이름, 닉네임) 변경
     @PutMapping("/changeinfo")
     public ResponseEntity<Map<String, Object>> updateMemberInfo(@RequestBody MemberReq params) {
         System.out.println("[PUT] - /member/changeinfo");
 
         Map<String, Object> result = new HashMap<>();
 
-        if(memberService.updateMemberInfo(params)) {
+        if (memberService.updateMemberInfo(params)) {
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);
@@ -137,6 +138,7 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 비밀번호 변경
     @PutMapping("/changepwd")
     public ResponseEntity<Map<String, Object>> updatePassword(@RequestBody MemberReq params) {
         System.out.println("[PUT] - /member/changepwd");
@@ -145,7 +147,7 @@ public class MemberController {
 
         String inputPwd = params.getPassword();
 
-        if(!validationChecker.pwdValidationCheck(inputPwd)) {
+        if (!validationChecker.pwdValidationCheck(inputPwd)) {
             result.put("message", "FAIL");
         } else {
             if (memberService.updatePassword(params)) {
@@ -158,6 +160,7 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 회원 탈퇴
     @DeleteMapping("/{userid}")
     public ResponseEntity<Map<String, Object>> deleteMember(@PathVariable String userid) {
         System.out.println("[DELETE] - /member/{user_id}");

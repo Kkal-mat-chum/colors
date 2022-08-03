@@ -45,10 +45,10 @@ public class MemberServiceImpl implements MemberService {
                 .name(memberReq.getName())
                 .nickname(memberReq.getNickname())
                 .email(memberReq.getEmail())
-                .point(0)
-                .authGrade(false)
+                //.point(0)
+                //.authGrade(false)
                 .regDate(LocalDateTime.now())
-                .isDeleted(false)
+                //.isDeleted(false)
                 .build();
 
         try {
@@ -86,7 +86,7 @@ public class MemberServiceImpl implements MemberService {
                     .message("임시비밀번호 : " + randomPwd)
                     .build();
             /* 무분별한 메일 전송 방지를 위해 개발 끝나고 테스트 할 때에만 주석 해제할 것 */
-            mailService.mailSend(mail);
+            //mailService.mailSend(mail);
             return true;
         } else {
             return false;

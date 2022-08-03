@@ -8,7 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-@Getter @Setter
+@Getter
+@Setter
 @MappedSuperclass
 public class BaseEntity {
     @Id
