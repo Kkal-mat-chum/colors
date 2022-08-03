@@ -6,18 +6,18 @@
         {{ userName }}님 환영합니다!
         <i class="material-icons-outlined userIcon">account_circle</i>
       </div>
-      <h2 class="topicTenTitle">이번주 토픽 TOP 10</h2>
-      <TopicList class="topTenList" :isEnter="true">
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
+      <h2 class="topicTenTitle">토픽 제안 게시판</h2>
+      <TopicList class="topTenList" :isTopic="true">
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
+        <TopicArticle class="topicArticle" :isTopic="true" />
       </TopicList>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" />
