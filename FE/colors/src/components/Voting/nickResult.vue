@@ -30,14 +30,19 @@
     <div class="cancelButton">
       <custom-button id="buttonStyle" btnText="닫 기"></custom-button>
     </div>
+    <name-colors>#ffffff</name-colors>
     <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
   </div>
 </template>
 
 <script>
 import customButton from "../common/customButton.vue";
+import nameColors from "color-name-list";
 export default {
-  components: { customButton },
+  components: {
+    customButton,
+    nameColors,
+  },
 };
 </script>
 

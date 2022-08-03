@@ -100,12 +100,12 @@ const routes = [
     component: idPwFind,
   },
   {
-    path: "/colorVote",
+    path: "/colorvote",
     name: "colorVote",
     component: colorVote,
   },
   {
-    path: "/colorTournament",
+    path: "/colortournament",
     name: "colorTournament",
     component: colorTournament,
   },

@@ -37,7 +37,9 @@
 <script>
 import customButton from "../common/customButton.vue";
 export default {
-  components: { customButton },
+  components: {
+    customButton,
+  },
 };
 </script>
 
