@@ -1,24 +1,18 @@
 package com.ssafy.colors.database.entity;
 
-import com.ssafy.colors.request.VoteDTO;
-import com.sun.xml.bind.WhiteSpaceProcessor;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Table(name = "vote")
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
-public class Vote {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Vote extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "topic_id")
     private Topic topic;
@@ -27,13 +21,10 @@ public class Vote {
 
     private boolean isDelete;
 
-
-
     public Vote(Long memberId, Topic topic, boolean isDelete) {
         this.memberId = memberId;
         this.addVote(topic);
         this.isDelete = isDelete;
-
     }
 
     public void addVote(Topic topic) {
@@ -47,6 +38,4 @@ public class Vote {
 //        return (((VoteDTO) obj).getUserId().equals(this.memberId) && ((VoteDTO) obj).getTopicId().equals(this.topic.getId()));
 //
 //    }
-
-
 }

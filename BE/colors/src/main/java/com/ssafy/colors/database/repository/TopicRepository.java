@@ -1,18 +1,14 @@
 package com.ssafy.colors.database.repository;
 
-<<<<<<< HEAD
-=======
 import com.ssafy.colors.database.entity.Topic;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
->>>>>>> 78fb0e1ddac0b6131af310f58d14c4a7847f9779
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
