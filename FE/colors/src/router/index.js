@@ -10,9 +10,9 @@ import logIn from "../components/user/customLogIn.vue";
 import modifyUser from "../components/user/customUpdateUser.vue";
 import deleteUser from "../components/user/customDeleteUser.vue";
 import modifyPW from "../components/user/customUpdatePW.vue";
-import nameResult from "../components/voting/nameResult.vue";
-import nickResult from "../components/voting/nickResult.vue";
-import tournamentNameResult from "../components/voting/tournamentNameResult.vue";
+import nameResult from "../components/Voting/nameResult.vue";
+import nickResult from "../components/Voting/nickResult.vue";
+import tournamentNameResult from "../components/Voting/tournamentNameResult.vue";
 import idPwFind from "../components/user/idPwFind.vue";
 import colorVote from "../components/Voting/colorVote.vue";
 import colorTournament from "../components/Voting/colorTournament.vue";
@@ -100,12 +100,12 @@ const routes = [
     component: idPwFind,
   },
   {
-    path: "/colorVote",
+    path: "/colorvote",
     name: "colorVote",
     component: colorVote,
   },
   {
-    path: "/colorTournament",
+    path: "/colortournament",
     name: "colorTournament",
     component: colorTournament,
   },

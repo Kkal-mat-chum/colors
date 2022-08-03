@@ -40,6 +40,38 @@
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
     </div>
+    <div class="lineFlex4">
+      <hr class="line5" />
+      <hr class="line5" />
+      <hr class="line5" />
+      <hr class="line5" />
+    </div>
+    <div class="lineFlex3">
+      <hr class="line6" />
+      <hr class="line6" />
+      <hr class="line6" />
+      <hr class="line6" />
+    </div>
+    <div class="lineFlex4">
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+    </div>
+    <div class="firthPictures">
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+    </div>
     <div class="button">
       <custom-button btnText="닫 기" class="buttonStyle"></custom-button>
     </div>
@@ -49,6 +81,7 @@
 
 <script>
 import customSidebar from "../common/customSidebar.vue";
+
 export default {
   components: { customSidebar },
 };
@@ -64,8 +97,8 @@ export default {
   margin-top: 4%;
 }
 .picture1 {
-  width: 300px;
-  height: 150px;
+  width: 250px;
+  height: 100px;
 }
 .titleColor {
   font-weight: 400;
@@ -95,6 +128,12 @@ export default {
   background-color: #aaaabc;
   margin-top: -2px;
 }
+.line6 {
+  width: 141px;
+  height: 5px;
+  background-color: #aaaabc;
+  margin-top: -2px;
+}
 .lineFlex2 {
   display: flex;
   flex-direction: row;
@@ -104,6 +143,11 @@ export default {
   display: flex;
   flex-direction: row;
   margin-top: 0px;
+}
+.lineFlex4 {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
 }
 .secondPictures {
   display: flex;
@@ -115,9 +159,16 @@ export default {
   flex-direction: row;
   justify-content: space-around;
 }
+.firthPictures {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: -8px;
+}
 .picture2 {
-  width: 250px;
-  height: 120px;
+  width: 120px;
+  height: 88px;
+  border-radius: 20px;
 }
 .line5 {
   display: flex;
@@ -127,9 +178,17 @@ export default {
   transform: rotate(90deg);
   margin-top: -8px;
 }
+.line7 {
+  width: 18px;
+  height: 5px;
+  background-color: #aaaabc;
+  transform: rotate(90deg);
+  margin-top: -22px;
+}
 .picture3 {
-  width: 180px;
-  height: 80px;
+  width: 120px;
+  height: 88px;
+  border-radius: 20px;
 }
 .button {
   display: flex;
@@ -155,5 +214,23 @@ export default {
   font-weight: 400;
   font-size: 15px;
   color: #aaaabc;
+}
+div.clickEffect {
+  position: fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 50%;
+  animation: clickEffect 0.4s ease-out;
+  z-index: 99999;
+}
+div.clickEffect {
+  position: fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #aaaabc;
+  border-radius: 50%;
+  animation: clickEffect 0.4s ease-out;
+  z-index: 999999;
 }
 </style>
