@@ -16,7 +16,7 @@ export default {
 <style scoped>
 .choiceBox {
   width: 336px;
-  height: 553px;
+  height: 450px;
   background: #ffffff;
   border: 3px solid #d0d1ff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

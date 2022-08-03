@@ -2,20 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
-import AloneView from "../views/MeetingView/AloneView.vue";
-import TeamView from "../views/MeetingView/TeamView.vue";
 import enterPageView from "../views/EnterView.vue";
-import signUp from "../components/user/customSignUp.vue";
-import logIn from "../components/user/customLogIn.vue";
-import modifyUser from "../components/user/customUpdateUser.vue";
-import deleteUser from "../components/user/customDeleteUser.vue";
-import modifyPW from "../components/user/customUpdatePW.vue";
-import nameResult from "../components/Voting/nameResult.vue";
-import nickResult from "../components/Voting/nickResult.vue";
-import tournamentNameResult from "../components/Voting/tournamentNameResult.vue";
-import idPwFind from "../components/user/idPwFind.vue";
-import colorVote from "../components/Voting/colorVote.vue";
-import colorTournament from "../components/Voting/colorTournament.vue";
+import topicBoard from "@/views/TopicSuggesView.vue";
 
 Vue.use(VueRouter);
 
@@ -33,7 +21,16 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
-
+  {
+    path: "/enterPage",
+    name: "enterPage",
+    component: enterPageView,
+  },
+  {
+    path: "/topicBoard",
+    name: "topicBoard",
+    component: topicBoard,
+  },
   {
     path: "/mypage",
     name: "mypage",
@@ -42,72 +39,72 @@ const routes = [
   {
     path: "/alone",
     name: "alone",
-    component: AloneView,
+    component: () => import("@/views/MeetingView/AloneView.vue"),
   },
   {
     path: "/team",
     name: "team",
-    component: TeamView,
+    component: () => import("@/views/MeetingView/TeamView.vue"),
   },
   {
     path: "/signup",
     name: "signUp",
-    component: signUp,
+    component: () => import("@/components/user/customSignUp.vue"),
   },
   {
     path: "/login",
     name: "logIn",
-    component: logIn,
+    component: () => import("@/components/user/customLogIn.vue"),
   },
   {
     path: "/modifyuser",
     name: "modifyUser",
-    component: modifyUser,
-  },
-  {
-    path: "/enterPage",
-    name: "enterPage",
-    component: enterPageView,
+    component: () => import("@/components/user/customUpdateUser.vue"),
   },
   {
     path: "/deleteuser",
     name: "deleteUser",
-    component: deleteUser,
+    component: () => import("@/components/user/customDeleteUser.vue"),
   },
   {
     path: "/modifypw",
     name: "modifyPW",
-    component: modifyPW,
+    component: () => import("@/components/user/customUpdatePW.vue"),
   },
   {
     path: "/nameresult",
     name: "nameResult",
-    component: nameResult,
+    component: () => import("@/components/Voting/nameResult.vue"),
   },
   {
     path: "/nickresult",
     name: "nickResult",
-    component: nickResult,
+    component: () => import("@/components/Voting/nickResult.vue"),
   },
   {
     path: "/tournamentnameresult",
     name: "tournamentNameResult",
-    component: tournamentNameResult,
+    component: () => import("@/components/Voting/tournamentNameResult.vue"),
   },
   {
     path: "/findidpw",
     name: "findidpw",
-    component: idPwFind,
+    component: () => import("@/components/user/customDeleteUser.vue"),
   },
   {
     path: "/colorvote",
     name: "colorVote",
-    component: colorVote,
+    component: () => import("@/components/Voting/colorVote.vue"),
   },
   {
     path: "/colortournament",
     name: "colorTournament",
-    component: colorTournament,
+    component: () => import("@/components/Voting/colorTournament.vue"),
+  },
+  {
+    path: "/topTenTopic",
+    name: "topTenTopic",
+    component: () => import("@/views/top10ListView.vue"),
   },
 ];
 
