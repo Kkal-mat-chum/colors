@@ -37,11 +37,10 @@
 
 <script>
 import customButton from "../common/customButton.vue";
-import nameColors from "color-name-list";
+
 export default {
   components: {
     customButton,
-    nameColors,
   },
 };
 </script>
