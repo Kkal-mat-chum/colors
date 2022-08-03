@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,8 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Topic extends BaseEntity {
+
     @Column(name = "user_int_id", nullable = false)
     Long userIntId;
 
@@ -37,6 +38,15 @@ public class Topic extends BaseEntity {
 
     @Column(name = "is_deleted", nullable = false)
     Boolean isDeleted;
+
+    public Topic(Long userIntId, String title, LocalDateTime regDate, boolean isDeleted) {
+        this.userIntId = userIntId;
+        this.title = title;
+        this.regDate = regDate;
+        this.year = regDate.getYear();
+        this.weekNum = regDate.get(WeekFields.ISO.weekOfYear());
+        this.isDeleted = isDeleted;
+    }
 
     @OneToMany(mappedBy = "topic")
     List<Vote> voters = new ArrayList<>();

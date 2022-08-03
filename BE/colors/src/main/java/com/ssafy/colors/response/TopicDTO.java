@@ -7,6 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class TopicDTO {
     private String title;
-    private boolean recommend;
+    private boolean isRecommend;
     private int cnt;
+
+
+
 }
