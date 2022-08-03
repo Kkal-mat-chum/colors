@@ -55,7 +55,7 @@ body {
   height: 100vh;
 }
 .camera {
-  width: 155vh;
+  width: 157vh;
   text-align: center;
 }
 .webcam {
@@ -117,7 +117,7 @@ body {
 }
 
 .votebtn {
-  margin-top: 120px;
+  margin-top: 100px;
   width: 200px;
 }
 .exitbtn {
