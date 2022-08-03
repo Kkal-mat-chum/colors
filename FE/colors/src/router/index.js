@@ -92,12 +92,12 @@ const routes = [
     component: () => import("@/components/user/customDeleteUser.vue"),
   },
   {
-    path: "/colorVote",
+    path: "/colorvote",
     name: "colorVote",
     component: () => import("@/components/Voting/colorVote.vue"),
   },
   {
-    path: "/colorTournament",
+    path: "/colortournament",
     name: "colorTournament",
     component: () => import("@/components/Voting/colorTournament.vue"),
   },
