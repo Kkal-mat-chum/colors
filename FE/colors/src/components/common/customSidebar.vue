@@ -8,7 +8,7 @@
           <i class="material-symbols-rounded loadedIcon">home</i>
           <!-- <i class="fa-solid fa-house loadedIcon" style="font-size: 60px"></i> -->
         </router-link>
-        <router-link tag="li" class-active="Active" to="/topTenTopic">
+        <router-link tag="li" class-active="Active" to="/topicBoard">
           <i class="material-icons-outlined loadedIcon">forum</i>
           <!-- <i class="fa-message fa-regular loadedIcon" style="font-size: 60px"></i> -->
           <!-- <img class="sideBarIcon" src="../../assets/topic_icon.png" /> -->
