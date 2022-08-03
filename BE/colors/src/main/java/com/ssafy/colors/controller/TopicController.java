@@ -4,12 +4,10 @@ package com.ssafy.colors.controller;
 import com.ssafy.colors.response.TopicRes;
 import com.ssafy.colors.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 
 @RestController
 @RequestMapping("/topic")
@@ -38,7 +36,6 @@ public class TopicController {
     // 토픽 리스트
     @GetMapping("/{userid}/{method}/{pagenum}")
     public ResponseEntity<TopicRes> getList(@PathVariable String method, @PathVariable int pagenum, @PathVariable Long userid) {
-
 
         topicService.getList(method, pagenum,userid);
 

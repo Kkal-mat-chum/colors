@@ -38,6 +38,6 @@ public class Topic extends BaseEntity {
     @Column(name = "is_deleted", nullable = false)
     Boolean isDeleted;
 
-    @OneToMany(mappedBy = "topicId")
+    @OneToMany(mappedBy = "topic")
     List<Vote> voters = new ArrayList<>();
 }

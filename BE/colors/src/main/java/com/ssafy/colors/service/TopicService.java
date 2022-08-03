@@ -6,7 +6,10 @@ import com.ssafy.colors.database.repository.TopicRepository;
 import com.ssafy.colors.database.repository.VoteRepository;
 import com.ssafy.colors.request.VoteDTO;
 import com.ssafy.colors.response.TopicDTO;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,11 +23,17 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TopicService {
-    private final TopicRepository topicRepository;
-    private final MemberRepository memberRepository;
-    private final VoteRepository voteRepository;
+    @Autowired
+    private TopicRepository topicRepository;
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private VoteRepository voteRepository;
+
+
+
 
     public void save(String title, String writer) {
         Topic topic = new Topic();

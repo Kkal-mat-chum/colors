@@ -21,7 +21,7 @@ public class VoteService {
     TopicRepository topicRepository;
 
     public void saveVote(VoteDTO voteDTO) {
-        Optional<Vote> findVote = voteRepository.findByTopicIdAndUserId(voteDTO.getTopicId(), voteDTO.getUserId());
+        Optional<Vote> findVote = voteRepository.findByTopicIdAndMemberId(voteDTO.getTopicId(), voteDTO.getUserId());
         if (findVote.isPresent()) {
             findVote.get().setDelete(false);
         } else {

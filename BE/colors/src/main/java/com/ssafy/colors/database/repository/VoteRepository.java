@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote,Long> {
-    public Optional<Vote> findByTopicIdAndUserId(@Param("topicId") Long topicid, @Param("userId") Long userid);
+    public Optional<Vote> findByTopicIdAndMemberId(@Param("topicId") Long topicid, @Param("userId") Long userid);
 }

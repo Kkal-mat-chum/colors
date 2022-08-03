@@ -16,7 +16,7 @@ public class Vote {
     @GeneratedValue
     private Long id;
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "topic_id")
     private Topic topic;
 
     private Long memberId;
