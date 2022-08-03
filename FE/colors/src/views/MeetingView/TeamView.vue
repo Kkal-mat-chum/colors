@@ -35,7 +35,7 @@
       </div>
       <div class="rightSidebar">
         <div class="title">
-          <h2>나만의 색상 팔레트</h2>
+          <h3>나만의 색상 팔레트</h3>
           <hr />
         </div>
         <colorpallete class="pallete"></colorpallete>
@@ -44,7 +44,7 @@
         </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기"></customButton>
         <div class="title">
-          <h2>미팅 코드</h2>
+          <h3>미팅 코드</h3>
           <hr />
         </div>
         <h2 class="code">A1ABEF13</h2>
@@ -85,35 +85,33 @@ body {
   height: 100vh;
 }
 .camera {
-  width: 155vh;
+  width: 157vh;
   text-align: center;
 }
 .webcam {
   display: inline-block;
   width: 400px;
-  height: 250px;
-  margin-top: 30px;
-  border: 2px solid #d0d1ff;
+  margin-top: 20px;
   border-radius: 15px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
 }
 .name {
-  margin-top: 5px;
-}
-.buttons {
-  margin-top: 8px;
+  margin-top: 3px;
 }
 .mute {
   width: 150px;
+  height: 35px;
   margin-right: 20px;
 }
 .videostop {
   width: 150px;
+  height: 35px;
+  margin-top: 3px;
 }
 
 /* 참여자들 캠 */
 .anotherPerson {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .p1,
 .p2,
@@ -128,9 +126,7 @@ body {
 .webcam4,
 .webcam5 {
   width: 250px;
-  height: 160px;
-  margin: 10px 20px 10px 20px;
-  border: 2px solid #d0d1ff;
+  margin: 10px 20px 0px 20px;
   border-radius: 15px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
 }
@@ -145,16 +141,16 @@ body {
 .title {
   margin-left: 5vh;
 }
-.title h2 {
+.title h3 {
   display: flex;
   text-align: left;
   color: #6667ab;
-  margin: 23px 0 10px 0;
+  margin: 15px 0 10px 0;
 }
 
 .title > hr {
   display: flex;
-  width: 200px;
+  width: 28vh;
   margin: 0;
   border: 0;
   height: 3px;
@@ -163,26 +159,25 @@ body {
 
 .pallete {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .selectColor {
   display: inline-block;
-  background-color: #d0d1ff;
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 .selectColorbtn {
   width: 200px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .code {
-  margin: 10px;
+  margin: 8px;
 }
 
 .btn {
   width: 200px;
-  margin-top: 15px;
+  margin-top: 7px;
 }
 </style>
