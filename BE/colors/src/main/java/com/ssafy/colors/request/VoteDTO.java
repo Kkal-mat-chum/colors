@@ -9,3 +9,4 @@ public class VoteDTO {
     Long userId;
     Long topicId;
 }
+

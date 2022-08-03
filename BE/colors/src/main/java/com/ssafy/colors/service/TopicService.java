@@ -62,6 +62,7 @@ public class TopicService {
         int year = LocalDate.now().getYear();
         int weeknum = LocalDate.now().get(WeekFields.ISO.weekOfYear());
         Page<Topic> topic = topicRepository.findTopic(pageRequest, year, weeknum);
+
 //        List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getTitle(), t.getVoters().contains(new VoteDTO(userid, t.getId())), t.getVoters().size())).getContent();
         List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getTitle(), check(t.getVoters(),new VoteDTO(userid, t.getId())), t.getVoters().size())).getContent();
         for(TopicDTO t : map){
@@ -72,11 +73,12 @@ public class TopicService {
 
     }
 
+
     public boolean check(List<Vote> list , VoteDTO dto){
         for(Vote v : list){
             System.out.println(v.getId() + " " + v.getMemberId());
             System.out.println(dto.getTopicId() + " " + dto.getUserId());
-            if(v.getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId())){
+            if(v.getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId()) && !v.isDelete()){
                 return true;
             }
         }

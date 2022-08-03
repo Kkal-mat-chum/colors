@@ -27,6 +27,8 @@ public class Vote {
 
     private boolean isDelete;
 
+
+
     public Vote(Long memberId, Topic topic, boolean isDelete) {
         this.memberId = memberId;
         this.addVote(topic);
