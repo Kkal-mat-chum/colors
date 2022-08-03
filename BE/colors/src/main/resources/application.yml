@@ -1,0 +1,37 @@
+server:
+  port: 8888
+  address: localhost
+  servlet:
+    context-path: /api
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: b208.colors@gmail.com
+    password: app-password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ssafy
+    password: ssafy
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        #show_sql: true
+        #format_sql: true
+
+logging:
+  level:
+    org.hibernate:
+      SQL: debug
+
