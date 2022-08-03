@@ -20,7 +20,7 @@
         <TopicArticle class="topicArticle" :isEnter="true" />
       </TopicList>
       <div class="topTenBottomLine">
-        <customButton btnText="돌아가기" />
+        <customButton btnText="돌아가기 " />
         <customButton btnText="토픽 제안하기" />
       </div>
     </div>

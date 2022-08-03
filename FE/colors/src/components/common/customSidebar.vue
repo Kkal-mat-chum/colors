@@ -4,26 +4,18 @@
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
         <router-link tag="li" class-active="Active" to="/enterPage">
-          <!-- <img class="sideBarIcon" src="../../assets/home_icon.png" /> -->
           <i class="material-symbols-rounded loadedIcon">home</i>
-          <!-- <i class="fa-solid fa-house loadedIcon" style="font-size: 60px"></i> -->
         </router-link>
         <router-link tag="li" class-active="Active" to="/topicBoard">
           <i class="material-icons-outlined loadedIcon">forum</i>
-          <!-- <i class="fa-message fa-regular loadedIcon" style="font-size: 60px"></i> -->
-          <!-- <img class="sideBarIcon" src="../../assets/topic_icon.png" /> -->
         </router-link>
         <router-link tag="li" class-active="Active" to="/mypage">
           <i class="material-icons-outlined loadedIcon">account_circle</i>
-          <!-- <i class="fa-circle-user fa-regular loadedIcon" style="font-size: 60px"></i> -->
-          <!-- <img class="sideBarIcon" src="../../assets/myPage_icon.png" /> -->
         </router-link>
       </div>
     </ul>
     <div>
       <i class="material-icons-outlined loadedIcon">logout</i>
-      <!-- <i class="fa-solid fa-right-from-bracket loadedIcon" style="font-size: 60px"></i> -->
-      <!-- <img class="sideBarIcon logOutIcon" src="../../assets/logOut_icon.png" /> -->
     </div>
   </div>
 </template>

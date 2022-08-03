@@ -104,7 +104,7 @@ const routes = [
   {
     path: "/topTenTopic",
     name: "topTenTopic",
-    component: () => import("@/views/Top10ListView.vue"),
+    component: () => import("@/views/top10ListView.vue"),
   },
 ];
 
