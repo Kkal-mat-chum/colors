@@ -106,16 +106,6 @@ const routes = [
     name: "topTenTopic",
     component: () => import("@/views/top10ListView.vue"),
   },
-  {
-    path: "/aloneTournament",
-    name: "aloneTournament",
-    component: aloneTournament,
-  },
-  {
-    path: "/teamVoting",
-    name: "teamVoting",
-    component: teamVoting,
-  },
 ];
 
 const router = new VueRouter({
