@@ -17,10 +17,11 @@ export default {
   },
   props: {
     pageNumber: Number,
+    currentPage: Number,
   },
   mounted() {
-    if (this.pageNumber > 10) {
-      var pageDecimical = parseInt(this.pageNumber / 10);
+    var pageDecimical = parseInt(this.currentPage / 10);
+    if (this.currentPage > 10) {
       // eslint-disable-next-line vue/no-mutating-props
       this.pageNumber = this.pageNumber % 10;
       console.log(pageDecimical);
