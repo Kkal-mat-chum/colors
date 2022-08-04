@@ -4,15 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
 import enterPageView from "../views/EnterView.vue";
 import topicBoard from "@/views/TopicSuggesView.vue";
-import signUp from "../components/user/customSignUp.vue";
-import logIn from "../components/user/customLogIn.vue";
-import modifyUser from "../components/user/customUpdateUser.vue";
-import deleteUser from "../components/user/customDeleteUser.vue";
-import modifyPW from "../components/user/customUpdatePW.vue";
-import idPwFind from "../components/user/idPwFind.vue";
-import colorVote from "../components/Voting/colorVote.vue";
 import timer from "../components/Voting/customTimeStamp.vue";
-import colorTournament from "../components/Voting/colorTournament.vue";
 import aloneTournament from "../views/VotingView/AloneTournament.vue";
 import teamVoting from "../views/VotingView/TeamVoting.vue";
 
