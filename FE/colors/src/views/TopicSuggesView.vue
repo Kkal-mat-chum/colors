@@ -21,6 +21,7 @@
       </TopicList>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" />
+        <TopicPagenation :pageNumber="11"></TopicPagenation>
         <customButton btnText="토픽 제안하기" />
       </div>
     </div>
@@ -30,8 +31,9 @@
 <script>
 import TopicList from "@/components/topic/topicList.vue";
 import TopicArticle from "@/components/topic/topicArticle.vue";
+import TopicPagenation from "@/components/topic/topicPagenation.vue";
 export default {
-  components: { TopicList, TopicArticle },
+  components: { TopicList, TopicArticle, TopicPagenation },
 };
 </script>
 
