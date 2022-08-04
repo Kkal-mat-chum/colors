@@ -115,17 +115,6 @@ const routes = [
     component: aloneTournament,
   },
   {
-    path: "/timer",
-    name: "timer",
-    component: timer,
-    // component: () => import("@/views/VotingView/AloneTournament.vue"),
-  },
-  {
-    path: "/colorVote",
-    name: "colorVote",
-    component: colorVote,
-  },
-  {
     path: "/aloneVoting",
     name: "aloneVoting",
     component: aloneVoting,
