@@ -9,8 +9,8 @@
       <img src="@/assets/logo_horizental.png" alt="Logo Image" />
     </div>
     <div class="enterenceContainer">
-      <ChoiceRoom class="firstDoor" roomTitle="개인별 색깔 매칭" />
-      <ChoiceRoom class="firstDoor" @click="showGroupModal = true" roomTitle="친구와 색깔 매칭" />
+      <ChoiceRoom class="firstDoor" @click="SingleRoom()" roomTitle="개인별 색깔 매칭" />
+      <ChoiceRoom class="firstDoor" @click="TeamRoom()" roomTitle="친구와 색깔 매칭" />
       <ChoiceRoom class="firstDoor" roomTitle="토픽별 색깔 매칭" />
     </div>
     <customModal class="groupModal" v-show="showGroupModal" @close-modal="showGroupModal = false" titleText="단체 입장하기 ">
@@ -34,6 +34,14 @@ export default {
     return {
       showGroupModal: false,
     };
+  },
+  methods: {
+    SingleRoom() {
+      this.$router.push("alone");
+    },
+    TeamRoom() {
+      this.$router.push("team");
+    },
   },
 };
 </script>
