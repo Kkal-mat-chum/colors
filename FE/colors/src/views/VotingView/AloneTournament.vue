@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import sidebar from "@/components/common/customSidebar.vue";
-import ColorTornament from "@/components/Voting/colorTournament.vue";
+import sidebar from "../../components/common/customSidebar.vue";
+import ColorTornament from "../../components/Voting/colorTournament.vue";
 
 export default {
   name: "aloneTournament",
