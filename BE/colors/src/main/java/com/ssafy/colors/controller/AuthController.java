@@ -1,23 +1,29 @@
 package com.ssafy.colors.controller;
 
+import com.ssafy.colors.request.LoginReq;
+import com.ssafy.colors.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/auth")
 public class AuthController {
 
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello(){
-        System.out.println("\"hello\" = " + "hello");
-        return new ResponseEntity<String> ("Hello" , HttpStatus.OK);
-    }
+    @Autowired
+    AuthService authService;
 
     // Login
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginReq user){
+        String result = "fail";
+        if(authService.login(user)){
+            result = "success";
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     // 로그인 성공시 토큰 생성
 
 

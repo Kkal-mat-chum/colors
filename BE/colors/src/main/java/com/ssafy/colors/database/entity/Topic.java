@@ -1,6 +1,7 @@
 package com.ssafy.colors.database.entity;
 
 
+import com.ssafy.colors.request.VoteDTO;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -50,4 +51,24 @@ public class Topic extends BaseEntity {
 
     @OneToMany(mappedBy = "topic")
     List<Vote> voters = new ArrayList<>();
+
+    public boolean check(VoteDTO dto) {
+        for (Vote v : this.voters) {
+            if (v.getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId()) && !v.isDelete()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int count() {
+        int cnt = 0;
+        for (Vote v : this.voters) {
+            if (!v.isDelete()) cnt++;
+        }
+        return cnt;
+    }
+
+
+
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,9 +37,7 @@ public class TopicService {
     private VoteRepository voteRepository;
 
 
-
-
-    public void save(String title, String writer) {
+    public long save(String title, String writer) {
         Topic topic = new Topic();
         topic.setTitle(title);
         topic.setUserIntId(memberRepository.findFirstByUserId(writer).getId());
@@ -47,6 +46,8 @@ public class TopicService {
         topic.setWeekNum(LocalDate.now().get(WeekFields.ISO.weekOfYear()));
 
         topicRepository.save(topic);
+
+        return topic.getId();
     }
 
     public void delete(Long topicid) {
@@ -56,33 +57,12 @@ public class TopicService {
         }
     }
 
-    public TopicRes getList(String method, int pagenum,Long userid) {
+    public TopicRes getList(Pageable pageRequest, Long userId, String keyword) {
 
-        PageRequest pageRequest = PageRequest.of(pagenum, 10, Sort.by(Sort.Direction.ASC, method));
-        int year = LocalDate.now().getYear();
-        int weeknum = LocalDate.now().get(WeekFields.ISO.weekOfYear());
-        Page<Topic> topic = topicRepository.findTopic(pageRequest, year, weeknum);
-
-//        List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getTitle(), t.getVoters().contains(new VoteDTO(userid, t.getId())), t.getVoters().size())).getContent();
-        List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getTitle(), check(t.getVoters(),new VoteDTO(userid, t.getId())), t.getVoters().size())).getContent();
-        for(TopicDTO t : map){
-            System.out.println(t.getTitle() + " " + t.getCnt() + " " + t.isRecommend());
-        }
-        System.out.println("topic.getTotalElements() = " + topic.getTotalElements());
-        return new TopicRes((int)topic.getTotalElements(),map);
+        LocalDateTime now = LocalDateTime.now();
+        Page<Topic> topic = topicRepository.findTopic(pageRequest, now.getYear(), now.get(WeekFields.ISO.weekOfYear()), keyword);
+        List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getId(), t.getTitle(), t.check(new VoteDTO(userId, t.getId())), t.count())).getContent();
+        return new TopicRes((int) topic.getTotalPages(), map);
 
     }
-
-
-    public boolean check(List<Vote> list , VoteDTO dto){
-        for(Vote v : list){
-            System.out.println(v.getId() + " " + v.getMemberId());
-            System.out.println(dto.getTopicId() + " " + dto.getUserId());
-            if(v.getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId()) && !v.isDelete()){
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

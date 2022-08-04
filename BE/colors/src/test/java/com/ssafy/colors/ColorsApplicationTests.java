@@ -70,19 +70,19 @@ class ColorsApplicationTests {
 //            topicRepository.save(new Topic(member1.getId(), ("title"+i), LocalDateTime.now().plusDays(i),false));
 //        }
 //
-//        for(int i =0 ; i<10; i++){
-//            voteRepository.save(new Vote(member1.getId(), topicRepository.findById((1L)).get(),false));
+//        for(int i =1 ; i<11; i++){
+//            voteRepository.save(new Vote(member1.getId(), topicRepository.findById((long)i).get(),false));
 //        }
-//        for(int i =10 ; i<20; i++){
-//            voteRepository.save(new Vote(member2.getId(), topicRepository.findById((2L)).get(),false));
+//        for(int i =11 ; i<21; i++){
+//            voteRepository.save(new Vote(member2.getId(), topicRepository.findById((long)i).get(),false));
 //        }
-//
+
 //        em.flush();
 //        em.clear();
 //        // when
-
+        String keyword = "";
         PageRequest pageRequest = PageRequest.of(0,4,Sort.by(Sort.Direction.DESC,"regDate"));
-        Page<Topic> page = topicRepository.findTopic(pageRequest, LocalDateTime.now().getYear(), LocalDateTime.now().get(WeekFields.ISO.weekOfYear()));
+        Page<Topic> page = topicRepository.findTopic(pageRequest, LocalDateTime.now().getYear(), LocalDateTime.now().get(WeekFields.ISO.weekOfYear()),keyword);
         //then
         System.out.println("=====================================");
         System.out.println("topics.getTotalElements() = " + page.getTotalElements());

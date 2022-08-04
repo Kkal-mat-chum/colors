@@ -32,10 +32,4 @@ public class Vote extends BaseEntity {
         topic.getVoters().add(this);
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        System.out.println(((VoteDTO) obj).getUserId() + " " + ((VoteDTO) obj).getTopicId());
-//        return (((VoteDTO) obj).getUserId().equals(this.memberId) && ((VoteDTO) obj).getTopicId().equals(this.topic.getId()));
-//
-//    }
 }
