@@ -1,6 +1,5 @@
 <template>
   <div class="bodyColorVote">
-    <customSidebar />
     <div class="dummyMarginColorVote1"></div>
     <div class="gridColorVote1">
       <div class="sidelabelColorVote">11:11</div>

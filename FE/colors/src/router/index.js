@@ -12,7 +12,10 @@ import deleteUser from "../components/user/customDeleteUser.vue";
 import modifyPW from "../components/user/customUpdatePW.vue";
 import idPwFind from "../components/user/idPwFind.vue";
 import colorVote from "../components/Voting/colorVote.vue";
+import timer from "../components/Voting/customTimeStamp.vue";
 import colorTournament from "../components/Voting/colorTournament.vue";
+import aloneTournament from "../views/VotingView/AloneTournament.vue";
+import teamVoting from "../views/VotingView/TeamVoting.vue";
 
 Vue.use(VueRouter);
 
@@ -87,9 +90,24 @@ const routes = [
     component: colorVote,
   },
   {
+    path: "/timer",
+    name: "timer",
+    component: timer,
+  },
+  {
     path: "/colorTournament",
     name: "colorTournament",
     component: colorTournament,
+  },
+  {
+    path: "/aloneTournament",
+    name: "aloneTournament",
+    component: aloneTournament,
+  },
+  {
+    path: "/teamVoting",
+    name: "teamVoting",
+    component: teamVoting,
   },
 ];
 
