@@ -4,9 +4,6 @@ import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
 import enterPageView from "../views/EnterView.vue";
 import topicBoard from "@/views/TopicSuggesView.vue";
-import timer from "../components/Voting/customTimeStamp.vue";
-import aloneTournament from "../views/VotingView/AloneTournament.vue";
-import teamVoting from "../views/VotingView/TeamVoting.vue";
 
 Vue.use(VueRouter);
 
@@ -118,11 +115,6 @@ const routes = [
     path: "/teamVoting",
     name: "teamVoting",
     component: teamVoting,
-  },
-  {
-    path: "/timer",
-    name: "timer",
-    component: timer,
   },
 ];
 
