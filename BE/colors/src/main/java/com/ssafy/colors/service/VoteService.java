@@ -23,10 +23,12 @@ public class VoteService {
 
     public Long saveVote(VoteDTO voteDTO) {
         Optional<Vote> findVote = voteRepository.findByTopicIdAndMemberId(voteDTO.getTopicId(), voteDTO.getUserId());
+        Long votecnt = 0L;
+        Topic topic = topicRepository.findById(voteDTO.getTopicId()).get();
+        topic.setRecommand(topic.getRecommand() + 1);
         if (findVote.isPresent()) {
             findVote.get().setDelete(false);
         } else {
-            Topic topic = topicRepository.findById(voteDTO.getTopicId()).get();
             Vote vote = new Vote();
             vote.setMemberId(voteDTO.getUserId());
             vote.setTopic(topic);
@@ -34,13 +36,15 @@ public class VoteService {
             voteRepository.save(vote);
         }
 
-        return voteRepository.countVote(voteDTO.getTopicId(), voteDTO.getUserId());
+//        return voteRepository.countVote(voteDTO.getTopicId(), voteDTO.getUserId());
+        return topic.getRecommand();
     }
 
-    public Long deleteVote(Long topicId,Long userId) {
+    public Long deleteVote(Long topicId, Long userId) {
         Vote findVote = voteRepository.findByTopicIdAndMemberId(topicId, userId).get();
         findVote.setDelete(true);
-
-        return voteRepository.countVote(topicId,userId);
+        Topic topic = topicRepository.findById(topicId).get();
+        topic.setRecommand(topic.getRecommand()-1);
+        return topic.getRecommand();
     }
 }

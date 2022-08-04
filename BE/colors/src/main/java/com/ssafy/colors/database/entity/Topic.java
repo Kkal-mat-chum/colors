@@ -34,6 +34,9 @@ public class Topic extends BaseEntity {
     @Column(name = "reg_year", nullable = false)
     int year;
 
+    @Column(name = "recommand")
+    long recommand;
+
     @Column(name = "reg_weeknum", nullable = false)
     int weekNum;
 
@@ -61,14 +64,14 @@ public class Topic extends BaseEntity {
         return false;
     }
 
-    public int count() {
-        int cnt = 0;
+    public long count() {
+        long cnt = 0;
         for (Vote v : this.voters) {
             if (!v.isDelete()) cnt++;
         }
+        this.recommand = cnt;
         return cnt;
     }
-
 
 
 }

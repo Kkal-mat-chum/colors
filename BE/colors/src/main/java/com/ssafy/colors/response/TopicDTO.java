@@ -9,7 +9,7 @@ public class TopicDTO {
     private Long id;
     private String title;
     private boolean isRecommend;
-    private int cnt;
+    private long cnt;
 
 
 

@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,7 +71,6 @@ public class TopicController {
         }else{
             keyword = (String)params.get("keyword");
         }
-        System.out.println("params.get(\"keyword\") = " + params.get("keyword"));
         TopicRes topicRes = topicService.getList(pageable, (long) userId, keyword);
         return new ResponseEntity<>(topicRes, HttpStatus.OK);
     }

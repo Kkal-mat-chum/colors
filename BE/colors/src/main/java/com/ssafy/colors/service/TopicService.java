@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,11 +59,16 @@ public class TopicService {
     }
 
     public TopicRes getList(Pageable pageRequest, Long userId, String keyword) {
-
         LocalDateTime now = LocalDateTime.now();
+        System.out.println("pageRequest = " + pageRequest);
+        System.out.println("userId = " + userId);
+        System.out.println("keyword = " + keyword);
+
         Page<Topic> topic = topicRepository.findTopic(pageRequest, now.getYear(), now.get(WeekFields.ISO.weekOfYear()), keyword);
-        List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getId(), t.getTitle(), t.check(new VoteDTO(userId, t.getId())), t.count())).getContent();
+        System.out.println(topic.getTotalElements());
+        List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getId(), t.getTitle(), t.check(new VoteDTO(userId, t.getId())), t.getRecommand())).getContent();
         return new TopicRes((int) topic.getTotalPages(), map);
 
     }
+
 }
