@@ -4,6 +4,12 @@ import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
 import enterPageView from "../views/EnterView.vue";
 import topicBoard from "@/views/TopicSuggesView.vue";
+<<<<<<< HEAD
+=======
+import aloneTournament from "../views/VotingView/AloneTournament.vue";
+import aloneVoting from "../views/VotingView/AloneVoting.vue";
+import teamVoting from "../views/VotingView/TeamVoting.vue";
+>>>>>>> e3a987e6e135e3388dda7ab98707d8f5e4160853
 
 Vue.use(VueRouter);
 
@@ -114,6 +120,21 @@ const routes = [
     path: "/topTenTopic",
     name: "topTenTopic",
     component: () => import("@/views/top10ListView.vue"),
+  },
+  {
+    path: "/aloneTournament",
+    name: "aloneTournament",
+    component: aloneTournament,
+  },
+  {
+    path: "/aloneVoting",
+    name: "aloneVoting",
+    component: aloneVoting,
+  },
+  {
+    path: "/teamVoting",
+    name: "teamVoting",
+    component: teamVoting,
   },
 ];
 
