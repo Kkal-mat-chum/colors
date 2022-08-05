@@ -47,10 +47,7 @@ export default {
         .then((response) => {
           if (response.message == "access") {
             console.log(response.data);
-            // eslint-disable-next-line vue/no-mutating-props
-            this.recommend = true;
-            // eslint-disable-next-line vue/no-mutating-props
-            this.cnt = this.cnt + 1;
+            this.$emit("clicklike", this.cnt + 1);
           }
         });
     },
@@ -59,10 +56,7 @@ export default {
       axios.delete(this.$store.state.baseurl + "/api/vote/" + this.topicId + "/" + this.$store.userId).then((response) => {
         if (response.message == "access") {
           console.log(response.data);
-          // eslint-disable-next-line vue/no-mutating-props
-          this.recommend = false;
-          // eslint-disable-next-line vue/no-mutating-props
-          this.cnt = this.cnt - 1;
+          this.$emit("clickUnlike", this.cnt - 1);
         }
       });
     },
