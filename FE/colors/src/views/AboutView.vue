@@ -1,6 +1,5 @@
 <template>
   <div class="about">
-    <customSidebar />
     <h1>This is an about page</h1>
     <customButton class="testButton" btnText="BUTTON" @click="showModal = true">testButton</customButton>
     <customModal class="testModal" v-show="showModal" @close-modal="showModal = false" titleText="testmodal">
