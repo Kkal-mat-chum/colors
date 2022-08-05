@@ -12,14 +12,16 @@
 
 <script>
 import * as faceapi from "face-api.js";
+import tinyModel from "@/assets/models/tiny_face_detector_model-weights_manifest.json";
+
 let forwardTimes = [];
 const SSD_MOBILENETV1 = "ssd_mobilenetv1";
 const TINY_FACE_DETECTOR = "tiny_face_detector";
 
-let selectedFaceDetector = SSD_MOBILENETV1;
+let selectedFaceDetector = TINY_FACE_DETECTOR;
 
 // ssd_mobilenetv1 options
-let minConfidence = 0.5;
+let minConfidence = 0.7;
 
 // tiny_face_detector options
 let inputSize = 512;
@@ -31,10 +33,16 @@ export default {
   props: {
     streamManager: Object,
   },
+  data() {
+    return {
+      tinyFaceModel: tinyModel,
+    };
+  },
 
   mounted() {
     this.run();
     this.streamManager.addVideoElement(document.getElementById("inputVideo"));
+    // console.log(faceapi.nets);
   },
 
   methods: {
@@ -51,7 +59,7 @@ export default {
 
       const ts = Date.now();
 
-      console.log(ts);
+      // console.log(ts);
 
       const result = await faceapi.detectSingleFace(videoEl, options);
 
@@ -85,7 +93,7 @@ export default {
         return faceapi.nets.ssdMobilenetv1;
       }
       if (selectedFaceDetector === TINY_FACE_DETECTOR) {
-        console.log(faceapi.nets.tinyFaceDetector);
+        // console.log(faceapi.nets);
         return faceapi.nets.tinyFaceDetector;
       }
     },
@@ -120,7 +128,10 @@ export default {
     async changeFaceDetector(detector) {
       selectedFaceDetector = detector;
       if (!this.isFaceDetectionModelLoaded()) {
-        await this.getCurrentFaceDetectionNet().load("/");
+        // console.log(this.getCurrentFaceDetectionNet());
+        // await this.getCurrentFaceDetectionNet().loadFromUri("assets/models");
+        const Model_URL = "http://192.168.25.7:8081/models/";
+        await faceapi.loadTinyFaceDetectorModel(Model_URL);
       }
     },
   },
