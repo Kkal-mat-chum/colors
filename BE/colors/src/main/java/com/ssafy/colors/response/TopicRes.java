@@ -9,10 +9,10 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TopicRes {
+public class TopicRes<T> {
 
     int maxpage ;
 
-    List<TopicDTO> topics;
+    List<T> topics;
 
 }

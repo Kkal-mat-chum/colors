@@ -2,6 +2,7 @@ package com.ssafy.colors.database.repository;
 
 import com.ssafy.colors.database.entity.Topic;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,7 +25,6 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
             countQuery = "select count(t) from Topic t where t.year = :year and t.weekNum = :weeknum and t.title like %:keyword%")
     Page<Topic> findTopic(Pageable pageRequest, @Param("year") int year, @Param("weeknum") int weeknum,String keyword );
 
-
-
-
+    @Query(value = "select t from Topic t where t.year = :year and t.weekNum = :weekNum")
+    Page<Topic> findTop10Topic(PageRequest pageRequest,@Param("year") int year,@Param("weekNum") int weekNum);
 }

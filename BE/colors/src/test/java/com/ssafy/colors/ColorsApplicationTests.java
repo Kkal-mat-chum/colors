@@ -1,5 +1,6 @@
 package com.ssafy.colors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.entity.Topic;
 import com.ssafy.colors.database.entity.Vote;
@@ -8,6 +9,7 @@ import com.ssafy.colors.database.repository.TopicRepository;
 import com.ssafy.colors.database.repository.VoteRepository;
 import com.ssafy.colors.request.VoteDTO;
 import com.ssafy.colors.service.VoteService;
+import com.ssafy.colors.util.JWTUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,38 +49,38 @@ class ColorsApplicationTests {
     @Autowired
     VoteService voteService;
     @Test
-    public void VoteAndTopicTest(){
+    public void VoteAndTopicTest() throws InterruptedException, JsonProcessingException {
         // given
 
         //id password name nickname email
-        Member member1 = new Member();
-        member1.setUserId("kimssafy");
-        member1.setPassword("sasfy");
-        member1.setName("ssafykim");
-        member1.setNickname("Kim");
-        member1.setEmail("kim@ssafy.com");
-
-        Member member2 = new Member();
-        member2.setUserId("Ohssafy");
-        member2.setPassword("sasfy");
-        member2.setName("ssafyOh");
-        member2.setNickname("Oh");
-        member2.setEmail("Oh@ssafy.com");
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-
-
+//        Member member1 = new Member();
+//        member1.setUserId("kimssafy");
+//        member1.setPassword("sasfy");
+//        member1.setName("ssafykim");
+//        member1.setNickname("Kim");
+//        member1.setEmail("kim@ssafy.com");
+//
+//        Member member2 = new Member();
+//        member2.setUserId("Ohssafy");
+//        member2.setPassword("sasfy");
+//        member2.setName("ssafyOh");
+//        member2.setNickname("Oh");
+//        member2.setEmail("Oh@ssafy.com");
+//        memberRepository.save(member1);
+//        memberRepository.save(member2);
+//
+//
         // userIntId title regDate year weekNum isDelete
-        for(int i = 0; i<20; i++){
-            topicRepository.save(new Topic(member1.getId(), ("title"+i), LocalDateTime.now().plusDays(i),false));
-        }
-
-        for(int i =1 ; i<11; i++){
-            voteService.saveVote(new VoteDTO(member1.getId(), topicRepository.findById((long)i).get().getId()));
-        }
-        for(int i =11 ; i<21; i++){
-            voteService.saveVote(new VoteDTO(member2.getId(), topicRepository.findById((long)i).get().getId()));
-        }
+//        for(int i = 0; i<7; i++){
+//            topicRepository.save(new Topic(1L, ("title"+(i+20)), LocalDateTime.now().plusDays(i).minusWeeks(1),false));
+//        }
+//
+//        for(int i =1 ; i<11; i++){
+//            voteService.saveVote(new VoteDTO(member1.getId(), topicRepository.findById((long)i).get().getId()));
+//        }
+//        for(int i =11 ; i<21; i++){
+//            voteService.saveVote(new VoteDTO(member2.getId(), topicRepository.findById((long)i).get().getId()));
+//        }
 
 //        em.flush();
 //        em.clear();
@@ -95,6 +97,25 @@ class ColorsApplicationTests {
 //        }
 //
 //        System.out.println("=====================================");
+
+
+        JWTUtil jwtUtil = new JWTUtil();
+        String token = jwtUtil.createAccessToken("Kimssafy");
+
+        Thread.sleep(1000);
+
+        System.out.println(jwtUtil.validToken(token));
+
+        System.out.println("============1차=============");
+        Thread.sleep(3000);
+        System.out.println(jwtUtil.getInfo(token).get("userId"));
+        jwtUtil.validToken(token);
+        System.out.println("============2차=============");
+
+
+
+
+
     }
 
 }

@@ -6,6 +6,7 @@ import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.database.repository.TopicRepository;
 import com.ssafy.colors.database.repository.VoteRepository;
 import com.ssafy.colors.request.VoteDTO;
+import com.ssafy.colors.response.Top10TopicDTO;
 import com.ssafy.colors.response.TopicDTO;
 import com.ssafy.colors.response.TopicRes;
 import lombok.AccessLevel;
@@ -60,10 +61,6 @@ public class TopicService {
 
     public TopicRes getList(Pageable pageRequest, Long userId, String keyword) {
         LocalDateTime now = LocalDateTime.now();
-        System.out.println("pageRequest = " + pageRequest);
-        System.out.println("userId = " + userId);
-        System.out.println("keyword = " + keyword);
-
         Page<Topic> topic = topicRepository.findTopic(pageRequest, now.getYear(), now.get(WeekFields.ISO.weekOfYear()), keyword);
         System.out.println(topic.getTotalElements());
         List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getId(), t.getTitle(), t.check(new VoteDTO(userId, t.getId())), t.getRecommand())).getContent();
@@ -71,4 +68,10 @@ public class TopicService {
 
     }
 
+    public TopicRes<Top10TopicDTO> getTop10(PageRequest pageRequest) {
+        LocalDateTime lastWeek =LocalDateTime.now().minusWeeks(1);
+        Page<Topic> topic = topicRepository.findTop10Topic(pageRequest, lastWeek.getYear(), lastWeek.get(WeekFields.ISO.weekOfYear()));
+        List<Top10TopicDTO> map = topic.map(t -> new Top10TopicDTO(t.getId(), t.getTitle())).getContent();
+        return new TopicRes((int) topic.getTotalElements(), map);
+    }
 }

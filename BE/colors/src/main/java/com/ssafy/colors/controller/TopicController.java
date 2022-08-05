@@ -2,6 +2,7 @@ package com.ssafy.colors.controller;
 
 
 import com.ssafy.colors.request.TopicReq;
+import com.ssafy.colors.response.Top10TopicDTO;
 import com.ssafy.colors.response.TopicDTO;
 import com.ssafy.colors.response.TopicRes;
 import com.ssafy.colors.service.TopicService;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -74,5 +77,17 @@ public class TopicController {
         TopicRes topicRes = topicService.getList(pageable, (long) userId, keyword);
         return new ResponseEntity<>(topicRes, HttpStatus.OK);
     }
+
+
+    @GetMapping("/top10")
+    @ApiOperation(value = "이번주의 top 10 !!!!", notes = "지난주 토픽중 top 10을 선정")
+    public ResponseEntity<TopicRes> gettop10() {
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by(Sort.Direction.DESC,
+                        "recommand"));
+        TopicRes<Top10TopicDTO> topicRes = topicService.getTop10(pageRequest);
+        return new ResponseEntity<>(topicRes, HttpStatus.OK);
+    }
+
+
 
 }
