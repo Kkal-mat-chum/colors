@@ -60,7 +60,7 @@ body {
 }
 .webcam {
   display: inline-block;
-  width: 500px;
+  width: 600px;
   height: 300px;
   margin-top: 150px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));

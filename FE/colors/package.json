@@ -5,16 +5,26 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js"
   },
   "dependencies": {
     "@caohenghu/vue-colorpicker": "^1.2.4",
+    "@tensorflow/tfjs-core": "^3.19.0",
+    "@tensorflow/tfjs-node": "^3.19.0",
     "axios": "^0.27.2",
     "color-name-list": "^9.18.1",
     "core-js": "^3.8.3",
+    "express": "^4.17.1",
+    "face-api.js": "^0.22.2",
+    "fs": "^0.0.1-security",
+    "jquery": "^3.6.0",
+    "materialize-css": "^1.0.0-rc.2",
     "node-sass": "^7.0.1",
     "openvidu-browser": "^2.22.0",
+    "request": "^2.88.2",
     "sass-loader": "^13.0.2",
+    "tslib": "^1.6.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
