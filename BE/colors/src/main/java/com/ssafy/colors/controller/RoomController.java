@@ -7,6 +7,7 @@ import com.ssafy.colors.enumdata.RoomStatus;
 import com.ssafy.colors.enumdata.RoomType;
 import com.ssafy.colors.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -23,13 +24,18 @@ public class RoomController {
     RoomRepository roomRepository;
 
     @Autowired
-    RandomStringGenerator rsg;
+    RandomStringGenerator randomStringGenerator;
+
+//    @PostMapping()
+//    public ResponseEntity<Map<String, Object>> createRoom(@RequestBody String ) {
+//        return null;
+//    }
 
     @PostMapping()
     public void createRoomTest(@RequestBody Map<String, Object> params) {
         System.out.println("[POST] - /room");
         String userId = (String) params.get("userid");
-        String roomCode = rsg.generateRandomPassword(8);
+        String roomCode = randomStringGenerator.generateRandomPassword(8);
         Long userKey = memberRepository.findFirstByUserId(userId).getId();
 
         System.out.println("USER ID - " + userId);

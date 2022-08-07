@@ -4,6 +4,7 @@ import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.request.Mail;
 import com.ssafy.colors.request.MemberReq;
+import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.util.RandomStringGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,27 @@ public class MemberServiceImpl implements MemberService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public MemberRes getMemberInfo(String userId) {
+        Member findMember = memberRepository.findFirstByUserId(userId);
+        if(findMember != null) {
+            MemberRes result = MemberRes.builder()
+                    .id(findMember.getId())
+                    .userId(findMember.getUserId())
+                    .profileUrl(findMember.getProfileUrl())
+                    .name(findMember.getName())
+                    .nickname(findMember.getNickname())
+                    .email(findMember.getEmail())
+                    .point(findMember.getPoint())
+                    .authGrade(findMember.isAuthGrade())
+                    .build();
+            System.out.println(result);
+
+            return result;
+        }
+        return null;
     }
 
     @Override
