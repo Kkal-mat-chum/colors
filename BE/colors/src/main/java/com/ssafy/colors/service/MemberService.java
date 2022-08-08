@@ -12,6 +12,7 @@ public interface MemberService {
     public MemberRes getMemberInfo(String userId);
     public String findID(MemberReq memberReq);
     public boolean findPassword(MemberReq memberReq);
+    public boolean checkPassword(String userId, String password);
     public boolean updateMemberInfo(MemberReq memberReq);
     public boolean updatePassword(MemberReq memberReq);
     public boolean deleteMember(String userId);

@@ -18,6 +18,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     public Member findByNameAndEmail(String name, String email);
 
+    public Member findByUserIdAndPassword(String userId, String password);
+
     @Modifying
     @Transactional
     @Query("UPDATE Member as m " +

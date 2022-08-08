@@ -2,6 +2,7 @@ package com.ssafy.colors.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
 @ToString

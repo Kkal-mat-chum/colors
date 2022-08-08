@@ -39,6 +39,8 @@ public class S3Service {
         System.out.println("filename: " + fileName);
         System.out.println(mimeType);
 
+
+
         ObjectMetadata objMeta = new ObjectMetadata();
         objMeta.setContentType(mimeType);
         byte[] bytes = IOUtils.toByteArray(file.getInputStream());

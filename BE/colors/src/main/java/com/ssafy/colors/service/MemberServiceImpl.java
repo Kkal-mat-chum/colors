@@ -116,6 +116,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean checkPassword(String userId, String password) {
+        Member member = memberRepository.findByUserIdAndPassword(userId, password);
+
+        if(member != null) return true;
+        else return false;
+    }
+
+    @Override
     public boolean updateMemberInfo(MemberReq memberReq) {
         String inputNickname = memberReq.getNickname();
         String inputName = memberReq.getName();

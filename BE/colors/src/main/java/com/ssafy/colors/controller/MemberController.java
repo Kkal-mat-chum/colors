@@ -165,8 +165,12 @@ public class MemberController {
 
         Map<String, Object> result = new HashMap<>();
 
-        if (memberService.updateMemberInfo(params)) {
-            result.put("message", SUCCESS);
+        if(memberService.checkPassword(params.getUserid(), params.getPassword())) {
+            if (memberService.updateMemberInfo(params)) {
+                result.put("message", SUCCESS);
+            } else {
+                result.put("message", FAIL);
+            }
         } else {
             result.put("message", FAIL);
         }
