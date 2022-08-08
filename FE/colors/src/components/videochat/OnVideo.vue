@@ -25,7 +25,7 @@ let minConfidence = 0.7;
 
 // tiny_face_detector options
 let inputSize = 512;
-let scoreThreshold = 0.5;
+let scoreThreshold = 0.1;
 
 export default {
   name: "OvVideo",
@@ -68,7 +68,20 @@ export default {
       if (result) {
         const canvas = document.getElementById("overlay");
         const dims = faceapi.matchDimensions(canvas, videoEl, true);
-        faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+        console.log(dims);
+        // faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+        console.log(result);
+        if (canvas.getContext) {
+          var ctx = canvas.getContext("2d");
+          var box = result._box;
+          var center_y = parseInt(box.y + box.height / 2);
+          var center_x = parseInt(box.x + box.width / 2);
+          // console.log(box);
+          var circle = new Path2D();
+          circle.moveTo(parseInt(box.x), center_y);
+          circle.arc(center_x, center_y, parseInt(box.height / 2), 0, 2 * Math.PI);
+          ctx.fill(circle);
+        }
       }
 
       setTimeout(() => this.onPlay());
@@ -131,7 +144,7 @@ export default {
         // console.log(this.getCurrentFaceDetectionNet());
         // await this.getCurrentFaceDetectionNet().loadFromUri("assets/models");
         // 파일을 로컬에서 불러올 수 없어서 로컬 http 서버에서 해당 파일을 읽어올 수 있도록 만듬
-        const Model_URL = "http://192.168.25.7:8081/models/";
+        const Model_URL = "http://192.168.31.87:8081/";
         await faceapi.loadTinyFaceDetectorModel(Model_URL);
       }
     },
