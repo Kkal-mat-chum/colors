@@ -12,7 +12,7 @@
       <div class="delete3">
         <!-- dd -->
         <div class="dummyMarginDelete2"></div>
-        <customButton id="deleteSureBtn" btnText="확 인" @click="goLogin">testButton</customButton>
+        <customButton id="deleteSureBtn" btnText="확 인" @click="[goLogin(), deleteMember()]">testButton</customButton>
         <customButton id="deleteCancleBtn" btnText="취 소" @click="goMypage">testButton</customButton>
         <!-- <div class="dummyMarginDelete2"></div> -->
       </div>
@@ -21,6 +21,9 @@
 </template>
 
 <script>
+import axios from "axios";
+// const HOST = "";
+
 export default {
   methods: {
     goMypage() {
@@ -29,8 +32,42 @@ export default {
     goLogin() {
       this.$router.push("/login");
     },
+    deleteMember1: function () {
+      axios
+        .delete("/api/member/" + "id")
+        .then((response) => (this.contacts = response.contacts))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    deleteMember() {
+      this.$axios.delete("/api/member/" + "id");
+      console.log("삭제??");
+      // let deleteId = "123";
+      // this.$axios
+      //   .delete(HOST + "/api/member/" + deleteId)
+      //   .then((res) => {
+      //     console.log(res.staus);
+      //     console.log(res.data);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
+      //   .finally(() => {
+      //     console.log("항상 마지막에 실행");
+      //   });
+    },
   },
 };
+// export function deleteMember(user_seqs) {
+//   return request({
+//     url: "/api/member/" + id, //"base url을 제외한 리소스명(URI)"
+//     method: "delete",
+//     params: {
+//       user_seqs: user_seqs,
+//     },
+//   });
+// }
 </script>
 
 <style>

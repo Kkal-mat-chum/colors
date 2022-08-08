@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import CustomUpdatepw from "@/components/user/customUpdatePW.vue";
 import CustomeDeleteUser from "./customDeleteUser.vue";
 export default {
@@ -59,6 +60,11 @@ export default {
   methods: {
     testClick() {
       console.log("123");
+    },
+    updateMemberInfo: function () {
+      axios.put("/api/member/changeinfo", { userid: "userid", nickname: "newNickname", name: "newName" }).catch(function (error) {
+        console.log(error);
+      });
     },
   },
 };
