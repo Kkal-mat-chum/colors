@@ -4,8 +4,8 @@
       <div class="indeterminate"></div>
     </div>
     <div style="position: relative" class="margin">
-      <video @loadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline style="width: 500px"></video>
-      <canvas id="overlay" style="width: 500px"></canvas>
+      <video @loadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+      <canvas id="overlay" style="width: 600px"></canvas>
     </div>
   </div>
 </template>
@@ -53,13 +53,13 @@ export default {
     async onPlay() {
       const videoEl = document.getElementById("inputVideo");
 
+      // console.log(!this.isFaceDetectionModelLoaded());
+
       if (videoEl.paused || videoEl.ended || !this.isFaceDetectionModelLoaded()) return setTimeout(() => this.onPlay());
 
       const options = this.getFaceDetectorOptions();
 
       const ts = Date.now();
-
-      // console.log(ts);
 
       const result = await faceapi.detectSingleFace(videoEl, options);
 
@@ -102,11 +102,9 @@ export default {
 
     getCurrentFaceDetectionNet() {
       if (selectedFaceDetector === SSD_MOBILENETV1) {
-        console.log(faceapi.nets);
         return faceapi.nets.ssdMobilenetv1;
       }
       if (selectedFaceDetector === TINY_FACE_DETECTOR) {
-        // console.log(faceapi.nets);
         return faceapi.nets.tinyFaceDetector;
       }
     },
@@ -142,9 +140,13 @@ export default {
       selectedFaceDetector = detector;
       if (!this.isFaceDetectionModelLoaded()) {
         // console.log(this.getCurrentFaceDetectionNet());
-        // await this.getCurrentFaceDetectionNet().loadFromUri("assets/models");
+        // await this.getCurrentFaceDetectionNet().loadFromUri("../../assets/models");
         // 파일을 로컬에서 불러올 수 없어서 로컬 http 서버에서 해당 파일을 읽어올 수 있도록 만듬
+<<<<<<< HEAD
         const Model_URL = "http://192.168.31.87:8081/";
+=======
+        const Model_URL = "http://127.0.0.1:8081/";
+>>>>>>> 898e94dce6d38bffaf4e62ccc6a29e470130d0e5
         await faceapi.loadTinyFaceDetectorModel(Model_URL);
       }
     },
@@ -153,92 +155,13 @@ export default {
 </script>
 
 <style scoped>
-.page-container {
-  left: 0;
-  right: 0;
-  margin: auto;
-  margin-top: 20px;
-  padding-left: 280px;
-  display: inline-flex !important;
-}
-
-@media only screen and (max-width: 992px) {
-  .page-container {
-    padding-left: 0;
-    display: flex !important;
-  }
-}
-
-#navbar {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.center-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.side-by-side {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.side-by-side > * {
-  margin: 0 5px;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.margin-sm {
-  margin: 5px;
-}
-
-.margin {
-  margin: 20px;
-}
-
-.button-sm {
-  padding: 0 10px !important;
-}
-
-.pad-sides-sm {
-  padding: 0 8px !important;
-}
-
-#github-link {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid;
-  margin-bottom: 10px;
-}
-
 #overlay,
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
+  text-align: center;
 }
-
-#facesContainer canvas {
-  margin: 10px;
-}
-
-input[type="file"]::-webkit-file-upload-button {
-  background: #26a69a;
-  border: 1px solid gray;
-  cursor: pointer;
-  color: #fff;
-  border-radius: 0.2em;
-}
-
 /* our */
 #inputVideo {
   width: 100%;
