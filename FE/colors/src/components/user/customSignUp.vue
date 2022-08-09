@@ -3,9 +3,10 @@
     <div class="signUp1">
       <div class="signUpWord">
         <div class="signUptitle">회원 가입</div>
+        <div class="signUpWarning">아이디를 확인해주세요</div>
         <hr class="signUphrStyle" />
       </div>
-      <div class="userInfo">
+      <div id="userInfo">
         <div class="textBox">
           <div class="labelBoxs">
             <label for="idLabel" class="userlabel">아이디</label><br />
@@ -26,16 +27,16 @@
             <input type="text" class="userInput" id="emailcheckLabel" placeholder="전송된 인증 번호를 입력하세요." />
           </div>
           <div class="inputCheckBoxs">
-            <customButton class="signUpIDCheckBtn" id="signUpIDCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
+            <customButton class="signUpIDCheckBtn" id="signUpIDCheckBtn" btnText="중복 확인" @click="checkDuplicateID">아이디 중복확인</customButton>
             <div class="dummyMarginSignUp1"></div>
-            <customButton class="signUpnickCheckBtn" id="signUpnickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
+            <customButton class="signUpnickCheckBtn" id="signUpnickCheckBtn" btnText="중복 확인" @click="checkDuplicateNickname">testButton</customButton>
             <customButton class="signUpEmailCheckBtn" id="signUpEmailCheckBtn" btnText="이메일 인증" @click="testClick">testButton</customButton>
             <div class="dummyMarginSignUp2"></div>
           </div>
         </div>
         <div class="signUpFinalCheck">
           <div class="dummyMarginSignUp3"></div>
-          <customButton class="signUpFinalCheckBtn" id="signUpFinalCheckBtn" btnText="회원 가입" @click="testClick">testButton</customButton>
+          <customButton class="signUpFinalCheckBtn" id="signUpFinalCheckBtn" btnText="회원 가입" @click="registMember">회원 가입</customButton>
           <div class="dummyMarginSignUp4"></div>
         </div>
       </div>
@@ -48,7 +49,133 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+
+//이메일 인증 번호 보내는거 필요
+export default {
+  data() {
+    return {
+      //각 항목 유효성 검사 완료시 true로 바꾸기
+      id_validation: false, //중복 확인 누를 때 검사
+      pw_validation: false, //회원가입버튼 누를 때 검사
+      nick_validation: false, //중복 확인 누를 때 검사
+      email_validation: false, //회원가입버튼 누를 때 검사
+    };
+  },
+  computed: {
+    //비밀번호 두번 입력값 같은지 검사
+    pw_doubleCheck: function () {
+      if (document.getElementById("pwLabel").value == document.getElementById("pwcheckLabel").value) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
+  methods: {
+    // 아이디 중복 검사
+    checkDuplicateID() {
+      let new_id = document.getElementById("idLabel").value;
+      this.validID(new_id);
+      //유효성검사 성공시
+      if (this.id_validation) {
+        console.log("유효한 아이디입니다.");
+        axios
+          .post(this.$store.state.baseurl + "/api/member/chkid/", {
+            input_id: new_id,
+          })
+          .then((response) => {
+            if (response.message == "not-duplicated") {
+              console.log("아이디 사용 가능");
+            } else {
+              console.log("중복된 아이디");
+            }
+          });
+      } else {
+        console.log("유효하지 않은 아이디");
+      }
+      // this.validID(new_id);
+      // console.log(new_id);
+    },
+    //아이디 유효성 검사
+    validID(inputID) {
+      const reg = /^(?=.*[a-zA-Z0-9]).{6,15}$/;
+      if (inputID.match(reg)) {
+        // console.log("유효한 아이디");
+        this.id_validation = true;
+        return true;
+      }
+      // console.log("유효하지 않은 아이디");
+      this.id_validation = false;
+      return false;
+    },
+    //비밀번호 유효성 검사
+    validPW(inputPW) {
+      const reg = /^(?=.*[a-zA-Z0-9]).{8,30}$/;
+      if (inputPW.match(reg)) {
+        // console.log("유효한 비밀번호");
+        this.pw_validation = true;
+        return true;
+      }
+      // console.log("유효하지 않은 비밀번호");
+      this.pw_validation = false;
+      return false;
+    },
+    // 닉네임 중복 검사
+    checkDuplicateNickname() {
+      let new_nickname = document.getElementById("nickLabel").value;
+      console.log(new_nickname);
+      axios
+        .post(this.$store.state.baseurl + "/api/member/chknic/", {
+          input_nickname: new_nickname,
+        })
+        .then((response) => {
+          if (response.message == "not-duplicated") {
+            console.log("닉네임 사용 가능");
+            this.nick_validation = true;
+          } else {
+            this.nick_validation = false;
+            console.log("중복된 닉네임");
+          }
+        });
+    },
+    // 회원 가입: 아이디,비번,
+    registMember() {
+      let new_nickname = document.getElementById("nickLabel").value;
+      let new_userid = document.getElementById("idLabel").value;
+      let new_password = document.getElementById("pwLabel").value;
+      let new_name = document.getElementById("nameLabel").value;
+      let new_email = document.getElementById("emailLabel").value;
+      this.validPW(new_password); //비밀번호 유효성 검사 함수 실행
+      //아이디, 비번, 닉네임, 이메일 유효하고,
+      //이름이 있는지
+      if (this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
+        console.log("우효");
+      } else if (!this.id_validation && this.pw_validation) {
+        console.log("아이디 중복 확인 해주세용");
+      } else if (this.id_validation && !this.pw_validation) {
+        console.log("비밀번호 다시 확인해주세용");
+      } else {
+        console.log("아이디, 비밀번호 둘 다 다시 확인해주세용");
+      }
+      axios
+        .post(this.$store.state.baseurl + "/api/member/chknic/", {
+          nickname: new_nickname,
+          userid: new_userid,
+          password: new_password,
+          name: new_name,
+          email: new_email,
+        })
+        .then((response) => {
+          if (response.message == "success") {
+            console.log("로그인 완료");
+          } else {
+            console.log("로그인 실패");
+          }
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -57,7 +184,7 @@ body {
 }
 .signUptitle {
   position: absolute;
-  width: 100%;
+  width: 50%;
   display: grid;
   justify-content: left;
   margin-left: 5%;
@@ -102,6 +229,9 @@ body {
   font-weight: 900;
   font-size: 150%;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
 }
 .signUphrStyle {
   width: 40%;
@@ -110,18 +240,18 @@ body {
   margin: 33px 0 0 5%;
   background-color: #d0d1ff;
 }
-.userInfo {
+#userInfo {
   position: absolute;
   top: 25%;
   left: 10%;
   width: 90%;
+  display: flex;
+  flex-direction: column;
 }
 label {
   color: #6667ab;
   font-size: 0.95rem;
   font-weight: 600;
-  /* padding-bottom: 50px; */
-  /* margin-bottom: 100px; */
 }
 .inputBox[type="text"] {
   width: 70%;
@@ -155,7 +285,6 @@ label {
 }
 button {
   width: 100%;
-  /* margin-left: 20px; */
   margin-bottom: 1em;
   margin-left: 10px;
   padding: 5px 0px;
@@ -164,27 +293,18 @@ button {
   background-color: white;
   color: #6667ab;
 }
-/* inputBox class */
 .userInput[type="text"] {
   width: 90%;
-  /* margin-left: 20px; */
-  /* margin-bottom: 14px; */
   padding: 10px 5px;
   border-radius: 5px;
-  /* border-color: #d0d1ff; */
   border: 2px solid #d0d1ff;
 }
 ::placeholder {
   color: #dfdfcd;
 }
-/* label class */
 .userlabel {
   display: inline-block;
   position: relative;
-  /* margin: 5px 2px 29px 0px; */
-  /* top: 1px; */
-  /* left: 1px; */
-  /* padding: 0.8em 0.5em; */
   color: #6667ab;
   cursor: text;
 }

@@ -22,7 +22,6 @@
 
 <script>
 import axios from "axios";
-// const HOST = "";
 
 export default {
   methods: {
@@ -32,30 +31,8 @@ export default {
     goLogin() {
       this.$router.push("/login");
     },
-    deleteMember1: function () {
-      axios
-        .delete("/api/member/" + "id")
-        .then((response) => (this.contacts = response.contacts))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
     deleteMember() {
-      this.$axios.delete("/api/member/" + "id");
-      console.log("삭제??");
-      // let deleteId = "123";
-      // this.$axios
-      //   .delete(HOST + "/api/member/" + deleteId)
-      //   .then((res) => {
-      //     console.log(res.staus);
-      //     console.log(res.data);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   })
-      //   .finally(() => {
-      //     console.log("항상 마지막에 실행");
-      //   });
+      axios.delete(this.$store.state.baseurl + "/api/member/" + this.$store.state.member_id);
     },
   },
 };

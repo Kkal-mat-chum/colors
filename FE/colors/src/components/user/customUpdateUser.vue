@@ -61,10 +61,27 @@ export default {
     testClick() {
       console.log("123");
     },
-    updateMemberInfo: function () {
-      axios.put("/api/member/changeinfo", { userid: "userid", nickname: "newNickname", name: "newName" }).catch(function (error) {
-        console.log(error);
-      });
+    //회원정보 수정
+    updateMemberInfo() {
+      let userid = this.$store.state.member_id;
+      let newNickName = document.getElementById("updateUserNickLabel").value;
+      let newName = document.getElementById("updateUserNameLabel").value;
+      let userPassword = document.getElementById("updateUserNameLabel").value;
+      console.log(newNickName, newName);
+      axios
+        .post(this.$store.state.baseurl + "/api/member/changeinfo/", {
+          userid: userid,
+          nickname: newNickName,
+          name: newName,
+          password: userPassword,
+        })
+        .then((response) => {
+          if (response.message == "success") {
+            console.log("비밀번호를 메일로 전송");
+          } else {
+            console.log("아이디와 이메일을 다시 확인해주세요.");
+          }
+        });
     },
   },
 };
