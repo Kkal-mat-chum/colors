@@ -5,8 +5,8 @@
     </div>
     <div style="position: relative" class="margin">
       <video @loadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
-      <canvas id="overlay" style="width: 600px"></canvas>
-      <canvas id="dummy" style="width: 600px"></canvas>
+      <canvas id="overlay"></canvas>
+      <canvas id="dummy"></canvas>
       <!-- <canvas id="transp" style="width: 600px"></canvas> -->
     </div>
   </div>
@@ -15,19 +15,20 @@
 <script>
 import * as faceapi from "face-api.js";
 import tinyModel from "@/assets/models/tiny_face_detector_model-weights_manifest.json";
+// import { Canvas2Video } from "canvas2video";
 
 let forwardTimes = [];
 const SSD_MOBILENETV1 = "ssd_mobilenetv1";
 const TINY_FACE_DETECTOR = "tiny_face_detector";
 
-let selectedFaceDetector = SSD_MOBILENETV1;
+let selectedFaceDetector = TINY_FACE_DETECTOR;
 
 // ssd_mobilenetv1 options
-let minConfidence = 0.3;
+let minConfidence = 0.7;
 
 // tiny_face_detector options
 let inputSize = 512;
-let scoreThreshold = 0.6;
+let scoreThreshold = 0.7;
 
 export default {
   name: "OvVideo",
@@ -44,6 +45,7 @@ export default {
   mounted() {
     this.run();
     this.streamManager.addVideoElement(document.getElementById("inputVideo"));
+
     // console.log(faceapi.nets);
   },
 
@@ -99,7 +101,6 @@ export default {
           faceapi.matchDimensions(dummy, videoEl, true);
           // var ctx_img = img.getContext("2d");
           // ctx_img.clearRect(0, 0, videoEl.width, videoEl.height);
-
           let dummy_ctx = dummy.getContext("2d");
           dummy_ctx.drawImage(canvas, 0, 0);
           // Draw the mask
@@ -119,8 +120,20 @@ export default {
               if (data[i + 3] < 100) data[i + 3] = 255;
             }
           }
-          // frame.data = data;
+
           ctx.putImageData(frame, 0, 0);
+
+          // var video = document.createElement("video");
+          // video.addEventListener("play", () => {
+          //   var loop = () => {
+          //     ctx.putImageData(frame, 0, 0);
+          //   };
+          //   loop();
+          // });
+          // video.play();
+
+          // this.streamManager.addVideoElement(video);
+
           // 지금 안됨..... 이유는 모르겠음
           // Hacker 홈페이지에서 백그라운드 컬러를 주는 방식
           // 그냥 css로 background-color를 주는 방식으로 사용?
@@ -136,12 +149,47 @@ export default {
           // // ctx_img.drawImage(dummy, 0, 0);
           // videoEl.hidden = true;
           // canvas.hidden = true;
-          dummy.hidden = "hidden";
+          //   dummy.hidden = "hidden";
+
+          //   this.startCapture();
+
+          //   const cavas_video = document.getElementById("canvas_video");
+
+          //   cavas_video.srcObject = dummy.captureStream();
+
+          //   const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+          //   const video = document.createElement("cavas_video");
+          //   video.srcObject = mediaStream;
+
+          //   const mediaSource = new MediaSource();
+          //   const video = document.createElement("cavas_video");
+          //   video.srcObject = mediaSource;
         }
       }
+      //   this.streamManager.createVideoElement(document.getElementById("dummy"), "PREPEND");
 
+      //   const video = this.streamManager.createVideoElement(document.getElementById("dummy"));
+      //   console.log(video);
+      //   this.streamManager.addVideoElement(video);
       setTimeout(() => this.onPlay());
+
+      //   this.streamManager.addVideoElement(document.getElementById("inputVideo"));
     },
+
+    // async startCapture() {
+    //   const videoEl = document.getElementById("inputVideo");
+    //   try {
+    //     HTMLCanvasElement.captureStream = await navigator.mediaDevices.getDisplayMedia({
+    //       video: true,
+    //       audio: true,
+    //     });
+    //     console.log(HTMLCanvasElement.captureStream.getVideoTracks()[0].getSettings());
+    //     videoEl.srcObject = HTMLCanvasElement.captureStream;
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    //   return HTMLCanvasElement.captureStream;
+    // },
 
     async run() {
       await this.changeFaceDetector(TINY_FACE_DETECTOR);
@@ -201,14 +249,13 @@ export default {
       }
       return imageData;
     },
-
     async changeFaceDetector(detector) {
       selectedFaceDetector = detector;
       if (!this.isFaceDetectionModelLoaded()) {
         // console.log(this.getCurrentFaceDetectionNet());
         // await this.getCurrentFaceDetectionNet().loadFromUri("../../assets/models");
         // 파일을 로컬에서 불러올 수 없어서 로컬 http 서버에서 해당 파일을 읽어올 수 있도록 만듬
-        const Model_URL = "http://192.168.25.7:8081/";
+        const Model_URL = "http://127.0.0.1:8081/";
         await faceapi.loadTinyFaceDetectorModel(Model_URL);
       }
     },
@@ -218,12 +265,15 @@ export default {
 
 <style scoped>
 #overlay,
-.overlay {
+.overlay,
+#dummy {
   position: absolute;
   top: 0;
   left: 0;
   text-align: center;
+  width: 100%;
 }
+
 /* our */
 #inputVideo {
   width: 100%;
