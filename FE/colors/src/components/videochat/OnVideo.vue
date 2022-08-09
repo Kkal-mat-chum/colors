@@ -7,7 +7,7 @@
       <video @loadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
       <canvas id="overlay" style="width: 600px"></canvas>
       <canvas id="dummy" style="width: 600px"></canvas>
-      <canvas id="transp" style="width: 600px"></canvas>
+      <!-- <canvas id="transp" style="width: 600px"></canvas> -->
     </div>
   </div>
 </template>
@@ -20,14 +20,14 @@ let forwardTimes = [];
 const SSD_MOBILENETV1 = "ssd_mobilenetv1";
 const TINY_FACE_DETECTOR = "tiny_face_detector";
 
-let selectedFaceDetector = TINY_FACE_DETECTOR;
+let selectedFaceDetector = SSD_MOBILENETV1;
 
 // ssd_mobilenetv1 options
-let minConfidence = 0.7;
+let minConfidence = 0.3;
 
 // tiny_face_detector options
 let inputSize = 512;
-let scoreThreshold = 0.7;
+let scoreThreshold = 0.6;
 
 export default {
   name: "OvVideo",
@@ -93,21 +93,34 @@ export default {
             ctx.fill();
           }
           // console.log(canvas);
-          const img = document.getElementById("transp");
-          faceapi.matchDimensions(img, videoEl, true);
+          // const img = document.getElementById("transp");
+          // faceapi.matchDimensions(img, videoEl, true);
           const dummy = document.getElementById("dummy");
           faceapi.matchDimensions(dummy, videoEl, true);
-          var ctx_img = img.getContext("2d");
+          // var ctx_img = img.getContext("2d");
           // ctx_img.clearRect(0, 0, videoEl.width, videoEl.height);
 
           let dummy_ctx = dummy.getContext("2d");
-          dummy_ctx.drawImage(videoEl, 0, 0);
+          dummy_ctx.drawImage(canvas, 0, 0);
           // Draw the mask
-          ctx_img.drawImage(canvas, 0, 0);
+          // ctx_img.drawImage(canvas, 0, 0);
 
           // Add the original video back in only overwriting the masked pixels
-          ctx_img.globalCompositeOperation = "source-in";
-          ctx_img.drawImage(dummy, 0, 0);
+          dummy_ctx.globalCompositeOperation = "source-in";
+          dummy_ctx.drawImage(videoEl, 0, 0);
+          const frame = dummy_ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const length = frame.data.length;
+          const data = frame.data;
+          for (let i = 0; i < length; i += 4) {
+            if (data[i + 3] < 150) {
+              data[i] = 100;
+              data[i + 1] = 100;
+              data[i + 2] = 100;
+              if (data[i + 3] < 100) data[i + 3] = 255;
+            }
+          }
+          // frame.data = data;
+          ctx.putImageData(frame, 0, 0);
           // 지금 안됨..... 이유는 모르겠음
           // Hacker 홈페이지에서 백그라운드 컬러를 주는 방식
           // 그냥 css로 background-color를 주는 방식으로 사용?
@@ -123,7 +136,7 @@ export default {
           // // ctx_img.drawImage(dummy, 0, 0);
           // videoEl.hidden = true;
           // canvas.hidden = true;
-          // dummy.hidden = true;
+          dummy.hidden = "hidden";
         }
       }
 
@@ -179,13 +192,23 @@ export default {
         throw new Error("failed to load image from url: " + imageUrl);
       }
     },
+
+    addAlpha(imageData, gFloor = 105, rbCeiling = 80) {
+      const { data } = imageData;
+
+      for (let r = 0, g = 1, b = 2, a = 3; a < data.length; r += 4, g += 4, b += 4, a += 4) {
+        if (data[r] <= rbCeiling && data[b] <= rbCeiling && data[g] >= gFloor) data[a] = 0;
+      }
+      return imageData;
+    },
+
     async changeFaceDetector(detector) {
       selectedFaceDetector = detector;
       if (!this.isFaceDetectionModelLoaded()) {
         // console.log(this.getCurrentFaceDetectionNet());
         // await this.getCurrentFaceDetectionNet().loadFromUri("../../assets/models");
         // 파일을 로컬에서 불러올 수 없어서 로컬 http 서버에서 해당 파일을 읽어올 수 있도록 만듬
-        const Model_URL = "http://192.168.31.87:8081/";
+        const Model_URL = "http://192.168.25.7:8081/";
         await faceapi.loadTinyFaceDetectorModel(Model_URL);
       }
     },
