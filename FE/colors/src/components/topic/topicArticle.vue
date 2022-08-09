@@ -42,7 +42,7 @@ export default {
       axios
         .post(this.$store.state.baseurl + "/api/vote", {
           topicId: this.topicId,
-          userId: this.$store.userId,
+          userId: this.$store.state.userId,
         })
         .then((response) => {
           if (response.message == "access") {
