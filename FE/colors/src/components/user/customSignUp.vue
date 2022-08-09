@@ -5,7 +5,7 @@
         <div class="signUptitle">회원 가입</div>
         <hr class="signUphrStyle" />
       </div>
-      <div class="userInfo">
+      <div id="userInfo">
         <div class="textBox">
           <div class="labelBoxs">
             <label for="idLabel" class="userlabel">아이디</label><br />
@@ -110,11 +110,13 @@ body {
   margin: 33px 0 0 5%;
   background-color: #d0d1ff;
 }
-.userInfo {
+#userInfo {
   position: absolute;
   top: 25%;
   left: 10%;
   width: 90%;
+  display: flex;
+  flex-direction: column;
 }
 label {
   color: #6667ab;

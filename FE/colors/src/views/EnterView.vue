@@ -10,12 +10,12 @@
     </div>
     <div class="enterenceContainer">
       <ChoiceRoom class="firstDoor" @click="SingleRoom()" roomTitle="개인별 색깔 매칭" />
-      <ChoiceRoom class="firstDoor" @click="TeamRoom()" roomTitle="친구와 색깔 매칭" />
-      <ChoiceRoom class="firstDoor" roomTitle="토픽별 색깔 매칭" />
+      <ChoiceRoom class="firstDoor" roomTitle="친구와 색깔 매칭" />
+      <ChoiceRoom class="firstDoor" @click="TopicRoom()" roomTitle="토픽별 색깔 매칭" />
     </div>
     <customModal class="groupModal" v-show="showGroupModal" @close-modal="showGroupModal = false" titleText="단체 입장하기 ">
       <content class="groupModalContent">
-        <input type="text" name="groupRoomCode" id="roomCodeInput" placeholder="입장코드 입력 (사용자 개인 code)" />
+        <input type="text" name="groupRoomCode" v-model="roomCodeId" id="roomCodeInput" placeholder="입장코드 입력 (사용자 개인 code)" />
         <div class="gridButtonArea">
           <customButton class="makeRoomButton gridModalButton" btnText="방만들기"></customButton>
           <customButton class="enterRoomButton gridModalButton" btnText="입장하기" @click="showGroupModal = false"></customButton>
@@ -28,19 +28,32 @@
 
 <script>
 import ChoiceRoom from "@/components/EnterancePage/choiceRoom.vue";
+import router from "@/router";
 export default {
   components: { ChoiceRoom },
   data() {
     return {
       showGroupModal: false,
+      id: "",
     };
   },
   methods: {
     SingleRoom() {
-      this.$router.push("alone");
+      let singleUser = {
+        id: this.id,
+        roomtype: "single",
+      };
+      this.$store.dispatch("singleMeeting", singleUser);
     },
     TeamRoom() {
-      this.$router.push("team");
+      let groupUser = {
+        id: this.id,
+        roomtype: "group",
+      };
+      this.$store.dispatch("groupMeeting", groupUser);
+    },
+    TopicRoom() {
+      router.push("/toptenTopic");
     },
   },
 };
