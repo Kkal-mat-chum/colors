@@ -93,6 +93,10 @@ export default {
       const { r, g, b, a, h, s, v } = this.setColorValue(color.rgba);
       Object.assign(this, { r, g, b, a, h, s, v });
       this.modelHex = color.hex;
+
+      this.$store.state.r = this.r;
+      this.$store.state.g = this.g;
+      this.$store.state.b = this.b;
     },
   },
 };
