@@ -11,7 +11,9 @@ Vue.use(Vuex);
 export const api = createApi();
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    isLogin: false,
+  },
   getters: {},
   mutations: {},
   actions: {},

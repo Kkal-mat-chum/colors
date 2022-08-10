@@ -12,8 +12,8 @@
       <div class="delete3">
         <!-- dd -->
         <div class="dummyMarginDelete2"></div>
-        <customButton id="deleteSureBtn" btnText="확 인" @click="goLogin">testButton</customButton>
-        <customButton id="deleteCancleBtn" btnText="취 소" @click="goMypage">testButton</customButton>
+        <customButton id="deleteSureBtn" btnText="확 인" @click="[goLogin(), deleteMember()]">탈퇴 확인 버튼</customButton>
+        <customButton id="deleteCancleBtn" btnText="취 소" @click="goMypage">탈퇴 안함 버튼</customButton>
         <!-- <div class="dummyMarginDelete2"></div> -->
       </div>
     </div>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   methods: {
     goMypage() {
@@ -28,6 +30,11 @@ export default {
     },
     goLogin() {
       this.$router.push("/login");
+    },
+    deleteMember() {
+      axios.delete(this.$store.state.baseurl + "/api/member/" + this.$store.state.member_id);
+      //localstorage 토큰 & 유저정보 제거
+      window.localStorage.removeItem("access-token");
     },
   },
 };
