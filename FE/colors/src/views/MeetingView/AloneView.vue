@@ -16,7 +16,7 @@
         </div>
         <colorpallete class="pallete"></colorpallete>
         <div class="selectColor">
-          <colorchoice></colorchoice>
+          <colorchoice @changeColor="changeColor"></colorchoice>
         </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기"></customButton>
         <customButton class="votebtn" btnText="투표하기"></customButton>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import mixin from "@/components/videochat/colorPallete/mixin";
 import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
@@ -40,8 +41,63 @@ export default {
     colorpallete,
     colorchoice,
   },
+  mixins: [mixin],
+  data() {
+    return {
+      modelRgba: "",
+      modelHex: "",
+      r: 0,
+      g: 0,
+      b: 0,
+      a: 1,
+      h: 0,
+      s: 0,
+      v: 0,
+    };
+  },
+  computed: {
+    rgba() {
+      return {
+        r: this.r,
+        g: this.g,
+        b: this.b,
+        a: this.a,
+      };
+    },
+    hsv() {
+      return {
+        h: this.h,
+        s: this.s,
+        v: this.v,
+      };
+    },
+  },
+  created() {
+    Object.assign(this, this.setColorValue(this.color));
+    this.setText();
+
+    this.$watch("rgba", () => {
+      this.$emit("changeColor", {
+        rgba: this.rgba,
+        hsv: this.hsv,
+        hex: this.modelHex,
+      });
+    });
+  },
   methods: {
-    //colorChoice(전체색있는 팔레트)에서 선택한 색 코드를 가져오기
+    setText() {
+      this.modelHex = this.rgb2hex(this.rgba, true);
+      this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;
+    },
+    changeColor(color) {
+      const { r, g, b, a, h, s, v } = this.setColorValue(color.rgba);
+      Object.assign(this, { r, g, b, a, h, s, v });
+      this.modelHex = color.hex;
+
+      this.$store.state.r = this.r;
+      this.$store.state.g = this.g;
+      this.$store.state.b = this.b;
+    },
   },
 };
 </script>
@@ -58,12 +114,12 @@ body {
   height: 100vh;
 }
 .camera {
-  width: 155vh;
+  width: 157vh;
   text-align: center;
 }
 .webcam {
   display: inline-block;
-  width: 500px;
+  width: 600px;
   height: 300px;
   margin-top: 150px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
@@ -120,7 +176,7 @@ body {
 }
 
 .votebtn {
-  margin-top: 120px;
+  margin-top: 100px;
   width: 200px;
 }
 .exitbtn {
