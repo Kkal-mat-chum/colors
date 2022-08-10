@@ -18,7 +18,7 @@
         <div class="selectColor">
           <colorchoice></colorchoice>
         </div>
-        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기"></customButton>
+        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
         <customButton class="votebtn" btnText="투표하기"></customButton>
         <customButton class="exitbtn" btnText="종료"></customButton>
       </div>
@@ -31,6 +31,7 @@ import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
+// import selectedcolor from '@/store/modules/memberStore.js'
 
 export default {
   name: "aloneMeeting",
@@ -42,6 +43,10 @@ export default {
   },
   methods: {
     //colorChoice(전체색있는 팔레트)에서 선택한 색 코드를 가져오기
+    // showOneSelectedColor() {
+    //   let selectedcolor = this.selectedcolor;
+    //   console.log(selectedcolor);
+    // },
   },
 };
 </script>
