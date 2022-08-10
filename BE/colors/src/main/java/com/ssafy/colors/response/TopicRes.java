@@ -12,7 +12,7 @@ import java.util.List;
 public class TopicRes<T> {
 
     int maxpage ;
-
+    long topiccnt;
     List<T> topics;
 
 }

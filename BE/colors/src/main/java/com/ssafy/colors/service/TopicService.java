@@ -64,7 +64,8 @@ public class TopicService {
         Page<Topic> topic = topicRepository.findTopic(pageRequest, now.getYear(), now.get(WeekFields.ISO.weekOfYear()), keyword);
         System.out.println(topic.getTotalElements());
         List<TopicDTO> map = topic.map(t -> new TopicDTO(t.getId(), t.getTitle(), t.check(new VoteDTO(userId, t.getId())), t.getRecommand())).getContent();
-        return new TopicRes((int) topic.getTotalPages(), map);
+        long cnt = topicRepository.countTopics(now.getYear(), now.get(WeekFields.ISO.weekOfYear()),userId);
+        return new TopicRes((int) topic.getTotalPages(), cnt, map);
 
     }
 
@@ -72,6 +73,6 @@ public class TopicService {
         LocalDateTime lastWeek =LocalDateTime.now().minusWeeks(1);
         Page<Topic> topic = topicRepository.findTop10Topic(pageRequest, lastWeek.getYear(), lastWeek.get(WeekFields.ISO.weekOfYear()));
         List<Top10TopicDTO> map = topic.map(t -> new Top10TopicDTO(t.getId(), t.getTitle())).getContent();
-        return new TopicRes((int) topic.getTotalElements(), map);
+        return new TopicRes((int) topic.getTotalElements(),0, map);
     }
 }
