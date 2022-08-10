@@ -15,7 +15,7 @@
         <input type="password" class="modifyPwInput" id="updateUserPwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
-        <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
+        <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="checkDuplicateNickname">testButton</customButton>
       </div>
       <div class="UpdateUserdummyMargin2"></div>
     </div>
@@ -69,7 +69,7 @@ export default {
       let userPassword = document.getElementById("updateUserNameLabel").value;
       console.log(newNickName, newName);
       axios
-        .post(this.$store.state.baseurl + "/api/member/changeinfo/", {
+        .post(this.$store.state.baseurl + "/api/member/changeinfo", {
           userid: userid,
           nickname: newNickName,
           name: newName,
@@ -229,6 +229,7 @@ body {
 #infoChangeBtn {
   margin-top: 12%;
   margin-bottom: 5%;
+  height: 38.4px;
 }
 #pwChangeBtn {
   width: 48%;

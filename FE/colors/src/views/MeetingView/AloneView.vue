@@ -40,6 +40,9 @@ export default {
     colorpallete,
     colorchoice,
   },
+  methods: {
+    //colorChoice(전체색있는 팔레트)에서 선택한 색 코드를 가져오기
+  },
 };
 </script>
 

@@ -3,7 +3,7 @@
     <div class="signUp1">
       <div class="signUpWord">
         <div class="signUptitle">회원 가입</div>
-        <div class="signUpWarning">아이디를 확인해주세요</div>
+        <div class="signUpWarning" id="signUpWarning">{{ state_message }}</div>
         <hr class="signUphrStyle" />
       </div>
       <div id="userInfo">
@@ -35,6 +35,7 @@
           </div>
         </div>
         <div class="signUpFinalCheck">
+          <!-- <div class="signUpWarning" id="signUpWarning1">{{ state_message }}</div> -->
           <div class="dummyMarginSignUp3"></div>
           <customButton class="signUpFinalCheckBtn" id="signUpFinalCheckBtn" btnText="회원 가입" @click="registMember">회원 가입</customButton>
           <div class="dummyMarginSignUp4"></div>
@@ -60,6 +61,7 @@ export default {
       pw_validation: false, //회원가입버튼 누를 때 검사
       nick_validation: false, //중복 확인 누를 때 검사
       email_validation: false, //회원가입버튼 누를 때 검사
+      state_message: "",
     };
   },
   computed: {
@@ -81,7 +83,7 @@ export default {
       if (this.id_validation) {
         console.log("유효한 아이디입니다.");
         axios
-          .post(this.$store.state.baseurl + "/api/member/chkid/", {
+          .post(this.$store.state.baseurl + "/api/member/chkid", {
             input_id: new_id,
           })
           .then((response) => {
@@ -92,6 +94,7 @@ export default {
             }
           });
       } else {
+        this.state_message = "입력한 정보를 다시 확인해주세요.";
         console.log("유효하지 않은 아이디");
       }
       // this.validID(new_id);
@@ -126,7 +129,7 @@ export default {
       let new_nickname = document.getElementById("nickLabel").value;
       console.log(new_nickname);
       axios
-        .post(this.$store.state.baseurl + "/api/member/chknic/", {
+        .post(this.$store.state.baseurl + "/api/member/chknic", {
           input_nickname: new_nickname,
         })
         .then((response) => {
@@ -136,6 +139,22 @@ export default {
           } else {
             this.nick_validation = false;
             console.log("중복된 닉네임");
+          }
+        });
+    },
+    // 이메일 인증 버튼 클릭 시 @@@@@ authNumber auth_number?
+    checkEmail() {
+      let new_email = document.getElementById("emailLabel").value;
+      let email_checknum = document.getElementById("emailcheckLabel").value;
+      axios
+        .post(this.$store.state.baseurl + "/api/auth/emailAuth", {
+          email: new_email,
+        })
+        .then((response) => {
+          if (response.authNumber == email_checknum) {
+            this.email_validation = true;
+          } else if (response.message == "fail") {
+            this.email_validation = false;
           }
         });
     },
@@ -150,7 +169,7 @@ export default {
       //아이디, 비번, 닉네임, 이메일 유효하고,
       //이름이 있는지
       if (this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
-        console.log("우효");
+        console.log("유효");
       } else if (!this.id_validation && this.pw_validation) {
         console.log("아이디 중복 확인 해주세용");
       } else if (this.id_validation && !this.pw_validation) {
@@ -234,7 +253,7 @@ body {
   justify-content: start;
 }
 .signUphrStyle {
-  width: 40%;
+  width: 20%;
   position: absolute;
   height: 1px;
   margin: 33px 0 0 5%;
@@ -338,5 +357,16 @@ button {
 .dummyMarginSignUp2 {
   width: 80%;
   height: 10%;
+}
+#signUpWarning {
+  margin-top: 80%;
+  margin-left: 28%;
+  margin-right: 30%;
+  font-size: 15px;
+  color: #f34d75;
+}
+#signUpWarning1 {
+  font-size: 15px;
+  color: #f34d75;
 }
 </style>

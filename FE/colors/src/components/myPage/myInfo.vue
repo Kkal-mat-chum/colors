@@ -58,9 +58,6 @@ export default {
         this.nicknamePersonalInfo = response.data.nickname;
         this.pointPersonalInfo = response.data.point;
         this.emailPersonalInfo = response.data.email;
-        if (0 <= this.pointPersonalInfo < 100) {
-          this.gradePersonalInfo = "색깔 보";
-        }
       });
     },
   },
