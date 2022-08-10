@@ -16,6 +16,8 @@ export default new Vuex.Store({
     g: 0,
     b: 0,
     a: 1,
+
+    isLogin: false,
   },
   getters: {},
   mutations: {},

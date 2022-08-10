@@ -12,19 +12,55 @@
       </div>
       <div class="dummyMarginUpdatePW2"></div>
     </div>
+    <label for="" v-if="pwchangedouble_validation">비밀번호가 일치하지 않습니다.</label>
     <div class="updatePW3">
       <div class="dummyMarginUpdatePW3"></div>
-      <customButton class="updatePWCheckBtn" id="updatePWCheckBtn" btnText="확 인" @click="modifyPw">testButton</customButton>
+      <customButton class="updatePWCheckBtn" id="updatePWCheckBtn" btnText="확 인" @click="updateMemberInfo">testButton</customButton>
       <customButton class="updatePWCancleBtn" id="updatePWCancleBtn" btnText="취 소" @click="cancelPw">testButton</customButton>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  data() {
+    return {
+      pwchangedouble_validation: false,
+    };
+  },
   methods: {
     cancelPw() {
       this.$router.go("/mypage");
+    },
+    //비밀번호 두 개 일치하는지 확인
+    pwupdate_doubleCheck() {
+      if (document.getElementById("updatePWInputFirst").value == document.getElementById("updatePWInputSecond").value) {
+        this.pwchangedouble_validation = true;
+      } else {
+        this.pwchangedouble_validation = false;
+      }
+      console.log(this.pwchangedouble_validation);
+    },
+    //비밀번호 수정
+    updateMemberInfo() {
+      this.pwupdate_doubleCheck();
+      let userid = this.$store.state.member_id;
+      let newPassword = document.getElementById("updatePWInputFirst").value;
+      console.log(newPassword);
+      axios
+        .post(this.$store.state.baseurl + "/api/member/changepwd", {
+          userid: userid,
+          password: newPassword,
+        })
+        .then((response) => {
+          if (response.message == "success" && this.pwchangedouble_validation) {
+            console.log("비밀번호를 메일로 전송");
+          } else {
+            console.log("아이디와 이메일을 다시 확인해주세요.");
+          }
+        });
     },
   },
 };
