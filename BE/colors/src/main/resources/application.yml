@@ -5,6 +5,12 @@ server:
     context-path: /api
 
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1MB
+      max-file-size: 50MB
+      max-request-size: 50MB
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -22,8 +28,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: root
+    username: ssafy
+    password: ssafy
   data:
     web:
       pageable:
@@ -35,7 +41,14 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
+#cloud:
+#  aws:
+#    s3:
+#      bucket: i7b208-s3-bucket2
+#    region:
+#      static: ap-northeast-2
+#    stack:
+#      auto: false
 logging:
   level:
     org.hibernate:

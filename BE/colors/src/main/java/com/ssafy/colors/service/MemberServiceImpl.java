@@ -4,6 +4,7 @@ import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.request.Mail;
 import com.ssafy.colors.request.MemberReq;
+import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.util.RandomStringGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberRes getMemberInfo(String userId) {
+        Member findMember = memberRepository.findFirstByUserId(userId);
+        if(findMember != null) {
+            MemberRes result = MemberRes.builder()
+                    .id(findMember.getId())
+                    .userId(findMember.getUserId())
+                    .profileUrl(findMember.getProfileUrl())
+                    .name(findMember.getName())
+                    .nickname(findMember.getNickname())
+                    .email(findMember.getEmail())
+                    .point(findMember.getPoint())
+                    .authGrade(findMember.isAuthGrade())
+                    .build();
+            System.out.println(result);
+
+            return result;
+        }
+        return null;
+    }
+
+    @Override
     public String findID(MemberReq memberReq) {
         String name = memberReq.getName();
         String email = memberReq.getEmail();
@@ -91,6 +113,14 @@ public class MemberServiceImpl implements MemberService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean checkPassword(String userId, String password) {
+        Member member = memberRepository.findByUserIdAndPassword(userId, password);
+
+        if(member != null) return true;
+        else return false;
     }
 
     @Override
