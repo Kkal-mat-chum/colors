@@ -20,20 +20,21 @@ let forwardTimes = [];
 const SSD_MOBILENETV1 = "ssd_mobilenetv1";
 const TINY_FACE_DETECTOR = "tiny_face_detector";
 
-let selectedFaceDetector = SSD_MOBILENETV1;
+let selectedFaceDetector = TINY_FACE_DETECTOR;
 
 // ssd_mobilenetv1 options
-let minConfidence = 0.3;
+let minConfidence = 0.6;
 
 // tiny_face_detector options
 let inputSize = 512;
-let scoreThreshold = 0.6;
+let scoreThreshold = 0.00001;
 
 export default {
   name: "OvVideo",
 
   props: {
     streamManager: Object,
+    color: Object,
   },
   data() {
     return {
@@ -51,6 +52,38 @@ export default {
     updateTimeStats(timeInMs) {
       forwardTimes = [timeInMs].concat(forwardTimes).slice(0, 30);
     },
+    changeFilter(ctx, box) {
+      var center_y = parseInt(box.y + box.height / 2);
+      var center_x = parseInt(box.x + box.width / 2);
+      // console.log(box);
+      var circle = new Path2D();
+      var radious = parseInt(box.width / 2);
+      circle.moveTo(parseInt(box.x), center_y);
+      circle.arc(center_x, center_y, radious, 0, 2 * Math.PI);
+      ctx.fillStyle = "#F30";
+      ctx.fill(circle);
+      // ctx.fillStyle = "#FFF";
+
+      ctx.globalAlpha = 0.2;
+      for (var i = 0; i < 20; i++) {
+        ctx.beginPath();
+        ctx.arc(center_x, center_y, radious + radious * 0.01 * i, 0, Math.PI * 2, true);
+        ctx.fill();
+      }
+    },
+    applyBGColor(frame) {
+      const length = frame.data.length;
+      const data = frame.data;
+      for (let i = 0; i < length; i += 4) {
+        if (data[i + 3] < 150) {
+          data[i] = 183;
+          data[i + 1] = 76;
+          data[i + 2] = 228;
+          if (data[i + 3] < 100) data[i + 3] = 255;
+        }
+      }
+    },
+    applyFilter() {},
 
     async onPlay() {
       const videoEl = document.getElementById("inputVideo");
@@ -64,79 +97,57 @@ export default {
       const ts = Date.now();
 
       const result = await faceapi.detectSingleFace(videoEl, options);
+      // console.log(selectedFaceDetector);
 
       this.updateTimeStats(Date.now() - ts);
 
       if (result) {
-        const canvas = document.getElementById("overlay");
-        faceapi.matchDimensions(canvas, videoEl, true);
-        // faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
-        // console.log(result);
-        if (canvas.getContext) {
-          var ctx = canvas.getContext("2d");
-          var box = result._box;
-          var center_y = parseInt(box.y + box.height / 2);
-          var center_x = parseInt(box.x + box.width / 2);
-          // console.log(box);
-          var circle = new Path2D();
-          var radious = parseInt(box.width / 2);
-          circle.moveTo(parseInt(box.x), center_y);
-          circle.arc(center_x, center_y, radious, 0, 2 * Math.PI);
-          ctx.fillStyle = "#F30";
-          ctx.fill(circle);
-          // ctx.fillStyle = "#FFF";
+        if (result.score > 0.1) {
+          const canvas = document.getElementById("overlay");
+          faceapi.matchDimensions(canvas, videoEl, true);
+          // faceapi.draw.drawDetections(canvas, faceapi.resizeResults(result, dims));
+          if (canvas.getContext) {
+            var ctx = canvas.getContext("2d");
+            this.changeFilter(ctx, result.box);
+            // console.log(canvas);
+            // const img = document.getElementById("transp");
+            // faceapi.matchDimensions(img, videoEl, true);
+            const dummy = document.getElementById("dummy");
+            faceapi.matchDimensions(dummy, videoEl, true);
+            // var ctx_img = img.getContext("2d");
+            // ctx_img.clearRect(0, 0, videoEl.width, videoEl.height);
 
-          ctx.globalAlpha = 0.2;
-          for (var i = 0; i < 20; i++) {
-            ctx.beginPath();
-            ctx.arc(center_x, center_y, radious + radious * 0.01 * i, 0, Math.PI * 2, true);
-            ctx.fill();
+            let dummy_ctx = dummy.getContext("2d");
+            dummy_ctx.drawImage(canvas, 0, 0);
+            // Draw the mask
+            // ctx_img.drawImage(canvas, 0, 0);
+
+            // Add the original video back in only overwriting the masked pixels
+            dummy_ctx.globalCompositeOperation = "source-in";
+            dummy_ctx.drawImage(videoEl, 0, 0);
+            const frame = dummy_ctx.getImageData(0, 0, canvas.width, canvas.height);
+            this.applyBGColor(frame);
+            // frame.data = data;
+            ctx.putImageData(frame, 0, 0);
+            // 지금 안됨..... 이유는 모르겠음
+            // Hacker 홈페이지에서 백그라운드 컬러를 주는 방식
+            // 그냥 css로 background-color를 주는 방식으로 사용?
+            // // Fill green on everything but the mask
+            // html canvas tag에서 가지는 globalCompositeOperation 사용
+            // ctx_img.globalCompositeOperation = "source-out";
+            // ctx_img.fillStyle = "#6667ab";
+            // // ctx_img.fill();
+            // ctx_img.fillRect(0, 600, videoEl.width, videoEl.height);
+
+            // // Add the original video back in (in image) , but only overwrite missing pixels.
+            // ctx_img.globalCompositeOperation = "destination-atop";
+            // // ctx_img.drawImage(dummy, 0, 0);
+            // videoEl.hidden = true;
+            // canvas.hidden = true;
+            dummy.hidden = "hidden";
           }
-          // console.log(canvas);
-          // const img = document.getElementById("transp");
-          // faceapi.matchDimensions(img, videoEl, true);
-          const dummy = document.getElementById("dummy");
-          faceapi.matchDimensions(dummy, videoEl, true);
-          // var ctx_img = img.getContext("2d");
-          // ctx_img.clearRect(0, 0, videoEl.width, videoEl.height);
-
-          let dummy_ctx = dummy.getContext("2d");
-          dummy_ctx.drawImage(canvas, 0, 0);
-          // Draw the mask
-          // ctx_img.drawImage(canvas, 0, 0);
-
-          // Add the original video back in only overwriting the masked pixels
-          dummy_ctx.globalCompositeOperation = "source-in";
-          dummy_ctx.drawImage(videoEl, 0, 0);
-          const frame = dummy_ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const length = frame.data.length;
-          const data = frame.data;
-          for (let i = 0; i < length; i += 4) {
-            if (data[i + 3] < 150) {
-              data[i] = 100;
-              data[i + 1] = 100;
-              data[i + 2] = 100;
-              if (data[i + 3] < 100) data[i + 3] = 255;
-            }
-          }
-          // frame.data = data;
-          ctx.putImageData(frame, 0, 0);
-          // 지금 안됨..... 이유는 모르겠음
-          // Hacker 홈페이지에서 백그라운드 컬러를 주는 방식
-          // 그냥 css로 background-color를 주는 방식으로 사용?
-          // // Fill green on everything but the mask
-          // html canvas tag에서 가지는 globalCompositeOperation 사용
-          // ctx_img.globalCompositeOperation = "source-out";
-          // ctx_img.fillStyle = "#6667ab";
-          // // ctx_img.fill();
-          // ctx_img.fillRect(0, 600, videoEl.width, videoEl.height);
-
-          // // Add the original video back in (in image) , but only overwrite missing pixels.
-          // ctx_img.globalCompositeOperation = "destination-atop";
-          // // ctx_img.drawImage(dummy, 0, 0);
-          // videoEl.hidden = true;
-          // canvas.hidden = true;
-          dummy.hidden = "hidden";
+        } else {
+          console.log(result.score);
         }
       }
 
@@ -209,7 +220,7 @@ export default {
         // await this.getCurrentFaceDetectionNet().loadFromUri("../../assets/models");
         // 파일을 로컬에서 불러올 수 없어서 로컬 http 서버에서 해당 파일을 읽어올 수 있도록 만듬
         const Model_URL = "http://192.168.25.7:8081/";
-        await faceapi.loadTinyFaceDetectorModel(Model_URL);
+        await this.getCurrentFaceDetectionNet().load(Model_URL);
       }
     },
   },
