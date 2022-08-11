@@ -1,7 +1,11 @@
 package com.ssafy.colors.service;
 
+import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.entity.Room;
+import com.ssafy.colors.database.entity.Topic;
+import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.database.repository.RoomRepository;
+import com.ssafy.colors.database.repository.TopicRepository;
 import com.ssafy.colors.enumdata.RoomStatus;
 import com.ssafy.colors.enumdata.RoomType;
 import com.ssafy.colors.request.RoomReq;
@@ -12,12 +16,19 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    TopicRepository topicRepository;
 
     @Autowired
     private RandomStringGenerator randomStringGenerator;
@@ -37,6 +48,16 @@ public class RoomServiceImpl implements RoomService {
             System.out.println("잘못된 파라미터입니다.");
             return null;
         }
+
+        Member host = memberRepository.findById(roomReq.getHostid()).get();
+        Topic selectedTopic = topicRepository.findById(roomReq.getTopicid()).get();
+
+        System.out.println("+==========================");
+        System.out.println(host);
+        System.out.println(selectedTopic);
+        System.out.println("+==========================");
+
+        if(host == null || selectedTopic == null) return null;
 
         // 랜덤으로 생성된 방 코드가 중복될 경우 최대 5회까지 시도
         String randomCode = null;
@@ -58,8 +79,10 @@ public class RoomServiceImpl implements RoomService {
         // 방 코드를 정상 발급 받은 경우
         if (issued) {
             Room room = Room.builder()
-                    .hostId(roomReq.getHostid())
-                    .topicId(roomReq.getTopicid())
+                    //.hostId(roomReq.getHostid())
+                    .host(host)
+                    //.topicId(roomReq.getTopicid())
+                    .topic(selectedTopic)
                     .roomCode(randomCode)
                     .roomType(roomType)
                     .cDate(LocalDateTime.now())
@@ -70,9 +93,9 @@ public class RoomServiceImpl implements RoomService {
 
                 RoomRes result = RoomRes.builder()
                         .roomid(room.getId())
-                        .hostid(room.getHostId())
+                        .hostid(room.getHost().getId())
                         .roomcode(room.getRoomCode())
-                        .title(null)
+                        .title(room.getTopic().getTitle())
                         .roomtype(room.getRoomType().toString().toLowerCase())
                         .status(room.getStatus().toString().toLowerCase())
                         .build();

@@ -41,7 +41,7 @@ public class TopicController {
         String writer = (String)params.get("writer");
         long topicId = topicService.save(title, writer);
         HashMap<String, Object> result = new HashMap<>();
-        result.put("message", "access");
+        result.put("message", "success");
         result.put("topicId",topicId);
 
         return new ResponseEntity<>(result, HttpStatus.OK);

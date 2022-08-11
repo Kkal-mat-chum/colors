@@ -16,18 +16,26 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "topic")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder()
 public class Room extends BaseEntity {
-    @Column(name = "host_id", nullable = false)
-    Long hostId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "host_id")
+    private Member host;
 
-    @Column(name = "topic_id", nullable = true)
-    Long topicId;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "topic_id", nullable = true)
+//    private Topic topic;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topic_id", nullable = true)
+    private Topic topic;
 
-    @Column(name = "room_id", length = 15, nullable = false)
+//    @Column(name = "topic_id", nullable = true)
+//    Long topicId;
+
+    @Column(name = "room_code", length = 15, nullable = false)
     String roomCode;
 
     @Column(name = "room_type", nullable = false)

@@ -5,8 +5,11 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller 작성을 위해 임시로 만든 테이블입니다.
@@ -17,7 +20,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "rooms")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -54,4 +57,7 @@ public class Member extends BaseEntity {
     @Column(name = "is_deleted")
     @ColumnDefault("false")
     boolean isDeleted;
+
+    @OneToMany(mappedBy = "host")
+    List<Room> rooms = new ArrayList<>();
 }
