@@ -26,9 +26,9 @@
           <div class="colorpalleteTitle">
             <h2>컬러 팔레트 내역</h2>
             <div class="nowColor">
-              <div class="colorName">
-                <p>#E3D3FF</p>
-                <p>Pale Lime Yellow</p>
+              <div class="colorName" id="hoveringBorder" :style="hoveringBorder">
+                <p>{{ hoveringColor }}</p>
+                <!-- <p>Pale Lime Yellow</p> -->
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
                   <div class="top1"><p>1위</p></div>
                   <div class="color" style="background-color: #ffdeec"></div>
                 </div>
-                <colorpallete class="pallete"></colorpallete>
+                <colorpalleteAlone class="pallete"></colorpalleteAlone>
               </div>
             </div>
             <div class="PalleteTitle">
@@ -50,7 +50,7 @@
                   <div class="top1"><p>1위</p></div>
                   <div class="color" style="background-color: #c1c4ff"></div>
                 </div>
-                <colorpallete class="pallete"></colorpallete>
+                <colorpalleteTeam class="pallete"></colorpalleteTeam>
               </div>
             </div>
             <div class="PalleteTitle">
@@ -65,7 +65,7 @@
                   <div class="top1"><p>1위</p></div>
                   <div class="color" style="background-color: #ffd2d2"></div>
                 </div>
-                <colorpallete class="pallete"></colorpallete>
+                <colorpalleteRandom class="pallete"></colorpalleteRandom>
               </div>
             </div>
           </div>
@@ -76,20 +76,40 @@
 </template>
 
 <script>
-import colorpallete from "@/components/myPage/colorPallete.vue";
+// import colorpallete from "@/components/myPage/colorPallete.vue";
+import colorpalleteAlone from "@/components/myPage/colorPalleteAlone.vue";
+import colorpalleteTeam from "@/components/myPage/colorPalleteTeam.vue";
+import colorpalleteRandom from "@/components/myPage/colorPalleteRandom.vue";
 import myinfo from "@/components/myPage/myInfo.vue";
 import ModifyUser from "@/components/user/customUpdateUser.vue";
 export default {
   name: "MyPage",
   components: {
-    colorpallete,
+    // colorpallete,
+    colorpalleteAlone,
+    colorpalleteTeam,
+    colorpalleteRandom,
     myinfo,
     ModifyUser,
   },
   data() {
     return {
       showModal: false,
+      // hoveringColor: this.$store.state.hoveringColor,
     };
+  },
+  // mounted: { // 결과 api받고, store에 저장해놓기
+  //   axios
+  // },
+  computed: {
+    hoveringColor: function () {
+      return this.$store.state.hoveringColor;
+    },
+    hoveringBorder() {
+      return {
+        "--hovering-border": this.$store.state.hoveringColor,
+      };
+    },
   },
   methods: {
     testClick() {
@@ -296,5 +316,8 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: -4%;
+}
+#hoveringBorder {
+  border-color: var(--hovering-border);
 }
 </style>
