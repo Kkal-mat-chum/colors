@@ -10,12 +10,12 @@
       <!-- <div class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]">
         <img :src="require(`@/${firstImageUrl}`)" alt="sample1" class="imageColorTourn"  />
       </div> -->
-      <img :src="require(`@/${firstImageUrl}`)" alt="sample1" class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]" />
-      <label for="vs" class="vsLabel">vs</label>
+      <img src="" alt="sample1" class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]" />
+      <label for="                                                                                                                   vs" class="vsLabel">vs</label>
       <!-- <div class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]">
         <img :src="require(`@/${secondImageUrl}`)" alt="sample2" class="imageTourn" />
       </div> -->
-      <img :src="require(`@/${secondImageUrl}`)" alt="sample2" class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]" />
+      <img src="" alt="sample2" class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]" />
       <div class="dummyMarginColorTourn2"></div>
     </div>
     <div class="bodyColorTourn3">
@@ -38,20 +38,20 @@ export default {
       // firstImageUrl: this.$store.state.imgUrlList[this.firstImageIdx],
     };
   },
-  computed: {
-    firstImageUrl: function () {
-      return this.$store.state.imgUrlList[this.firstImageIdx];
-    },
-    secondImageUrl: function () {
-      return this.$store.state.imgUrlList[this.secondImageIdx];
-    },
-    firstImageIdx: function () {
-      return this.tournOrder[this.initFirstImageIdx];
-    },
-    secondImageIdx: function () {
-      return this.tournOrder[this.initSecondImageIdx];
-    },
-  },
+  // computed: {
+  //   firstImageUrl: function () {
+  //     return this.$store.state.imgUrlList[this.firstImageIdx];
+  //   },
+  //   secondImageUrl: function () {
+  //     return this.$store.state.imgUrlList[this.secondImageIdx];
+  //   },
+  //   firstImageIdx: function () {
+  //     return this.tournOrder[this.initFirstImageIdx];
+  //   },
+  //   secondImageIdx: function () {
+  //     return this.tournOrder[this.initSecondImageIdx];
+  //   },
+  // },
   methods: {
     selectFirstImage() {
       this.tournOrder.push(this.firstImageIdx);

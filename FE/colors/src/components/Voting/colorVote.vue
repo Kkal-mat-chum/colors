@@ -6,16 +6,17 @@
       </div>
       <div class="gridPicturesColorVote">
         <div class="gridPicturesColorVote1">
-          <div class="imageColorVote" id="imageColorVote1"></div>
-          <div class="imageColorVote" id="imageColorVote2"></div>
-          <div class="imageColorVote" id="imageColorVote3"></div>
-          <div class="imageColorVote" id="imageColorVote4"></div>
+          <img src="" alt="zero_img" class="imageColorVote" id="imageColorVote0" />
+          <img src="" alt="first_img" class="imageColorVote" id="imageColorVote1" />
+          <img src="" alt="second_img" class="imageColorVote" id="imageColorVote2" />
+          <img src="" alt="third_img" class="imageColorVote" id="imageColorVote3" />
         </div>
         <div class="gridPicturesColorVote2">
-          <div class="imageColorVote" id="imageColorVote5"></div>
-          <div class="imageColorVote" id="imageColorVote6"></div>
-          <div class="imageColorVote" id="imageColorVote7"></div>
-          <div class="imageColorVote" id="imageColorVote8"></div>
+          <img src="" alt="fourth_img" class="imageColorVote" id="imageColorVote4" />
+          <img src="" alt="fifth_img" class="imageColorVote" id="imageColorVote5" />
+          <img src="" alt="sixth_img" class="imageColorVote" id="imageColorVote6" />
+          <img src="" alt="seventh_img" class="imageColorVote" id="imageColorVote7" />
+          <!-- <div class="imageColorVote" id="imageColorVote8"></div> -->
         </div>
       </div>
       <div class="gridRightBtnColorVote">
@@ -63,6 +64,9 @@
   border: 2px solid #d0d1ff;
   border-radius: 15px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
+}
+.imageColorVote:hover {
+  border-color: #4a4d74;
 }
 .leftBtnColorVote {
   color: #6667ab;

@@ -54,7 +54,7 @@ export default {
       h: 0,
       s: 0,
       v: 0,
-      count: 0,
+      count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
     };
   },
@@ -90,14 +90,14 @@ export default {
   methods: {
     // 선택한 색의 컬러코드를 store에 저장
     showOneSelectedColor() {
-      if (this.count < 8) {
+      if (this.count_pallete < 8) {
         this.modelHex = this.rgb2hex(this.rgba, true);
         console.log(this.modelHex);
         this.$store.commit("NEW_COLOR", { color: this.modelHex });
         this.selectedColorLst = this.$store.state.selectedColorLst;
-        this.selectedColorLst.splice(this.count, 1, this.$store.state.storeselectedColor.color);
+        this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
-        this.count++;
+        this.count_pallete++;
       }
     },
     setText() {
