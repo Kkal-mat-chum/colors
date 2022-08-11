@@ -20,6 +20,7 @@ export default new Vuex.Store({
     isLogin: false,
     storeselectedColor: "#ffffff",
     selectedColorLst: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+    tournamentResultLst: [],
   },
   getters: {},
   mutations: {

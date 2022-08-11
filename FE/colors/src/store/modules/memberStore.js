@@ -3,7 +3,7 @@
 
 const memberStore = {
   state: {
-    // 임시로 만든 내용입니다. (현재 색깔을 팔레트에 저장하는거 하려고)
+    teamJoinList: ["송다경", "김찬일", "이한기", "오정환", "강민성", "김민영"],
   },
   getters: {},
   mutations: {},

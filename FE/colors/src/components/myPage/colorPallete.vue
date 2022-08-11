@@ -19,12 +19,13 @@
 export default {
   data() {
     return {
-      selectedColor: "#aaaabc",
-      count: 0,
+      // selectedColor: "#aaaabc",
+      // count: 0,
     };
   },
   computed: {
     customColor() {
+      //https://jh-7.tistory.com/26 참조
       return {
         "--background-color-circle0": this.$store.state.selectedColorLst[0],
         "--background-color-circle1": this.$store.state.selectedColorLst[1],
