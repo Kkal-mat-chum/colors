@@ -135,6 +135,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean updateMemberImage(String userId, String url) {
+        int result = memberRepository.updateProfileImage(userId, url);
+        return result > 0;
+    }
+
+    @Override
     public boolean updatePassword(MemberReq memberReq) {
         String inputPwd = memberReq.getPassword();
         String inputId = memberReq.getUserid();

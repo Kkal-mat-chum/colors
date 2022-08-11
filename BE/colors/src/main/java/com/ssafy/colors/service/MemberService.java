@@ -14,6 +14,7 @@ public interface MemberService {
     public boolean findPassword(MemberReq memberReq);
     public boolean checkPassword(String userId, String password);
     public boolean updateMemberInfo(MemberReq memberReq);
+    public boolean updateMemberImage(String userId, String url);
     public boolean updatePassword(MemberReq memberReq);
     public boolean deleteMember(String userId);
 }

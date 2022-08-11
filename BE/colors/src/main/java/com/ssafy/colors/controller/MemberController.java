@@ -178,6 +178,23 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PostMapping("/changeimg")
+    public ResponseEntity<Map<String, Object>> updateMemberProfileImage(@RequestBody Map<String, Object> params) {
+        System.out.println("[POST] - /member/changeimg");
+
+        Map<String, Object> result = new HashMap<>();
+        String userId = (String) params.get("userid");
+        String imgUrl = (String) params.get("image-url");
+
+        if(memberService.updateMemberImage(userId, imgUrl)) {
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     // 비밀번호 변경
     @PutMapping("/changepwd")
     @ApiOperation(value = "비밀번호 변경", notes = "입력받은 회원의 비밀번호를 변경한다.")
