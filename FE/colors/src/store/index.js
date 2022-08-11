@@ -21,6 +21,8 @@ export default new Vuex.Store({
     storeselectedColor: "#ffffff",
     selectedColorLst: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
     tournamentResultLst: [],
+
+    baseurl: process.env.VUE_APP_API_SERVER,
   },
   getters: {},
   mutations: {
