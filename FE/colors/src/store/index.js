@@ -18,9 +18,15 @@ export default new Vuex.Store({
     a: 1,
 
     isLogin: false,
+    storeselectedColor: "#ffffff",
+    selectedColorLst: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    NEW_COLOR(state, new_color) {
+      state.storeselectedColor = new_color;
+    },
+  },
   actions: {},
   modules: {
     meetingStore,

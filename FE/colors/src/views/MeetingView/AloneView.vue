@@ -18,7 +18,7 @@
         <div class="selectColor">
           <colorchoice @changeColor="changeColor"></colorchoice>
         </div>
-        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" @click="capture()"></customButton>
+        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
         <customButton class="votebtn" btnText="투표하기"></customButton>
         <customButton class="exitbtn" btnText="종료"></customButton>
       </div>
@@ -54,6 +54,8 @@ export default {
       h: 0,
       s: 0,
       v: 0,
+      count: 0,
+      selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
     };
   },
   computed: {
@@ -86,10 +88,20 @@ export default {
     });
   },
   methods: {
-    capture() {
-      html2canvas(document.getElementById("webcam")).then(function (canvas) {
-        document.getElementById("webcam").appendChild(canvas);
-      });
+    // 선택한 색의 컬러코드를 store에 저장
+    showOneSelectedColor() {
+      if (this.count < 8) {
+        this.modelHex = this.rgb2hex(this.rgba, true);
+        console.log(this.modelHex);
+        this.$store.commit("NEW_COLOR", { color: this.modelHex });
+        this.selectedColorLst = this.$store.state.selectedColorLst;
+        this.selectedColorLst.splice(this.count, 1, this.$store.state.storeselectedColor.color);
+        this.$store.state.selectedColorLst = this.selectedColorLst;
+        this.count++;
+        html2canvas(document.getElementById("webcam")).then(function (canvas) {
+          document.getElementById("webcam").appendChild(canvas);
+        });
+      }
     },
     setText() {
       this.modelHex = this.rgb2hex(this.rgba, true);
