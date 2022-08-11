@@ -1,15 +1,18 @@
 package com.ssafy.colors.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class TopicRes {
+@AllArgsConstructor
+public class TopicRes<T> {
 
-    private String title;
+    int maxpage ;
+    long topiccnt;
+    List<T> topics;
 
-    private boolean recommend;
-
-    private Long cnt;
 }
