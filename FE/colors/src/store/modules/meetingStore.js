@@ -14,9 +14,11 @@ const meetingStore = {
   mutations: {
     SINGLE_MEETING(state, data) {
       state.singleUsers.push(data);
+      sessionStorage.setItem("sessionCode", data.roomcode);
     },
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
+      sessionStorage.setItem("sessionCode", data.roomcode);
     },
   },
   actions: {
@@ -27,7 +29,6 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("SINGLE_MEETING", data);
-        console.log("dd");
         router.push("/alone/roomcode");
       });
     },

@@ -24,14 +24,14 @@
             <input type="text" class="userInput" id="nameLabel" placeholder="이름을 입력해주세요." /><br />
             <input type="text" class="userInput" id="nickLabel" placeholder="닉네임을 입력해주세요." /><br />
             <input type="text" class="userInput" id="emailLabel" placeholder="이메일을 입력해주세요" /><br />
-            <input type="text" class="userInput" id="emailcheckLabel" placeholder="전송된 인증 번호를 입력하세요." />
+            <input type="text" class="userInput" id="emailcheckLabel" v-model="emailCode" placeholder="전송된 인증 번호를 입력하세요." />
           </div>
           <div class="inputCheckBoxs">
             <customButton class="signUpIDCheckBtn" id="signUpIDCheckBtn" btnText="중복 확인" @click="checkDuplicateID">아이디 중복확인</customButton>
             <div class="dummyMarginSignUp1"></div>
             <customButton class="signUpnickCheckBtn" id="signUpnickCheckBtn" btnText="중복 확인" @click="checkDuplicateNickname">testButton</customButton>
             <customButton class="signUpEmailCheckBtn" id="signUpEmailCheckBtn" btnText="이메일 인증" @click="testClick">testButton</customButton>
-            <div class="dummyMarginSignUp2"></div>
+            <customButton class="signUpEmailCheckBtn" id="signUpEmailCheckBtn" btnText="이메일 확인" @click="emailCheck">testButton</customButton>
           </div>
         </div>
         <div class="signUpFinalCheck">
@@ -62,6 +62,7 @@ export default {
       nick_validation: false, //중복 확인 누를 때 검사
       email_validation: false, //회원가입버튼 누를 때 검사
       state_message: "",
+      emailCode: "",
     };
   },
   computed: {
@@ -177,21 +178,31 @@ export default {
       } else {
         console.log("아이디, 비밀번호 둘 다 다시 확인해주세용");
       }
-      axios
-        .post(this.$store.state.baseurl + "/api/member/chknic/", {
-          nickname: new_nickname,
-          userid: new_userid,
-          password: new_password,
-          name: new_name,
-          email: new_email,
-        })
-        .then((response) => {
-          if (response.message == "success") {
-            console.log("로그인 완료");
-          } else {
-            console.log("로그인 실패");
-          }
-        });
+      if (sessionStorage.getItem("checkEmail") == true && this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
+        axios
+          .post(this.$store.state.baseurl + "/api/member/chknic/", {
+            nickname: new_nickname,
+            userid: new_userid,
+            password: new_password,
+            name: new_name,
+            email: new_email,
+          })
+          .then((response) => {
+            if (response.message == "success") {
+              console.log("로그인 완료");
+            } else {
+              console.log("로그인 실패");
+            }
+          });
+      } else {
+        alert("회원정보를 다시 확인하세요.");
+      }
+    },
+    emailCheck() {
+      let memberEmail = {
+        emailCheck: this.emailCode,
+      };
+      this.$store.dispatch("memberEmailCheck", memberEmail);
     },
   },
 };
@@ -301,6 +312,7 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: -10px;
 }
 button {
   width: 100%;
@@ -353,10 +365,6 @@ button {
 .dummyMarginSignUp1 {
   width: 80%;
   height: 40%;
-}
-.dummyMarginSignUp2 {
-  width: 80%;
-  height: 10%;
 }
 #signUpWarning {
   margin-top: 80%;
