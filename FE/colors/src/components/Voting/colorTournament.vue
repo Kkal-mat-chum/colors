@@ -104,7 +104,9 @@ export default {
         this.round = "";
         this.process = this.process / 2;
       } else if (this.process < 2) {
-        console.log("끗");
+        // console.log("끗");
+        this.processed = "";
+        this.round = "";
         this.$store.state.tournamentResultLst = this.$store.state.selectedColorLst.concat(this.tournamentResultLst);
         console.log(this.$store.state.tournamentResultLst);
         this.$router.push("/tournamentnameresult");
