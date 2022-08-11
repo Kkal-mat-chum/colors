@@ -19,8 +19,7 @@ export default new Vuex.Store({
 
     isLogin: false,
     storeselectedColor: "#ffffff",
-    selectedColorLst: ["#111111", "#222222", "#333333", "#444444", "#555555", "#666666", "#777777", "#888888"],
-    // selectedColorLst: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+    selectedColorLst: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
     tournamentResultLst: [],
   },
   getters: {},
