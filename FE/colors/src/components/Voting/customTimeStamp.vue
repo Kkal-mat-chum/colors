@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     totalTime() {
-      this.timeStr = this.$store.state.teamJoinList.length * 30 + 1;
+      this.timeStr = this.$store.memberStore.state.teamJoinList.length * 30 + 1;
     },
     start_auto_reload() {
       console.log("start!");
