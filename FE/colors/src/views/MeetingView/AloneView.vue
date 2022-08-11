@@ -3,7 +3,7 @@
     <sidebar></sidebar>
     <div class="contents">
       <div class="camera">
-        <webcam class="webcam"></webcam>
+        <webcam id="webcam"></webcam>
         <div class="buttons">
           <customButton class="mute" btnText="음소거"></customButton>
           <customButton class="videostop" btnText="비디오 중지"></customButton>
@@ -32,7 +32,7 @@ import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
-// import selectedcolor from '@/store/modules/memberStore.js'
+import html2canvas from "html2canvas";
 
 export default {
   name: "aloneMeeting",
@@ -97,7 +97,10 @@ export default {
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
-        this.count_pallete++;
+        this.count++;
+        html2canvas(document.getElementById("webcam")).then(function (canvas) {
+          document.getElementById("webcam").appendChild(canvas);
+        });
       }
     },
     setText() {
@@ -132,7 +135,7 @@ body {
   width: 157vh;
   text-align: center;
 }
-.webcam {
+#webcam {
   display: inline-block;
   width: 600px;
   height: 300px;
