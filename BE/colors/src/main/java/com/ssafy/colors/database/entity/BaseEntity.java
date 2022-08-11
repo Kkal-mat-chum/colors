@@ -3,12 +3,10 @@ package com.ssafy.colors.database.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
-@Getter @Setter
+@Getter
+@Setter
 @MappedSuperclass
 public class BaseEntity {
     @Id

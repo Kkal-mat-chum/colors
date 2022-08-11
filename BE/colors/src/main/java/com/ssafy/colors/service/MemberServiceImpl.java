@@ -4,6 +4,7 @@ import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.request.Mail;
 import com.ssafy.colors.request.MemberReq;
+import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.util.RandomStringGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +46,10 @@ public class MemberServiceImpl implements MemberService {
                 .name(memberReq.getName())
                 .nickname(memberReq.getNickname())
                 .email(memberReq.getEmail())
-                .point(0)
-                .authGrade(false)
+                //.point(0)
+                //.authGrade(false)
                 .regDate(LocalDateTime.now())
-                .isDeleted(false)
+                //.isDeleted(false)
                 .build();
 
         try {
@@ -57,6 +58,27 @@ public class MemberServiceImpl implements MemberService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public MemberRes getMemberInfo(String userId) {
+        Member findMember = memberRepository.findFirstByUserId(userId);
+        if(findMember != null) {
+            MemberRes result = MemberRes.builder()
+                    .id(findMember.getId())
+                    .userId(findMember.getUserId())
+                    .profileUrl(findMember.getProfileUrl())
+                    .name(findMember.getName())
+                    .nickname(findMember.getNickname())
+                    .email(findMember.getEmail())
+                    .point(findMember.getPoint())
+                    .authGrade(findMember.isAuthGrade())
+                    .build();
+            System.out.println(result);
+
+            return result;
+        }
+        return null;
     }
 
     @Override
@@ -86,11 +108,19 @@ public class MemberServiceImpl implements MemberService {
                     .message("임시비밀번호 : " + randomPwd)
                     .build();
             /* 무분별한 메일 전송 방지를 위해 개발 끝나고 테스트 할 때에만 주석 해제할 것 */
-            mailService.mailSend(mail);
+            //mailService.mailSend(mail);
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean checkPassword(String userId, String password) {
+        Member member = memberRepository.findByUserIdAndPassword(userId, password);
+
+        if(member != null) return true;
+        else return false;
     }
 
     @Override
@@ -101,6 +131,12 @@ public class MemberServiceImpl implements MemberService {
 
         int result = memberRepository.updateMemberInfo(inputNickname, inputName, inputId);
 
+        return result > 0;
+    }
+
+    @Override
+    public boolean updateMemberImage(String userId, String url) {
+        int result = memberRepository.updateProfileImage(userId, url);
         return result > 0;
     }
 
