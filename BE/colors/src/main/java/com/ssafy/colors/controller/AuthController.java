@@ -9,10 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    private static final String SUCCESS = "success";
+    private static final String FAIL = "fail";
 
     @Autowired
     AuthService authService;
@@ -36,6 +40,22 @@ public class AuthController {
         return new ResponseEntity<>(resultmap, HttpStatus.OK);
     }
 
+    // 회원가입 시 이메일 인증코드 발송
+    @PostMapping("/email")
+    public ResponseEntity<Map<String, Object>> checkEmail(@RequestBody Map<String, Object> params) {
+        System.out.println("[POST] - /member/email");
 
+        Map<String, Object> result = new HashMap<>();
+        String email = (String) params.get("email");
+        String code = authService.generateAndSendAuthCode(email);
 
+        if(code != null) {
+            result.put("message", SUCCESS);
+            result.put("authcode", code);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
