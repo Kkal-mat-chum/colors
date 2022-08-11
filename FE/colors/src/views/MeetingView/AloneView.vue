@@ -3,7 +3,7 @@
     <sidebar></sidebar>
     <div class="contents">
       <div class="camera">
-        <webcam class="webcam"></webcam>
+        <webcam id="webcam"></webcam>
         <div class="buttons">
           <customButton class="mute" btnText="음소거"></customButton>
           <customButton class="videostop" btnText="비디오 중지"></customButton>
@@ -18,7 +18,7 @@
         <div class="selectColor">
           <colorchoice @changeColor="changeColor"></colorchoice>
         </div>
-        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기"></customButton>
+        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" @click="capture()"></customButton>
         <customButton class="votebtn" btnText="투표하기"></customButton>
         <customButton class="exitbtn" btnText="종료"></customButton>
       </div>
@@ -32,6 +32,7 @@ import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
+import html2canvas from "html2canvas";
 
 export default {
   name: "aloneMeeting",
@@ -85,6 +86,11 @@ export default {
     });
   },
   methods: {
+    capture() {
+      html2canvas(document.getElementById("webcam")).then(function (canvas) {
+        document.getElementById("webcam").appendChild(canvas);
+      });
+    },
     setText() {
       this.modelHex = this.rgb2hex(this.rgba, true);
       this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;
@@ -117,7 +123,7 @@ body {
   width: 157vh;
   text-align: center;
 }
-.webcam {
+#webcam {
   display: inline-block;
   width: 600px;
   height: 300px;
