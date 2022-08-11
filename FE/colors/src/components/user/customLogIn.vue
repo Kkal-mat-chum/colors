@@ -46,7 +46,7 @@ export default {
     gotosignup() {
       this.$router.push("/signup");
     },
-    //로그인 - 토큰 저장하기@@@@@ access-token?
+    //로그인
     loginMember() {
       let login_id = document.getElementById("logInInput").value;
       let login_pw = document.getElementById("logInpageInput").value;
@@ -55,11 +55,19 @@ export default {
           userid: login_id,
           password: login_pw,
         })
+        // 토큰을 세션스토리지에 저장해놓기
         .then((response) => {
           if (response.message == "fail") {
             this.loginWarningShow = true;
           } else if (response.message == "success") {
             sessionStorage.setItem("access-token", response["access-token"]);
+            //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
+            axios.get(this.$store.state.baseurl + "/api/member/" + login_id).then((response) => {
+              if (response.message == "success") {
+                //https://granya.tistory.com/4 참조 배열을 저장하는 방법
+                sessionStorage.setItem("memberData", JSON.stringify(response.data));
+              }
+            });
           }
         });
       // console.log(login_id, login_pw);

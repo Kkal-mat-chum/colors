@@ -3,7 +3,7 @@
     <div class="dummyMarginColorTourn1"></div>
     <div class="bodyColorTourn1">
       <label for="titleColorTourn" class="titleColorTourn">자신과 더 어울리는 색을 선택하세요.</label>
-      <label for="processColorTourn" class="subtitleColorTourn">{{ processed }} {{ round }} Round [{{ round }}/{{ process / 2 }}]</label>
+      <label for="processColorTourn" class="subtitleColorTourn">{{ processed }} {{ round }} {{ nowAndTotal }}</label>
     </div>
     <div class="bodyColorTourn2">
       <div class="dummyMarginColorTourn2"></div>
@@ -11,7 +11,7 @@
         <img :src="require(`@/${firstImageUrl}`)" alt="sample1" class="imageColorTourn"  />
       </div> -->
       <img src="" alt="sample1" class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]" />
-      <label for="                                                                                                                   vs" class="vsLabel">vs</label>
+      <label for="vs" class="vsLabel">vs</label>
       <!-- <div class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]">
         <img :src="require(`@/${secondImageUrl}`)" alt="sample2" class="imageTourn" />
       </div> -->
@@ -36,7 +36,26 @@ export default {
       initFirstImageIdx: 0,
       initSecondImageIdx: 1,
       // firstImageUrl: this.$store.state.imgUrlList[this.firstImageIdx],
+      tournamentResultLst: [],
     };
+  },
+  computed: {
+    // tournOrder: function () {
+    //   return this.$store.state.selectedColorLst;
+    // },
+    firstImageIdx: function () {
+      return this.tournOrder[this.initFirstImageIdx];
+    },
+    secondImageIdx: function () {
+      return this.tournOrder[this.initSecondImageIdx];
+    },
+    nowAndTotal: function () {
+      if (this.process >= 4) {
+        return "Round [" + this.round + "/" + this.process / 2 + "]";
+      } else {
+        return "Final Round";
+      }
+    },
   },
   // computed: {
   //   firstImageUrl: function () {
@@ -55,12 +74,18 @@ export default {
   methods: {
     selectFirstImage() {
       this.tournOrder.push(this.firstImageIdx);
+      this.tournamentResultLst.push(this.$store.state.selectedColorLst[this.firstImageIdx]);
+      // console.log(this.tournamentResultLst);
+      // console.log(this.firstImageIdx);
     },
     selectSecondImage() {
       this.tournOrder.push(this.secondImageIdx);
+      this.tournamentResultLst.push(this.$store.state.selectedColorLst[this.secondImageIdx]);
     },
     selectImage() {
-      // console.log("이게맞나????");
+      // console.log(this.tournamentResultLst);
+      // console.log(this.firstImageIdx);
+      console.log(this.process);
       // 양쪽 img idx 2씩 증가
       this.initFirstImageIdx = this.initFirstImageIdx + 2;
       this.initSecondImageIdx = this.initSecondImageIdx + 2;
@@ -71,22 +96,21 @@ export default {
         this.process = this.process / 2;
         this.round = 1;
         this.processed = String(this.process) + "강";
-        this.imageName = "sampleimage3";
+        // this.imageName = "sampleimage3";
       }
       //2강은 결승 출력
-      if (this.process === 2) {
+      if (this.process == 2) {
         this.processed = "결승";
-        this.round = "Final";
+        this.round = "";
+        this.process = this.process / 2;
       } else if (this.process < 2) {
-        this.processed = "끗";
+        console.log("끗");
+        this.$store.state.tournamentResultLst = this.$store.state.selectedColorLst.concat(this.tournamentResultLst);
+        console.log(this.$store.state.tournamentResultLst);
+        this.$router.push("/tournamentnameresult");
+        // this.processed = "끗";
       }
-      console.log(this.tournOrder);
-      // console.log(this.$store.state.imgUrlList[0]);
     },
-    // domouseover() {
-
-    //   console.log(this.tournOrder);
-    // },
   },
 };
 </script>
