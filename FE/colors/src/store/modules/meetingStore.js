@@ -1,8 +1,10 @@
 import router from "@/router";
 import { api } from "@/store";
+import { string } from "@tensorflow/tfjs-core";
 
 const meetingStore = {
   state: {
+    userName: string,
     singleUsers: [],
     singleUser: {},
     groupUsers: [],
@@ -17,6 +19,8 @@ const meetingStore = {
       type: Boolean,
       default: false,
     },
+    isChatPanel: false,
+    messages: [],
   },
   getters: {
     getPublishAudio(state) {
@@ -41,6 +45,15 @@ const meetingStore = {
     changePublishVideo(state) {
       state.publishVideo = !state.publishVideo;
     },
+    SET_IS_CHATPANEL(state, value) {
+      state.isChatPanel = value;
+    },
+    SET_MESSAGES(state, data) {
+      state.messages.push(data);
+    },
+    SET_CLEARMESSAGES(state) {
+      state.messages = [];
+    },
   },
   actions: {
     singleMeeting({ commit }, params) {
@@ -61,6 +74,30 @@ const meetingStore = {
       }).then(({ data }) => {
         commit("GOURP_MEETING", data);
         router.push("/group");
+      });
+    },
+    toggleChatPanel({ state, commit }) {
+      commit("SET_IS_CHATPANEL", !state.isChatPanel);
+      console.log(state.isChatPanel);
+      if (state.isChatPanel === true) {
+        setTimeout(() => {
+          var chatDiv = document.getElementById("chat-area");
+          chatDiv.scrollTo({
+            top: chatDiv.scrollHeight - chatDiv.clientHeight,
+            behavior: "smooth",
+          });
+        }, 50);
+      }
+    },
+    sendMessage({ state }, message) {
+      var messageData = {
+        content: message,
+        secretName: state.userName,
+      };
+      state.session.signal({
+        type: "chat",
+        data: JSON.stringify(messageData),
+        to: [],
       });
     },
   },
