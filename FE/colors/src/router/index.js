@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+// import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
 import enterPageView from "../views/EnterView.vue";
 import topicBoard from "@/views/TopicSuggesView.vue";
@@ -11,11 +11,11 @@ import teamVoting from "../views/VotingView/TeamVoting.vue";
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: HomeView,
-  },
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: HomeView,
+  // },
   {
     path: "/about",
     name: "about",
@@ -64,7 +64,7 @@ const routes = [
     component: () => import("@/components/user/customSignUp.vue"),
   },
   {
-    path: "/login",
+    path: "/",
     name: "logIn",
     component: () => import("@/components/user/customLogIn.vue"),
   },
