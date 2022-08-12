@@ -34,8 +34,9 @@ public class AuthController {
         HashMap<String, Object> resultmap = new HashMap<>();
         if(authService.login(user)){
             result = "success";
-            resultmap.put("auth_token", jwtUtil.createAccessToken(user.getUserId()));
+            resultmap.put("access-token", jwtUtil.createAccessToken(user.getUserId()));
         }
+        resultmap.put("message",result);
 
         return new ResponseEntity<>(resultmap, HttpStatus.OK);
     }
@@ -58,4 +59,5 @@ public class AuthController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 }
