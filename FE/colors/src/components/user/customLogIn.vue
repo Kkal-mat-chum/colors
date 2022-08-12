@@ -61,8 +61,9 @@ export default {
             this.loginWarningShow = true;
             this.loginAlram = true;
           } else if (response.data.message == "success") {
+            console.log(response.data.member);
             sessionStorage.setItem("access-token", response["access-token"]);
-            sessionStorage.setItem("userId", login_id);
+            sessionStorage.setItem("loginUser", response.data.member);
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
             this.$store.state.memberStore.isLogin = true;
             axios.get(this.$store.state.baseurl + "api/member/" + login_id).then((response) => {
