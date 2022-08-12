@@ -13,11 +13,6 @@
         <input type="text" class="inPwFindInput" id="idFindNameInputInIdpwFind" placeholder="이름을 입력해주세요." />
         <input type="text" class="inPwFindInput" id="idFindEmailInputInIdpwFind" placeholder="이메일을 입력해주세요." />
         <customButton class="idFindInIdpwFindBtn" id="idFindInIdpwFindBtn" btnText="확 인" @click="findID">아이디 찾기 버튼</customButton>
-        <label for="idFindstate" class="labelInIdpwFind" v-if="idResultShow"
-          >아이디는
-          <div id="showID">{{ response.userid }}</div>
-          입니다.</label
-        >
         <div class="height"></div>
       </div>
       <div class="dummyMarginIdpwFind5"></div>
@@ -36,13 +31,18 @@
         <input type="text" class="inPwFindInput" id="pwFindIdInputInIdpwFind" placeholder="아이디를 입력해주세요." />
         <input type="text" class="inPwFindInput" id="pwFindEmailInputInIdpwFind" placeholder="이메일을 입력해주세요." />
         <customButton class="idFindInIdpwFindBtn" id="pwFindInIdpwFindBtn" btnText="임시 비밀번호 보내기" @click="findPassword">임시비번보내기 버튼</customButton>
-        <label for="pwFindstate" class="labelInIdpwFind" v-if="pwResultShow">임시 비밀번호를 메일로 전송했습니다.</label>
 
         <div class="height"></div>
       </div>
       <div class="dummyMarginIdpwFind4"></div>
     </div>
     <div class="dummyMarginIdpwFind2"></div>
+    <label for="idFindstate" class="labelInIdpwFind" v-if="idResultShow"
+      >아이디는
+      <div id="showID">{{ userid }}</div>
+      입니다.</label
+    >
+    <label for="pwFindstate" class="labelInIdpwFind" v-if="pwResultShow">임시 비밀번호를 메일로 전송했습니다.</label>
   </div>
 </template>
 
@@ -66,15 +66,15 @@ export default {
       let user_email = document.getElementById("idFindEmailInputInIdpwFind").value;
       // console.log(user_name, user_email);
       axios
-        .post(this.$store.state.baseurl + "/api/member/chknic", {
+        .post(this.$store.state.baseurl + "api/member/findid", {
           name: user_name,
           email: user_email,
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             this.idResultShow = true;
             this.idFindWarningShow = false;
-            console.log("아이디 출력(userid)");
+            this.userid = response.data.userid;
           } else {
             this.idFindWarningShow = true;
             this.idResultShow = false;
@@ -88,12 +88,12 @@ export default {
       let user_email = document.getElementById("pwFindEmailInputInIdpwFind").value;
       // console.log(user_id, user_email);
       axios
-        .post(this.$store.state.baseurl + "/api/member/chknic", {
+        .post(this.$store.state.baseurl + "api/member/findpwd", {
           userid: user_id,
           email: user_email,
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             this.pwResultShow = true;
             this.pwFindWarningShow = false;
             console.log("비밀번호를 메일로 전송");
