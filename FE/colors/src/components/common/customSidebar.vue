@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" v-if="isLogin">
     <ul class="sidebar__nav">
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
@@ -16,10 +16,12 @@
 
 <script>
 import router from "@/router";
-import { mapState, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 export default {
   computed: {
-    ...mapState(["isLogin"]),
+    isLogin() {
+      return this.$store.state.memberStore.isLogin;
+    },
   },
   methods: {
     ...mapMutations(["MEMBER_LOGOUT"]),
