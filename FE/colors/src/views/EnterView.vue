@@ -10,15 +10,15 @@
     </div>
     <div class="enterenceContainer">
       <ChoiceRoom class="firstDoor" @click="SingleRoom()" roomTitle="개인별 색깔 매칭" />
-      <ChoiceRoom class="firstDoor" @click="TeamRoom()" roomTitle="친구와 색깔 매칭" />
-      <ChoiceRoom class="firstDoor" roomTitle="토픽별 색깔 매칭" />
+      <ChoiceRoom class="firstDoor" @click="showGroupModal = true" roomTitle="친구와 색깔 매칭" />
+      <ChoiceRoom class="firstDoor" @click="TopicRoom()" roomTitle="토픽별 색깔 매칭" />
     </div>
     <customModal class="groupModal" v-show="showGroupModal" @close-modal="showGroupModal = false" titleText="단체 입장하기 ">
       <content class="groupModalContent">
-        <input type="text" name="groupRoomCode" id="roomCodeInput" placeholder="입장코드 입력 (사용자 개인 code)" />
+        <input type="text" name="groupRoomCode" v-model="roomCodeId" id="roomCodeInput" placeholder="입장코드 입력 (사용자 개인 code)" />
         <div class="gridButtonArea">
-          <customButton class="makeRoomButton gridModalButton" btnText="방만들기"></customButton>
-          <customButton class="enterRoomButton gridModalButton" btnText="입장하기" @click="showGroupModal = false"></customButton>
+          <customButton class="makeRoomButton gridModalButton" @click="TeamRoom()" btnText="방만들기"></customButton>
+          <customButton class="enterRoomButton gridModalButton" btnText="입장하기" @click="TeamRoom()"></customButton>
         </div>
         <span class="modalInfoText">방장으로부터 공유 받은 입장 코드를 입력한 뒤 입장하세요.</span>
       </content>
@@ -28,19 +28,35 @@
 
 <script>
 import ChoiceRoom from "@/components/EnterancePage/choiceRoom.vue";
+import router from "@/router";
 export default {
   components: { ChoiceRoom },
   data() {
     return {
       showGroupModal: false,
+      id: "",
+      roomCodeId: "",
     };
   },
   methods: {
     SingleRoom() {
-      this.$router.push("alone");
+      let singleUser = {
+        id: this.id,
+        roomtype: "single",
+      };
+      this.$store.dispatch("singleMeeting", singleUser);
     },
     TeamRoom() {
-      this.$router.push("team");
+      let groupUser = {
+        id: this.id,
+        roomtype: "group",
+        roomCodeId: this.roomCodeId,
+        showGroupModal: this.showGroupModal,
+      };
+      this.$store.dispatch("groupMeeting", groupUser);
+    },
+    TopicRoom() {
+      router.push("/toptenTopic");
     },
   },
 };
