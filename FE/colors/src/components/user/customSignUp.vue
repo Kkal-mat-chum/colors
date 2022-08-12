@@ -19,8 +19,8 @@
           </div>
           <div class="inputBoxs">
             <input type="text" class="userInput" id="idLabel" placeholder="영문 숫자 포함 6자리 이상" /><br />
-            <input type="text" class="userInput" id="pwLabel" placeholder="영문 숫자 포함 8자리 이상" /><br />
-            <input type="text" class="userInput" id="pwcheckLabel" placeholder="다시 입력해주세요." /><br />
+            <input type="password" class="logInPwInput" id="pwLabel" placeholder="영문 숫자 포함 8자리 이상" /><br />
+            <input type="password" class="logInPwInput" id="pwcheckLabel" placeholder="다시 입력해주세요." /><br />
             <input type="text" class="userInput" id="nameLabel" placeholder="이름을 입력해주세요." /><br />
             <input type="text" class="userInput" id="nickLabel" placeholder="닉네임을 입력해주세요." /><br />
             <input type="text" class="userInput" id="emailLabel" placeholder="이메일을 입력해주세요" /><br />
@@ -378,5 +378,11 @@ button {
 #signUpWarning1 {
   font-size: 15px;
   color: #f34d75;
+}
+.logInPwInput[type="password"] {
+  width: 90%;
+  padding: 10px 5px;
+  border-radius: 5px;
+  border: 2px solid #d0d1ff;
 }
 </style>
