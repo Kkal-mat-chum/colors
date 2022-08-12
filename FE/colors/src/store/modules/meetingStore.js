@@ -9,8 +9,23 @@ const meetingStore = {
     groupUser: {},
     randomUsers: [],
     randomUser: {},
+    publishAudio: {
+      type: Boolean,
+      default: false,
+    },
+    publishVideo: {
+      type: Boolean,
+      default: false,
+    },
   },
-  getters: {},
+  getters: {
+    getPublishAudio(state) {
+      return state.publishAudio;
+    },
+    getPublishVideo(state) {
+      return state.publishVideo;
+    },
+  },
   mutations: {
     SINGLE_MEETING(state, data) {
       state.singleUsers.push(data);
@@ -19,6 +34,12 @@ const meetingStore = {
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
       sessionStorage.setItem("sessionCode", data.roomcode);
+    },
+    changePublishAudio(state) {
+      state.publishAudio = !state.publishAudio;
+    },
+    changePublishVideo(state) {
+      state.publishVideo = !state.publishVideo;
     },
   },
   actions: {

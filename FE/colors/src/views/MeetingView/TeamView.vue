@@ -8,8 +8,8 @@
         </div>
         <div class="name">송 다 경</div>
         <div class="buttons">
-          <customButton class="mute" btnText="음소거" @click="mutePublisher"></customButton>
-          <customButton class="videostop" btnText="비디오 중지"></customButton>
+          <customButton class="mute" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
 
         <div class="anotherPerson">
@@ -59,7 +59,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 // const OPENVIDU_SERVER_SECRET = "i7b208";
 
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "chanil";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
   name: "TeamMeeting",
@@ -69,6 +69,14 @@ export default {
     colorchoice,
     UserVideo,
     UserVideo_sub,
+  },
+  computed: {
+    publishAudio() {
+      return this.$store.getters.getPublishAudio;
+    },
+    publishVideo() {
+      return this.$store.getters.getPublishVideo;
+    },
   },
   data() {
     return {
@@ -97,7 +105,15 @@ export default {
   },
 
   methods: {
-    mutePublisher() {},
+    muteAudio() {
+      this.publisher.publishAudio(this.publishAudio);
+      console.log(this.publishAudio);
+      this.$store.commit("changePublishAudio");
+    },
+    muteVideo() {
+      this.publisher.publishVideo(this.publishVideo);
+      this.$store.commit("changePublishVideo");
+    },
     changeStream() {
       const canvas = document.getElementById("overlay");
       // console.log("get images");
