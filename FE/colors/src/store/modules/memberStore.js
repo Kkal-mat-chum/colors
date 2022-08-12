@@ -1,22 +1,46 @@
-//import { api } from "@/store";
+import { api } from "@/store";
 
 const memberStore = {
   state: {
-    imgUrlList: [
-      "assets/imagedefault/sampleimage1.png",
-      "assets/imagedefault/sampleimage2.png",
-      "assets/imagedefault/sampleimage3.png",
-      "assets/imagedefault/sampleimage4.png",
-      "assets/imagedefault/sampleimage5.png",
-      "assets/imagedefault/sampleimage6.png",
-      "assets/imagedefault/sampleimage7.png",
-      "assets/imagedefault/sampleimage8.png",
-    ],
-    selectedColorList: ["#000000", "#dddabc", "#123456", "#666123", "#555555", "#aaaaaa"],
-    teamJoinList: ["송다경", "이한기", "김찬일", "김민영", "오정환", "강민성"],
+    isLogin: false,
+    members: [],
+    member: {},
+    baseurl: "http://loaclhost:8080",
   },
   getters: {},
-  mutations: {},
-  actions: {},
+  mutations: {
+    MEMBER_LOGOUT(state) {
+      state.isLogin = false;
+      sessionStorage.removeItem("access-token");
+      api.defaults.headers["access-token"] = "";
+    },
+    MEMBER_EMAIL_CHECK(state, payload) {
+      if (payload == 1) {
+        sessionStorage.setItem("checkEmail", true);
+        state.members.push(payload);
+        alert("이메일 인증이 완료됐습니다.");
+      } else {
+        sessionStorage.setItem("checkEmail", false);
+        alert("이메일 인증코드를 다시 확인하세요.");
+      }
+    },
+  },
+  actions: {
+    memberEmailCheck({ commit }, memberEmail) {
+      api({
+        method: "POST",
+        data: memberEmail,
+      })
+        .then((res) => {
+          if (res.authcode == memberEmail) {
+            commit("MEMBER_EMAIL_CHECK", 1);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("올바른 인증코드가 아닙니다.");
+        });
+    },
+  },
 };
 export default memberStore;

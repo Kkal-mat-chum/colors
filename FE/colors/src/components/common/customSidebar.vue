@@ -9,14 +9,24 @@
       </div>
     </ul>
     <div>
-      <i class="material-icons-outlined loadedIcon">logout</i>
+      <i class="material-icons-outlined loadedIcon" @click="doLogout">logout</i>
     </div>
   </div>
 </template>
 
 <script>
+import router from "@/router";
+import { mapState, mapMutations } from "vuex";
 export default {
+  computed: {
+    ...mapState(["isLogin"]),
+  },
   methods: {
+    ...mapMutations(["MEMBER_LOGOUT"]),
+    doLogout() {
+      this.MEMBER_LOGOUT();
+      router.push("/login");
+    },
     clickHomeIcon() {
       console.log("clicked");
       this.$router.push({ path: "/enterPage" }).catch(() => {});

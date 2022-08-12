@@ -34,7 +34,7 @@ export default {
       publisher: undefined,
       subscribers: [],
 
-      mySessionId: "SessionA",
+      mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
     };
   },
