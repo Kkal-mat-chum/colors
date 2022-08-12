@@ -51,6 +51,7 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 //이메일 인증 번호 보내는거 필요
 export default {
   data() {
@@ -192,6 +193,7 @@ export default {
           .then((response) => {
             if (response.message == "success") {
               console.log("로그인 완료");
+              router.push("/login");
             } else {
               console.log("로그인 실패");
             }

@@ -60,7 +60,7 @@ export default {
         .then((response) => {
           if (response.message == "fail") {
             this.loginWarningShow = true;
-            this.loginAlram = false;
+            this.loginAlram = true;
           } else if (response.message == "success") {
             sessionStorage.setItem("access-token", response["access-token"]);
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
