@@ -8,18 +8,18 @@
         </div>
         <div class="name">송 다 경</div>
         <div class="buttons">
-          <customButton class="mute" btnText="음소거" @click="mutePublisher"></customButton>
-          <customButton class="videostop" btnText="비디오 중지"></customButton>
+          <customButton class="mute" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
 
         <div class="anotherPerson">
-          <!-- <userVideo_sub :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)" /> -->
           <div class="p_sub" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
             <UserVideo_sub class="webcam_sub" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"></UserVideo_sub>
             <div class="name">{{ sub.id }}</div>
           </div>
         </div>
       </div>
+      <!-- <div class="rightPannelArea"> -->
       <div class="rightSidebar">
         <div class="title">
           <h3>나만의 색상 팔레트</h3>
@@ -39,12 +39,17 @@
         <customButton class="btn" btnText="투표하기"></customButton>
         <customButton class="btn" btnText="종료"></customButton>
       </div>
+      <!-- <div class="chatpanelArea" v-if="isChatPanel">
+        <Chatpanel v-if="isChatPanel" />
+      </div> -->
+      <!-- </div> -->
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+// import { mapState, mapActions } from "vuex";
 import { OpenVidu } from "openvidu-browser";
 
 import sidebar from "@/components/common/customSidebar.vue";
@@ -52,6 +57,7 @@ import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import UserVideo from "@/components/videochat/UserVideo.vue";
 import UserVideo_sub from "@/components/videochat/UserVideo_sub.vue";
+// import Chatpanel from "../../components/videochat/chatPanel.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -59,7 +65,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 // const OPENVIDU_SERVER_SECRET = "i7b208";
 
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "chanil";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
   name: "TeamMeeting",
@@ -69,6 +75,16 @@ export default {
     colorchoice,
     UserVideo,
     UserVideo_sub,
+    // Chatpanel,
+  },
+  computed: {
+    publishAudio() {
+      return this.$store.getters.getPublishAudio;
+    },
+    publishVideo() {
+      return this.$store.getters.getPublishVideo;
+    },
+    // ...mapState(["isChatPanel"]),
   },
   data() {
     return {
@@ -97,11 +113,18 @@ export default {
   },
 
   methods: {
-    mutePublisher() {},
+    // ...mapActions(["toggleChatPanel"]),
+    muteAudio() {
+      this.publisher.publishAudio(this.publishAudio);
+      console.log(this.publishAudio);
+      this.$store.commit("changePublishAudio");
+    },
+    muteVideo() {
+      this.publisher.publishVideo(this.publishVideo);
+      this.$store.commit("changePublishVideo");
+    },
     changeStream() {
       const canvas = document.getElementById("overlay");
-      // console.log("get images");
-      // console.log(canvas);
 
       const canvas_stream = canvas.captureStream();
 
@@ -135,6 +158,14 @@ export default {
           this.subscribers.splice(index, 1);
         }
       });
+
+      // this.session.on("signal:chat", (event) => {
+      //   let eventData = JSON.parse(event.data);
+      //   let data = new Object();
+      //   data.message = eventData.content;
+      //   data.sender = event.from.data.slice(15, -2);
+      //   this.$store.commit("SET_MESSAGES", data);
+      // });
 
       // On every asynchronous exception...
       this.session.on("exception", ({ exception }) => {
@@ -186,6 +217,7 @@ export default {
       this.publisher = undefined;
       this.subscribers = [];
       this.OV = undefined;
+      this.$store.commit("SET_CLEARMESSAGES");
 
       window.removeEventListener("beforeunload", this.leaveSession);
     },
