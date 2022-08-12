@@ -10,7 +10,14 @@
         <div class="personInfo">
           <div class="profileImg">
             <img class="profileimgfile" src="@/assets/mypage/img.png" alt="" />
-            <img class="grade" src="@/assets/mypage/Group 65.svg" alt="" />
+            <div class="setting_bg">
+              <img class="setting" src="@/assets/mypage/user.png" alt="" @click="showImgModal = true" />
+              <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showImgModal" @close-modal="showImgModal = false" titleText="프로필 사진 변경">
+                <cotent>
+                  <modify-profile></modify-profile>
+                </cotent>
+              </custom-modal>
+            </div>
           </div>
           <div class="myInfo">
             <myinfo></myinfo>
@@ -28,7 +35,7 @@
             <div class="nowColor">
               <div class="colorName" id="hoveringBorder" :style="hoveringBorder">
                 <p>{{ hoveringColor }}</p>
-                <!-- <p>Pale Lime Yellow</p> -->
+                <p>{{ hoveringColorName }}</p>
               </div>
             </div>
           </div>
@@ -82,6 +89,8 @@ import colorpalleteTeam from "@/components/myPage/colorPalleteTeam.vue";
 import colorpalleteRandom from "@/components/myPage/colorPalleteRandom.vue";
 import myinfo from "@/components/myPage/myInfo.vue";
 import ModifyUser from "@/components/user/customUpdateUser.vue";
+import ModifyProfile from "@/components/myPage/profileImgUpload.vue";
+import namedColors from "color-name-list";
 export default {
   name: "MyPage",
   components: {
@@ -91,10 +100,12 @@ export default {
     colorpalleteRandom,
     myinfo,
     ModifyUser,
+    ModifyProfile,
   },
   data() {
     return {
       showModal: false,
+      showImgModal: false,
       // hoveringColor: this.$store.state.hoveringColor,
     };
   },
@@ -109,6 +120,14 @@ export default {
       return {
         "--hovering-border": this.$store.state.hoveringColor,
       };
+    },
+    hoveringColorName: function () {
+      try {
+        let someColor = namedColors.find((color) => color.hex === this.$store.state.hoveringColor);
+        return someColor.name;
+      } catch (error) {
+        return "!!unknown!!";
+      }
     },
   },
   methods: {
@@ -179,12 +198,17 @@ export default {
   border-radius: 50%;
   border: 8px solid #c1c4ff;
 }
-.grade {
+
+.setting {
   width: 50px;
   height: 50px;
   margin-top: 140px;
-  margin-left: -50px;
+  margin-left: -60px;
 }
+.updateUserProfileModal {
+  z-index: 999;
+}
+
 /* 내 정보 */
 .myInfo {
   display: flex;
