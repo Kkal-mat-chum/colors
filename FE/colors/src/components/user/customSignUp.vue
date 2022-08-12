@@ -9,8 +9,8 @@
       <div id="userInfo">
         <div class="textBox">
           <div class="labelBoxs">
-            <label for="idLabel" class="userlabel">아이디</label><br />
-            <label for="pwLabel" class="userlabel">비밀번호</label><br />
+            <label for="idLabel" class="userlabel" :class="{ on: idHasError }">아이디</label><br />
+            <label for="pwLabel" class="userlabel" :class="{ onPw: pwHasError }">비밀번호</label><br />
             <label for="pwcheckLabel" class="userlabel">비밀번호 확인</label><br />
             <label for="nameLabel" class="userlabel">이름</label><br />
             <label for="nickLabel" class="userlabel">닉네임</label><br />
@@ -18,8 +18,8 @@
             <label for="emailcheckLabel" class="userlabel">이메일 확인</label>
           </div>
           <div class="inputBoxs">
-            <input type="text" class="userInput" id="idLabel" placeholder="영문 숫자 포함 6자리 이상" /><br />
-            <input type="password" class="logInPwInput" id="pwLabel" placeholder="영문 숫자 포함 8자리 이상" /><br />
+            <input type="text" class="userInput" id="idLabel" v-model="validateId" :class="{ active: idHasError }" placeholder="영문 숫자 포함 6자리 이상" /><br />
+            <input type="password" class="logInPwInput" v-model="validatePw" :class="{ activePw: pwHasError }" id="pwLabel" placeholder="영문 숫자 포함 8자리 이상" /><br />
             <input type="password" class="logInPwInput" id="pwcheckLabel" placeholder="다시 입력해주세요." /><br />
             <input type="text" class="userInput" id="nameLabel" placeholder="이름을 입력해주세요." /><br />
             <input type="text" class="userInput" id="nickLabel" placeholder="닉네임을 입력해주세요." /><br />
@@ -65,7 +65,15 @@ export default {
       state_message: "",
       emailCode: "",
       authEmailCode: "",
+      validateId: "",
+      validatePw: "",
       storeBaseurl: this.$store.state.memberStore.baseurl,
+      valid: {
+        id: false,
+        pw: false,
+      },
+      idHasError: false,
+      pwHasError: false,
     };
   },
   computed: {
@@ -76,6 +84,14 @@ export default {
       } else {
         return false;
       }
+    },
+  },
+  watch: {
+    validateId: function () {
+      this.validID(this.validateId);
+    },
+    validatePw: function () {
+      this.validPW(this.validatePw);
     },
   },
   methods: {
@@ -111,27 +127,35 @@ export default {
     },
     //아이디 유효성 검사
     validID(inputID) {
-      const reg = /^(?=.*[a-zA-Z0-9]).{6,15}$/;
-      if (inputID.match(reg)) {
+      const reg = /^[a-z][a-z0-9]{5,14}$/g;
+      if (reg.test(inputID) || !this.validateId) {
         // console.log("유효한 아이디");
         this.id_validation = true;
-        return true;
+        this.valid.id = true;
+        this.idHasError = false;
+        return;
       }
       // console.log("유효하지 않은 아이디");
       this.id_validation = false;
-      return false;
+      this.valid.id = false;
+      this.idHasError = true;
+      return;
     },
     //비밀번호 유효성 검사
     validPW(inputPW) {
       const reg = /^(?=.*[a-zA-Z0-9]).{8,30}$/;
-      if (inputPW.match(reg)) {
+      if (reg.test(inputPW) || !this.validatePw) {
         // console.log("유효한 비밀번호");
         this.pw_validation = true;
-        return true;
+        this.valid.pw = true;
+        this.pwHasError = false;
+        return;
       }
       // console.log("유효하지 않은 비밀번호");
       this.pw_validation = false;
-      return false;
+      this.valid.pw = false;
+      this.pwHasError = true;
+      return;
     },
     // 닉네임 중복 검사
     checkDuplicateNickname() {
@@ -390,5 +414,17 @@ button {
   padding: 10px 5px;
   border-radius: 5px;
   border: 2px solid #d0d1ff;
+}
+.active {
+  border: 3px solid red !important;
+}
+.on {
+  color: red;
+}
+.activePw {
+  border: 3px solid red !important;
+}
+.onPw {
+  color: red;
 }
 </style>
