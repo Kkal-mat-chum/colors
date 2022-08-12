@@ -1,11 +1,11 @@
 <template>
   <div v-if="streamManager">
-    <ov-video :stream-manager="streamManager" @changeStreamTrack="() => this.$emit('changeStreamTrack')" />
+    <ov-video :stream-manager="streamManager" />
   </div>
 </template>
 
 <script>
-import OvVideo from "./OnVideo.vue";
+import OvVideo from "./OnVideo_sub.vue";
 
 export default {
   name: "UserVideo",
