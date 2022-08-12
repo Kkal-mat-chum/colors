@@ -58,6 +58,7 @@ export default {
     return {
       //각 항목 유효성 검사 완료시 true로 바꾸기
       id_validation: false, //중복 확인 누를 때 검사
+      id_duplicated: false,
       pw_validation: false, //회원가입버튼 누를 때 검사
       nick_validation: false, //중복 확인 누를 때 검사
       email_validation: false, //회원가입버튼 누를 때 검사
@@ -86,15 +87,18 @@ export default {
       if (this.id_validation) {
         console.log("유효한 아이디입니다.");
         console.log(this.id_validation);
-        console.log(this.storeBaseurl + "/api/member/chkid");
+        console.log(this.$store.state.baseurl + "api/member/chkid");
         axios
-          .post(this.$store.state.baseurl + "/api/member/chkid", {
+          .post(this.$store.state.baseurl + "api/member/chkid", {
             input_id: new_id,
           })
           .then((response) => {
+            console.log(new_id);
+            console.log(response);
             if (response.data.message == "not-duplicated") {
               alert("아이디 사용 가능");
             } else {
+              this.id_duplicated = true;
               alert("중복된 아이디");
             }
           });
@@ -134,7 +138,7 @@ export default {
       let new_nickname = document.getElementById("nickLabel").value;
       console.log(new_nickname);
       axios
-        .post(this.$store.state.baseurl + "/api/member/chknic", {
+        .post(this.$store.state.baseurl + "api/member/chknic", {
           input_nickname: new_nickname,
         })
         .then((response) => {
@@ -188,9 +192,10 @@ export default {
       } else {
         console.log("아이디, 비밀번호 둘 다 다시 확인해주세용");
       }
-      if (sessionStorage.getItem("checkEmail") == true && this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
+      console.log(sessionStorage.getItem("checkEmail") == true);
+      if (this.email_validation && this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
         axios
-          .post(this.$store.state.baseurl + "/api/member/chknic/", {
+          .post(this.$store.state.baseurl + "api/member/", {
             nickname: new_nickname,
             userid: new_userid,
             password: new_password,
@@ -200,7 +205,7 @@ export default {
           .then((response) => {
             if (response.data.message == "success") {
               console.log("로그인 완료");
-              router.push("/login");
+              router.push("/");
             } else {
               console.log("로그인 실패");
             }

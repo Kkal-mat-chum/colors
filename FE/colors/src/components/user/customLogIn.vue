@@ -4,8 +4,10 @@
     <div class="logInInfo">
       <div class="logInBox">
         <div v-show="loginAlram" class="logInAlarm">아이디 또는 비밀번호를 확인하세요.</div>
-        <div class="logInTitle">로그인</div>
-        <hr class="logInHrStyle" />
+        <div class="title">
+          <h2>로그인</h2>
+          <hr />
+        </div>
         <div class="logInLabel">아이디</div>
         <div class="logInInput">
           <input type="text" placeholder="아이디를 입력하세요." id="logInInput" class="logInIdInput" />
@@ -17,7 +19,7 @@
         <customButton btnText="로그인" class="idPwSearch" @click="loginMember()"></customButton>
         <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch" @click="findIdpwShowModal = true"></customButton>
         <customButton btnText="회원가입" class="signUp" @click="gotosignup()"></customButton>
-        <custom-modal class="findIdpwModal" id="findIdpwModal" v-show="findIdpwShowModal" @close-modal="findIdpwShowModal = false" titleText="아이디 / 비밀번호 찾기">
+        <custom-modal class="findIdpwModal" id="findIdpwModal" v-show="findIdpwShowModal" @close-modal="findIdpwShowModal = false">
           <content><find-idpw></find-idpw></content>
         </custom-modal>
       </div>
@@ -80,13 +82,32 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  margin-bottom: 30px;
+  margin-left: 50px;
+}
+.title h2 {
+  display: flex;
+  text-align: left;
+  color: #6667ab;
+  margin: 30px 0 10px 0;
+}
+
+.title > hr {
+  display: flex;
+  width: 150px;
+  margin: 0;
+  border: 0;
+  height: 3px;
+  background: #d0d1ff;
+}
 .mainPicture {
-  margin-top: 0;
+  margin-top: 40px;
 }
 .logInPage .logInInfo {
   display: flex;
   justify-content: center;
-  margin-top: 2%;
+  margin-top: 3%;
 }
 .logInBox {
   box-sizing: border-box;
@@ -132,7 +153,7 @@ export default {
 }
 .logInPwInput[type="password"] {
   display: flex;
-  margin: 1% 0 3% 15%;
+  margin: 1% 0 8% 15%;
   width: 70%;
   border-radius: 5px;
   border: 2px solid #d0d1ff;
@@ -157,7 +178,7 @@ input::placeholder {
 }
 .idPwSearch {
   display: flex;
-  margin: 2% 0 2% 15%;
+  margin: 2% 0 3% 15%;
   width: 72%;
   justify-content: center;
 }
