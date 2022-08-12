@@ -54,20 +54,20 @@ export default {
       let login_id = document.getElementById("logInInput").value;
       let login_pw = document.getElementById("logInpageInput").value;
       axios
-        .post(this.$store.state.baseurl + "/api/auth/login", {
-          userid: login_id,
+        .post(this.$store.state.baseurl + "api/auth/login", {
+          userId: login_id,
           password: login_pw,
         })
         // 토큰을 세션스토리지에 저장해놓기
         .then((response) => {
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             this.loginWarningShow = true;
             this.loginAlram = true;
-          } else if (response.message == "success") {
+          } else if (response.data.message == "success") {
             sessionStorage.setItem("access-token", response["access-token"]);
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
-            axios.get(this.$store.state.baseurl + "/api/member/" + login_id).then((response) => {
-              if (response.message == "success") {
+            axios.get(this.$store.state.baseurl + "api/member/" + login_id).then((response) => {
+              if (response.data.message == "success") {
                 //https://granya.tistory.com/4 참조 배열을 저장하는 방법
                 sessionStorage.setItem("memberData", JSON.stringify(response.data));
                 router.push("/enterPage");
