@@ -2,7 +2,7 @@
   <div class="bodyColorVot">
     <div class="gridColorVote2">
       <div class="gridLeftBtnColorVote1">
-        <i class="fa-solid fa-circle-chevron-right fa-flip-horizontal fa-3x leftBtnColorVote"></i>
+        <!-- <i class="fa-solid fa-circle-chevron-right fa-flip-horizontal fa-3x leftBtnColorVote"></i> -->
       </div>
       <div class="gridPicturesColorVote">
         <div class="gridPicturesColorVote1">
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="gridRightBtnColorVote">
-        <i class="fa-solid fa-circle-chevron-right fa-3x rightBtnColorVote"></i>
+        <!-- <i class="fa-solid fa-circle-chevron-right fa-3x rightBtnColorVote"></i> -->
       </div>
     </div>
     <div class="gridColorVote3">

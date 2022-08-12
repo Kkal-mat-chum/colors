@@ -3,9 +3,11 @@
     <img class="mainPicture" src="../../assets/logo_horizental.png" alt="깔맞춤" />
     <div class="logInInfo">
       <div class="logInBox">
-        <div class="logInAlarm">아이디 또는 비밀번호를 확인하세요.</div>
-        <div class="logInTitle">로그인</div>
-        <hr class="logInHrStyle" />
+        <div v-show="loginAlram" class="logInAlarm">아이디 또는 비밀번호를 확인하세요.</div>
+        <div class="title">
+          <h2>로그인</h2>
+          <hr />
+        </div>
         <div class="logInLabel">아이디</div>
         <div class="logInInput">
           <input type="text" placeholder="아이디를 입력하세요." id="logInInput" class="logInIdInput" />
@@ -14,10 +16,10 @@
         <div class="logInInput">
           <input type="password" id="logInpageInput" placeholder="비밀번호를 입력하세요." class="logInPwInput" />
         </div>
-        <customButton btnText="로그인" class="idPwSearch" :to="{ name: 'mypage' }"></customButton>
+        <customButton btnText="로그인" class="idPwSearch" @click="loginMember()"></customButton>
         <customButton btnText="아이디/비밀번호 찾기" class="idPwSearch" @click="findIdpwShowModal = true"></customButton>
-        <customButton btnText="회원가입" class="signUp"></customButton>
-        <custom-modal class="findIdpwModal" id="findIdpwModal" v-show="findIdpwShowModal" @close-modal="findIdpwShowModal = false" titleText="아이디 / 비밀번호 찾기">
+        <customButton btnText="회원가입" class="signUp" @click="gotosignup()"></customButton>
+        <custom-modal class="findIdpwModal" id="findIdpwModal" v-show="findIdpwShowModal" @close-modal="findIdpwShowModal = false">
           <content><find-idpw></find-idpw></content>
         </custom-modal>
       </div>
@@ -28,6 +30,7 @@
 <script>
 import FindIdpw from "@/components/user/idPwFind.vue";
 import axios from "axios";
+import router from "@/router";
 export default {
   components: {
     FindIdpw,
@@ -35,6 +38,7 @@ export default {
   data() {
     return {
       findIdpwShowModal: false,
+      loginAlram: false,
     };
   },
   methods: {
@@ -58,6 +62,7 @@ export default {
         .then((response) => {
           if (response.message == "fail") {
             this.loginWarningShow = true;
+            this.loginAlram = true;
           } else if (response.message == "success") {
             sessionStorage.setItem("access-token", response["access-token"]);
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
@@ -65,6 +70,7 @@ export default {
               if (response.message == "success") {
                 //https://granya.tistory.com/4 참조 배열을 저장하는 방법
                 sessionStorage.setItem("memberData", JSON.stringify(response.data));
+                router.push("/enterPage");
               }
             });
           }
@@ -76,13 +82,32 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  margin-bottom: 30px;
+  margin-left: 50px;
+}
+.title h2 {
+  display: flex;
+  text-align: left;
+  color: #6667ab;
+  margin: 30px 0 10px 0;
+}
+
+.title > hr {
+  display: flex;
+  width: 150px;
+  margin: 0;
+  border: 0;
+  height: 3px;
+  background: #d0d1ff;
+}
 .mainPicture {
-  margin-top: 0;
+  margin-top: 40px;
 }
 .logInPage .logInInfo {
   display: flex;
   justify-content: center;
-  margin-top: 2%;
+  margin-top: 3%;
 }
 .logInBox {
   box-sizing: border-box;
@@ -128,7 +153,7 @@ export default {
 }
 .logInPwInput[type="password"] {
   display: flex;
-  margin: 1% 0 3% 15%;
+  margin: 1% 0 8% 15%;
   width: 70%;
   border-radius: 5px;
   border: 2px solid #d0d1ff;
@@ -153,7 +178,7 @@ input::placeholder {
 }
 .idPwSearch {
   display: flex;
-  margin: 2% 0 2% 15%;
+  margin: 2% 0 3% 15%;
   width: 72%;
   justify-content: center;
 }

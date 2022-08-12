@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/vote")
 @Api(tags = {"토픽의 추천 정보를 관리하는 컨트롤러"})

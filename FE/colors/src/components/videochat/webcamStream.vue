@@ -34,7 +34,7 @@ export default {
       publisher: undefined,
       subscribers: [],
 
-      mySessionId: "",
+      mySessionId: sessionStorage.getItem("sessionCode"),
       myUserName: "Participant" + Math.floor(Math.random() * 100),
     };
   },

@@ -63,7 +63,7 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("SINGLE_MEETING", data);
-        router.push("/alone/roomcode");
+        router.push("/alone/" + data.roomcode);
       });
     },
     groupMeeting({ commit }, params) {
@@ -73,7 +73,7 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("GOURP_MEETING", data);
-        router.push("/group");
+        router.push("/group/" + data.roomcode);
       });
     },
     toggleChatPanel({ state, commit }) {
