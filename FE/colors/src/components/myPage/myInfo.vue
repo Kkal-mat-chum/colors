@@ -12,10 +12,6 @@
       <p class="personalInfo" id="nicknamePersonalInfo">{{ nicknamePersonalInfo }}</p>
     </div>
     <div>
-      <p class="info">등급</p>
-      <p class="personalInfo" id="gradePersonalInfo">{{ gradePersonalInfo }}</p>
-    </div>
-    <div>
       <p class="info">포인트</p>
       <p class="personalInfo" id="pointPersonalInfo">{{ pointPersonalInfo }} p</p>
     </div>

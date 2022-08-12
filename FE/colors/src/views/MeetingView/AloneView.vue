@@ -118,6 +118,9 @@ export default {
           }
 
           var file = new File([u8arr], name, { type: mime });
+
+          console.log(file);
+
           // s3 upload
           AWS.config.update({
             region: "ap-northeast-2",
@@ -133,7 +136,7 @@ export default {
             },
           });
 
-          let photoKey = name + ".jpg";
+          let photoKey = "/sdk/" + name + ".jpg";
 
           s3.upload(
             {
@@ -154,6 +157,34 @@ export default {
       } else {
         alert("컬러 팔레트가 꽉찼습니다.");
       }
+
+      // file 가져오기
+      AWS.config.update({
+        region: "ap-northeast-2",
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: awsid,
+        }),
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2012-10-17",
+        params: {
+          Bucket: "ssafy7colors",
+        },
+      });
+
+      s3.listObjects(
+        {
+          Delimiter: "//sdk",
+        },
+        (err, data) => {
+          if (err) {
+            return alert("There was an error : " + err.message);
+          } else {
+            console.log(data);
+          }
+        }
+      );
     },
 
     dataURLtoFile(dataurl, fileName) {

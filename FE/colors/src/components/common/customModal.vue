@@ -41,6 +41,7 @@ export default {
   border-radius: 10px;
   overflow-y: hidden;
 }
+
 .modalTopLine {
   justify-content: flex-end;
   display: flex;
@@ -56,7 +57,7 @@ export default {
 }
 
 .modalTitle {
-  font-family: "Pretendard ExtraBold";
+  font-family: "Pretendard Bold";
   font-size: 35px;
   color: #6667ab;
   text-align: left;
