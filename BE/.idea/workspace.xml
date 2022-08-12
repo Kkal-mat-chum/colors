@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ce3399ad-a3fc-4048-813c-ef04fec46954" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/TopicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/TopicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/VoteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/VoteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/database/repository/TopicRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/database/repository/TopicRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/service/TopicService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/service/VoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/service/VoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colors/src/test/java/com/ssafy/colors/ColorsApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/test/java/com/ssafy/colors/ColorsApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +38,7 @@
       <updated>1659527651467</updated>
       <workItem from="1659527655563" duration="76000" />
       <workItem from="1659578520916" duration="14000" />
+      <workItem from="1660108802009" duration="13000" />
     </task>
     <servers />
   </component>
