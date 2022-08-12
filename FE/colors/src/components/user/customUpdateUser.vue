@@ -11,7 +11,7 @@
       <div class="modifyInputs">
         <input type="text" class="modifyInput" id="updateUserNickLabel" placeholder="닉네임을 입력해주세요." />
         <input type="text" class="modifyInput" id="updateUserNameLabel" placeholder="이름을 입력해주세요." />
-        <input type="text" class="modifyInput" id="updateUserEmailLabel" placeholder="현재 이메일" />
+        <input type="text" class="modifyInput" id="updateUserEmailLabel" placeholder="현재 이메일" readonly />
         <input type="password" class="modifyPwInput" id="updateUserPwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
@@ -22,7 +22,7 @@
     <div class="update3">
       <div class="UpdateUserdummyMargin3"></div>
       <div class="modifyBottomBtns">
-        <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="testClick">testButton</customButton>
+        <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="updateMemberInfo">testButton</customButton>
         <div class="a">
           <div class="removeUser"></div>
           <div class="update3_row2">
@@ -58,9 +58,6 @@ export default {
     };
   },
   methods: {
-    testClick() {
-      console.log("123");
-    },
     //회원정보 수정
     updateMemberInfo() {
       let userid = this.$store.state.member_id;
@@ -69,14 +66,14 @@ export default {
       let userPassword = document.getElementById("updateUserNameLabel").value;
       console.log(newNickName, newName);
       axios
-        .post(this.$store.state.baseurl + "/api/member/changeinfo", {
+        .post(this.$store.state.baseurl + "api/member/changeinfo", {
           userid: userid,
           nickname: newNickName,
           name: newName,
           password: userPassword,
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             console.log("비밀번호를 메일로 전송");
           } else {
             console.log("아이디와 이메일을 다시 확인해주세요.");
@@ -95,8 +92,8 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: -70px 0 0 100px;
-  width: 537.75px;
+  margin: -60px 0 0 100px;
+  width: 75%;
   height: 558px;
   /* width: 35%;
   height: 75%; */

@@ -4,7 +4,7 @@
       <div class="modalTopLine">
         <i class="fa-solid fa-xmark modalClose" @click="$emit('close-modal')"></i>
       </div>
-      <p class="modalTitle">{{ titleText }}</p>
+      <h2 class="modalTitle">{{ titleText }}</h2>
       <slot />
     </div>
   </div>
@@ -32,8 +32,8 @@ export default {
 
 .modal {
   text-align: center;
-  height: 50%;
-  width: 50%;
+  height: 40%;
+  width: 40%;
   margin-top: 10%;
   padding: 60px 0;
   background: #ffffff;
