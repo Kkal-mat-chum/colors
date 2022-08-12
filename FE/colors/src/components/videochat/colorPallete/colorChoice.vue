@@ -3,7 +3,7 @@
     <div class="color-set">
       <Saturation ref="saturation" :color="rgbString" :hsv="hsv" :size="hueHeight" @selectSaturation="selectSaturation" />
       <Hue ref="hue" :hsv="hsv" :width="hueWidth" :height="hueHeight" @selectHue="selectHue" />
-      <Alpha ref="alpha" :color="rgbString" :rgba="rgba" :width="hueWidth" :height="hueHeight" @selectAlpha="selectAlpha" />
+      <!-- <Alpha ref="alpha" :color="rgbString" :rgba="rgba" :width="hueWidth" :height="hueHeight" @selectAlpha="selectAlpha" /> -->
     </div>
     <Sucker v-if="!suckerHide" :sucker-canvas="suckerCanvas" :sucker-area="suckerArea" @openSucker="openSucker" @selectSucker="selectSucker" />
     <Box name="HEX" :color="modelHex" @inputColor="inputHex" />
@@ -15,14 +15,12 @@
 import mixin from "./mixin";
 import Saturation from "./saturation.vue";
 import Hue from "./hue.vue";
-import Alpha from "./alpha.vue";
 import Sucker from "./sucker.vue";
 import Box from "./box.vue";
 export default {
   components: {
     Saturation,
     Hue,
-    Alpha,
     Sucker,
     Box,
   },
@@ -212,6 +210,7 @@ export default {
   }
   .color-set {
     display: flex;
+    text-align: center;
   }
   .color-show {
     margin-top: 8px;

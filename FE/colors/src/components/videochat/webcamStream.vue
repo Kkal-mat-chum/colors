@@ -13,6 +13,9 @@ import UserVideo from "./UserVideo";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
+// const OPENVIDU_SERVER_URL = "https://" + "i7b208.p.ssafy.io";
+// const OPENVIDU_SERVER_SECRET = "i7b208";
+
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
@@ -31,7 +34,7 @@ export default {
       publisher: undefined,
       subscribers: [],
 
-      mySessionId: "SessionA",
+      mySessionId: sessionStorage.getItem("sessionCode"),
       myUserName: "Participant" + Math.floor(Math.random() * 100),
     };
   },
@@ -83,10 +86,10 @@ export default {
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "640x480", // The resolution of your video
+              resolution: "800x420", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: false, // Whether to mirror your local video or not
+              mirror: true, // Whether to mirror your local video or not
             });
 
             this.mainStreamManager = publisher;
@@ -198,7 +201,8 @@ export default {
 </script>
 
 <style scoped>
+/* our */
 #local-video-undefined {
-  width: 30vh;
+  width: 20vh;
 }
 </style>

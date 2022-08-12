@@ -2,10 +2,11 @@
   <div class="tournamentResultBody">
     <custom-sidebar></custom-sidebar>
     <div class="mainPicture">
+      <!-- <div class="picture1" :style="resultTournColor" id="tournResult10" @click="test"></div> -->
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture1" />
       <div class="titleColor">
-        #DDDDDD
-        <div>컬러네임</div>
+        {{ finalWinColor }}
+        <!-- <div>컬러네임</div> -->
       </div>
     </div>
     <div class="lineFlex">
@@ -17,8 +18,10 @@
       <hr class="line1" />
     </div>
     <div class="secondPictures">
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture2" />
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture2" />
+      <div class="picture2" :style="resultTournColor" id="tournResult20"></div>
+      <div class="picture2" :style="resultTournColor" id="tournResult21"></div>
+      <!-- <img src="@/assets/join_img1.png" alt="예시사진" class="picture2" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture2" /> -->
     </div>
     <div class="lineFlex3">
       <hr class="line1" />
@@ -35,10 +38,54 @@
       <hr class="line5" />
     </div>
     <div class="thirdPictures">
+      <div class="picture3" :style="resultTournColor" id="tournResult40"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult41"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult42"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult43"></div>
+      <!-- <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" /> -->
+    </div>
+    <div class="lineFlex4">
+      <hr class="line5" />
+      <hr class="line5" />
+      <hr class="line5" />
+      <hr class="line5" />
+    </div>
+    <div class="lineFlex3">
+      <hr class="line6" />
+      <hr class="line6" />
+      <hr class="line6" />
+      <hr class="line6" />
+    </div>
+    <div class="lineFlex4">
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+      <hr class="line7" />
+    </div>
+    <div class="firthPictures">
+      <div class="picture3" :style="resultTournColor" id="tournResult80"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult81"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult82"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult83"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult84"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult85"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult86"></div>
+      <div class="picture3" :style="resultTournColor" id="tournResult87"></div>
+      <!-- <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" /> -->
     </div>
     <div class="button">
       <custom-button btnText="닫 기" class="buttonStyle"></custom-button>
@@ -49,8 +96,38 @@
 
 <script>
 import customSidebar from "../common/customSidebar.vue";
+
 export default {
   components: { customSidebar },
+  methods: {
+    test() {
+      console.log(this.$store.state.tournamentResultLst[14]);
+    },
+  },
+  computed: {
+    resultTournColor() {
+      return {
+        "--background-color-8-0": this.$store.state.tournamentResultLst[0],
+        "--background-color-8-1": this.$store.state.tournamentResultLst[1],
+        "--background-color-8-2": this.$store.state.tournamentResultLst[2],
+        "--background-color-8-3": this.$store.state.tournamentResultLst[3],
+        "--background-color-8-4": this.$store.state.tournamentResultLst[4],
+        "--background-color-8-5": this.$store.state.tournamentResultLst[5],
+        "--background-color-8-6": this.$store.state.tournamentResultLst[6],
+        "--background-color-8-7": this.$store.state.tournamentResultLst[7],
+        "--background-color-4-0": this.$store.state.tournamentResultLst[8],
+        "--background-color-4-1": this.$store.state.tournamentResultLst[9],
+        "--background-color-4-2": this.$store.state.tournamentResultLst[10],
+        "--background-color-4-3": this.$store.state.tournamentResultLst[11],
+        "--background-color-2-0": this.$store.state.tournamentResultLst[12],
+        "--background-color-2-1": this.$store.state.tournamentResultLst[13],
+        "--background-color-1-0": this.$store.state.tournamentResultLst[14],
+      };
+    },
+    finalWinColor() {
+      return this.$store.state.tournamentResultLst[14];
+    },
+  },
 };
 </script>
 
@@ -64,8 +141,9 @@ export default {
   margin-top: 4%;
 }
 .picture1 {
-  width: 300px;
-  height: 150px;
+  width: 250px;
+  height: 100px;
+  box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
 }
 .titleColor {
   font-weight: 400;
@@ -95,6 +173,12 @@ export default {
   background-color: #aaaabc;
   margin-top: -2px;
 }
+.line6 {
+  width: 141px;
+  height: 5px;
+  background-color: #aaaabc;
+  margin-top: -2px;
+}
 .lineFlex2 {
   display: flex;
   flex-direction: row;
@@ -104,6 +188,11 @@ export default {
   display: flex;
   flex-direction: row;
   margin-top: 0px;
+}
+.lineFlex4 {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
 }
 .secondPictures {
   display: flex;
@@ -115,9 +204,17 @@ export default {
   flex-direction: row;
   justify-content: space-around;
 }
+.firthPictures {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: -8px;
+}
 .picture2 {
-  width: 250px;
-  height: 120px;
+  width: 120px;
+  height: 88px;
+  border-radius: 20px;
+  box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
 }
 .line5 {
   display: flex;
@@ -127,9 +224,18 @@ export default {
   transform: rotate(90deg);
   margin-top: -8px;
 }
+.line7 {
+  width: 18px;
+  height: 5px;
+  background-color: #aaaabc;
+  transform: rotate(90deg);
+  margin-top: -22px;
+}
 .picture3 {
-  width: 180px;
-  height: 80px;
+  width: 120px;
+  height: 88px;
+  border-radius: 20px;
+  box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
 }
 .button {
   display: flex;
@@ -155,5 +261,68 @@ export default {
   font-weight: 400;
   font-size: 15px;
   color: #aaaabc;
+}
+div.clickEffect {
+  position: fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 50%;
+  animation: clickEffect 0.4s ease-out;
+  z-index: 99999;
+}
+div.clickEffect {
+  position: fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #aaaabc;
+  border-radius: 50%;
+  animation: clickEffect 0.4s ease-out;
+  z-index: 999999;
+}
+#tournResult80 {
+  background-color: var(--background-color-8-0);
+}
+#tournResult81 {
+  background-color: var(--background-color-8-1);
+}
+#tournResult82 {
+  background-color: var(--background-color-8-2);
+}
+#tournResult83 {
+  background-color: var(--background-color-8-3);
+}
+#tournResult84 {
+  background-color: var(--background-color-8-4);
+}
+#tournResult85 {
+  background-color: var(--background-color-8-5);
+}
+#tournResult86 {
+  background-color: var(--background-color-8-6);
+}
+#tournResult87 {
+  background-color: var(--background-color-8-7);
+}
+#tournResult40 {
+  background-color: var(--background-color-4-0);
+}
+#tournResult41 {
+  background-color: var(--background-color-4-1);
+}
+#tournResult42 {
+  background-color: var(--background-color-4-2);
+}
+#tournResult43 {
+  background-color: var(--background-color-4-3);
+}
+#tournResult20 {
+  background-color: var(--background-color-2-0);
+}
+#tournResult21 {
+  background-color: var(--background-color-2-1);
+}
+#tournResult10 {
+  background-color: var(--background-color-1-0);
 }
 </style>

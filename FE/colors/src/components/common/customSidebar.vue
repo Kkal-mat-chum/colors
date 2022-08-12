@@ -3,33 +3,44 @@
     <ul class="sidebar__nav">
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
-        <router-link tag="li" class-active="Active" to="/enterPage">
-          <!-- <img class="sideBarIcon" src="../../assets/home_icon.png" /> -->
-          <i class="material-symbols-rounded loadedIcon">home</i>
-          <!-- <i class="fa-solid fa-house loadedIcon" style="font-size: 60px"></i> -->
-        </router-link>
-        <router-link tag="li" class-active="Active" to="/signup">
-          <i class="material-icons-outlined loadedIcon">forum</i>
-          <!-- <i class="fa-message fa-regular loadedIcon" style="font-size: 60px"></i> -->
-          <!-- <img class="sideBarIcon" src="../../assets/topic_icon.png" /> -->
-        </router-link>
-        <router-link tag="li" class-active="Active" to="/mypage">
-          <i class="material-icons-outlined loadedIcon">account_circle</i>
-          <!-- <i class="fa-circle-user fa-regular loadedIcon" style="font-size: 60px"></i> -->
-          <!-- <img class="sideBarIcon" src="../../assets/myPage_icon.png" /> -->
-        </router-link>
+        <i class="material-symbols-rounded loadedIcon" @click="clickHomeIcon">home</i>
+        <i class="material-icons-outlined loadedIcon" @click="clickForumIcon">forum</i>
+        <i class="material-icons-outlined loadedIcon" @click="clickMyPageIcon">account_circle</i>
       </div>
     </ul>
     <div>
-      <i class="material-icons-outlined loadedIcon">logout</i>
-      <!-- <i class="fa-solid fa-right-from-bracket loadedIcon" style="font-size: 60px"></i> -->
-      <!-- <img class="sideBarIcon logOutIcon" src="../../assets/logOut_icon.png" /> -->
+      <i class="material-icons-outlined loadedIcon" @click="doLogout">logout</i>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import router from "@/router";
+import { mapState, mapMutations } from "vuex";
+export default {
+  computed: {
+    ...mapState(["isLogin"]),
+  },
+  methods: {
+    ...mapMutations(["MEMBER_LOGOUT"]),
+    doLogout() {
+      this.MEMBER_LOGOUT();
+      router.push("/login");
+    },
+    clickHomeIcon() {
+      console.log("clicked");
+      this.$router.push({ path: "/enterPage" }).catch(() => {});
+    },
+    clickForumIcon() {
+      console.log("clicked");
+      this.$router.push({ path: "/topicBoard" }).catch(() => {});
+    },
+    clickMyPageIcon() {
+      console.log("clicked");
+      this.$router.push({ path: "/mypage" }).catch(() => {});
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -63,7 +74,7 @@ export default {};
   margin-bottom: 2rem;
 }
 
-.router-link-active .loadedIcon {
+.loadedIcon:hover {
   color: #6667ab !important;
 }
 
@@ -75,6 +86,7 @@ export default {};
 
 .loadedIcon:hover {
   color: #b9b9e8;
+  cursor: pointer;
 }
 
 ul.sidebar__nav {
@@ -85,18 +97,12 @@ ul.sidebar__nav {
   margin-left: 0;
   height: 80%;
 }
-
 .icons {
   display: flex;
   flex-direction: column;
   height: 280px;
   justify-content: space-around;
 }
-
-.icons li img {
-  margin: 1rem auto;
-}
-
 li {
   list-style: none;
   margin-left: 0;
