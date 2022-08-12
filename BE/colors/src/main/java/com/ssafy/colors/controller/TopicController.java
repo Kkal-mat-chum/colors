@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/topic")
 @Api(tags = {"토픽을 관리하는 컨트롤러"})
