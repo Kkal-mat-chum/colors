@@ -64,6 +64,7 @@ export default {
             console.log(response.data.member);
             sessionStorage.setItem("access-token", response["access-token"]);
             sessionStorage.setItem("memberData", response.data.member);
+            sessionStorage.setItem("userName", response.data.member.name);
 
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
             this.$store.state.memberStore.isLogin = true;

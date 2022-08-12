@@ -46,16 +46,19 @@ export default {
     //비밀번호 수정
     updateMemberInfo() {
       this.pwupdate_doubleCheck();
-      let userid = this.$store.state.member_id;
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      console.log(memberData);
+      let userid = memberData.data.userId;
+      console.log(userid);
       let newPassword = document.getElementById("updatePWInputFirst").value;
       console.log(newPassword);
       axios
-        .post(this.$store.state.baseurl + "/api/member/changepwd", {
+        .post(this.$store.state.baseurl + "api/member/changepwd", {
           userid: userid,
           password: newPassword,
         })
         .then((response) => {
-          if (response.message == "success" && this.pwchangedouble_validation) {
+          if (response.data.message == "success" && this.pwchangedouble_validation) {
             console.log("비밀번호를 메일로 전송");
           } else {
             console.log("아이디와 이메일을 다시 확인해주세요.");
