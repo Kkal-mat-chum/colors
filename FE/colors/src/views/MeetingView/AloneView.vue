@@ -121,39 +121,40 @@ export default {
 
           console.log(file);
 
-          // s3 upload
-          AWS.config.update({
-            region: "ap-northeast-2",
-            credentials: new AWS.CognitoIdentityCredentials({
-              IdentityPoolId: awsid,
-            }),
-          });
+          // // s3 upload
+          // AWS.config.update({
+          //   region: "ap-northeast-2",
+          //   credentials: new AWS.CognitoIdentityCredentials({
+          //     IdentityPoolId: awsid,
+          //   }),
+          // });
 
-          var s3 = new AWS.S3({
-            apiVersion: "2012-10-17",
-            params: {
-              Bucket: "ssafy7colors",
-            },
-          });
+          // var s3 = new AWS.S3({
+          //   apiVersion: "2012-10-17",
+          //   params: {
+          //     Bucket: "ssafy7colors",
+          //   },
+          // });
 
-          let photoKey = "/sdk/" + name + ".jpg";
+          // let photoKey = "/sdk/" + name + ".jpg";
 
-          s3.upload(
-            {
-              Key: photoKey,
-              Body: file,
-              ACL: "public-read",
-            },
-            (err, data) => {
-              if (err) {
-                console.log(err);
-              }
-              alert("Successfully uploaded photo.");
-              console.log(data);
-            }
-          );
+          // s3.upload(
+          //   {
+          //     Key: photoKey,
+          //     Body: file,
+          //     ACL: "public-read",
+          //   },
+          //   (err, data) => {
+          //     if (err) {
+          //       console.log(err);
+          //     }
+          //     alert("Successfully uploaded photo.");
+          //     console.log(data);
+          //   }
+          // );
         });
         this.count++;
+        this.count_pallete++;
       } else {
         alert("컬러 팔레트가 꽉찼습니다.");
       }
