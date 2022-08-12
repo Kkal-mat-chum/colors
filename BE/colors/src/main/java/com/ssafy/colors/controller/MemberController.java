@@ -40,14 +40,14 @@ public class MemberController {
     @ApiOperation(value = "아이디 중복여부 확인", notes = "입력받은 아이디의 중복 여부를 확인한다.")
     @ApiImplicitParam(
             name = "입력 아이디",
-            value = "input-id",
+            value = "input_id",
             required = true,
             dataType = "string")
     public ResponseEntity<Map<String, Object>> checkDuplicatedID(@RequestBody Map<String, Object> reqData) {
         System.out.println("[POST] - /member/chkid");
 
-        String inputId = (String) reqData.get("input-id");
-        System.out.println("input-id: " + inputId);
+        String inputId = (String) reqData.get("input_id");
+        System.out.println("input_id: " + inputId);
 
         Map<String, Object> result = new HashMap<>();
 
@@ -65,8 +65,8 @@ public class MemberController {
     @ApiOperation(value = "닉네임 중복여부 확인", notes = "입력 받은 닉네임의 중복 여부를 확인한다.")
     public ResponseEntity<Map<String, Object>> checkDuplicatedNickname(@RequestBody Map<String, Object> reqData) {
         System.out.println("[POST] - /member/chknic");
-        String inputNickname = (String) reqData.get("input-nickname");
-        System.out.println("input-nickname: " + inputNickname);
+        String inputNickname = (String) reqData.get("input_nickname");
+        System.out.println("input_nickname: " + inputNickname);
 
         Map<String, Object> result = new HashMap<>();
 
@@ -185,7 +185,7 @@ public class MemberController {
 
         Map<String, Object> result = new HashMap<>();
         String userId = (String) params.get("userid");
-        String imgUrl = (String) params.get("image-url");
+        String imgUrl = (String) params.get("image_url");
 
         if(memberService.updateMemberImage(userId, imgUrl)) {
             result.put("message", SUCCESS);
