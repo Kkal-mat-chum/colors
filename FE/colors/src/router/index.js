@@ -7,6 +7,7 @@ import topicBoard from "@/views/TopicSuggesView.vue";
 import aloneTournament from "../views/VotingView/AloneTournament.vue";
 import aloneVoting from "../views/VotingView/AloneVoting.vue";
 import teamVoting from "../views/VotingView/TeamVoting.vue";
+import randomVoting from "../views/VotingView/RandomVoting.vue";
 
 Vue.use(VueRouter);
 
@@ -123,6 +124,11 @@ const routes = [
     path: "/teamVoting",
     name: "teamVoting",
     component: teamVoting,
+  },
+  {
+    path: "/randomVoting",
+    name: "randomVoting",
+    component: randomVoting,
   },
 ];
 
