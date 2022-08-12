@@ -1,10 +1,9 @@
 import router from "@/router";
 import { api } from "@/store";
-import { string } from "@tensorflow/tfjs-core";
 
 const meetingStore = {
   state: {
-    userName: string,
+    userName: "",
     singleUsers: [],
     singleUser: {},
     groupUsers: [],
