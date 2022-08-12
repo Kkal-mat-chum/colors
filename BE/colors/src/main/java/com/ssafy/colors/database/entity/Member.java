@@ -60,4 +60,7 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "host")
     List<Room> rooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    List<MeetingResult> results = new ArrayList<>();
 }

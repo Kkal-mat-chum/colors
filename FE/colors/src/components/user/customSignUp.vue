@@ -30,7 +30,7 @@
             <customButton class="signUpIDCheckBtn" id="signUpIDCheckBtn" btnText="중복 확인" @click="checkDuplicateID">아이디 중복확인</customButton>
             <div class="dummyMarginSignUp1"></div>
             <customButton class="signUpnickCheckBtn" id="signUpnickCheckBtn" btnText="중복 확인" @click="checkDuplicateNickname">testButton</customButton>
-            <customButton class="signUpEmailCheckBtn" id="signUpEmailCheckBtn" btnText="이메일 인증" @click="testClick">testButton</customButton>
+            <customButton class="signUpEmailCheckBtn" id="signUpEmailCheckBtn" btnText="이메일 인증" @click="checkEmail">testButton</customButton>
             <customButton class="signUpEmailCheckBtn" id="signUpEmailCheckBtn" btnText="이메일 확인" @click="emailCheck">testButton</customButton>
           </div>
         </div>
@@ -63,6 +63,7 @@ export default {
       email_validation: false, //회원가입버튼 누를 때 검사
       state_message: "",
       emailCode: "",
+      authEmailCode: "",
       storeBaseurl: this.$store.state.memberStore.baseurl,
     };
   },
@@ -91,14 +92,14 @@ export default {
             input_id: new_id,
           })
           .then((response) => {
-            if (response.message == "not-duplicated") {
-              console.log("아이디 사용 가능");
+            if (response.data.message == "not-duplicated") {
+              alert("아이디 사용 가능");
             } else {
-              console.log("중복된 아이디");
+              alert("중복된 아이디");
             }
           });
       } else {
-        this.state_message = "입력한 정보를 다시 확인해주세요.";
+        this.state_message = "아이디는 영문 숫자 포함 6자리 이상입니다.";
         console.log("유효하지 않은 아이디");
       }
       // this.validID(new_id);
@@ -137,30 +138,36 @@ export default {
           input_nickname: new_nickname,
         })
         .then((response) => {
-          if (response.message == "not-duplicated") {
-            console.log("닉네임 사용 가능");
+          if (response.data.message == "not-duplicated") {
+            alert("닉네임 사용 가능");
             this.nick_validation = true;
           } else {
             this.nick_validation = false;
-            console.log("중복된 닉네임");
+            alert("중복된 닉네임");
           }
         });
     },
     // 이메일 인증 버튼 클릭 시 @@@@@ authNumber auth_number?
     checkEmail() {
       let new_email = document.getElementById("emailLabel").value;
-      let email_checknum = document.getElementById("emailcheckLabel").value;
       axios
-        .post(this.$store.state.baseurl + "/api/auth/emailAuth", {
+        .post(this.$store.state.baseurl + "api/auth/email", {
           email: new_email,
         })
         .then((response) => {
-          if (response.authNumber == email_checknum) {
-            this.email_validation = true;
-          } else if (response.message == "fail") {
-            this.email_validation = false;
-          }
+          console.log(response);
+          this.authEmailCode = response.data.authcode;
         });
+    },
+    emailCheck() {
+      let email_checknum = document.getElementById("emailcheckLabel").value;
+      if (this.authEmailCode == email_checknum) {
+        this.email_validation = true;
+        alert("이메일 인증이 완료되었습니다.");
+      } else {
+        this.email_validation = false;
+        alert("올바르지 않은 인증번호 입니다.");
+      }
     },
     // 회원 가입: 아이디,비번,
     registMember() {
@@ -191,7 +198,7 @@ export default {
             email: new_email,
           })
           .then((response) => {
-            if (response.message == "success") {
+            if (response.data.message == "success") {
               console.log("로그인 완료");
               router.push("/login");
             } else {
@@ -201,12 +208,6 @@ export default {
       } else {
         alert("회원정보를 다시 확인하세요.");
       }
-    },
-    emailCheck() {
-      let memberEmail = {
-        emailCheck: this.emailCode,
-      };
-      this.$store.dispatch("memberEmailCheck", memberEmail);
     },
   },
 };
@@ -371,9 +372,7 @@ button {
   height: 40%;
 }
 #signUpWarning {
-  margin-top: 80%;
-  margin-left: 28%;
-  margin-right: 30%;
+  margin-left: 45%;
   font-size: 15px;
   color: #f34d75;
 }

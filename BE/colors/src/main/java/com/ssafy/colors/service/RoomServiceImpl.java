@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -37,6 +39,9 @@ public class RoomServiceImpl implements RoomService {
     public RoomRes saveMeetingRoomInfo(RoomReq roomReq) {
         System.out.println("Enter RoomService - saveMeetingRoomInfo()");
 
+        Member host = memberRepository.findById(roomReq.getHostid()).get();
+        Topic selectedTopic = null;
+
         RoomType roomType = null;
         if (roomReq.getRoomtype().equals("single")) {
             roomType = RoomType.SINGLE;
@@ -44,20 +49,11 @@ public class RoomServiceImpl implements RoomService {
             roomType = RoomType.GROUP;
         } else if (roomReq.getRoomtype().equals("random")) {
             roomType = RoomType.RANDOM;
+            selectedTopic = topicRepository.findById(roomReq.getTopicid()).get();
         } else {
             System.out.println("잘못된 파라미터입니다.");
             return null;
         }
-
-        Member host = memberRepository.findById(roomReq.getHostid()).get();
-        Topic selectedTopic = topicRepository.findById(roomReq.getTopicid()).get();
-
-        System.out.println("+==========================");
-        System.out.println(host);
-        System.out.println(selectedTopic);
-        System.out.println("+==========================");
-
-        if(host == null || selectedTopic == null) return null;
 
         // 랜덤으로 생성된 방 코드가 중복될 경우 최대 5회까지 시도
         String randomCode = null;
@@ -95,7 +91,7 @@ public class RoomServiceImpl implements RoomService {
                         .roomid(room.getId())
                         .hostid(room.getHost().getId())
                         .roomcode(room.getRoomCode())
-                        .title(room.getTopic().getTitle())
+                        .title(selectedTopic == null ? null : room.getTopic().getTitle())
                         .roomtype(room.getRoomType().toString().toLowerCase())
                         .status(room.getStatus().toString().toLowerCase())
                         .build();
@@ -110,5 +106,56 @@ public class RoomServiceImpl implements RoomService {
         else {
             return null;
         }
+    }
+
+    @Override
+    public boolean checkRoomCode(String code) {
+        Room room = roomRepository.findFirstByRoomCodeAndStatus(code, RoomStatus.WAITED);
+
+        if (room != null) return true;
+        else return false;
+    }
+
+    @Override
+    public List<String> findRandomRoomList(long topicId) {
+        Optional<Topic> topic = topicRepository.findById(topicId);
+        List<String> result = new ArrayList<>();
+
+        topic.ifPresent(t -> {
+            RoomType type = RoomType.RANDOM;
+            RoomStatus status = RoomStatus.WAITED;
+            List<Room> rooms = roomRepository.findRoomByTopicAndRoomTypeAndStatus(topic.get(), type, status);
+
+            if (!rooms.isEmpty()) {
+                for (Room room : rooms) {
+                    result.add(room.getRoomCode());
+                }
+            }
+        });
+
+        return result;
+    }
+
+    @Override
+    public boolean changeRoomStatus(long hostId, long roomId) {
+        Optional<Member> host = memberRepository.findById(hostId);
+
+        if(host.isPresent()) {
+            Room room = roomRepository.findByIdAndHost(roomId, host.get());
+            if(room == null) return false;
+
+            int result = 0;
+
+            if(room.getStatus().equals(RoomStatus.WAITED)) {
+                result = roomRepository.updateRoomStatus(roomId, host.get(), RoomStatus.STARTED);
+            } else if(room.getStatus().equals(RoomStatus.STARTED)) {
+                result = roomRepository.updateRoomStatus(roomId, host.get(), RoomStatus.CLOSED);
+            }
+
+            return result > 0;
+        } else {
+            return false;
+        }
+
     }
 }

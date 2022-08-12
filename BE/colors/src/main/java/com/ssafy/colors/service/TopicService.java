@@ -40,15 +40,8 @@ public class TopicService {
 
 
     public long save(String title, String writer) {
-        Topic topic = new Topic();
-        topic.setTitle(title);
-        topic.setUserIntId(memberRepository.findFirstByUserId(writer).getId());
-        topic.setIsDeleted(false);
-        topic.setRegDate(LocalDateTime.now());
-        topic.setWeekNum(LocalDate.now().get(WeekFields.ISO.weekOfYear()));
-
+        Topic topic = new Topic(memberRepository.findFirstByUserId(writer).getId(), title, LocalDateTime.now(), false);
         topicRepository.save(topic);
-
         return topic.getId();
     }
 
