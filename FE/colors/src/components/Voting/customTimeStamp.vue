@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     totalTime() {
+      // this.timeStr = 10;
       this.timeStr = this.$store.memberStore.state.teamJoinList.length * 30 + 1;
     },
     start_auto_reload() {
@@ -38,6 +39,7 @@ export default {
       if (this.timeStr <= 0) {
         this.stop_auto_reload();
         // clearInterval(this.auto_reload_func);
+        this.$router.push("/tournamentnameresult");
         // 페이지 자동 넘김 필요 ==================================================================
       }
     },
