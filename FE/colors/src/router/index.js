@@ -28,16 +28,25 @@ const routes = [
     path: "/enterPage",
     name: "enterPage",
     component: enterPageView,
+    meta: {
+      reload: true,
+    },
   },
   {
     path: "/topicBoard",
     name: "topicBoard",
     component: topicBoard,
+    meta: {
+      reload: true,
+    },
   },
   {
     path: "/mypage",
     name: "mypage",
     component: MyPageView,
+    meta: {
+      reload: true,
+    },
   },
   {
     path: "/alone/:id",
