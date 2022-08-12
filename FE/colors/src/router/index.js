@@ -40,12 +40,12 @@ const routes = [
     component: MyPageView,
   },
   {
-    path: "/alone",
+    path: "/alone/:id",
     name: "alone",
     component: () => import("@/views/MeetingView/AloneView.vue"),
   },
   {
-    path: "/team",
+    path: "/team/:id",
     name: "team",
     component: () => import("@/views/MeetingView/TeamView.vue"),
   },
