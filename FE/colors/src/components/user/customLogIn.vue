@@ -42,9 +42,6 @@ export default {
     };
   },
   methods: {
-    testClick() {
-      console.lot("?");
-    },
     //회원가입 창으로 가기
     gotosignup() {
       this.$router.push("/signup");
@@ -65,7 +62,9 @@ export default {
             this.loginAlram = true;
           } else if (response.data.message == "success") {
             sessionStorage.setItem("access-token", response["access-token"]);
+            sessionStorage.setItem("userId", login_id);
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
+            this.$store.state.memberStore.isLogin = true;
             axios.get(this.$store.state.baseurl + "api/member/" + login_id).then((response) => {
               if (response.data.message == "success") {
                 //https://granya.tistory.com/4 참조 배열을 저장하는 방법
