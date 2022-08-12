@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+// import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
 import enterPageView from "../views/EnterView.vue";
 import topicBoard from "@/views/TopicSuggesView.vue";
@@ -12,11 +12,11 @@ import randomVoting from "../views/VotingView/RandomVoting.vue";
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: HomeView,
-  },
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: HomeView,
+  // },
   {
     path: "/about",
     name: "about",
@@ -29,16 +29,25 @@ const routes = [
     path: "/enterPage",
     name: "enterPage",
     component: enterPageView,
+    meta: {
+      reload: true,
+    },
   },
   {
     path: "/topicBoard",
     name: "topicBoard",
     component: topicBoard,
+    meta: {
+      reload: true,
+    },
   },
   {
     path: "/mypage",
     name: "mypage",
     component: MyPageView,
+    meta: {
+      reload: true,
+    },
   },
   {
     path: "/alone/:id",
@@ -56,7 +65,7 @@ const routes = [
     component: () => import("@/components/user/customSignUp.vue"),
   },
   {
-    path: "/login",
+    path: "/",
     name: "logIn",
     component: () => import("@/components/user/customLogIn.vue"),
   },

@@ -55,7 +55,7 @@ const memberStore = {
     isLogin: false,
     members: [],
     member: {},
-    baseurl: "http://loaclhost:8080",
+    baseurl: "http://loaclhost:8080", // baseurl 바꾸기...
   },
   getters: {},
   mutations: {

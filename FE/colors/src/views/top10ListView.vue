@@ -8,16 +8,7 @@
       </div>
       <h2 class="topicTenTitle">이번주 토픽 TOP 10</h2>
       <TopicList class="topTenList" :isEnter="true">
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
-        <TopicArticle class="topicArticle" :isEnter="true" />
+        <TopicArticle class="topicArticle" :isEnter="true" v-for="topic in popics" :key="topic.id" :topicId="topic.id" :topicArticleTitle="topic.title" />
       </TopicList>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" />
@@ -30,8 +21,25 @@
 <script>
 import TopicList from "@/components/topic/topicList.vue";
 import TopicArticle from "@/components/topic/topicArticle.vue";
+import axios from "axios";
 export default {
   components: { TopicList, TopicArticle },
+  data() {
+    return {
+      topics: Array,
+      currentTopicNum: {
+        type: Number,
+        default: 0,
+      },
+    };
+  },
+  mounted() {
+    axios.get(this.$store.state.baseurl + "/api/topic/top10").then((response) => {
+      console.log(response.data);
+      this.currentTopicNum = response.data.maxpage;
+      this.topics = response.data.topics;
+    });
+  },
 };
 </script>
 

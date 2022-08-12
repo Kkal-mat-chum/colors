@@ -1,17 +1,11 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" v-if="isLogin">
     <ul class="sidebar__nav">
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
-        <router-link tag="li" class-active="Active" to="/enterPage">
-          <i class="material-symbols-rounded loadedIcon">home</i>
-        </router-link>
-        <router-link tag="li" class-active="Active" to="/topicBoard">
-          <i class="material-icons-outlined loadedIcon">forum</i>
-        </router-link>
-        <router-link tag="li" class-active="Active" to="/mypage">
-          <i class="material-icons-outlined loadedIcon">account_circle</i>
-        </router-link>
+        <i class="material-symbols-rounded loadedIcon" @click="clickHomeIcon">home</i>
+        <i class="material-icons-outlined loadedIcon" @click="clickForumIcon">forum</i>
+        <i class="material-icons-outlined loadedIcon" @click="clickMyPageIcon">account_circle</i>
       </div>
     </ul>
     <div>
@@ -22,16 +16,30 @@
 
 <script>
 import router from "@/router";
-import { mapState, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 export default {
   computed: {
-    ...mapState(["isLogin"]),
+    isLogin() {
+      return this.$store.state.memberStore.isLogin;
+    },
   },
   methods: {
     ...mapMutations(["MEMBER_LOGOUT"]),
     doLogout() {
       this.MEMBER_LOGOUT();
-      router.push("/login");
+      router.push("/");
+    },
+    clickHomeIcon() {
+      console.log("clicked");
+      this.$router.push({ path: "/enterPage" }).catch(() => {});
+    },
+    clickForumIcon() {
+      console.log("clicked");
+      this.$router.push({ path: "/topicBoard" }).catch(() => {});
+    },
+    clickMyPageIcon() {
+      console.log("clicked");
+      this.$router.push({ path: "/mypage" }).catch(() => {});
     },
   },
 };
@@ -68,7 +76,7 @@ export default {
   margin-bottom: 2rem;
 }
 
-.router-link-active .loadedIcon {
+.loadedIcon:hover {
   color: #6667ab !important;
 }
 

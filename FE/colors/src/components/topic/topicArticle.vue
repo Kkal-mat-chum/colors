@@ -1,13 +1,16 @@
 <template>
   <div class="topicAritcleItem" v-bind="$attrs">
-    <span class="topicTitle">the title</span>
+    <span class="topicTitle">{{ topicArticleTitle }}</span>
     <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic">delete</span>
-    <span class="material-symbols-rounded topicLike" v-if="isTopic">favorite</span>
+    <span class="material-symbols-rounded topicLike" v-if="isTopic & recommend" @click="clickLike">favorite</span>
+    <span class="material-symbols-rounded topicLike" v-if="isTopic & !recommend" @click="clickUnLike">favorite</span>
     <customButton class="topicEnterButton" btnText="입장하기" v-if="isEnter"></customButton>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   props: {
     isAdmin: {
@@ -21,6 +24,41 @@ export default {
     isEnter: {
       type: Boolean,
       default: false,
+    },
+    topicArticleTitle: String,
+    recommend: {
+      type: Boolean,
+      default: false,
+    },
+    cnt: {
+      type: Number,
+      default: 0,
+    },
+    topicId: Number,
+  },
+  methods: {
+    clickLike() {
+      console.log("clicked like");
+      axios
+        .post(this.$store.state.baseurl + "/api/vote", {
+          topicId: this.topicId,
+          userId: this.$store.state.userId,
+        })
+        .then((response) => {
+          if (response.message == "access") {
+            console.log(response.data);
+            this.$emit("clicklike", this.cnt + 1);
+          }
+        });
+    },
+    clickUnLike() {
+      console.log("clicked unlike");
+      axios.delete(this.$store.state.baseurl + "/api/vote/" + this.topicId + "/" + this.$store.userId).then((response) => {
+        if (response.message == "access") {
+          console.log(response.data);
+          this.$emit("clickUnlike", this.cnt - 1);
+        }
+      });
     },
   },
 };

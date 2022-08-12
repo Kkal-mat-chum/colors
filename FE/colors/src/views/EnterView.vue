@@ -1,6 +1,5 @@
 <template>
   <div class="enterPageView">
-    <customSidebar />
     <div class="userInfo">
       {{ userName }}님 환영합니다!
       <i class="material-icons-outlined userIcon">account_circle</i>
@@ -36,7 +35,12 @@ export default {
       showGroupModal: false,
       id: "",
       roomCodeId: "",
+      userName: "",
     };
+  },
+  mounted() {
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    this.userName = memberData.data.name;
   },
   methods: {
     SingleRoom() {
