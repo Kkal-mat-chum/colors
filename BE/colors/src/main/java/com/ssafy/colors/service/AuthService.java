@@ -8,6 +8,9 @@ import com.ssafy.colors.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AuthService {
 
@@ -20,13 +23,19 @@ public class AuthService {
     @Autowired
     MailService mailService;
 
-    public boolean login(LoginReq user) {
+    public Map<String, Object> login(LoginReq user) {
         Member findByuserId = memberRepository.findFirstByUserId(user.getUserId());
-        if (findByuserId.getPassword().equals(user.getPassword())) {
-            return true;
+        HashMap<String, Object> result = new HashMap<>();
+        if (findByuserId != null && findByuserId.getPassword().equals(user.getPassword())) {
+            result.put("member", findByuserId);
+            result.put("result", true);
+
+            return result;
         }
-        return false;
+        result.put("result", false);
+        return result;
     }
+
 
     public String generateAndSendAuthCode(String email) {
         String authCode = randomStringGenerator.generateRandomPassword(8);
@@ -38,5 +47,5 @@ public class AuthService {
         mailService.mailSend(mail);
 
         return authCode;
-    }
+     }
 }
