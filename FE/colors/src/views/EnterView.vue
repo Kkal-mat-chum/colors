@@ -35,7 +35,12 @@ export default {
       showGroupModal: false,
       id: "",
       roomCodeId: "",
+      userName: "",
     };
+  },
+  mounted() {
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    this.userName = memberData.data.name;
   },
   methods: {
     SingleRoom() {
