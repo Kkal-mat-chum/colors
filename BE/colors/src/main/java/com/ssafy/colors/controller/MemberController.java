@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Api(value = "Member API", tags = {"Member"})
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/member")
 public class MemberController {

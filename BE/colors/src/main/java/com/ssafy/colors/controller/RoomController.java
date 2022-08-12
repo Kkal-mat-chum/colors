@@ -1,31 +1,24 @@
 package com.ssafy.colors.controller;
 
-import com.ssafy.colors.database.entity.Room;
-import com.ssafy.colors.database.repository.MemberRepository;
-import com.ssafy.colors.database.repository.RoomRepository;
-import com.ssafy.colors.enumdata.RoomStatus;
-import com.ssafy.colors.enumdata.RoomType;
 import com.ssafy.colors.request.RoomReq;
 import com.ssafy.colors.response.RoomRes;
 import com.ssafy.colors.service.RoomService;
-import com.ssafy.colors.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/room")
 public class RoomController {
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
-    private static final String DUPLICATED = "duplicated";
-    private static final String NONDUPLICATED = "not-duplicated";
 
     @Autowired
     private RoomService roomService;
@@ -48,27 +41,71 @@ public class RoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @PostMapping()
-//    public void createRoomTest(@RequestBody Map<String, Object> params) {
-//        System.out.println("[POST] - /room");
-//        String userId = (String) params.get("userid");
-//        String roomCode = randomStringGenerator.generateRandomPassword(8);
-//        Long userKey = memberRepository.findFirstByUserId(userId).getId();
-//
-//        System.out.println("USER ID - " + userId);
-//        System.out.println("ROOM CODE - " + roomCode);
-//        System.out.println("ROOM TYPE - " + RoomType.SINGLE);
-//        System.out.println("ROOM STATUS - " + RoomStatus.WAITED);
-//
-//        Room room = Room.builder()
-//                .hostId(userKey)
-//                .topicId(0L)
-//                .roomCode(roomCode)
-//                .roomType(RoomType.SINGLE)
-//                .cDate(LocalDateTime.now())
-//                .status(RoomStatus.WAITED)
-//                .build();
-//        roomRepository.save(room);
-//    }
+    @PostMapping("/join/group")
+    public ResponseEntity<Map<String, Object>> joinGroupMeeting(@RequestBody Map<String, Object> params) {
+        System.out.println("[POST - /room/join/group]");
+
+        Map<String, Object> result = new HashMap<>();
+        String roomCode = (String) params.get("roomcode");
+
+        if(roomService.checkRoomCode(roomCode)) {
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/join/random")
+    public ResponseEntity<Map<String, Object>> joinRandomMeeting(@RequestBody Map<String, Object> params) {
+        System.out.println("[POST - /room/join/random]");
+
+        Map<String, Object> result = new HashMap<>();
+        Long topicId = Long.parseLong(params.get("topic_id").toString());
+
+        List<String> roomList = roomService.findRandomRoomList(topicId);
+
+        if(!roomList.isEmpty()) {
+            result.put("data", roomList);
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PutMapping("/status")
+    public ResponseEntity<Map<String, Object>> changeRoomStatus(@RequestBody Map<String, Object> params) {
+        System.out.println("[PUT] - /room/status");
+        Long roomId = Long.parseLong(params.get("roomid").toString());
+        Long hostId = Long.parseLong(params.get("hostid").toString());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(roomService.changeRoomStatus(hostId, roomId)) {
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/result")
+    public ResponseEntity<Map<String, Object>> saveMeetingResult(@RequestBody String param) {
+        System.out.println("[POST - /room/result");
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(true) {
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }
