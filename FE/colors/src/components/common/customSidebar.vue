@@ -27,7 +27,7 @@ export default {
     ...mapMutations(["MEMBER_LOGOUT"]),
     doLogout() {
       this.MEMBER_LOGOUT();
-      router.push("/login");
+      router.push("/");
     },
     clickHomeIcon() {
       console.log("clicked");
