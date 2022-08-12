@@ -33,6 +33,7 @@ import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import html2canvas from "html2canvas";
+import AWS from "aws-sdk";
 
 export default {
   name: "aloneMeeting",
@@ -56,6 +57,7 @@ export default {
       v: 0,
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
+      awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
     };
   },
   computed: {
@@ -97,12 +99,109 @@ export default {
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
-        this.count++;
+
+        var name = this.modelHex;
+        var awsid = this.awsid;
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
           document.getElementById("webcam").appendChild(canvas);
+          var img = canvas.toDataURL("image/jpeg");
+
+          // base64 -> image file
+          var arr = img.split(","),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+
+          var file = new File([u8arr], name, { type: mime });
+
+          console.log(file);
+
+          // // s3 upload
+          // AWS.config.update({
+          //   region: "ap-northeast-2",
+          //   credentials: new AWS.CognitoIdentityCredentials({
+          //     IdentityPoolId: awsid,
+          //   }),
+          // });
+
+          // var s3 = new AWS.S3({
+          //   apiVersion: "2012-10-17",
+          //   params: {
+          //     Bucket: "ssafy7colors",
+          //   },
+          // });
+
+          // let photoKey = "/sdk/" + name + ".jpg";
+
+          // s3.upload(
+          //   {
+          //     Key: photoKey,
+          //     Body: file,
+          //     ACL: "public-read",
+          //   },
+          //   (err, data) => {
+          //     if (err) {
+          //       console.log(err);
+          //     }
+          //     alert("Successfully uploaded photo.");
+          //     console.log(data);
+          //   }
+          // );
         });
+        this.count++;
+        this.count_pallete++;
+      } else {
+        alert("컬러 팔레트가 꽉찼습니다.");
       }
+
+      // file 가져오기
+      AWS.config.update({
+        region: "ap-northeast-2",
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: awsid,
+        }),
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2012-10-17",
+        params: {
+          Bucket: "ssafy7colors",
+        },
+      });
+
+      s3.listObjects(
+        {
+          Delimiter: "//sdk",
+        },
+        (err, data) => {
+          if (err) {
+            return alert("There was an error : " + err.message);
+          } else {
+            console.log(data);
+          }
+        }
+      );
     },
+
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], fileName, { type: mime });
+    },
+
     setText() {
       this.modelHex = this.rgb2hex(this.rgba, true);
       this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;

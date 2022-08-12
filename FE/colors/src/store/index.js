@@ -22,6 +22,8 @@ export default new Vuex.Store({
     //토너먼트 투표 시 선택되어(selectedColorLst) 결과창까지(tournamentResultLst) 보이는 색상입니다. 백에서 데이터를 받게되면 이 코드 지우고 스토어에 저장해주세요.
     selectedColorLst: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
     tournamentResultLst: [],
+
+    baseurl: process.env.VUE_APP_API_SERVER,
     //마이페이지에 보일 팔레트 색상입니다. 백에서 데이터를 받게되면 이 코드 지우고 스토어에 저장해주세요.
     aloneColorLst: ["#111fff", "#222222", "#333333", "#444444", "#555555", "#666666", "#777777", "#fff999"],
     teamColorLst: ["#888000", "#777777", "#666666", "#555555", "#444444", "#333333", "#222222", "#000888"],
