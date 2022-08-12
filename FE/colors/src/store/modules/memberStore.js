@@ -5,6 +5,7 @@ const memberStore = {
     isLogin: false,
     members: [],
     member: {},
+    baseurl: "http://loaclhost:8080",
   },
   getters: {},
   mutations: {

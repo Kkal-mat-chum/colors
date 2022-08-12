@@ -51,7 +51,6 @@
 
 <script>
 import axios from "axios";
-
 //이메일 인증 번호 보내는거 필요
 export default {
   data() {
@@ -63,6 +62,7 @@ export default {
       email_validation: false, //회원가입버튼 누를 때 검사
       state_message: "",
       emailCode: "",
+      storeBaseurl: this.$store.state.memberStore.baseurl,
     };
   },
   computed: {
@@ -83,6 +83,8 @@ export default {
       //유효성검사 성공시
       if (this.id_validation) {
         console.log("유효한 아이디입니다.");
+        console.log(this.id_validation);
+        console.log(this.storeBaseurl + "/api/member/chkid");
         axios
           .post(this.$store.state.baseurl + "/api/member/chkid", {
             input_id: new_id,
