@@ -15,7 +15,7 @@
         <input type="password" class="modifyPwInput" id="updateUserPwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
-        <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="testClick">testButton</customButton>
+        <customButton class="nickCheckBtn" id="nickCheckBtn" btnText="중복 확인" @click="checkDuplicateNickname">testButton</customButton>
       </div>
       <div class="UpdateUserdummyMargin2"></div>
     </div>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import CustomUpdatepw from "@/components/user/customUpdatePW.vue";
 import CustomeDeleteUser from "./customDeleteUser.vue";
 export default {
@@ -59,6 +60,28 @@ export default {
   methods: {
     testClick() {
       console.log("123");
+    },
+    //회원정보 수정
+    updateMemberInfo() {
+      let userid = this.$store.state.member_id;
+      let newNickName = document.getElementById("updateUserNickLabel").value;
+      let newName = document.getElementById("updateUserNameLabel").value;
+      let userPassword = document.getElementById("updateUserNameLabel").value;
+      console.log(newNickName, newName);
+      axios
+        .post(this.$store.state.baseurl + "/api/member/changeinfo", {
+          userid: userid,
+          nickname: newNickName,
+          name: newName,
+          password: userPassword,
+        })
+        .then((response) => {
+          if (response.message == "success") {
+            console.log("비밀번호를 메일로 전송");
+          } else {
+            console.log("아이디와 이메일을 다시 확인해주세요.");
+          }
+        });
     },
   },
 };
@@ -206,6 +229,7 @@ body {
 #infoChangeBtn {
   margin-top: 12%;
   margin-bottom: 5%;
+  height: 38.4px;
 }
 #pwChangeBtn {
   width: 48%;

@@ -1,20 +1,35 @@
 package com.ssafy.colors.database.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import static javax.persistence.FetchType.LAZY;
+
+@Table(name = "vote")
 @Entity
-@Getter @Setter
-public class Vote {
-    @Id @GeneratedValue
-    private Long id;
-
-    private Long topicId;
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+public class Vote extends BaseEntity {
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 
     private Long memberId;
+
+    private boolean isDelete;
+
+    public Vote(Long memberId, Topic topic, boolean isDelete) {
+        this.memberId = memberId;
+        this.addVote(topic);
+        this.isDelete = isDelete;
+    }
+
+    public void addVote(Topic topic) {
+        this.topic = topic;
+        topic.getVoters().add(this);
+    }
 
 }

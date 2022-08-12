@@ -1,12 +1,15 @@
 <template>
   <div id="app">
-    <router-view />
+    <CustomSidebar></CustomSidebar>
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
 <script>
+import CustomSidebar from "./components/common/customSidebar.vue";
 export default {
   name: "app",
+  components: { CustomSidebar },
 };
 </script>
 

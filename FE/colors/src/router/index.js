@@ -2,17 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MyPageView from "../views/MyPageView.vue";
-import AloneView from "../views/MeetingView/AloneView.vue";
-import TeamView from "../views/MeetingView/TeamView.vue";
 import enterPageView from "../views/EnterView.vue";
-import signUp from "../components/user/customSignUp.vue";
-import logIn from "../components/user/customLogIn.vue";
-import modifyUser from "../components/user/customUpdateUser.vue";
-import deleteUser from "../components/user/customDeleteUser.vue";
-import modifyPW from "../components/user/customUpdatePW.vue";
-import idPwFind from "../components/user/idPwFind.vue";
-import colorVote from "../components/Voting/colorVote.vue";
-import colorTournament from "../components/Voting/colorTournament.vue";
+import topicBoard from "@/views/TopicSuggesView.vue";
+import aloneTournament from "../views/VotingView/AloneTournament.vue";
+import aloneVoting from "../views/VotingView/AloneVoting.vue";
+import teamVoting from "../views/VotingView/TeamVoting.vue";
 
 Vue.use(VueRouter);
 
@@ -30,66 +24,114 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
-
-  {
-    path: "/mypage",
-    name: "mypage",
-    component: MyPageView,
-  },
-  {
-    path: "/alone",
-    name: "alone",
-    component: AloneView,
-  },
-  {
-    path: "/team",
-    name: "team",
-    component: TeamView,
-  },
-  {
-    path: "/signup",
-    name: "signUp",
-    component: signUp,
-  },
-  {
-    path: "/login",
-    name: "logIn",
-    component: logIn,
-  },
-  {
-    path: "/modifyuser",
-    name: "modifyUser",
-    component: modifyUser,
-  },
   {
     path: "/enterPage",
     name: "enterPage",
     component: enterPageView,
+    meta: {
+      reload: true,
+    },
+  },
+  {
+    path: "/topicBoard",
+    name: "topicBoard",
+    component: topicBoard,
+    meta: {
+      reload: true,
+    },
+  },
+  {
+    path: "/mypage",
+    name: "mypage",
+    component: MyPageView,
+    meta: {
+      reload: true,
+    },
+  },
+  {
+    path: "/alone/:id",
+    name: "alone",
+    component: () => import("@/views/MeetingView/AloneView.vue"),
+  },
+  {
+    path: "/team/:id",
+    name: "team",
+    component: () => import("@/views/MeetingView/TeamView.vue"),
+  },
+  {
+    path: "/signup",
+    name: "signUp",
+    component: () => import("@/components/user/customSignUp.vue"),
+  },
+  {
+    path: "/login",
+    name: "logIn",
+    component: () => import("@/components/user/customLogIn.vue"),
+  },
+  {
+    path: "/modifyuser",
+    name: "modifyUser",
+    component: () => import("@/components/user/customUpdateUser.vue"),
   },
   {
     path: "/deleteuser",
     name: "deleteUser",
-    component: deleteUser,
+    component: () => import("@/components/user/customDeleteUser.vue"),
   },
   {
     path: "/modifypw",
     name: "modifyPW",
-    component: modifyPW,
+    component: () => import("@/components/user/customUpdatePW.vue"),
+  },
+  {
+    path: "/nameresult",
+    name: "nameResult",
+    component: () => import("@/components/Voting/nameResult.vue"),
+  },
+  {
+    path: "/nickresult",
+    name: "nickResult",
+    component: () => import("@/components/Voting/nickResult.vue"),
+  },
+  {
+    path: "/tournamentnameresult",
+    name: "tournamentNameResult",
+    component: () => import("@/components/Voting/tournamentNameResult.vue"),
   },
   {
     path: "/findidpw",
     name: "findidpw",
-    component: idPwFind,
+    component: () => import("@/components/user/customDeleteUser.vue"),
   },
   {
-    path: "/colorVote",
+    path: "/colorvote",
     name: "colorVote",
-    component: colorVote,
+    component: () => import("@/components/Voting/colorVote.vue"),
   },
   {
-    path: "/colorTournament",
+    path: "/colortournament",
     name: "colorTournament",
-    component: colorTournament,
+    component: () => import("@/components/Voting/colorTournament.vue"),
+  },
+  {
+    path: "/topTenTopic",
+    name: "topTenTopic",
+    component: () => import("@/views/top10ListView.vue"),
+  },
+  {
+    path: "/aloneTournament",
+    name: "aloneTournament",
+    component: aloneTournament,
+  },
+  {
+    path: "/aloneVoting",
+    name: "aloneVoting",
+    component: aloneVoting,
+  },
+  {
+    path: "/teamVoting",
+    name: "teamVoting",
+    component: teamVoting,
   },
 ];
 

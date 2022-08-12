@@ -1,6 +1,6 @@
 <template>
   <div v-if="streamManager">
-    <ov-video :stream-manager="streamManager" />
+    <ov-video :stream-manager="streamManager" @changeStreamTrack="() => this.$emit('changeStreamTrack')" />
   </div>
 </template>
 
