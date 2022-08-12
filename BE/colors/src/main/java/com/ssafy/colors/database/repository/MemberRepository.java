@@ -18,6 +18,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     public Member findByNameAndEmail(String name, String email);
 
+    public Member findByUserIdAndPassword(String userId, String password);
+
     @Modifying
     @Transactional
     @Query("UPDATE Member as m " +
@@ -35,6 +37,14 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     public int updateMemberInfo(@Param("nickname") String inputNickname,
                                 @Param("name") String inputName,
                                 @Param("userId") String userId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Member as m " +
+            "SET m.profileUrl = :url " +
+            "WHERE m.userId = :userId")
+    public int updateProfileImage(@Param("userId") String userId,
+                                  @Param("url") String url);
 
     @Modifying
     @Transactional

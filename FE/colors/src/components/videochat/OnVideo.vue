@@ -86,9 +86,9 @@ export default {
       const data = frame.data;
       for (let i = 0; i < length; i += 4) {
         if (data[i + 3] < 150) {
-          data[i] = 183;
-          data[i + 1] = 76;
-          data[i + 2] = 228;
+          data[i] = this.$store.state.r;
+          data[i + 1] = this.$store.state.g;
+          data[i + 2] = this.$store.state.b;
           if (data[i + 3] < 130) data[i + 3] = 255;
         }
       }
@@ -142,6 +142,21 @@ export default {
 
       setTimeout(() => this.onPlay());
     },
+
+    // async startCapture() {
+    //   const videoEl = document.getElementById("inputVideo");
+    //   try {
+    //     HTMLCanvasElement.captureStream = await navigator.mediaDevices.getDisplayMedia({
+    //       video: true,
+    //       audio: true,
+    //     });
+    //     console.log(HTMLCanvasElement.captureStream.getVideoTracks()[0].getSettings());
+    //     videoEl.srcObject = HTMLCanvasElement.captureStream;
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    //   return HTMLCanvasElement.captureStream;
+    // },
 
     async run() {
       await this.changeFaceDetector(TINY_FACE_DETECTOR);

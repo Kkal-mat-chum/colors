@@ -3,7 +3,7 @@
     <sidebar></sidebar>
     <div class="contents">
       <div class="camera">
-        <webcam class="webcam"></webcam>
+        <webcam id="webcam"></webcam>
         <div class="buttons">
           <customButton class="mute" btnText="음소거"></customButton>
           <customButton class="videostop" btnText="비디오 중지"></customButton>
@@ -18,7 +18,7 @@
         <div class="selectColor">
           <colorchoice @changeColor="changeColor"></colorchoice>
         </div>
-        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기"></customButton>
+        <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
         <customButton class="votebtn" btnText="투표하기"></customButton>
         <customButton class="exitbtn" btnText="종료"></customButton>
       </div>
@@ -32,6 +32,8 @@ import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
+import html2canvas from "html2canvas";
+import AWS from "aws-sdk";
 
 export default {
   name: "aloneMeeting",
@@ -53,6 +55,9 @@ export default {
       h: 0,
       s: 0,
       v: 0,
+      count_pallete: 0,
+      selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
+      awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
     };
   },
   computed: {
@@ -85,6 +90,86 @@ export default {
     });
   },
   methods: {
+    // 선택한 색의 컬러코드를 store에 저장
+    showOneSelectedColor() {
+      if (this.count_pallete < 8) {
+        this.modelHex = this.rgb2hex(this.rgba, true);
+        console.log(this.modelHex);
+        this.$store.commit("NEW_COLOR", { color: this.modelHex });
+        this.selectedColorLst = this.$store.state.selectedColorLst;
+        this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
+        this.$store.state.selectedColorLst = this.selectedColorLst;
+
+        var name = this.modelHex;
+        var awsid = this.awsid;
+        html2canvas(document.getElementById("webcam")).then(function (canvas) {
+          document.getElementById("webcam").appendChild(canvas);
+          var img = canvas.toDataURL("image/jpeg");
+
+          // base64 -> image file
+          var arr = img.split(","),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+
+          var file = new File([u8arr], name, { type: mime });
+          // s3 upload
+          AWS.config.update({
+            region: "ap-northeast-2",
+            credentials: new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: awsid,
+            }),
+          });
+
+          var s3 = new AWS.S3({
+            apiVersion: "2012-10-17",
+            params: {
+              Bucket: "ssafy7colors",
+            },
+          });
+
+          let photoKey = name + ".jpg";
+
+          s3.upload(
+            {
+              Key: photoKey,
+              Body: file,
+              ACL: "public-read",
+            },
+            (err, data) => {
+              if (err) {
+                console.log(err);
+              }
+              alert("Successfully uploaded photo.");
+              console.log(data);
+            }
+          );
+        });
+        this.count++;
+      } else {
+        alert("컬러 팔레트가 꽉찼습니다.");
+      }
+    },
+
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], fileName, { type: mime });
+    },
+
     setText() {
       this.modelHex = this.rgb2hex(this.rgba, true);
       this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;
@@ -117,7 +202,7 @@ body {
   width: 157vh;
   text-align: center;
 }
-.webcam {
+#webcam {
   display: inline-block;
   width: 600px;
   height: 300px;
