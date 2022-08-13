@@ -45,7 +45,7 @@
               <div class="colormark">
                 <div class="firstcolor">
                   <div class="top1"><p>1위</p></div>
-                  <div class="color" style="background-color: #ffdeec"></div>
+                  <div class="color" @mouseover="mouseOver01" :style="customColorTop" id="aloneTop1"></div>
                 </div>
                 <colorpalleteAlone class="pallete"></colorpalleteAlone>
               </div>
@@ -55,7 +55,7 @@
               <div class="colormark">
                 <div class="firstcolor">
                   <div class="top1"><p>1위</p></div>
-                  <div class="color" style="background-color: #c1c4ff"></div>
+                  <div class="color" @mouseover="mouseOver02" :style="customColorTop" id="teamTop1"></div>
                 </div>
                 <colorpalleteTeam class="pallete"></colorpalleteTeam>
               </div>
@@ -70,7 +70,7 @@
               <div class="colormark">
                 <div class="firstcolor">
                   <div class="top1"><p>1위</p></div>
-                  <div class="color" style="background-color: #ffd2d2"></div>
+                  <div class="color" @mouseover="mouseOver03" :style="customColorTop" id="randomTop1"></div>
                 </div>
                 <colorpalleteRandom class="pallete"></colorpalleteRandom>
               </div>
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 // import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorpalleteAlone from "@/components/myPage/colorPalleteAlone.vue";
 import colorpalleteTeam from "@/components/myPage/colorPalleteTeam.vue";
@@ -111,8 +111,11 @@ export default {
     };
   },
   mounted() {
+    console.log("?????????");
+    console.log(this.$store.state.aloneColorLst[0]);
     // 결과 api받고, store에 저장해놓기
-    this.$store.state.aloneColorLst = ["#6666ac", "#777743", "#8888sf", "#222299", "#000033", "#389425", "#363636", "#fff999"];
+    this.getMyPageData();
+    // this.$store.state.aloneColorLst = ["#6666ac", "#777743", "#8888sf", "#222299", "#000033", "#389425", "#363636", "#fff999"];
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     let profile = memberData.data.profileUrl;
     if (profile == null) {
@@ -122,6 +125,13 @@ export default {
     document.getElementById("profileimgfile").src = profile;
   },
   computed: {
+    customColorTop() {
+      return {
+        "--background-color-alonetop1": this.$store.state.aloneTop1,
+        "--background-color-teamtop1": this.$store.state.teamTop1,
+        "--background-color-randomtop1": this.$store.state.randomTop1,
+      };
+    },
     hoveringColor: function () {
       return this.$store.state.hoveringColor;
     },
@@ -142,6 +152,37 @@ export default {
   methods: {
     testClick() {
       console.lot("이게맞음?");
+    },
+    getMyPageData() {
+      axios
+        .get(this.$store.state.baseurl + "api/room/mypage", {
+          userid: sessionStorage.getItem("memberId"),
+        })
+        .then((response) => {
+          //roomtype에 맞게 store에 정보 저장
+          var i = 0;
+          for (i = 0; i < 4; i++) {
+            if (response.data[i].roomtype == "single") {
+              this.$store.state.aloneColorLst = response.data[i].code;
+              this.$store.state.aloneTop1 = response.data[i].top1.code;
+            } else if (response.data[i].roomtype == "group") {
+              this.$store.state.teamColorLst = response.data[i].code;
+              this.$store.state.teamTop1 = response.data[i].top1.code;
+            } else if (response.data[i].roomtype == "random") {
+              this.$store.state.randomColorLst = response.data[i].code;
+              this.$store.state.randomTop1 = response.data[i].top1.code;
+            }
+          }
+        });
+    },
+    mouseOver01() {
+      this.$store.commit("changeHoveringColor", this.$store.state.aloneTop1);
+    },
+    mouseOver02() {
+      this.$store.commit("changeHoveringColor", this.$store.state.teamTop1);
+    },
+    mouseOver03() {
+      this.$store.commit("changeHoveringColor", this.$store.state.randomTop1);
     },
     // getMyPageData() {
     //   axios
@@ -371,5 +412,18 @@ export default {
 }
 #hoveringBorder {
   border-color: var(--hovering-border);
+}
+
+.color:hover {
+  border: 2px solid #666666;
+}
+#aloneTop1 {
+  background-color: var(--background-color-alonetop1);
+}
+#teamTop1 {
+  background-color: var(--background-color-teamtop1);
+}
+#randomTop1 {
+  background-color: var(--background-color-randomtop1);
 }
 </style>
