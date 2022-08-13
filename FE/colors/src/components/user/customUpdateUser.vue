@@ -73,38 +73,44 @@ export default {
     updateMemberInfo() {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.userId;
-      console.log(userid);
+      console.log(memberData);
       let newNickName = document.getElementById("updateUserNickLabel").value;
       let newName = document.getElementById("updateUserNameLabel").value;
       let userPassword = document.getElementById("updateUserPwLabel").value;
-      axios
-        .put(this.$store.state.baseurl + "api/member/changeinfo", {
-          userid: userid,
-          nickname: newNickName,
-          name: newName,
-          password: userPassword,
-        })
-        .then((response) => {
-          if (response.data.message == "success") {
-            alert("정보 수정이 완료되었습니다.");
-          } else {
-            alert("수정에 실패하였습니다.");
-          }
-        });
+      if (this.nick_validation) {
+        axios
+          .put(this.$store.state.baseurl + "api/member/changeinfo", {
+            userid: userid,
+            nickname: newNickName,
+            name: newName,
+            password: userPassword,
+          })
+          .then((response) => {
+            if (response.data.message == "success") {
+              alert("정보 수정이 완료되었습니다.");
+            } else {
+              alert("수정에 실패하였습니다.");
+            }
+          });
+      } else {
+        alert("닉네임 중복 검사가 필요합니다.");
+      }
     },
     checkDuplicateNickname() {
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let new_nickname = document.getElementById("updateUserNickLabel").value;
-      var userNickname = this.userNickname;
+      var userNickname = memberData.data.nickname;
       axios
         .post(this.$store.state.baseurl + "api/member/chknic", {
           input_nickname: new_nickname,
         })
         .then((response) => {
           console.log(userNickname, ":", new_nickname);
+          console.log(response.data.message);
           if (userNickname == new_nickname || response.data.message == "not-duplicated") {
             alert("닉네임 사용 가능");
             this.nick_validation = true;
-          } else if (!(this.userNickname == new_nickname) || response.data.message == "not-duplicated") {
+          } else if (!(this.userNickname == new_nickname) || response.data.message == "duplicated") {
             this.nick_validation = false;
             alert("중복된 닉네임");
           }
