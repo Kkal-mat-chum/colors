@@ -18,7 +18,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: b208.colors@gmail.com
-    password: app-password
+    password: aizfzkfawrjwwjii
     properties:
       mail:
         smtp:
@@ -28,8 +28,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: ssafy
-    password: ssafy
+    username: root
+    password:
   data:
     web:
       pageable:
@@ -39,8 +39,8 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
 #cloud:
 #  aws:
 #    s3:

@@ -10,12 +10,12 @@
       <!-- <div class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]">
         <img :src="require(`@/${firstImageUrl}`)" alt="sample1" class="imageColorTourn"  />
       </div> -->
-      <img src="" alt="sample1" class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]" />
+      <img src="" :alt="tournImgUrls1" class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]" />
       <label for="vs" class="vsLabel">vs</label>
       <!-- <div class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]">
         <img :src="require(`@/${secondImageUrl}`)" alt="sample2" class="imageTourn" />
       </div> -->
-      <img src="" alt="sample2" class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]" />
+      <img src="" :alt="tournImgUrls2" class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]" />
       <div class="dummyMarginColorTourn2"></div>
     </div>
     <div class="bodyColorTourn3">
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "aloneTournament",
   data() {
@@ -40,6 +42,12 @@ export default {
     };
   },
   computed: {
+    tournImgUrls1: function () {
+      return this.$store.state.resultStore.aloneResult.data[0].urls[this.firstImageIdx];
+    },
+    tournImgUrls2: function () {
+      return this.$store.state.resultStore.aloneResult.data[0].urls[this.secondImageIdx];
+    },
     // tournOrder: function () {
     //   return this.$store.state.selectedColorLst;
     // },
@@ -57,34 +65,35 @@ export default {
       }
     },
   },
-  // computed: {
-  //   firstImageUrl: function () {
-  //     return this.$store.state.imgUrlList[this.firstImageIdx];
-  //   },
-  //   secondImageUrl: function () {
-  //     return this.$store.state.imgUrlList[this.secondImageIdx];
-  //   },
-  //   firstImageIdx: function () {
-  //     return this.tournOrder[this.initFirstImageIdx];
-  //   },
-  //   secondImageIdx: function () {
-  //     return this.tournOrder[this.initSecondImageIdx];
-  //   },
-  // },
+  mounted() {
+    //미팅 결과 가져오기
+    this.getResult();
+  },
   methods: {
+    //미팅 결과 가져오기, store에 저장(memberStore, store(팔레트용))
+    getResult() {
+      axios
+        .get(this.$store.state.memberStore.baseurl + "/api/room/result", {
+          roomid: sessionStorage.getItem("roomId"),
+        })
+        .then((response) => {
+          console.log(response.message); //성공여부 확인 로그
+          this.$store.state.resultStore.aloneResult = response;
+          this.$store.state.resultStore.data = response.data;
+          this.$store.state.resultStore.cnt = response.cnt;
+          this.$store.state.selectedColorLst = response.data[0].colors;
+          this.$store.state.aloneImageUrlLst = response.data[0].urls;
+        });
+    },
     selectFirstImage() {
       this.tournOrder.push(this.firstImageIdx);
       this.tournamentResultLst.push(this.$store.state.selectedColorLst[this.firstImageIdx]);
-      // console.log(this.tournamentResultLst);
-      // console.log(this.firstImageIdx);
     },
     selectSecondImage() {
       this.tournOrder.push(this.secondImageIdx);
       this.tournamentResultLst.push(this.$store.state.selectedColorLst[this.secondImageIdx]);
     },
     selectImage() {
-      // console.log(this.tournamentResultLst);
-      // console.log(this.firstImageIdx);
       console.log(this.process);
       // 양쪽 img idx 2씩 증가
       this.initFirstImageIdx = this.initFirstImageIdx + 2;
@@ -96,7 +105,6 @@ export default {
         this.process = this.process / 2;
         this.round = 1;
         this.processed = String(this.process) + "강";
-        // this.imageName = "sampleimage3";
       }
       //2강은 결승 출력
       if (this.process == 2) {
@@ -104,14 +112,32 @@ export default {
         this.round = "";
         this.process = this.process / 2;
       } else if (this.process < 2) {
-        // console.log("끗");
         this.processed = "";
         this.round = "";
         this.$store.state.tournamentResultLst = this.$store.state.selectedColorLst.concat(this.tournamentResultLst);
-        console.log(this.$store.state.tournamentResultLst);
+        // console.log(this.$store.state.tournamentResultLst);
+        // 토너먼트 결과 저장 put
+        this.saveVoteResult();
         this.$router.push("/tournamentnameresult");
         // this.processed = "끗";
       }
+    },
+    saveVoteResult() {
+      console.log("결과 전송");
+      console.log(this.$store.state.tournamentResultLst[14]);
+      axios
+        .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+          roomid: sessionStorage.getItem("roomId"),
+          userid: sessionStorage.getItem("memberId"),
+          code: this.$store.state.tournamentResultLst[14],
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.message == "fail") {
+            alert("전송 실패");
+          }
+          //fail이면 alert 해야하나요..?
+        });
     },
   },
 };

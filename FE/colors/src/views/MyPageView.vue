@@ -9,9 +9,9 @@
       <div class="contents">
         <div class="personInfo">
           <div class="profileImg">
-            <img class="profileimgfile" src="@/assets/mypage/img.png" alt="" />
+            <img class="profileimgfile" id="profileimgfile" src="@/assets/logo_vertical.png" alt="" />
             <div class="setting_bg">
-              <img class="setting" src="@/assets/mypage/user.png" alt="" @click="showImgModal = true" />
+              <img class="setting" src="@/assets/mypage/user.png" alt="" @click="showImgModal = true" style="cursor: pointer" />
               <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showImgModal" @close-modal="showImgModal = false" titleText="프로필 사진 변경">
                 <cotent>
                   <modify-profile></modify-profile>
@@ -23,7 +23,7 @@
             <myinfo></myinfo>
           </div>
           <div class="updateInfo">
-            <custom-button class="updateUserInfo" btnText="회원정보수정" @click="showModal = true">회원정보수정</custom-button>
+            <a class="updateUserInfo" @click="showModal = true">회원정보수정</a>
             <custom-modal class="updateUserInfoModal" id="updateUserInfoModal" v-show="showModal" @close-modal="showModal = false" titleText="회원정보수정">
               <cotent><modify-user></modify-user></cotent>
             </custom-modal>
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+// import axios from "axios";
 // import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorpalleteAlone from "@/components/myPage/colorPalleteAlone.vue";
 import colorpalleteTeam from "@/components/myPage/colorPalleteTeam.vue";
@@ -109,9 +110,17 @@ export default {
       // hoveringColor: this.$store.state.hoveringColor,
     };
   },
-  // mounted: { // 결과 api받고, store에 저장해놓기
-  //   axios
-  // },
+  mounted() {
+    // 결과 api받고, store에 저장해놓기
+    this.$store.state.aloneColorLst = ["#6666ac", "#777743", "#8888sf", "#222299", "#000033", "#389425", "#363636", "#fff999"];
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    let profile = memberData.data.profileUrl;
+    if (profile == null) {
+      profile = document.getElementById("profileimgfile").src;
+    }
+    console.log(profile);
+    document.getElementById("profileimgfile").src = profile;
+  },
   computed: {
     hoveringColor: function () {
       return this.$store.state.hoveringColor;
@@ -134,6 +143,21 @@ export default {
     testClick() {
       console.lot("이게맞음?");
     },
+    // getMyPageData() {
+    //   axios
+    //     .get(this.$store.state.baseurl + "api/room/mypage", {
+    //       userid: sessionStorage.getItem("uniq_id"),
+    //     })
+    //     .then((response) => {
+    //       let idx = 0;
+    //       if (response.data[idx].roomtype == "single") {
+    //         this.$store.state.
+    //       }
+    //     });
+    // }.
+    // updateColorPallet() {
+    //   this.$store.state.aloneColorLst = ["#6666ac", "#777743", "#8888sf", "#222299", "#000033", "#389425", "#363636", "#fff999"];
+    // },
   },
 };
 </script>
@@ -332,6 +356,10 @@ export default {
 .pallete {
   float: left;
   margin-top: -10px;
+}
+.updateUserInfo {
+  color: #6667ab;
+  cursor: pointer;
 }
 /*모달 스타일 */
 #updateUserInfoModal {

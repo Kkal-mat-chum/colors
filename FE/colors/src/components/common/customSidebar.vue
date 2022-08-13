@@ -15,17 +15,15 @@
 </template>
 
 <script>
-import router from "@/router";
-import { mapState, mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 export default {
-  computed: {
-    ...mapState(["isLogin"]),
-  },
+  computed: {},
   methods: {
     ...mapMutations(["MEMBER_LOGOUT"]),
     doLogout() {
       this.MEMBER_LOGOUT();
-      router.push("/login");
+      this.$router.push("/");
+      this.$router.go();
     },
     clickHomeIcon() {
       console.log("clicked");
