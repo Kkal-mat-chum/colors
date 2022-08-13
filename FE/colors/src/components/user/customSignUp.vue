@@ -2,9 +2,11 @@
   <div class="signUpPage">
     <div class="signUp1">
       <div class="signUpWord">
-        <div class="signUptitle">회원 가입</div>
+        <div class="title">
+          <h3>회원가입</h3>
+          <hr />
+        </div>
         <div class="signUpWarning" id="signUpWarning">{{ state_message }}</div>
-        <hr class="signUphrStyle" />
       </div>
       <div id="userInfo">
         <div class="textBox">
@@ -246,12 +248,24 @@ export default {
 body {
   margin: 0;
 }
-.signUptitle {
-  position: absolute;
-  width: 50%;
-  display: grid;
-  justify-content: left;
-  margin-left: 5%;
+.title {
+  margin-left: 15px;
+  margin-top: -20px;
+}
+.title h3 {
+  display: flex;
+  text-align: left;
+  color: #6667ab;
+  margin: 30px 0 10px 0;
+}
+
+.title > hr {
+  display: flex;
+  width: 150px;
+  margin: 0;
+  border: 0;
+  height: 3px;
+  background: #d0d1ff;
 }
 .signUpPage {
   position: absolute;
