@@ -73,11 +73,12 @@ export default {
     updateMemberInfo() {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.userId;
+      console.log(userid);
       let newNickName = document.getElementById("updateUserNickLabel").value;
       let newName = document.getElementById("updateUserNameLabel").value;
       let userPassword = document.getElementById("updateUserPwLabel").value;
       axios
-        .post(this.$store.state.baseurl + "api/member/changeinfo", {
+        .put(this.$store.state.baseurl + "api/member/changeinfo", {
           userid: userid,
           nickname: newNickName,
           name: newName,
