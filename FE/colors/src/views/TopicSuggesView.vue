@@ -54,7 +54,7 @@ export default {
     return {
       topics: null,
       currentPageNum: 0,
-      sorting: "desc",
+      sorting: "regDate,desc",
       maxPageNum: 0,
       showModal: false,
       userName: sessionStorage.getItem("userName"),
