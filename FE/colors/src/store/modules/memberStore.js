@@ -2,7 +2,7 @@ import { api } from "@/store";
 
 const memberStore = {
   state: {
-    isLogin: localStorage.getItem("isLogin"),
+    isLogin: JSON.parse(localStorage.getItem("isLogin")),
     teamNameList: ["송다경", "김찬일", "이한기", "오정환", "강민성", "김민영"], //팀미팅 참여자 이름
     randomNickLst: ["nick1", "nick2", "nick3", "nick4", "nick5", "nick6"], //랜덤미팅 참여자 닉네임
     voteRound: 1, //부모 컴포넌트에 표시할 현재 투표 순서
@@ -60,7 +60,7 @@ const memberStore = {
   getters: {
     isLogin(state) {
       console.log(state.isLogin);
-      return localStorage.getItem("isLogin");
+      return JSON.parse(localStorage.getItem("isLogin"));
     },
   },
   mutations: {
