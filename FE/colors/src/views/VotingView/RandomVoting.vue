@@ -8,7 +8,7 @@
           <time-stamp></time-stamp>
         </div>
         <div class="titleColorVote">
-          <label for="nameColorVote" class="labelColorVote" id="nameColorVote">{{ sub_name }}</label>
+          <label for="nameColorVote" class="labelColorVote" id="nameColorVote">{{ sub_nickname }}</label>
           <label for="colorVoteTitle" class="labelColorVote"> 과(와) 가장 어울리는 색을 선택하세요.</label>
         </div>
         <div class="sidelabelColorVote">{{ vote_round }}/{{ cnt }}</div>
@@ -29,8 +29,6 @@ export default {
   },
   data() {
     return {
-      // cnt: this.$store.state.memberStore.cnt,
-      // voteRound: this.$store.state.memberStore.voteRound,
       selectedLst: [],
     };
   },
@@ -41,8 +39,8 @@ export default {
     vote_round() {
       return this.$store.state.memberStore.voteRound;
     },
-    sub_name() {
-      return this.$store.state.memberStore.data[this.vote_round - 1].name;
+    sub_nickname() {
+      return this.$store.state.memberStore.data[this.vote_round - 1].nickname;
     },
   },
 };
