@@ -2,6 +2,7 @@ import { api } from "@/store";
 
 const memberStore = {
   state: {
+    isLogin: localStorage.getItem("isLogin"),
     teamNameList: ["송다경", "김찬일", "이한기", "오정환", "강민성", "김민영"], //팀미팅 참여자 이름
     randomNickLst: ["nick1", "nick2", "nick3", "nick4", "nick5", "nick6"], //랜덤미팅 참여자 닉네임
     voteRound: 1, //부모 컴포넌트에 표시할 현재 투표 순서
@@ -52,14 +53,20 @@ const memberStore = {
         colors: ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"],
       },
     ],
-    isLogin: false,
     members: [],
     member: {},
-    baseurl: "http://loaclhost:8080", // baseurl 바꾸기...
+    baseurl: "http://localhost:8080", // baseurl 바꾸기...
   },
-  getters: {},
+  getters: {
+    isLogin(state) {
+      console.log(state.isLogin);
+      return localStorage.getItem("isLogin");
+    },
+  },
   mutations: {
     MEMBER_LOGOUT(state) {
+      console.log(localStorage.getItem("isLogin"));
+      localStorage.setItem("isLogin", false);
       state.isLogin = false;
       sessionStorage.removeItem("access-token");
       api.defaults.headers["access-token"] = "";
