@@ -5,7 +5,7 @@ const memberStore = {
     teamNameList: ["송다경", "김찬일", "이한기", "오정환", "강민성", "김민영"], //팀미팅 참여자 이름
     randomNickLst: ["nick1", "nick2", "nick3", "nick4", "nick5", "nick6"], //랜덤미팅 참여자 닉네임
     voteRound: 1, //부모 컴포넌트에 표시할 현재 투표 순서
-    cnt: 6, //팀,랜덤 미팅 참여자 수
+    cnt: 2, //팀,랜덤 미팅 참여자 수
     nowSelectColor: "", //자식 컴포넌트에서 실시간으로 선택중인색깔코드
     restTime: 15,
     data: [

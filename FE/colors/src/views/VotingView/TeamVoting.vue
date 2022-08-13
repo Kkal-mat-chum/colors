@@ -15,23 +15,27 @@
       </div>
       <color-vote></color-vote>
     </div>
+    <loadingImg v-if="show_loadingimg" />
   </div>
 </template>
 
 <script>
 import ColorVote from "../../components/Voting/colorVote.vue";
 import TimeStamp from "../../components/Voting/customTimeStamp.vue";
+import loadingImg from "../../components/Voting/loadingImg.vue"; //왜 빨간줄 뜸..?
 
 export default {
   components: {
     ColorVote,
     TimeStamp,
+    loadingImg,
   },
   data() {
     return {
       // cnt: this.$store.state.memberStore.cnt,
       // voteRound: this.$store.state.memberStore.voteRound,
       selectedLst: [],
+      show_loadingimg: false,
     };
   },
   computed: {
@@ -43,6 +47,38 @@ export default {
     },
     sub_name() {
       return this.$store.state.memberStore.data[this.vote_round - 1].name;
+    },
+    // show_loadingimg() {
+    //   if (this.cnt < this.vote_round) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // },
+  },
+  watch: {
+    vote_round(value) {
+      if (value > this.cnt) {
+        this.loading3sec();
+      }
+    },
+  },
+  methods: {
+    loading3sec() {
+      this.onLoadingImg();
+      console.log("로딩창 켬");
+      setTimeout(() => {
+        this.offLoadingImg();
+        console.log("로딩창 끔");
+        // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
+        this.$router.push("/nameresult");
+      }, 3000);
+    },
+    onLoadingImg() {
+      this.show_loadingimg = true;
+    },
+    offLoadingImg() {
+      this.show_loadingimg = false;
     },
   },
 };

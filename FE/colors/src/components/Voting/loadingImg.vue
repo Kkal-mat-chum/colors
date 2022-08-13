@@ -27,20 +27,20 @@
   justify-content: center;
   align-items: center;
   background: white;
-  width: 500px;
-  height: 400px;
+  width: 400px;
+  height: 300px;
   border-radius: 20px;
   margin-top: 100px;
   border: 3px solid #d0d1ff;
 }
 .loadingImg {
-  width: 150px;
-  margin: 55px;
+  width: 90px;
+  margin: 60px 45px 35px 45px;
 }
 .loadinglabel {
   display: block;
   margin-bottom: 60px;
-  font-size: 170%;
+  font-size: 140%;
   font-weight: 700;
   color: #6667ab;
 }

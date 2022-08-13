@@ -119,7 +119,7 @@ export default {
         this.selectedLst.push(this.nowSelected);
         this.$store.state.memberStore.voteRound++;
         this.nowSelected = "";
-        console.log(this.nowSelected, this.selectedLst);
+        console.log(this.selectedLst);
         this.customBorderColor0 = "#d0d1ff";
         this.customBorderColor1 = "#d0d1ff";
         this.customBorderColor2 = "#d0d1ff";
@@ -129,12 +129,12 @@ export default {
         this.customBorderColor6 = "#d0d1ff";
         this.customBorderColor7 = "#d0d1ff";
       }
-      if (this.now_idx >= 6) {
-        // @@@@@@@@@@@여기서 1초마다 백으로 요청 보내서 해당 미팅 방에서
-        // 들어온 결과를 받을 겁니다. 결과 값이 사람수(cnt)만큼 되면
-        // 결과 화면으로 넘어가도록 해야합니다.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        this.$router.push("/nameresult");
-      }
+      // if (this.now_idx >= this.cnt) {
+      //   // @@@@@@@@@@@여기서 1초마다 백으로 요청 보내서 해당 미팅 방에서
+      //   // 들어온 결과를 받을 겁니다. 결과 값이 사람수(cnt)만큼 되면
+      //   // 결과 화면으로 넘어가도록 해야합니다.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+      //   this.$router.push("/nameresult");
+      // }
     },
     mouseover0() {
       this.customBorderColor0 = "#4a4d74";
