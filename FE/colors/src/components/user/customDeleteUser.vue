@@ -29,10 +29,13 @@ export default {
       this.$router.go(0);
     },
     goLogin() {
-      this.$router.push("/login");
+      this.$router.push("/");
     },
     deleteMember() {
-      axios.delete(this.$store.state.baseurl + "/api/member/" + this.$store.state.member_id);
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      let userid = memberData.data.userId;
+      console.log(userid);
+      axios.delete(this.$store.state.baseurl + "api/member/" + userid);
       //localstorage 토큰 & 유저정보 제거
       window.localStorage.removeItem("access-token");
     },
@@ -40,7 +43,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .deleteUserPage {
   display: flex;
   flex-direction: column;

@@ -6,7 +6,7 @@ import meetingStore from "@/store/modules/meetingStore";
 import memberStore from "@/store/modules/memberStore";
 import topicStore from "@/store/modules/topicStore";
 import resultStore from "@/store/modules/resultStore";
-
+import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 export const api = createApi();
@@ -17,8 +17,6 @@ export default new Vuex.Store({
     g: 0,
     b: 0,
     a: 1,
-
-    isLogin: false,
     storeselectedColor: "#ffffff",
     //팔레트에서 선택되어(selectedColorLst) 토너먼트 결과창까지(tournamentResultLst) 보이는 색상입니다. 이거 사용해서 토너먼트, 개인투표 합니다. 이미지 url필요해요
     selectedColorLst: ["#111111", "#121212", "#323232", "#434343", "#525252", "#123456", "#666632", "#125552"],
@@ -49,4 +47,5 @@ export default new Vuex.Store({
     topicStore,
     resultStore,
   },
+  plugins: [createPersistedState()],
 });

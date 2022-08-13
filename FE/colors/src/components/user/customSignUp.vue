@@ -2,9 +2,11 @@
   <div class="signUpPage">
     <div class="signUp1">
       <div class="signUpWord">
-        <div class="signUptitle">회원 가입</div>
+        <div class="title">
+          <h3>회원가입</h3>
+          <hr />
+        </div>
         <div class="signUpWarning" id="signUpWarning">{{ state_message }}</div>
-        <hr class="signUphrStyle" />
       </div>
       <div id="userInfo">
         <div class="textBox">
@@ -103,9 +105,9 @@ export default {
       if (this.id_validation) {
         console.log("유효한 아이디입니다.");
         console.log(this.id_validation);
-        console.log(this.$store.state.baseurl + "api/member/chkid");
+        console.log(this.$store.state.memberStore.baseurl + "api/member/chkid");
         axios
-          .post(this.$store.state.baseurl + "api/member/chkid", {
+          .post(this.$store.state.memberStore.baseurl + "/api/member/chkid", {
             input_id: new_id,
           })
           .then((response) => {
@@ -162,7 +164,7 @@ export default {
       let new_nickname = document.getElementById("nickLabel").value;
       console.log(new_nickname);
       axios
-        .post(this.$store.state.baseurl + "api/member/chknic", {
+        .post(this.$store.state.memberStore.baseurl + "/api/member/chknic", {
           input_nickname: new_nickname,
         })
         .then((response) => {
@@ -179,12 +181,13 @@ export default {
     checkEmail() {
       let new_email = document.getElementById("emailLabel").value;
       axios
-        .post(this.$store.state.baseurl + "api/auth/email", {
+        .post(this.$store.state.memberStore.baseurl + "/api/auth/email", {
           email: new_email,
         })
         .then((response) => {
           console.log(response);
           this.authEmailCode = response.data.authcode;
+          alert("이메일 인증번호가 전송되었습니다.");
         });
     },
     emailCheck() {
@@ -219,7 +222,7 @@ export default {
       console.log(sessionStorage.getItem("checkEmail") == true);
       if (this.email_validation && this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
         axios
-          .post(this.$store.state.baseurl + "api/member/", {
+          .post(this.$store.state.memberStore.baseurl + "/api/member/", {
             nickname: new_nickname,
             userid: new_userid,
             password: new_password,
@@ -246,12 +249,24 @@ export default {
 body {
   margin: 0;
 }
-.signUptitle {
-  position: absolute;
-  width: 50%;
-  display: grid;
-  justify-content: left;
-  margin-left: 5%;
+.title {
+  margin-left: 15px;
+  margin-top: -20px;
+}
+.title h3 {
+  display: flex;
+  text-align: left;
+  color: #6667ab;
+  margin: 30px 0 10px 0;
+}
+
+.title > hr {
+  display: flex;
+  width: 150px;
+  margin: 0;
+  border: 0;
+  height: 3px;
+  background: #d0d1ff;
 }
 .signUpPage {
   position: absolute;

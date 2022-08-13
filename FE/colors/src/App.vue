@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <CustomSidebar></CustomSidebar>
-    <router-view :key="$route.fullPath" />
+    <CustomSidebar v-if="isLogin"></CustomSidebar>
+    <router-view />
   </div>
 </template>
 
@@ -10,6 +10,23 @@ import CustomSidebar from "./components/common/customSidebar.vue";
 export default {
   name: "app",
   components: { CustomSidebar },
+  computed: {
+    isLogin() {
+      console.log(1);
+      console.log(this.$store.getters.isLogin);
+      return this.$store.getters.isLogin;
+    },
+  },
+  beforeCreate() {
+    console.log("test localStroage");
+    console.log("test localStroage");
+    console.log("test localStroage");
+    console.log("test localStroage");
+    console.log(localStorage.getItem("isLogin"));
+  },
+  mounted() {
+    console.log(this.isLogin);
+  },
 };
 </script>
 

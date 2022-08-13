@@ -3,13 +3,21 @@ import { api } from "@/store";
 const memberStore = {
   state: {
     isLogin: false,
+    // isLogin: JSON.parse(localStorage.getItem("isLogin")),
     members: [],
     member: {},
-    baseurl: "http://loaclhost:8080", // baseurl 바꾸기...
+    baseurl: "http://localhost:8080", // baseurl 바꾸기...
   },
-  getters: {},
+  getters: {
+    isLogin(state) {
+      console.log(state.isLogin);
+      return JSON.parse(localStorage.getItem("isLogin"));
+    },
+  },
   mutations: {
     MEMBER_LOGOUT(state) {
+      console.log(localStorage.getItem("isLogin"));
+      localStorage.setItem("isLogin", false);
       state.isLogin = false;
       sessionStorage.removeItem("access-token");
       api.defaults.headers["access-token"] = "";
