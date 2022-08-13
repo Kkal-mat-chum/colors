@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import ColorVote from "../../components/Voting/colorVote.vue";
 import TimeStamp from "../../components/Voting/customTimeStamp.vue";
 import loadingImg from "../../components/Voting/loadingImg.vue";
@@ -57,12 +58,15 @@ export default {
   methods: {
     loading3sec() {
       this.onLoadingImg();
+      //투표 결과 저장
+      this.saveTeamVoteResult();
       console.log("로딩창 켬");
       setTimeout(() => {
         this.offLoadingImg();
         console.log("로딩창 끔");
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
-        this.$router.push("/nameresult");
+        this.bringTotalResult();
+        this.$router.push("/nickresult");
       }, 3000);
     },
     onLoadingImg() {
@@ -70,6 +74,44 @@ export default {
     },
     offLoadingImg() {
       this.show_loadingimg = false;
+    },
+    //단체 투표 결과 저장
+    saveTeamVoteResult() {
+      axios
+        .post(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+          roomid: sessionStorage.getItem("roomId"),
+          voterid: sessionStorage.getItem("memberId"),
+          content: this.$store.state.resultStore.voteContent,
+        })
+        .then((response) => {
+          if (response.message == "fail") {
+            console.log("단체 미팅 결과 저장 실패");
+          }
+        });
+    },
+    //각 투표 합산put -> 투표 결과 가져오기get
+    bringTotalResult() {
+      axios
+        .put(this.$store.state.memberStore.baseurl + "/api/room/votesum", {
+          roomid: sessionStorage.getItem("roomId"),
+        })
+        .then((response) => {
+          if (response.message == "success") {
+            axios
+              .get(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+                roomid: sessionStorage.getItem("roomId"),
+                userid: sessionStorage.getItem("userId"),
+              })
+              .then((response) => {
+                if (response.message == "success") {
+                  this.$store.state.resultStore.totalResultData = response.data;
+                  this.$store.state.resultStore.totalResultTop1 = response.Top1;
+                } else {
+                  alert("투표결과가져오기 실패");
+                }
+              });
+          }
+        });
     },
   },
 };

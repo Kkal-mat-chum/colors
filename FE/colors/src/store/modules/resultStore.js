@@ -17,8 +17,7 @@ const resultStore = {
       cnt: 1,
       message: "success",
     },
-    // teamNameList: ["송다경", "김찬일", "이한기", "오정환", "강민성", "김민영"], //팀미팅 참여자 이름
-    // randomNickLst: ["nick1", "nick2", "nick3", "nick4", "nick5", "nick6"], //랜덤미팅 참여자 닉네임
+    voteContent: [], //투표 최종 결과 request content 담을 곳
     voteRound: 1, //부모 컴포넌트에 표시할 현재 투표 순서
     cnt: 2, //팀,랜덤 미팅 참여자 수
     nowSelectColor: "", //자식 컴포넌트에서 실시간으로 선택중인색깔코드
@@ -73,6 +72,27 @@ const resultStore = {
         colors: ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"],
       },
     ],
+    totalResultData: [
+      {
+        code: "#1111111",
+        voter: "nick1",
+        url: "url1",
+      },
+      {
+        code: "#333333",
+        voter: "nick2",
+        url: "url3",
+      },
+      {
+        code: "#333333",
+        voter: "nick3",
+        url: "url3",
+      },
+    ], //투표결과 불러오기 내용 담길 곳
+    totalResultTop1: {
+      url: "url3",
+      code: "#333333",
+    }, //투표 결과 탑텐 내용 담길 곳
   },
   getters: {},
   mutations: {},
