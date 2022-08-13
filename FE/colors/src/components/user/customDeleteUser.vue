@@ -43,7 +43,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .deleteUserPage {
   display: flex;
   flex-direction: column;
