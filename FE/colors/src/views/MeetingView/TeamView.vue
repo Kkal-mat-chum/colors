@@ -5,7 +5,7 @@
         <div id="main-video" class="col-md-6">
           <userVideo class="webcam" :stream-manager="mainStreamManager" @changeStreamTrack="changeStream"></userVideo>
         </div>
-        <div class="name">송 다 경</div>
+        <div class="name">{{ myUserName }}</div>
         <div class="buttons">
           <customButton class="mute" btnText="음소거" @click="muteAudio"></customButton>
           <customButton class="videostop" btnText="비디오 중지" @click="muteVideo"></customButton>
@@ -14,7 +14,6 @@
         <div class="anotherPerson">
           <div class="p_sub" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
             <UserVideo_sub class="webcam_sub" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"></UserVideo_sub>
-            <div class="name">{{ sub.id }}</div>
           </div>
         </div>
       </div>
@@ -33,10 +32,10 @@
           </div>
           <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
           <div class="title">
-            <h3>미팅 코드</h3>
+            <h3>{{ roomHeaderTitle }}</h3>
             <hr />
           </div>
-          <h2 class="code">A1ABEF13</h2>
+          <h2 class="code">{{ roomHeaderData }}</h2>
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <customButton class="btn" btnText="투표하기"></customButton>
           <customButton class="btn" btnText="종료"></customButton>
@@ -58,7 +57,7 @@ import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import UserVideo from "@/components/videochat/UserVideo.vue";
 import UserVideo_sub from "@/components/videochat/UserVideo_sub.vue";
-import Chatpanel from "../../components/videochat/chatPanel.vue";
+import Chatpanel from "@/components/videochat/chatPanel.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -112,8 +111,8 @@ export default {
       publisher: undefined,
       subscribers: [],
 
-      mySessionId: "SessionA",
-      myUserName: "Participant" + Math.floor(Math.random() * 100),
+      mySessionId: sessionStorage.getItem("sessionCode"),
+      myUserName: "testName",
       modelRgba: "",
       modelHex: "",
       r: 0,
@@ -126,19 +125,23 @@ export default {
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
+      memberData: sessionStorage.getItem("memberData"),
+      roomHeaderTitle: "",
+      roomHeaderData: "",
     };
   },
   created() {
     Object.assign(this, this.setColorValue(this.color));
     this.setText();
-
-    this.$watch("rgba", () => {
-      this.$emit("changeColor", {
-        rgba: this.rgba,
-        hsv: this.hsv,
-        hex: this.modelHex,
-      });
-    });
+    if (this.$store.state.meetingStore.roomType == "group") {
+      this.roomHeaderTitle = "미팅 코드";
+      this.roomHeaderData = sessionStorage.getItem("sessionCode");
+      this.myUserName = this.memberData.name;
+    } else {
+      this.roomHeaderTitle = "미팅 주제";
+      this.roomHeaderData = this.$store.state.meetingStore.groupUsers.title;
+      this.myUserName = this.memberData.nickname;
+    }
   },
   beforeMount() {
     this.joinSession();
@@ -283,7 +286,7 @@ export default {
     sendMessage(message) {
       var messageData = {
         content: message,
-        secretName: "chanil",
+        secretName: this.myUserName,
         // secretName: this.$storestate.userName,
       };
       this.session.signal({
@@ -312,6 +315,7 @@ export default {
       this.publisher
         .replaceTrack(myTrack)
         .then(() => console.log("New track has been published"))
+        // .then(() => console.log(this.subscribers))
         .catch((error) => console.error("Error replacing track", error));
     },
     joinSession() {
@@ -504,6 +508,7 @@ body {
 }
 .name {
   margin-top: 3px;
+  color: #434485;
 }
 .mute {
   width: 150px;

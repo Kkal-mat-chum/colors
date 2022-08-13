@@ -25,7 +25,7 @@
         </div>
         <div class="messageSendButton">
           <button class="send-btn" @click="clickSendMessage">
-            <i class="fas fa-paper-plane"></i>
+            <i class="fas fa-paper-plane airPlaneIcon"></i>
           </button>
         </div>
       </div>
@@ -96,7 +96,8 @@ export default {
 
 .text-box {
   background-color: #ffffff;
-  width: 100%;
+  width: 90%;
+  height: 100%;
   border: 1px solid #d0d1ff;
   border-radius: 10px;
   color: #4a4d74;
@@ -151,7 +152,20 @@ export default {
 }
 
 .send-btn {
-  color: #d0d1ff;
+  color: #b0a2c8;
+  background-color: #d0d1ff;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #d0d1ff;
+  margin: 2px 0;
+  padding: 1px 6px;
+}
+.airPlaneIcon {
+  font-size: 30px;
+}
+.send-btn:hover {
+  color: #6667ab;
 }
 
 .footer {
@@ -170,7 +184,7 @@ export default {
 .messageSendButton {
   flex-grow: 2;
   padding: 0;
-  height: 50px;
+  height: 100%;
 }
 
 #chat-area {
