@@ -1,5 +1,6 @@
 package com.ssafy.colors.controller;
 
+import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.request.LoginReq;
 import com.ssafy.colors.service.AuthService;
 import com.ssafy.colors.util.JWTUtil;
@@ -33,9 +34,11 @@ public class AuthController {
 
         String result = "fail";
         HashMap<String, Object> resultmap = new HashMap<>();
-        if(authService.login(user)){
+        Map<String, Object> loginresult = authService.login(user);
+        if((boolean) loginresult.get("result")){
             result = "success";
             resultmap.put("access-token", jwtUtil.createAccessToken(user.getUserId()));
+            resultmap.put("member",(Member)loginresult.get("member"));
         }
         resultmap.put("message",result);
 

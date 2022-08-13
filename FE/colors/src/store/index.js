@@ -5,7 +5,7 @@ import { createApi } from "@/api";
 import meetingStore from "@/store/modules/meetingStore";
 import memberStore from "@/store/modules/memberStore";
 import topicStore from "@/store/modules/topicStore";
-
+import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 export const api = createApi();
@@ -16,8 +16,6 @@ export default new Vuex.Store({
     g: 0,
     b: 0,
     a: 1,
-
-    isLogin: false,
     storeselectedColor: "#ffffff",
     //토너먼트 투표 시 선택되어(selectedColorLst) 결과창까지(tournamentResultLst) 보이는 색상입니다. 백에서 데이터를 받게되면 이 코드 지우고 스토어에 저장해주세요.
     selectedColorLst: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
@@ -45,4 +43,5 @@ export default new Vuex.Store({
     memberStore,
     topicStore,
   },
+  plugins: [createPersistedState()],
 });

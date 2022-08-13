@@ -1,10 +1,9 @@
 import router from "@/router";
 import { api } from "@/store";
-import { string } from "@tensorflow/tfjs-core";
 
 const meetingStore = {
   state: {
-    userName: string,
+    userName: "",
     singleUsers: [],
     singleUser: {},
     groupUsers: [],
@@ -28,6 +27,12 @@ const meetingStore = {
     },
     getPublishVideo(state) {
       return state.publishVideo;
+    },
+    isChatPanel(state) {
+      return state.isChatPanel;
+    },
+    messages(state) {
+      return state.messages;
     },
   },
   mutations: {
@@ -82,11 +87,12 @@ const meetingStore = {
       if (state.isChatPanel === true) {
         setTimeout(() => {
           var chatDiv = document.getElementById("chat-area");
+          console.log(chatDiv);
           chatDiv.scrollTo({
             top: chatDiv.scrollHeight - chatDiv.clientHeight,
             behavior: "smooth",
           });
-        }, 50);
+        }, 500);
       }
     },
     sendMessage({ state }, message) {
@@ -94,7 +100,7 @@ const meetingStore = {
         content: message,
         secretName: state.userName,
       };
-      state.session.signal({
+      this.session.signal({
         type: "chat",
         data: JSON.stringify(messageData),
         to: [],
