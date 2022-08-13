@@ -23,6 +23,7 @@ export default {
     doLogout() {
       this.MEMBER_LOGOUT();
       this.$router.push("/");
+      this.$router.go();
     },
     clickHomeIcon() {
       console.log("clicked");
