@@ -1,6 +1,9 @@
 package com.ssafy.colors.controller;
 
+import com.ssafy.colors.request.Colorset;
+import com.ssafy.colors.request.ResultReq;
 import com.ssafy.colors.request.RoomReq;
+import com.ssafy.colors.response.ResultRes;
 import com.ssafy.colors.response.RoomRes;
 import com.ssafy.colors.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,13 +96,14 @@ public class RoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 미팅에서 선택한 색상 저장
     @PostMapping("/result")
-    public ResponseEntity<Map<String, Object>> saveMeetingResult(@RequestBody String param) {
+    public ResponseEntity<Map<String, Object>> saveMeetingResult(@RequestBody ResultReq params) {
         System.out.println("[POST - /room/result");
 
         Map<String, Object> result = new HashMap<>();
 
-        if(true) {
+        if(roomService.saveMeetingResult(params)) {
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);
@@ -108,4 +112,113 @@ public class RoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // 투표지 생성을 위해 미팅 결과 가져오기
+    @GetMapping("/result")
+    public ResponseEntity<Map<String, Object>> getMeetingResult(@RequestBody Map<String, Object> params) {
+        System.out.println("[GET] - /room/result");
+
+        Map<String, Object> result = new HashMap<>();
+        Long roomId = Long.parseLong(params.get("roomid").toString());
+        System.out.println(roomId);
+
+        List<ResultRes> resultList = roomService.getMeetingResult(roomId);
+
+        if(!resultList.isEmpty()) {
+            result.put("data", resultList);
+            result.put("cnt", resultList.size());
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    // 개인 룸의 투표 결과 저장
+    @PutMapping("/vote")
+    public ResponseEntity<Map<String, Object>> saveVoteResultForTournament(@RequestBody Map<String, Object> params) {
+        System.out.println("[PUT] - /room/vote");
+        System.out.println(params);
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(roomService.saveTournamentResult(params)) {
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    // 그룹, 랜덤 미팅 룸의 투표 결과 저장
+    @PostMapping("/vote")
+    public ResponseEntity<Map<String, Object>> saveVoteResult(@RequestBody Map<String, Object> params) {
+        System.out.println("[POST] - /room/vote");
+        System.out.println(params);
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(roomService.saveVoteResult(params)) {
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PutMapping("/votesum")
+    public ResponseEntity<Map<String, Object>> sumVote(@RequestBody Map<String, Object> params) {
+        System.out.println("[PUT] - /room/votesum");
+        Long roomId = Long.parseLong(params.get("roomid").toString());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(roomService.addVote(roomId)) {
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/vote")
+    public ResponseEntity<Map<String, Object>> getVoteResult(@RequestBody Map<String, Object> params) {
+        System.out.println("[GET] - /room/vote");
+
+        Map<String, Object> result = new HashMap<>();
+        Object outputData = roomService.getVoteResult(params);
+        Colorset colorset = roomService.getTop1ColorInfo(params);
+
+        if(outputData != null && colorset != null) {
+            result.put("message", SUCCESS);
+            result.put("data", outputData);
+            result.put("top1", colorset);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/mypage")
+    public ResponseEntity<Map<String, Object>> getMyPageData(@RequestBody Map<String, Object> params) {
+        System.out.println("[GET] - /room/mypage");
+
+        Map<String, Object> result = new HashMap<>();
+        Long userId = Long.parseLong(params.get("userid").toString());
+
+        List<Map<String, Object>> output = roomService.getMyPageColorInfo(userId);
+
+        if(output != null) {
+            result.put("message", SUCCESS);
+            result.put("data", output);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
