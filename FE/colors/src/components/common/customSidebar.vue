@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar" v-if="isLogin">
+  <div class="sidebar">
     <ul class="sidebar__nav">
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
@@ -15,19 +15,14 @@
 </template>
 
 <script>
-import router from "@/router";
 import { mapMutations } from "vuex";
 export default {
-  computed: {
-    isLogin() {
-      return this.$store.state.memberStore.isLogin;
-    },
-  },
+  computed: {},
   methods: {
     ...mapMutations(["MEMBER_LOGOUT"]),
     doLogout() {
       this.MEMBER_LOGOUT();
-      router.push("/");
+      this.$router.push("/");
     },
     clickHomeIcon() {
       console.log("clicked");
