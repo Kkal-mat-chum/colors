@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.lang.invoke.MethodType;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -208,6 +207,7 @@ public class RoomServiceImpl implements RoomService {
                     codes.add(resultList.get(i).getColorCode());
                 } else {
                     result.add(ResultRes.builder()
+                            .id(memberList.get(mIdx).getId())
                             .userid(memberList.get(mIdx).getUserId())
                             .name(memberList.get(mIdx).getName())
                             .nickname(memberList.get(mIdx).getNickname())
@@ -385,7 +385,7 @@ public class RoomServiceImpl implements RoomService {
         Member member = memberRepository.findById(userId).get();
         MeetingResult meetingResult = meetingResultRepository.findByRoomAndMemberAndTop1(room, member, true);
 
-        if(meetingResult != null) {
+        if (meetingResult != null) {
             return Colorset.builder()
                     .url(meetingResult.getImageUrl())
                     .code(meetingResult.getColorCode())
@@ -408,28 +408,67 @@ public class RoomServiceImpl implements RoomService {
                 RoomType roomType = room.getRoomType();
 
                 List<MeetingResult> meetingResultList = meetingResultRepository.findByRoomAndMember(room, member);
-                List<Colorset> colorsetArr = new ArrayList<>();
+                List<String> urls = new ArrayList<>();
+                List<String> colorCodes = new ArrayList<>();
 
                 for (int j = 0; j < meetingResultList.size(); j++) {
                     MeetingResult meetingResult = meetingResultList.get(j);
-                    colorsetArr.add(new Colorset(meetingResult.getImageUrl(), meetingResult.getColorCode()));
-                    if(meetingResult.isTop1()) top1 = meetingResult;
+                    urls.add(meetingResult.getImageUrl());
+                    colorCodes.add(meetingResult.getColorCode());
+                    if (meetingResult.isTop1()) top1 = meetingResult;
                 }
 
                 Map<String, Object> unit = new HashMap<>();
                 unit.put("roomtype", roomType.toString().toLowerCase());
-                unit.put("colorset", colorsetArr);
+                unit.put("url", urls);
+                unit.put("code", colorCodes);
                 unit.put("top1", new Colorset(top1.getImageUrl(), top1.getColorCode()));
-                if(roomType.equals(RoomType.RANDOM)) {
+                if (roomType.equals(RoomType.RANDOM)) {
                     unit.put("title", room.getTopic().getTitle());
                 }
                 unitArr.add(unit);
             }
             return unitArr;
         } catch (Exception e) {
-            System.out.println("====================ERROR=======================");
-            e.printStackTrace();
             return null;
         }
+
+
+
+
+//        try {
+//            List<Room> roomList = roomRepository.getRecentMeetingInfo(userId);
+//            Member member = memberRepository.findById(userId).get();
+//            List<Map<String, Object>> unitArr = new ArrayList<>();
+//
+//            for (int i = 0; i < roomList.size(); i++) {
+//                Room room = roomList.get(i);
+//                MeetingResult top1 = null;
+//                RoomType roomType = room.getRoomType();
+//
+//                List<MeetingResult> meetingResultList = meetingResultRepository.findByRoomAndMember(room, member);
+//                List<Colorset> colorsetArr = new ArrayList<>();
+//
+//                for (int j = 0; j < meetingResultList.size(); j++) {
+//                    MeetingResult meetingResult = meetingResultList.get(j);
+//                    colorsetArr.add(new Colorset(meetingResult.getImageUrl(), meetingResult.getColorCode()));
+//                    if (meetingResult.isTop1()) top1 = meetingResult;
+//                }
+//
+//                Map<String, Object> unit = new HashMap<>();
+//                unit.put("roomtype", roomType.toString().toLowerCase());
+//                unit.put("colorset", colorsetArr);
+//                unit.put("top1", new Colorset(top1.getImageUrl(), top1.getColorCode()));
+//                if (roomType.equals(RoomType.RANDOM)) {
+//                    unit.put("title", room.getTopic().getTitle());
+//                }
+//                unitArr.add(unit);
+//            }
+//            return unitArr;
+//        } catch (Exception e) {
+//            System.out.println("====================ERROR=======================");
+//            e.printStackTrace();
+//            return null;
+//        }
     }
 }

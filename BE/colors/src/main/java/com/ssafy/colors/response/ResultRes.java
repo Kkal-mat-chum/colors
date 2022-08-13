@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ResultRes {
+    private Long id;
     private String userid;
     private String name;
     private String nickname;
