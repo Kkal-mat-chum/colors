@@ -44,6 +44,7 @@ export default {
         hostid: this.id,
         roomtype: "single",
       };
+      console.log(singleUser);
       this.$store.dispatch("singleMeeting", singleUser);
     },
     entranceTeamRoom() {
