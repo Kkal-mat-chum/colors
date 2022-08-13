@@ -4,6 +4,7 @@ import { api } from "@/store";
 const meetingStore = {
   state: {
     userName: "",
+    roomType: "",
     singleUsers: [],
     singleUser: {},
     groupUsers: [],
@@ -38,10 +39,12 @@ const meetingStore = {
   mutations: {
     SINGLE_MEETING(state, data) {
       state.singleUsers.push(data);
+      state.roomType = data.roomtype;
       sessionStorage.setItem("sessionCode", data.roomcode);
     },
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
+      state.roomType = data.roomtype;
       sessionStorage.setItem("sessionCode", data.roomcode);
     },
     changePublishAudio(state) {
