@@ -19,18 +19,20 @@
       <div class="gridRightBtnColorVote"></div>
     </div>
     <div class="gridColorVote3">
-      <customButton class="completeBtnColorVote" id="completeBtnColorVote" v-if="nextBtnShow" btnText="선택 완료" @click="nextRound">선택 완료</customButton>
+      <customButton class="completeBtnColorVote" id="completeBtnColorVote" v-if="nextBtnShow" btnText="선택 완료" @click="finishRound">선택 완료</customButton>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       nowSelected: "", //개별 화면에서 실시간으로 선택하고 있는 색상코드
       //아직 밑에 리스트는 색상 코드만 있어요. 결과 저장할 때 어떤 형식으로 만들어야하는지 판단하고 조정할 예정
-      selectedLst: [], //선택한 색상코드 리스트. key, value 갖는 형식 ex) [{"김민영":"#112233"}, {"송다경":"#223344"}]
+      selectedLst: [], //선택한 색상코드 리스트. key(고유id), value 갖는 형식 ex) [{"321432":"#112233"}, {"623474":"#223344"}]
       customBorderColor0: "#d0d1ff",
       customBorderColor1: "#d0d1ff",
       customBorderColor2: "#d0d1ff",
@@ -42,51 +44,52 @@ export default {
     };
   },
   computed: {
-    //개인인지 단체인지 판단하여 "다음으로" 버튼 표시 결정하기 위함. response에 따라 cnt로 변경 가능
+    //개인인지 단체인지 판단하여 "다음으로" 버튼 표시 결정하기 위함.
     nextBtnShow() {
-      if (this.$store.state.memberStore.data.length > 1) {
+      // if (this.$store.state.resultStore.data.length > 1) {
+      if (this.$store.state.resultStore.cnt > 1) {
         return false;
       } else {
         return true;
       }
     },
     imgUrl0() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[0];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[0];
     },
     imgUrl1() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[1];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[1];
     },
     imgUrl2() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[2];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[2];
     },
     imgUrl3() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[3];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[3];
     },
     imgUrl4() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[4];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[4];
     },
     imgUrl5() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[5];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[5];
     },
     imgUrl6() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[6];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[6];
     },
     imgUrl7() {
-      return this.$store.state.memberStore.data[this.$store.state.memberStore.voteRound - 1].urls[7];
+      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[7];
     },
     cnt() {
-      return this.$store.state.memberStore.cnt;
+      return this.$store.state.resultStore.cnt;
     },
     //실시간으로 투표의 순서 - 인덱스로 쓰입니다
     now_idx() {
-      return this.$store.state.memberStore.voteRound - 1;
+      return this.$store.state.resultStore.voteRound - 1;
     },
     rest_time() {
-      return this.$store.state.memberStore.restTime;
+      return this.$store.state.resultStore.restTime;
     },
     //각 사람들의 id, 이름 닉넴, 이미지url, 팔레트가 들어있음.
     member_choice_data() {
-      return this.$store.state.memberStore;
+      return this.$store.state.resultStore;
     },
     customBorder() {
       return {
@@ -107,19 +110,39 @@ export default {
       this.nextRound();
     },
   },
+  mounted() {
+    this.getResult(); //미팅 결과 가져오기
+  },
   methods: {
-    testClick() {
-      console.log(this.$store.state.memberStore.voteRound);
-      this.$store.state.memberStore.voteRound++;
+    //미팅 결과 가져오기, store에 저장
+    getResult() {
+      console.log("미팅 결과 가져오기");
+      axios
+        .get(this.$store.state.memberStore.baseurl + "/api/room/result", {
+          roomid: sessionStorage.getItem("roomId"),
+        })
+        .then((response) => {
+          console.log(response.message); //성공여부 확인 로그
+          this.$store.state.resultStore.aloneResult = response;
+          this.$store.state.resultStore.data = response.data;
+          this.$store.state.resultStore.cnt = response.cnt;
+          console.log("참여자 수");
+          console.log(this.$store.state.resultStore.cnt);
+        });
     },
+    testClick() {
+      console.log(this.$store.state.resultStore.voteRound);
+      this.$store.state.resultStore.voteRound++;
+    },
+    //다음 라운드로 넘어가기
     nextRound() {
       if (this.rest_time == 0) {
         // if (this.now_round < 6) {
         // console.log("hihihihihi");
-        this.selectedLst.push(this.nowSelected);
-        this.$store.state.memberStore.voteRound++;
+        this.selectedLst.push({ targetid: this.$store.state.data[this.now_idx].id, code: this.nowSelected });
+        this.$store.state.resultStore.voteRound++;
         this.nowSelected = "";
-        console.log(this.nowSelected, this.selectedLst);
+        console.log(this.selectedLst);
         this.customBorderColor0 = "#d0d1ff";
         this.customBorderColor1 = "#d0d1ff";
         this.customBorderColor2 = "#d0d1ff";
@@ -129,12 +152,34 @@ export default {
         this.customBorderColor6 = "#d0d1ff";
         this.customBorderColor7 = "#d0d1ff";
       }
-      if (this.now_idx >= 6) {
-        // @@@@@@@@@@@여기서 1초마다 백으로 요청 보내서 해당 미팅 방에서
-        // 들어온 결과를 받을 겁니다. 결과 값이 사람수(cnt)만큼 되면
-        // 결과 화면으로 넘어가도록 해야합니다.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        this.$router.push("/nameresult");
-      }
+      // if (this.now_idx >= this.cnt) {
+      //   // @@@@@@@@@@@여기서 1초마다 백으로 요청 보내서 해당 미팅 방에서
+      //   // 들어온 결과를 받을 겁니다. 결과 값이 사람수(cnt)만큼 되면
+      //   // 결과 화면으로 넘어가도록 해야합니다.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+      //   this.$router.push("/nameresult");
+      // }
+    },
+    //완료 버튼은 개인투표일때만 보임: 개인투표 끝나는 메소드
+    finishRound() {
+      this.saveVoteResult(); //투표 결과 저장(개인)
+      this.$router.push("/nameresult"); //결과화면으로 화면이동
+    },
+    //투표 결과 저장(개인)
+    saveVoteResult() {
+      console.log("결과 전송");
+      console.log(this.nowSelected);
+      axios
+        .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+          roomid: sessionStorage.getItem("roomId"),
+          userid: sessionStorage.getItem("memberId"),
+          code: this.nowSelected,
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.message == "fail") {
+            alert("전송 실패");
+          }
+        });
     },
     mouseover0() {
       this.customBorderColor0 = "#4a4d74";

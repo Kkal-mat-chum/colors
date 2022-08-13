@@ -95,14 +95,37 @@
 </template>
 
 <script>
+// import axios from "axios";
 import customSidebar from "../common/customSidebar.vue";
 
 export default {
   components: { customSidebar },
+  //토너먼트 끝났을 때 결과 저장하기로 했어요. 안되면 이걸로 시도하기
+  //시작할 때 axios put으로 결과 저장하는 법
+  mounted() {
+    // this.saveVoteResult();
+  },
   methods: {
     test() {
       console.log(this.$store.state.tournamentResultLst[14]);
     },
+    // saveVoteResult() {
+    //   console.log("결과 전송");
+    //   console.log(this.$store.state.tournamentResultLst[14]);
+    //   axios
+    //     .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+    //       roomid: sessionStorage.getItem("roomId"),
+    //       userid: sessionStorage.getItem("memberId"),
+    //       code: this.$store.state.tournamentResultLst[14],
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //       if (response.message == "fail") {
+    //         alert("전송 실패");
+    //       }
+    //       //fail이면 alert 해야하나요..?
+    //     });
+    // },
   },
   computed: {
     resultTournColor() {

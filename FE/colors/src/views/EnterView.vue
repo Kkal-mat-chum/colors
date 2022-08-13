@@ -14,10 +14,10 @@
     </div>
     <customModal class="groupModal" v-show="showGroupModal" @close-modal="showGroupModal = false" titleText="단체 입장하기 ">
       <content class="groupModalContent">
-        <input type="text" name="groupRoomCode" v-model="roomCodeId" id="roomCodeInput" placeholder="입장코드 입력 (사용자 개인 code)" />
+        <input type="text" name="groupRoomCode" v-model="roomCode" id="roomCodeInput" placeholder="입장코드 입력 (사용자 개인 code)" />
         <div class="gridButtonArea">
           <customButton class="makeRoomButton gridModalButton" @click="TeamRoom()" btnText="방만들기"></customButton>
-          <customButton class="enterRoomButton gridModalButton" btnText="입장하기" @click="TeamRoom()"></customButton>
+          <customButton class="enterRoomButton gridModalButton" btnText="입장하기" @click="entranceTeamRoom()"></customButton>
         </div>
         <span class="modalInfoText">방장으로부터 공유 받은 입장 코드를 입력한 뒤 입장하세요.</span>
       </content>
@@ -33,27 +33,32 @@ export default {
   data() {
     return {
       showGroupModal: false,
-      id: "",
-      roomCodeId: "",
+      id: sessionStorage.getItem("memberId"),
+      roomCode: "",
       userName: sessionStorage.getItem("userName"),
     };
   },
   methods: {
     SingleRoom() {
       let singleUser = {
-        id: this.id,
+        hostid: this.id,
         roomtype: "single",
       };
       this.$store.dispatch("singleMeeting", singleUser);
     },
+    entranceTeamRoom() {
+      let rommcode = {
+        roomCode: this.roomCode,
+      };
+      sessionStorage.setItem("roomId", this.roomCode);
+      this.$store.dispatch("groupMeeting", rommcode);
+    },
     TeamRoom() {
       let groupUser = {
-        id: this.id,
+        hostid: this.id,
         roomtype: "group",
-        roomCodeId: this.roomCodeId,
-        showGroupModal: this.showGroupModal,
       };
-      this.$store.dispatch("groupMeeting", groupUser);
+      this.$store.dispatch("madeGroupMeeting", groupUser);
     },
     TopicRoom() {
       router.push("/toptenTopic");
