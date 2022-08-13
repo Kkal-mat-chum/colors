@@ -9,9 +9,9 @@
         <label for="updateUserPwlabel" class="modifyLabel">비밀번호</label>
       </div>
       <div class="modifyInputs">
-        <input type="text" class="modifyInput" id="updateUserNickLabel" placeholder="닉네임을 입력해주세요." />
-        <input type="text" class="modifyInput" id="updateUserNameLabel" placeholder="이름을 입력해주세요." />
-        <input type="text" class="modifyInput" id="updateUserEmailLabel" placeholder="현재 이메일" readonly />
+        <input type="text" class="modifyInput" id="updateUserNickLabel" v-model="userNickname" placeholder="닉네임을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserNameLabel" v-model="userName" placeholder="이름을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserEmailLabel" v-model="userEmail" placeholder="현재 이메일" readonly />
         <input type="password" class="modifyPwInput" id="updateUserPwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
@@ -55,18 +55,30 @@ export default {
     return {
       updatePwShowModal: false,
       deleteShowModal: false,
+      memberData: null,
+      userNickname: "",
+      userName: "",
+      userEmail: "",
     };
+  },
+  mounted() {
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    this.userNickname = memberData.data.nickname;
+    this.userName = memberData.data.name;
+    this.userEmail = memberData.data.email;
+    document.getElementById("updateUserPwLabel").value = "";
   },
   methods: {
     //회원정보 수정
     updateMemberInfo() {
-      let userid = this.$store.state.member_id;
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      let userid = memberData.data.userId;
+      console.log(userid);
       let newNickName = document.getElementById("updateUserNickLabel").value;
       let newName = document.getElementById("updateUserNameLabel").value;
-      let userPassword = document.getElementById("updateUserNameLabel").value;
-      console.log(newNickName, newName);
+      let userPassword = document.getElementById("updateUserPwLabel").value;
       axios
-        .post(this.$store.state.baseurl + "api/member/changeinfo", {
+        .put(this.$store.state.baseurl + "api/member/changeinfo", {
           userid: userid,
           nickname: newNickName,
           name: newName,
@@ -74,9 +86,27 @@ export default {
         })
         .then((response) => {
           if (response.data.message == "success") {
-            console.log("비밀번호를 메일로 전송");
+            alert("정보 수정이 완료되었습니다.");
           } else {
-            console.log("아이디와 이메일을 다시 확인해주세요.");
+            alert("수정에 실패하였습니다.");
+          }
+        });
+    },
+    checkDuplicateNickname() {
+      let new_nickname = document.getElementById("updateUserNickLabel").value;
+      var userNickname = this.userNickname;
+      axios
+        .post(this.$store.state.baseurl + "api/member/chknic", {
+          input_nickname: new_nickname,
+        })
+        .then((response) => {
+          console.log(userNickname, ":", new_nickname);
+          if (userNickname == new_nickname || response.data.message == "not-duplicated") {
+            alert("닉네임 사용 가능");
+            this.nick_validation = true;
+          } else if (!(this.userNickname == new_nickname) || response.data.message == "not-duplicated") {
+            this.nick_validation = false;
+            alert("중복된 닉네임");
           }
         });
     },

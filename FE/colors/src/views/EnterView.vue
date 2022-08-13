@@ -35,6 +35,7 @@ export default {
       showGroupModal: false,
       id: "",
       roomCodeId: "",
+      userName: sessionStorage.getItem("userName"),
     };
   },
   methods: {
@@ -89,12 +90,13 @@ export default {
   align-items: center;
   justify-content: flex-end;
   margin-right: 30px;
-  font: 36px "Pretendard Bold";
+  margin-top: 20px;
+  font: 20px "Pretendard Bold";
   color: #6667ab;
 }
 .userIcon {
-  margin-left: 24px;
-  font-size: 36px;
+  margin-left: 12px;
+  font-size: 24px;
   font-weight: bold;
 }
 .enterPageView {

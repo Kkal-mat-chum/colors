@@ -1,28 +1,29 @@
 <template>
   <div class="chat-panel">
-    <div class="chat-box p-2 d-flex flex-column h-100">
-      <div class="header text-left">
+    <div class="chat-box">
+      <div class="header">
         <span class="title"> 채팅 </span>
         <button class="btn close-btn" @click="toggleChatPanel">
           <i class="fas fa-times"></i>
         </button>
       </div>
       <!-- 채팅 내역 -->
-      <div id="chat-area" :height="chatHeight">
-        <div class="mt-2 text-left message" v-for="(message, i) of messages" :key="i">
+      <div id="chat-area">
+        <div class="message" v-for="(message, i) of messages" :key="i">
           <div class="message-title">
-            <span class="mr-2 message-header">{{ message.sender }}</span>
+            <span class="message-header">{{ message.sender }} :</span>
           </div>
-          <div>
+          <div class="messgeText">
             {{ message.message }}
           </div>
         </div>
       </div>
-      <div class="footer d-flex mt-auto">
-        <div class="col-10 px-1 py-0">
+      <div class="footer">
+        <!-- display flex에 col값 할당해주기 -->
+        <div class="messageInputBox">
           <input class="text-box" v-model="message" @keyup.enter="clickSendMessage" />
         </div>
-        <div class="col-2 p-0">
+        <div class="messageSendButton">
           <button class="send-btn" @click="clickSendMessage">
             <i class="fas fa-paper-plane"></i>
           </button>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "ChatPanel",
   data() {
@@ -54,13 +55,15 @@ export default {
     },
   },
   computed: {
-    ...mapState(["messages"]),
+    messages() {
+      return this.$store.getters.messages;
+    },
   },
   methods: {
-    ...mapActions(["toggleChatPanel", "sendMessage"]),
+    ...mapActions(["toggleChatPanel"]),
     clickSendMessage() {
       if (this.message.trim()) {
-        this.sendMessage(this.message);
+        this.$emit("sendMessage", this.message);
         this.message = "";
       }
     },
@@ -71,25 +74,33 @@ export default {
 <style scoped>
 .chat-box {
   height: 100%;
+  /* padding: 2px; */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-around;
+  font: 18px "pretendard";
 }
 
 .header {
   position: relative;
+  text-align: left;
 }
 
 .close-btn {
   position: absolute;
-  color: white;
+  color: #d0d1ff;
   top: 3px;
   right: 10px;
 }
 
 .text-box {
-  background-color: #d1d1d1;
+  background-color: #ffffff;
   width: 100%;
-  border-radius: 20px;
-  color: black;
-  padding-left: 10px;
+  border: 1px solid #d0d1ff;
+  border-radius: 10px;
+  color: #4a4d74;
+  font: 20px "Pretendard Bold";
 }
 
 .text-box:focus {
@@ -98,35 +109,73 @@ export default {
 
 .title {
   padding-left: 5%;
-  font-family: "Jua" !important;
-  font-size: 1rem !important;
-  color: white;
+  font: 24px "Pretendard ExtraBold";
+  color: #6667ab;
+}
+.title:after {
+  content: "";
+  width: 100%;
+  display: block;
+  position: absolute;
+  /* margin-top: 50px; */
+  border-bottom: 5px solid #d0d1ff;
 }
 
 .header {
   width: 100%;
-  border-radius: 20px;
-  box-shadow: 3px 3px 3px rgb(0, 0, 0, 0.3);
   height: 4vh;
-}
-.message-title {
-  font-size: 0.8rem;
+  text-align: left;
+  margin-top: 10px;
+  color: #6667ab;
 }
 
 .message-header {
-  font-family: "pretendard";
+  font: 15px "pretendard";
+  margin-right: 8px;
+  flex-wrap: nowrap;
+  flex-grow: 3;
+}
+
+.messageText {
+  margin-left: 3px;
+  flex-wrap: wrap;
+  flex-grow: 8;
 }
 
 .message {
-  color: white;
+  margin-top: 3%;
+  text-align: left;
+  color: #6667ab;
+  display: flex;
+  margin-left: 5px;
 }
 
 .send-btn {
-  color: white;
+  color: #d0d1ff;
+}
+
+.footer {
+  display: flex;
+  margin-top: auto;
+  align-items: center;
+  margin-bottom: 2%;
+  font: 18px "pretendard";
+}
+
+.messageInputBox {
+  flex-grow: 10;
+  padding: 1% 0;
+  height: 50px;
+}
+.messageSendButton {
+  flex-grow: 2;
+  padding: 0;
+  height: 50px;
 }
 
 #chat-area {
   overflow-y: auto;
+  height: 85%;
 }
 
 #chat-area::-webkit-scrollbar {

@@ -1,8 +1,10 @@
 <template>
+  <!-- 타이머 시간 조정 방법 (원하는 시간을 t라고 함)
+  customTimeStamp.vue에서 data의 timeShow, seconds, fix_seconds를 t로 변경
+  store - memberStore.js state의 restTime를 t로 변경 -->
   <div class="timerComponent">
-    <div class="timer">{{ timeShow }}</div>
-    <!-- <label for="fd" @click="stop_auto_reload" v-if="auto_reload === true">정지</label>
-    <label for="dsf" @click="start_auto_reload" v-else>시작</label> -->
+    <div class="timeLabel">남은 시간</div>
+    <div class="timer" @click="startTimer">{{ seconds }}</div>
   </div>
 </template>
 
@@ -11,56 +13,41 @@ export default {
   //https://minu0807.tistory.com/95 참조
   data() {
     return {
-      auto_reload: false,
-      auto_reload_delay: 1000,
-      auto_reload_func: null,
-      timeStr: 0,
-      timeShow: "0:00",
+      auto_reload: false, //인터벌 사용 여부
+      auto_reload_delay: 1000, //인터벌 시간
+      auto_reload_func: null, //인터벌 함수 담을 곳
+      timeStr: 10,
+      fix_seconds: 15,
+      seconds: 15,
+      timeShow: "15",
       minutes: 0,
-      seconds: 0,
     };
   },
   //새로고침하면 바로 실행
-  mounted() {
-    this.start_auto_reload();
+  created() {
+    this.startTimer();
   },
   methods: {
-    totalTime() {
-      // this.timeStr = 10;
-      this.timeStr = this.$store.memberStore.state.teamJoinList.length * 30 + 1;
-    },
-    start_auto_reload() {
-      console.log("start!");
-      this.totalTime();
-      // this.auto_reload = true;
+    startTimer() {
       this.auto_reload_func = setInterval(() => {
-        this.getData(true);
-      }, this.auto_reload_delay);
-      if (this.timeStr <= 0) {
-        this.stop_auto_reload();
-        // clearInterval(this.auto_reload_func);
-        this.$router.push("/tournamentnameresult");
-        // 페이지 자동 넘김 필요 ==================================================================
-      }
+        this.seconds--;
+        this.$store.state.memberStore.restTime = this.seconds;
+        if (this.seconds <= 0) {
+          this.seconds = this.fix_seconds;
+          console.log(this.$store.state.memberStore.voteRound);
+        }
+        //사람 수만큼 라운드가 진행되면 타이머를 끕니다.
+        if (this.$store.state.memberStore.voteRound > this.$store.state.memberStore.cnt) {
+          this.stopTimer();
+        }
+      }, 1000);
     },
-    getData() {
-      this.timeStr--;
-      this.prettyTime();
-      console.log(this.timeShow);
-    },
-    stop_auto_reload() {
-      console.log("stop!");
-      // this.auto_reload = false;
+    stopTimer() {
       clearInterval(this.auto_reload_func);
     },
-    prettyTime() {
-      let minutes = parseInt(this.timeStr / 60);
-      let seconds = Math.round((this.timeStr / 60 - minutes) * 60);
-      if (seconds <= 0) {
-        seconds = "00";
-      }
-      this.timeShow = minutes + ":" + seconds;
-    },
+  },
+  destroyed() {
+    clearInterval(this.auto_reload_func);
   },
 };
 </script>
@@ -68,8 +55,14 @@ export default {
 <style>
 .timerComponent {
   color: #494a8d;
-  font-size: 100%;
+  /* font-size: 100%; */
   font-weight: 600;
-  width: 50px;
+  width: 100px;
+}
+.timer {
+  font-size: 110%;
+}
+.timeLabel {
+  font-size: 85%;
 }
 </style>
