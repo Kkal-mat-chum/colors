@@ -45,7 +45,7 @@ export default {
           userId: this.$store.state.userId,
         })
         .then((response) => {
-          if (response.message == "access") {
+          if (response.data.message == "access") {
             console.log(response.data);
             this.$emit("clicklike", this.cnt + 1);
           }

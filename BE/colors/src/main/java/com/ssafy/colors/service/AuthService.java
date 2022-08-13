@@ -4,6 +4,7 @@ import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.request.LoginReq;
 import com.ssafy.colors.request.Mail;
+import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,19 @@ public class AuthService {
     public Map<String, Object> login(LoginReq user) {
         Member findByuserId = memberRepository.findFirstByUserId(user.getUserId());
         HashMap<String, Object> result = new HashMap<>();
+
         if (findByuserId != null && findByuserId.getPassword().equals(user.getPassword())) {
-            result.put("member", findByuserId);
+            MemberRes member = MemberRes.builder()
+                    .id(findByuserId.getId())
+                    .userId(findByuserId.getUserId())
+                    .profileUrl(findByuserId.getProfileUrl())
+                    .name(findByuserId.getName())
+                    .nickname(findByuserId.getNickname())
+                    .email(findByuserId.getEmail())
+                    .point(findByuserId.getPoint())
+                    .authGrade(findByuserId.isAuthGrade())
+                    .build();
+            result.put("member", member);
             result.put("result", true);
 
             return result;
@@ -47,5 +59,5 @@ public class AuthService {
         mailService.mailSend(mail);
 
         return authCode;
-     }
+    }
 }
