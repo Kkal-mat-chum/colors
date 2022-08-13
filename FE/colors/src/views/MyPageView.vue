@@ -11,7 +11,7 @@
           <div class="profileImg">
             <img class="profileimgfile" id="profileimgfile" src="@/assets/logo_vertical.png" alt="" />
             <div class="setting_bg">
-              <img class="setting" src="@/assets/mypage/user.png" alt="" @click="showImgModal = true" />
+              <img class="setting" src="@/assets/mypage/user.png" alt="" @click="showImgModal = true" style="cursor: pointer" />
               <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showImgModal" @close-modal="showImgModal = false" titleText="프로필 사진 변경">
                 <cotent>
                   <modify-profile></modify-profile>
@@ -23,7 +23,7 @@
             <myinfo></myinfo>
           </div>
           <div class="updateInfo">
-            <custom-button class="updateUserInfo" btnText="회원정보수정" @click="showModal = true">회원정보수정</custom-button>
+            <a class="updateUserInfo" @click="showModal = true">회원정보수정</a>
             <custom-modal class="updateUserInfoModal" id="updateUserInfoModal" v-show="showModal" @close-modal="showModal = false" titleText="회원정보수정">
               <cotent><modify-user></modify-user></cotent>
             </custom-modal>
@@ -338,6 +338,10 @@ export default {
 .pallete {
   float: left;
   margin-top: -10px;
+}
+.updateUserInfo {
+  color: #6667ab;
+  cursor: pointer;
 }
 /*모달 스타일 */
 #updateUserInfoModal {
