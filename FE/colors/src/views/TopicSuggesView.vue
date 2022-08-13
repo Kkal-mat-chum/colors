@@ -57,12 +57,12 @@ export default {
   },
   mounted() {
     axios
-      .post(this.$store.state.baseurl + "/api/topic/list", {
+      .post(this.$store.state.baseurl + "api/topic/list", {
         page: this.currentPageNum,
         sort: this.sorting,
       })
       .then((response) => {
-        if (response.message == "access") {
+        if (response.data.message == "access") {
           console.log(response.data);
           this.maxPageNum = response.data.maxpage;
           this.topics = response.data.topics;
