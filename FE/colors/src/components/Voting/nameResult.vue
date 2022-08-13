@@ -28,17 +28,59 @@
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
     </div>
     <div class="cancelButton">
-      <custom-button id="buttonStyle" btnText="닫 기"></custom-button>
+      <custom-button id="buttonStyle" @click="gotoEnterPage" btnText="닫 기"></custom-button>
     </div>
     <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import customButton from "../common/customButton.vue";
+
 export default {
   components: {
     customButton,
+  },
+  mounted() {
+    this.saveVoteResult();
+  },
+  methods: {
+    saveVoteResult() {
+      //개인 투표의 경우
+      if (this.$store.state.resultStore.cnt == 1) {
+        axios
+          .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+            roomid: sessionStorage.getItem("room_id"),
+            userid: sessionStorage.getItem("member_id"),
+            code: this.$store.state.resultStore.nowSelectColor,
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.message == "fail") {
+              alert("전송 실패");
+            }
+            //fail이면 alert 해야하나요..?
+          });
+      } else if (this.$store.state.resultStore.cnt > 1) {
+        //단체, 랜덤 투표의 경우
+        axios
+          .post(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+            roomid: sessionStorage.getItem("roomId"),
+            userid: sessionStorage.getItem("memberId"),
+            content: 1, //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.message == "fail") {
+              alert("전송 실패");
+            }
+          });
+      }
+    },
+    gotoEnterPage() {
+      this.$router.push("/enterPage");
+    },
   },
 };
 </script>

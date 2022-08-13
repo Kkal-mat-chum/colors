@@ -83,6 +83,7 @@
 </template>
 
 <script>
+// import axios from "axios";
 // import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorpalleteAlone from "@/components/myPage/colorPalleteAlone.vue";
 import colorpalleteTeam from "@/components/myPage/colorPalleteTeam.vue";
@@ -110,6 +111,8 @@ export default {
     };
   },
   mounted() {
+    // 결과 api받고, store에 저장해놓기
+    this.$store.state.aloneColorLst = ["#6666ac", "#777743", "#8888sf", "#222299", "#000033", "#389425", "#363636", "#fff999"];
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     let profile = memberData.data.profileUrl;
     if (profile == null) {
@@ -140,6 +143,21 @@ export default {
     testClick() {
       console.lot("이게맞음?");
     },
+    // getMyPageData() {
+    //   axios
+    //     .get(this.$store.state.baseurl + "api/room/mypage", {
+    //       userid: sessionStorage.getItem("uniq_id"),
+    //     })
+    //     .then((response) => {
+    //       let idx = 0;
+    //       if (response.data[idx].roomtype == "single") {
+    //         this.$store.state.
+    //       }
+    //     });
+    // }.
+    // updateColorPallet() {
+    //   this.$store.state.aloneColorLst = ["#6666ac", "#777743", "#8888sf", "#222299", "#000033", "#389425", "#363636", "#fff999"];
+    // },
   },
 };
 </script>

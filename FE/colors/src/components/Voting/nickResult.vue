@@ -28,7 +28,7 @@
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
     </div>
     <div class="cancelButton">
-      <custom-button id="buttonStyle" btnText="닫 기"></custom-button>
+      <custom-button id="buttonStyle" @click="gotoEnterPage" btnText="닫 기"></custom-button>
     </div>
     <name-colors>#ffffff</name-colors>
     <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
@@ -41,6 +41,11 @@ import customButton from "../common/customButton.vue";
 export default {
   components: {
     customButton,
+  },
+  methods: {
+    gotoEnterPage() {
+      this.$router.push("/enterPage");
+    },
   },
 };
 </script>

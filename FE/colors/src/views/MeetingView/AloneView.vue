@@ -153,7 +153,7 @@ export default {
           //   }
           // );
         });
-        this.count++;
+        // this.count++;
         this.count_pallete++;
       } else {
         alert("컬러 팔레트가 꽉찼습니다.");

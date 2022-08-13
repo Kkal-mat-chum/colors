@@ -1,7 +1,7 @@
 <template>
   <!-- 타이머 시간 조정 방법 (원하는 시간을 t라고 함)
   customTimeStamp.vue에서 data의 timeShow, seconds, fix_seconds를 t로 변경
-  store - memberStore.js state의 restTime를 t로 변경 -->
+  store - resultStore.js state의 restTime를 t로 변경 -->
   <div class="timerComponent">
     <div class="timeLabel">남은 시간</div>
     <div class="timer" @click="startTimer">{{ seconds }}</div>
@@ -11,6 +11,7 @@
 <script>
 export default {
   //https://minu0807.tistory.com/95 참조
+  // https://webisfree.com/2014-04-08/[javascript]-%EC%8B%9C%EA%B0%84-%EC%A7%80%EC%97%B0-%ED%95%A8%EC%88%98-%EC%9D%BC%EC%A0%95-%EC%8B%9C%EA%B0%84-%EB%92%A4-%EC%8B%A4%ED%96%89%EC%8B%9C%ED%82%A4%EA%B8%B0-settimeout()-%7B%7D
   data() {
     return {
       auto_reload: false, //인터벌 사용 여부
@@ -30,14 +31,16 @@ export default {
   methods: {
     startTimer() {
       this.auto_reload_func = setInterval(() => {
-        this.seconds--;
-        this.$store.state.memberStore.restTime = this.seconds;
-        if (this.seconds <= 0) {
-          this.seconds = this.fix_seconds;
-          console.log(this.$store.state.memberStore.voteRound);
+        if (this.$store.state.resultStore.voteRound <= this.$store.state.resultStore.cnt) {
+          this.seconds--;
+          this.$store.state.resultStore.restTime = this.seconds;
+          if (this.seconds <= 0) {
+            this.seconds = this.fix_seconds;
+            console.log(this.$store.state.resultStore.voteRound);
+          }
         }
         //사람 수만큼 라운드가 진행되면 타이머를 끕니다.
-        if (this.$store.state.memberStore.voteRound > this.$store.state.memberStore.cnt) {
+        if (this.$store.state.resultStore.voteRound > this.$store.state.resultStore.cnt) {
           this.stopTimer();
         }
       }, 1000);
