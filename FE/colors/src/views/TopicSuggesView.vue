@@ -10,7 +10,7 @@
         <TopicArticle
           class="topicArticle"
           :isTopic="true"
-          v-for="topic in popics"
+          v-for="topic in topics"
           :key="topic.id"
           :topicId="topic.id"
           :topicArticleTitle="topic.title"
@@ -27,7 +27,10 @@
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" />
         <TopicPagenation :pageNumber="maxPageNum" :currentPage="currentPageNum"></TopicPagenation>
-        <customButton btnText="토픽 제안하기" />
+        <customButton btnText="토픽 제안하기" @click="showModal = true" />
+        <custom-modal class="suggestTopicModal" id="suggestTopicModal" v-show="showModal" @close-modal="showModal = false" titleText="Topic 제안">
+          <cotent><topic-suggest></topic-suggest></cotent>
+        </custom-modal>
       </div>
     </div>
   </div>
@@ -37,32 +40,34 @@
 import TopicList from "@/components/topic/topicList.vue";
 import TopicArticle from "@/components/topic/topicArticle.vue";
 import TopicPagenation from "@/components/topic/topicPagenation.vue";
+import TopicSuggest from "@/components/topic/topicSuggest.vue";
 import axios from "axios";
 
 export default {
-  components: { TopicList, TopicArticle, TopicPagenation },
+  components: { TopicList, TopicArticle, TopicPagenation, TopicSuggest },
   data() {
     return {
-      topics: Array,
-      currentPageNum: {
-        type: Number,
-        default: 0,
-      },
-      sorting: {
-        type: String,
-        default: "desc",
-      },
-      maxPageNum: Number,
+      topics: null,
+      currentPageNum: 0,
+      sorting: "desc",
+      maxPageNum: 0,
+
+      showModal: false,
+      userName: sessionStorage.getItem("userName"),
     };
   },
   mounted() {
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    var userId = memberData.data.id;
+
+    console.log(userId);
     axios
-      .post(this.$store.state.baseurl + "api/topic/list", {
-        page: this.currentPageNum,
-        sort: this.sorting,
+      .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+        userId: userId,
+        keyword: "",
       })
       .then((response) => {
-        if (response.data.message == "access") {
+        if (!(response.data.message == "fail")) {
           console.log(response.data);
           this.maxPageNum = response.data.maxpage;
           this.topics = response.data.topics;
