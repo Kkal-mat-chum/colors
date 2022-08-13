@@ -38,13 +38,13 @@ export default {
   },
   computed: {
     cnt() {
-      return this.$store.state.memberStore.cnt;
+      return this.$store.state.resultStore.cnt;
     },
     vote_round() {
-      return this.$store.state.memberStore.voteRound;
+      return this.$store.state.resultStore.voteRound;
     },
     sub_nickname() {
-      return this.$store.state.memberStore.data[this.vote_round - 1].nickname;
+      return this.$store.state.resultStore.data[this.vote_round - 1].nickname;
     },
   },
   watch: {
