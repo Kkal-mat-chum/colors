@@ -111,8 +111,8 @@ export default {
       publisher: undefined,
       subscribers: [],
 
-      mySessionId: sessionStorage.getItem("sessionCode"),
-      myUserName: "testName",
+      mySessionId: sessionStorage.getItem("roomId"),
+      myUserName: "",
       modelRgba: "",
       modelHex: "",
       r: 0,
@@ -125,7 +125,7 @@ export default {
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
-      memberData: sessionStorage.getItem("memberData"),
+      memberData: JSON.parse(sessionStorage.getItem("memberData")).data,
       roomHeaderTitle: "",
       roomHeaderData: "",
     };

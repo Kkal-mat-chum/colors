@@ -219,7 +219,7 @@ export default {
       } else {
         console.log("아이디, 비밀번호 둘 다 다시 확인해주세용");
       }
-      console.log(sessionStorage.getItem("checkEmail") == true);
+
       if (this.email_validation && this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
         axios
           .post(this.$store.state.memberStore.baseurl + "/api/member/", {
@@ -416,7 +416,8 @@ button {
   height: 40%;
 }
 #signUpWarning {
-  margin-left: 45%;
+  margin-top: 20px;
+  margin-left: 80px;
   font-size: 15px;
   color: #f34d75;
 }

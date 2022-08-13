@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = "rooms")
+@ToString(exclude = {"rooms", "results", "meetingVoters"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -63,4 +63,7 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     List<MeetingResult> results = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    List<MeetingVote> meetingVoters = new ArrayList<>();
 }

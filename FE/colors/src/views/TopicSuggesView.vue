@@ -6,6 +6,19 @@
         <i class="material-icons-outlined userIcon">account_circle</i>
       </div>
       <h2 class="topicTenTitle">토픽 제안 게시판</h2>
+      <div class="selectbox">
+        <select class="select" v-model="sortTitle" @change="onChange">
+          <option disabled value="">정렬종류</option>
+          <option value="regDate">등록일</option>
+          <option value="recommand">추천수</option>
+        </select>
+        <select class="select" v-model="sort" @change="onChange">
+          <option disabled value="">정렬방식</option>
+          <option value="desc">내림차순</option>
+          <option value="asc">오름차순</option>
+        </select>
+      </div>
+
       <topic-list class="topTenList" :isTopic="true">
         <topic-article
           class="topicArticle"
@@ -54,17 +67,18 @@ export default {
     return {
       topics: null,
       currentPageNum: 0,
-      sorting: "desc",
+      sorting: "regDate,desc",
       maxPageNum: 0,
       showModal: false,
       userName: sessionStorage.getItem("userName"),
       pages: null,
+      sortTitle: "regDate",
+      sort: "desc",
     };
   },
   mounted() {
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     var userId = memberData.data.id;
-
     axios
       .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
         userId: userId,
@@ -89,6 +103,33 @@ export default {
       });
   },
   methods: {
+    onChange() {
+      this.sorting = this.sortTitle + "," + this.sort;
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      var userId = memberData.data.id;
+      axios
+        .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+          userId: userId,
+          keyword: "",
+        })
+        .then((response) => {
+          if (!(response.data.message == "fail")) {
+            console.log(response.data);
+            this.maxPageNum = response.data.maxpage;
+            this.topics = response.data.topics;
+
+            var pageDecimical = parseInt(this.currentPage / 10);
+            if (this.currentPage > 10) {
+              // eslint-disable-next-line vue/no-mutating-props
+              this.maxPageNum = this.maxPageNum % 10;
+              // console.log(pageDecimical);
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + pageDecimical * 10 + "");
+            } else {
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + "");
+            }
+          }
+        });
+    },
     clikeLike(topic) {
       topic.cnt = topic.cnt + 1;
       topic.recommnd = !topic.recommnd;
@@ -134,6 +175,18 @@ export default {
 </script>
 
 <style scoped>
+.select {
+  margin-left: 5px;
+  border: 2px #d0d1ff solid;
+  border-radius: 3px;
+  width: 80px;
+  height: 30px;
+}
+.selectbox {
+  margin-left: 50px;
+  margin-bottom: 10px;
+  text-align: left;
+}
 .contentWindow {
   margin-left: 130px;
   min-height: 90vh;
