@@ -15,21 +15,25 @@
       </div>
       <color-vote></color-vote>
     </div>
+    <loadingImg v-if="show_loadingimg" />
   </div>
 </template>
 
 <script>
 import ColorVote from "../../components/Voting/colorVote.vue";
 import TimeStamp from "../../components/Voting/customTimeStamp.vue";
+import loadingImg from "../../components/Voting/loadingImg.vue";
 
 export default {
   components: {
     ColorVote,
     TimeStamp,
+    loadingImg,
   },
   data() {
     return {
       selectedLst: [],
+      show_loadingimg: false,
     };
   },
   computed: {
@@ -41,6 +45,31 @@ export default {
     },
     sub_nickname() {
       return this.$store.state.memberStore.data[this.vote_round - 1].nickname;
+    },
+  },
+  watch: {
+    vote_round(value) {
+      if (value > this.cnt) {
+        this.loading3sec();
+      }
+    },
+  },
+  methods: {
+    loading3sec() {
+      this.onLoadingImg();
+      console.log("로딩창 켬");
+      setTimeout(() => {
+        this.offLoadingImg();
+        console.log("로딩창 끔");
+        // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
+        this.$router.push("/nameresult");
+      }, 3000);
+    },
+    onLoadingImg() {
+      this.show_loadingimg = true;
+    },
+    offLoadingImg() {
+      this.show_loadingimg = false;
     },
   },
 };
