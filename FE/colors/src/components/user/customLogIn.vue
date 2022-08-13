@@ -64,6 +64,8 @@ export default {
             sessionStorage.setItem("access-token", response.data["access-token"]);
             sessionStorage.setItem("memberData", response.data.member);
             sessionStorage.setItem("userName", response.data.member.name);
+            sessionStorage.setItem("memberId", response.data.member.id);
+            sessionStorage.setItem("userId", response.data.member.userId);
             localStorage.setItem("isLogin", true);
             this.$store.state.memberStore.isLogin = true;
             console.log(sessionStorage.getItem("isLogin"));
