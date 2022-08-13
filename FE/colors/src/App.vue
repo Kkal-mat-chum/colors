@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <CustomSidebar v-if="isLogin"></CustomSidebar>
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
