@@ -48,11 +48,12 @@ export default {
       this.$store.dispatch("singleMeeting", singleUser);
     },
     entranceTeamRoom() {
-      let rommcode = {
-        roomCode: this.roomCode,
+      let roomcode = {
+        roomcode: this.roomCode,
       };
       sessionStorage.setItem("roomId", this.roomCode);
-      this.$store.dispatch("groupMeeting", rommcode);
+      console.log(roomcode);
+      this.$store.dispatch("groupMeeting", roomcode);
     },
     TeamRoom() {
       let groupUser = {
