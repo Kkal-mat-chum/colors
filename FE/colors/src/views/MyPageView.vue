@@ -9,7 +9,7 @@
       <div class="contents">
         <div class="personInfo">
           <div class="profileImg">
-            <img class="profileimgfile" src="@/assets/mypage/img.png" alt="" />
+            <img class="profileimgfile" id="profileimgfile" src="@/assets/logo_vertical.png" alt="" />
             <div class="setting_bg">
               <img class="setting" src="@/assets/mypage/user.png" alt="" @click="showImgModal = true" />
               <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showImgModal" @close-modal="showImgModal = false" titleText="프로필 사진 변경">
@@ -109,9 +109,15 @@ export default {
       // hoveringColor: this.$store.state.hoveringColor,
     };
   },
-  // mounted: { // 결과 api받고, store에 저장해놓기
-  //   axios
-  // },
+  mounted() {
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    let profile = memberData.data.profileUrl;
+    if (profile == null) {
+      profile = document.getElementById("profileimgfile").src;
+    }
+    console.log(profile);
+    document.getElementById("profileimgfile").src = profile;
+  },
   computed: {
     hoveringColor: function () {
       return this.$store.state.hoveringColor;
