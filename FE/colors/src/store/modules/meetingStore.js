@@ -45,7 +45,6 @@ const meetingStore = {
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
       state.roomType = data.roomtype;
-      sessionStorage.setItem("roomId", data.data.roomcode);
     },
     changePublishAudio(state) {
       state.publishAudio = !state.publishAudio;
@@ -80,14 +79,21 @@ const meetingStore = {
         url: `/room/join/group`,
         method: "POST",
         data: params,
-      }).then(({ data }) => {
-        commit("GOURP_MEETING", data);
-        if (data.data.message === "success") {
-          router.push("/group/" + sessionStorage.getItem("roomId"));
-        } else {
-          alert("입장코드를 다시 확인하세요.");
-        }
-      });
+      })
+        .then(({ data }) => {
+          console.log(data);
+          console.log(data.message);
+          commit("GOURP_MEETING", data);
+          if (data.message === "success") {
+            console.log(1111);
+            router.push("/team/" + sessionStorage.getItem("roomId"));
+          } else {
+            alert("입장코드를 다시 확인하세요.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     madeGroupMeeting({ commit }, params) {
       api({
@@ -96,6 +102,7 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("GOURP_MEETING", data);
+        sessionStorage.setItem("roomId", data.data.roomcode);
         router.push("/team/" + data.data.roomcode);
       });
     },

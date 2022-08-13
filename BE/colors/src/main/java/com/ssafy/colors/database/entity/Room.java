@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = "topic")
+@ToString(exclude = {"host", "topic", "results"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder()

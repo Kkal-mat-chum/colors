@@ -15,34 +15,87 @@
       </div>
       <color-vote></color-vote>
     </div>
+    <loadingImg v-if="show_loadingimg" />
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import ColorVote from "../../components/Voting/colorVote.vue";
 import TimeStamp from "../../components/Voting/customTimeStamp.vue";
+import loadingImg from "../../components/Voting/loadingImg.vue";
 
 export default {
   components: {
     ColorVote,
     TimeStamp,
+    loadingImg,
   },
   data() {
     return {
-      // cnt: this.$store.state.memberStore.cnt,
-      // voteRound: this.$store.state.memberStore.voteRound,
+      // cnt: this.$store.state.resultStore.cnt,
+      // voteRound: this.$store.state.resultStore.voteRound,
       selectedLst: [],
+      show_loadingimg: false,
     };
   },
   computed: {
     cnt() {
-      return this.$store.state.memberStore.cnt;
+      return this.$store.state.resultStore.cnt;
     },
     vote_round() {
-      return this.$store.state.memberStore.voteRound;
+      return this.$store.state.resultStore.voteRound;
     },
     sub_name() {
-      return this.$store.state.memberStore.data[this.vote_round - 1].name;
+      return this.$store.state.resultStore.data[this.vote_round - 1].name;
+    },
+    // show_loadingimg() {
+    //   if (this.cnt < this.vote_round) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // },
+  },
+  watch: {
+    vote_round(value) {
+      if (value > this.cnt) {
+        this.loading3sec();
+      }
+    },
+  },
+  methods: {
+    loading3sec() {
+      this.onLoadingImg();
+      //투표 결과 저장
+      this.saveTeamVoteResult();
+      console.log("로딩창 켬");
+      setTimeout(() => {
+        this.offLoadingImg();
+        console.log("로딩창 끔");
+        // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
+        this.$router.push("/nameresult");
+      }, 3000);
+    },
+    onLoadingImg() {
+      this.show_loadingimg = true;
+    },
+    offLoadingImg() {
+      this.show_loadingimg = false;
+    },
+    //단체 투표 결과 저장
+    saveTeamVoteResult() {
+      axios
+        .post(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+          roomid: sessionStorage.getItem("roomId"),
+          voterid: sessionStorage.getItem("memberId"),
+          content: "@@@@@@@@@@@@@@@@@@@@@@@@",
+        })
+        .then((response) => {
+          if (response.message == "fail") {
+            console.log("단체 미팅 결과 저장 실패");
+          }
+        });
     },
   },
 };
