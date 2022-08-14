@@ -38,7 +38,7 @@
           <h2 class="code">{{ roomHeaderData }}</h2>
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <customButton class="btn" btnText="투표하기"></customButton>
-          <customButton class="btn" btnText="종료"></customButton>
+          <customButton class="btn" btnText="종료" @click="leaveMeeting"></customButton>
         </div>
       </div>
     </div>
@@ -159,6 +159,10 @@ export default {
 
   methods: {
     ...mapActions(["toggleChatPanel"]),
+    leaveMeeting() {
+      this.leaveSession();
+      this.$router.push("/enterPage");
+    },
     showOneSelectedColor() {
       if (this.count_pallete < 8) {
         this.modelHex = this.rgb2hex(this.rgba, true);

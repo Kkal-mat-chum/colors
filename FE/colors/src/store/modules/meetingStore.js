@@ -39,12 +39,12 @@ const meetingStore = {
   mutations: {
     SINGLE_MEETING(state, data) {
       state.singleUsers.push(data);
-      state.roomType = data.roomtype;
+      state.roomType = "single";
       sessionStorage.setItem("roomId", data.data.roomcode);
     },
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
-      state.roomType = data.roomtype;
+      state.roomType = "group";
     },
     changePublishAudio(state) {
       state.publishAudio = !state.publishAudio;
