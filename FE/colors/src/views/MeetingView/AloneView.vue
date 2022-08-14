@@ -1,12 +1,11 @@
 <template>
   <div class="aloneMeeting">
-    <sidebar></sidebar>
     <div class="contents">
       <div class="camera">
         <webcam id="webcam"></webcam>
         <div class="buttons">
-          <customButton class="mute" btnText="음소거"></customButton>
-          <customButton class="videostop" btnText="비디오 중지"></customButton>
+          <customButton class="mute" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" :class="{ muteActive: this.publishVideoIN }" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
       </div>
       <div class="rightSidebar">
@@ -28,7 +27,6 @@
 
 <script>
 import mixin from "@/components/videochat/colorPallete/mixin";
-import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
@@ -39,7 +37,6 @@ import axios from "axios";
 export default {
   name: "aloneMeeting",
   components: {
-    sidebar,
     webcam,
     colorpallete,
     colorchoice,
@@ -96,6 +93,12 @@ export default {
         v: this.v,
       };
     },
+    publishAudio() {
+      return this.$store.getters.getPublishAudio;
+    },
+    publishVideoIN() {
+      return this.$store.getters.getPublishVideo;
+    },
   },
   created() {
     Object.assign(this, this.setColorValue(this.color));
@@ -110,6 +113,15 @@ export default {
     });
   },
   methods: {
+    muteAudio() {
+      this.publisher.publishAudio(this.publishAudio);
+      console.log(this.publishAudio);
+      this.$store.commit("changePublishAudio");
+    },
+    muteVideo() {
+      this.publisher.publishVideo(this.publishVideoIN);
+      this.$store.commit("changePublishVideo");
+    },
     // 선택한 색의 컬러코드를 store에 저장
     showOneSelectedColor() {
       if (this.count_pallete < 8) {
@@ -268,6 +280,9 @@ body {
 }
 .buttons {
   margin-top: 50px;
+}
+.muteActive {
+  background-color: #bcbdfc;
 }
 .mute {
   width: 150px;
