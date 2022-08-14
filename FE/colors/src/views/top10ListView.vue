@@ -11,7 +11,10 @@
       </TopicList>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" @click="exit" />
-        <customButton btnText="토픽 제안하기" />
+        <customButton btnText="토픽 제안하기" @click="showModal = true" />
+        <custom-modal class="suggestTopicModal" id="suggestTopicModal" v-show="showModal" @close-modal="showModal = false" titleText="Topic 제안">
+          <cotent><suggest-modal></suggest-modal></cotent>
+        </custom-modal>
       </div>
     </div>
   </div>
@@ -20,9 +23,10 @@
 <script>
 import TopicList from "@/components/topic/topicList.vue";
 import TopicArticle from "@/components/topic/topicArticle.vue";
+import SuggestModal from "@/components/topic/topicSuggest.vue";
 import axios from "axios";
 export default {
-  components: { TopicList, TopicArticle },
+  components: { TopicList, TopicArticle, SuggestModal },
   data() {
     return {
       topics: Array,
@@ -30,6 +34,8 @@ export default {
         type: Number,
         default: 0,
       },
+      userName: sessionStorage.getItem("userName"),
+      showModal: false,
     };
   },
   mounted() {
