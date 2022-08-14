@@ -1,34 +1,53 @@
 <template>
   <div class="resultBody">
     <custom-sidebar></custom-sidebar>
-    <h1 class="title">닉네임 님과 가장 잘 어울리는 색상은?</h1>
+    <h1 class="title">{{ userNick }} 님과 가장 잘 어울리는 색상은?</h1>
     <div class="mainResult">
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture1" />
+      <img :src="top1url" :alt="top1url" class="picture1" />
       <div class="colorMatchName">
-        <div class="codeNum">#000000</div>
-        <div>색상 이름</div>
+        <div class="codeNum" :style="customFontColorMypickTop1" id="top1color">{{ top1color }}</div>
+        <div :style="customFontColorMypickTop1" id="top1color">색상 이름</div>
       </div>
     </div>
     <div class="myPick">
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture2" />
+      <img :src="mypickurl" :alt="mypickurl" class="picture2" />
       <div class="myColorPick">
-        <div class="myPickName">닉네임 님의 픽</div>
-        <div class="myPickCode">#b8991</div>
+        <div class="myPickName">{{ userNick }} 님의 픽</div>
+        <div class="myPickCode" :style="customFontColorMypickTop1" id="mypickColor">{{ mypickcolor }}</div>
       </div>
     </div>
     <div class="otherPickTitle">
       <div class="otherTitle">참여자들이 추천한 색상</div>
     </div>
     <div class="otherPick">
-      <div>
-        <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
-        <div class="otherName">닉네임</div>
-        <div class="otherCode">#BBBBBB</div>
+      <div v-if="showResult[0]">
+        <img :src="voteLst[0].url" :alt="voteLst[0].url" class="picture3" />
+        <div class="otherName">{{ voteLst[0].vote }}</div>
+        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[0].code }}</div>
       </div>
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" />
+      <div v-if="showResult[1]">
+        <img :src="voteLst[1].url" :alt="voteLst[1].url" class="picture3" />
+        <div class="otherName">{{ voteLst[1].vote }}</div>
+        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[1].code }}</div>
+      </div>
+      <div v-if="showResult[2]">
+        <img :src="voteLst[2].url" :alt="voteLst[2].url" class="picture3" />
+        <div class="otherName">{{ voteLst[2].vote }}</div>
+        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[2].code }}</div>
+      </div>
+      <div v-if="showResult[3]">
+        <img :src="voteLst[3].url" :alt="voteLst[3].url" class="picture3" />
+        <div class="otherName">{{ voteLst[3].vote }}</div>
+        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[3].code }}</div>
+      </div>
+      <div v-if="showResult[4]">
+        <img :src="voteLst[4].url" :alt="voteLst[4].url" class="picture3" />
+        <div class="otherName">{{ voteLst[4].vote }}</div>
+        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[4].code }}</div>
+      </div>
     </div>
     <div class="cancelButton">
-      <custom-button id="buttonStyle" btnText="닫 기"></custom-button>
+      <custom-button id="buttonStyle" @click="gotoEnterPage" btnText="닫 기"></custom-button>
     </div>
     <name-colors>#ffffff</name-colors>
     <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
@@ -36,11 +55,116 @@
 </template>
 
 <script>
+import axios from "axios";
 import customButton from "../common/customButton.vue";
 
 export default {
   components: {
     customButton,
+  },
+  data() {
+    return {
+      voteLst: [],
+      // voteLst: this.$store.state.resultStore.totalResultData, //다른사람들이 투표한 결과
+      top1url: "",
+      top1color: "",
+      mypickurl: "",
+      mypickcolor: "",
+      userNick: sessionStorage.getItem("userNick"),
+    };
+  },
+  computed: {
+    customFontColorMypickTop1() {
+      return {
+        "--fontcolor-mypick": this.mypickcolor,
+        "--fontcolor-top1": this.top1color,
+      };
+    },
+    customVoterCodeColor() {
+      if (this.$store.state.resultStore.cnt == 2) {
+        return {
+          "--fontcolor-voter0": this.voteLst[0].code,
+        };
+      } else if (this.$store.state.resultStore.cnt == 3) {
+        return {
+          "--fontcolor-voter0": this.voteLst[0].code,
+          "--fontcolor-voter1": this.voteLst[1].code,
+        };
+      } else if (this.$store.state.resultStore.cnt == 4) {
+        return {
+          "--fontcolor-voter0": this.voteLst[0].code,
+          "--fontcolor-voter1": this.voteLst[1].code,
+          "--fontcolor-voter2": this.voteLst[2].code,
+        };
+      } else if (this.$store.state.resultStore.cnt == 5) {
+        return {
+          "--fontcolor-voter0": this.voteLst[0].code,
+          "--fontcolor-voter1": this.voteLst[1].code,
+          "--fontcolor-voter2": this.voteLst[2].code,
+          "--fontcolor-voter3": this.voteLst[3].code,
+        };
+      } else if (this.$store.state.resultStore.cnt == 6) {
+        return {
+          "--fontcolor-voter0": this.voteLst[0].code,
+          "--fontcolor-voter1": this.voteLst[1].code,
+          "--fontcolor-voter2": this.voteLst[2].code,
+          "--fontcolor-voter3": this.voteLst[3].code,
+          "--fontcolor-voter4": this.voteLst[4].code,
+        };
+      } else {
+        return "";
+      }
+    },
+    showResult() {
+      if (this.$store.state.resultStore.cnt == 1) {
+        return [false, false, false, false, false];
+      } else if (this.$store.state.resultStore.cnt == 2) {
+        return [true, false, false, false, false];
+      } else if (this.$store.state.resultStore.cnt == 3) {
+        return [true, true, false, false, false];
+      } else if (this.$store.state.resultStore.cnt == 4) {
+        return [true, true, true, false, false];
+      } else if (this.$store.state.resultStore.cnt == 5) {
+        return [true, true, true, true, false];
+      } else if (this.$store.state.resultStore.cnt == 6) {
+        return [true, true, true, true, true];
+      } else {
+        return [false, false, false, false, false];
+      }
+    },
+  },
+  mounted() {
+    this.saveVoteResult();
+  },
+  methods: {
+    gotoEnterPage() {
+      this.$router.push("/enterPage");
+    },
+    //투표 결과 가져오기
+    saveVoteResult() {
+      axios
+        .get(this.$store.state.baseurl + "room/vote", {
+          roomid: sessionStorage.getItem("roomId"),
+          userid: sessionStorage.getItem("memberId"),
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.message == "fail") {
+            alert("전송 실패");
+          } else {
+            //랜덤미팅은 항상 여러명임
+            for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
+              if (response.data[idx].voter != sessionStorage.getItem("userNick")) {
+                this.voteLst.push(response.data[idx]);
+              } else {
+                //본인이 선택한 내용
+                this.mypickurl = response.data[idx].url;
+                this.mypickcolor = response.data[idx].code;
+              }
+            }
+          }
+        });
+    },
   },
 };
 </script>
@@ -167,5 +291,26 @@ export default {
   font-weight: 400;
   font-size: 15px;
   color: #aaaabc;
+}
+#customeVoterCode1 {
+  color: var(--fontcolor-voter0);
+}
+#customeVoterCode2 {
+  color: var(--fontcolor-voter1);
+}
+#customeVoterCode3 {
+  color: var(--fontcolor-voter2);
+}
+#customeVoterCode4 {
+  color: var(--fontcolor-voter3);
+}
+#customeVoterCode5 {
+  color: var(--fontcolor-voter4);
+}
+#top1color {
+  color: var(--fontcolor-top1);
+}
+#mypickColor {
+  color: var(--fontcolor-mypick);
 }
 </style>

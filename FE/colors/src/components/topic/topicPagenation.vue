@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       pages: Array,
+      pagenum: Number,
     };
   },
   props: {
@@ -24,12 +25,14 @@ export default {
     if (this.currentPage > 10) {
       // eslint-disable-next-line vue/no-mutating-props
       this.pageNumber = this.pageNumber % 10;
-      console.log(pageDecimical);
-      this.pages = Array.from({ length: this.pageNumber }, (item, index) => index + 1 + pageDecimical * 10);
+      // console.log(pageDecimical);
+      this.pages = Array.from({ length: this.pageNumber }, (item, index) => index + 1 + pageDecimical * 10 + "");
     } else {
-      this.pages = Array.from({ length: this.pageNumber }, (item, index) => index + 1);
+      console.log(this.pageNumber);
+
+      this.pages = Array.from({ length: this.pageNumber }, (item, index) => index + 1 + "");
+      console.log(this.pages);
     }
-    console.log(this.pages);
   },
 };
 </script>

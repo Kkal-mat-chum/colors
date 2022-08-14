@@ -4,9 +4,13 @@ import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.repository.MemberRepository;
 import com.ssafy.colors.request.LoginReq;
 import com.ssafy.colors.request.Mail;
+import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -20,13 +24,30 @@ public class AuthService {
     @Autowired
     MailService mailService;
 
-    public boolean login(LoginReq user) {
+    public Map<String, Object> login(LoginReq user) {
         Member findByuserId = memberRepository.findFirstByUserId(user.getUserId());
-        if (findByuserId.getPassword().equals(user.getPassword())) {
-            return true;
+        HashMap<String, Object> result = new HashMap<>();
+
+        if (findByuserId != null && findByuserId.getPassword().equals(user.getPassword())) {
+            MemberRes member = MemberRes.builder()
+                    .id(findByuserId.getId())
+                    .userId(findByuserId.getUserId())
+                    .profileUrl(findByuserId.getProfileUrl())
+                    .name(findByuserId.getName())
+                    .nickname(findByuserId.getNickname())
+                    .email(findByuserId.getEmail())
+                    .point(findByuserId.getPoint())
+                    .authGrade(findByuserId.isAuthGrade())
+                    .build();
+            result.put("member", member);
+            result.put("result", true);
+
+            return result;
         }
-        return false;
+        result.put("result", false);
+        return result;
     }
+
 
     public String generateAndSendAuthCode(String email) {
         String authCode = randomStringGenerator.generateRandomPassword(8);

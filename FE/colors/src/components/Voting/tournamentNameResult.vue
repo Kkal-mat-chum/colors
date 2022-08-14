@@ -3,7 +3,7 @@
     <custom-sidebar></custom-sidebar>
     <div class="mainPicture">
       <!-- <div class="picture1" :style="resultTournColor" id="tournResult10" @click="test"></div> -->
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture1" />
+      <img :src="top1" class="picture1" />
       <div class="titleColor">
         {{ finalWinColor }}
         <!-- <div>컬러네임</div> -->
@@ -88,21 +88,45 @@
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" /> -->
     </div>
     <div class="button">
-      <custom-button btnText="닫 기" class="buttonStyle"></custom-button>
+      <custom-button btnText="닫 기" class="buttonStyle" @click="go"></custom-button>
     </div>
     <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
   </div>
 </template>
 
 <script>
+// import axios from "axios";
 import customSidebar from "../common/customSidebar.vue";
 
 export default {
   components: { customSidebar },
+  //토너먼트 끝났을 때 결과 저장하기로 했어요. 안되면 이걸로 시도하기
+  //시작할 때 axios put으로 결과 저장하는 법
+  mounted() {
+    // this.saveVoteResult();
+  },
   methods: {
-    test() {
-      console.log(this.$store.state.tournamentResultLst[14]);
+    go() {
+      this.$router.push("/enterPage");
+      this.$router.go();
     },
+    // saveVoteResult() {
+    //   console.log("결과 전송");
+    //   console.log(this.$store.state.tournamentResultLst[14]);
+    //   axios
+    //     .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+    //       roomid: sessionStorage.getItem("roomId"),
+    //       userid: sessionStorage.getItem("memberId"),
+    //       code: this.$store.state.tournamentResultLst[14],
+    //     })
+    //     .then((response) => {
+    //       console.log(response);
+    //       if (response.message == "fail") {
+    //         alert("전송 실패");
+    //       }
+    //       //fail이면 alert 해야하나요..?
+    //     });
+    // },
   },
   computed: {
     resultTournColor() {
@@ -126,6 +150,10 @@ export default {
     },
     finalWinColor() {
       return this.$store.state.tournamentResultLst[14];
+    },
+    top1() {
+      console.log(this.$store.state.resultStore.totalResultTop1.url);
+      return this.$store.state.resultStore.totalResultTop1.url;
     },
   },
 };

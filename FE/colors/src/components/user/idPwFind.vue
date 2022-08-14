@@ -1,35 +1,29 @@
 <template>
   <div class="idPwFindPage">
-    <!-- <div class="semiTitleInIdpwFind">
-      <div>아이디 찾기</div>
-      <div>비밀번호 찾기</div>
-    </div> -->
     <div class="bodyIdpwFind">
       <div class="dummyMarginIdpwFind3"></div>
       <div class="idFindInIdpwfind">
         <div class="idFindInIdpwfind1">
-          <label class="titleInIdpwfind">아이디 찾기</label>
-          <!-- <hr class="hrstyleInIdpwfind1" /> -->
-          <!-- <div class="dummyMargin11"></div> -->
-          <label for="idFindstate" id="labelWarningInIdpwFind" v-if="idFindWarningShow">아이디와 이메일을 확인해주세요.</label>
+          <div class="title">
+            <h2>아이디 찾기</h2>
+            <hr />
+          </div>
+          <label for="idFindstate" id="labelWarningInIdpwFind" v-if="idFindWarningShow">이름와 이메일을 확인해주세요.</label>
         </div>
-        <!-- <div class="dummyMarginIdpwFind1"></div> -->
         <input type="text" class="inPwFindInput" id="idFindNameInputInIdpwFind" placeholder="이름을 입력해주세요." />
         <input type="text" class="inPwFindInput" id="idFindEmailInputInIdpwFind" placeholder="이메일을 입력해주세요." />
         <customButton class="idFindInIdpwFindBtn" id="idFindInIdpwFindBtn" btnText="확 인" @click="findID">아이디 찾기 버튼</customButton>
-        <label for="idFindstate" class="labelInIdpwFind" v-if="idResultShow"
-          >아이디는
-          <!-- <div id="showID">{{ userid }}</div> -->
-          <div id="showID">{{ response.userid }}</div>
-          입니다.</label
-        >
+        <div class="height"></div>
       </div>
       <div class="dummyMarginIdpwFind5"></div>
       <hr class="hrstyleInIdpwfind2" />
       <div class="dummyMarginIdpwFind5"></div>
       <div class="pwFindInIdpwfind">
         <div class="idFindInIdpwfind1">
-          <label class="titleInIdpwfind">비밀번호 찾기</label>
+          <div class="title">
+            <h2>비밀번호 찾기</h2>
+            <hr />
+          </div>
           <!-- <hr class="hrstyleInIdpwfind1" /> -->
           <label for="idFindstate" id="labelWarningInIdpwFind" v-if="pwFindWarningShow">아이디와 이메일을 확인해주세요.</label>
         </div>
@@ -37,11 +31,18 @@
         <input type="text" class="inPwFindInput" id="pwFindIdInputInIdpwFind" placeholder="아이디를 입력해주세요." />
         <input type="text" class="inPwFindInput" id="pwFindEmailInputInIdpwFind" placeholder="이메일을 입력해주세요." />
         <customButton class="idFindInIdpwFindBtn" id="pwFindInIdpwFindBtn" btnText="임시 비밀번호 보내기" @click="findPassword">임시비번보내기 버튼</customButton>
-        <label for="pwFindstate" class="labelInIdpwFind" v-if="pwResultShow">임시 비밀번호를 메일로 전송했습니다.</label>
+
+        <div class="height"></div>
       </div>
       <div class="dummyMarginIdpwFind4"></div>
     </div>
     <div class="dummyMarginIdpwFind2"></div>
+    <label for="idFindstate" class="labelInIdpwFind" v-if="idResultShow"
+      >아이디는
+      <div id="showID">{{ userid }}</div>
+      입니다.</label
+    >
+    <label for="pwFindstate" class="labelInIdpwFind" v-if="pwResultShow">임시 비밀번호를 메일로 전송했습니다.</label>
   </div>
 </template>
 
@@ -65,15 +66,16 @@ export default {
       let user_email = document.getElementById("idFindEmailInputInIdpwFind").value;
       // console.log(user_name, user_email);
       axios
-        .post(this.$store.state.baseurl + "/api/member/chknic", {
+        .post(this.$store.state.baseurl + "member/findid", {
           name: user_name,
           email: user_email,
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             this.idResultShow = true;
             this.idFindWarningShow = false;
-            console.log("아이디 출력(userid)");
+            this.pwResultShow = false;
+            this.userid = response.data.userid;
           } else {
             this.idFindWarningShow = true;
             this.idResultShow = false;
@@ -87,15 +89,16 @@ export default {
       let user_email = document.getElementById("pwFindEmailInputInIdpwFind").value;
       // console.log(user_id, user_email);
       axios
-        .post(this.$store.state.baseurl + "/api/member/chknic", {
+        .post(this.$store.state.baseurl + "member/findpwd", {
           userid: user_id,
           email: user_email,
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             this.pwResultShow = true;
             this.pwFindWarningShow = false;
             console.log("비밀번호를 메일로 전송");
+            this.idResultShow = false;
           } else {
             this.pwFindWarningShow = true;
             this.pwResultShow = false;
@@ -108,13 +111,31 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  margin-bottom: 40px;
+}
+.height {
+  height: 40px;
+}
+.title h2 {
+  display: flex;
+  text-align: left;
+  color: #6667ab;
+  margin: 30px 0 10px 0;
+}
+
+.title > hr {
+  display: flex;
+  width: 180px;
+  margin: 0;
+  border: 0;
+  height: 3px;
+  background: #d0d1ff;
+}
 .idPwFindPage {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  left: 25%;
-  top: 37%;
+  position: relative;
   /* border: 3px solid aqua; */
+  margin: 8%;
   display: flex;
   flex-direction: column;
 }
@@ -184,6 +205,18 @@ export default {
   border-radius: 5px;
   border: 2px solid #d0d1ff;
   padding: 10px 5px;
+}
+#idFindNameInputInIdpwFind {
+  margin-bottom: 20px;
+}
+#idFindEmailInputInIdpwFind {
+  margin-bottom: 40px;
+}
+#pwFindIdInputInIdpwFind {
+  margin-bottom: 20px;
+}
+#pwFindEmailInputInIdpwFind {
+  margin-bottom: 40px;
 }
 #idFindInIdpwFindBtn {
   width: 100%;

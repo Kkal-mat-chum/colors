@@ -3,6 +3,7 @@ package com.ssafy.colors.database.entity;
 import com.ssafy.colors.enumdata.RoomStatus;
 import com.ssafy.colors.enumdata.RoomType;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = "topic")
+@ToString(exclude = {"host", "topic", "results"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder()
@@ -43,6 +44,10 @@ public class Room extends BaseEntity {
     @Column(name = "room_type", nullable = false)
     @Enumerated(EnumType.STRING)
     RoomType roomType;
+
+    @Column(name = "is_full" ,nullable = false)
+    @ColumnDefault("false")
+    boolean isFull;
 
     @Column(name = "cdate", nullable = false)
     LocalDateTime cDate;

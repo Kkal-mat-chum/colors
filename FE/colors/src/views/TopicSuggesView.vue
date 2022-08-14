@@ -6,11 +6,25 @@
         <i class="material-icons-outlined userIcon">account_circle</i>
       </div>
       <h2 class="topicTenTitle">토픽 제안 게시판</h2>
-      <TopicList class="topTenList" :isTopic="true">
-        <TopicArticle
+      <div class="selectbox">
+        <select class="select" v-model="sortTitle" @change="onChange">
+          <option disabled value="">정렬종류</option>
+          <option value="regDate">등록일</option>
+          <option value="recommand">추천수</option>
+        </select>
+        <select class="select" v-model="sort" @change="onChange">
+          <option disabled value="">정렬방식</option>
+          <option value="desc">내림차순</option>
+          <option value="asc">오름차순</option>
+        </select>
+      </div>
+
+      <topic-list class="topTenList" :isTopic="true">
+        <topic-article
           class="topicArticle"
           :isTopic="true"
-          v-for="topic in popics"
+          :isAdmin="isAdmin"
+          v-for="topic in topics"
           :key="topic.id"
           :topicId="topic.id"
           :topicArticleTitle="topic.title"
@@ -23,11 +37,20 @@
             }
           "
         />
-      </TopicList>
+      </topic-list>
       <div class="topTenBottomLine">
-        <customButton btnText="돌아가기" />
-        <TopicPagenation :pageNumber="maxPageNum" :currentPage="currentPageNum"></TopicPagenation>
-        <customButton btnText="토픽 제안하기" />
+        <customButton btnText="돌아가기" @click="go" />
+        <div class="panpmgenationContainer">
+          <i class="material-symbols-rounded">keyboard_double_arrow_left</i>
+          <i class="fa-solid fa-caret-left"></i>
+          <customButton v-for="page in pages" :key="page" :btnText="page" @click="next(page)"></customButton>
+          <i class="fa-solid fa-caret-right"></i>
+          <i class="material-symbols-rounded">keyboard_double_arrow_right</i>
+        </div>
+        <customButton btnText="토픽 제안하기" @click="showModal = true" />
+        <custom-modal class="suggestTopicModal" id="suggestTopicModal" v-show="showModal" @close-modal="showModal = false" titleText="Topic 제안">
+          <cotent><suggest-modal></suggest-modal></cotent>
+        </custom-modal>
       </div>
     </div>
   </div>
@@ -36,40 +59,81 @@
 <script>
 import TopicList from "@/components/topic/topicList.vue";
 import TopicArticle from "@/components/topic/topicArticle.vue";
-import TopicPagenation from "@/components/topic/topicPagenation.vue";
+import SuggestModal from "@/components/topic/topicSuggest.vue";
 import axios from "axios";
 
 export default {
-  components: { TopicList, TopicArticle, TopicPagenation },
+  components: { TopicList, TopicArticle, SuggestModal },
   data() {
     return {
-      topics: Array,
-      currentPageNum: {
-        type: Number,
-        default: 0,
-      },
-      sorting: {
-        type: String,
-        default: "desc",
-      },
-      maxPageNum: Number,
+      topics: null,
+      currentPageNum: 0,
+      sorting: "regDate,desc",
+      maxPageNum: 0,
+      showModal: false,
+      userName: sessionStorage.getItem("userName"),
+      pages: null,
+      sortTitle: "regDate",
+      sort: "desc",
+      isAdmin: false,
     };
   },
   mounted() {
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    var userId = memberData.data.id;
     axios
-      .post(this.$store.state.baseurl + "/api/topic/list", {
-        page: this.currentPageNum,
-        sort: this.sorting,
+      .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+        userId: userId,
+        keyword: "",
       })
       .then((response) => {
-        if (response.message == "access") {
+        if (!(response.data.message == "fail")) {
           console.log(response.data);
           this.maxPageNum = response.data.maxpage;
           this.topics = response.data.topics;
+          var pageDecimical = parseInt(this.currentPage / 10);
+          if (sessionStorage.getItem("memberData").authGrade == true) {
+            this.isAdmin = true;
+          }
+          if (this.currentPage > 10) {
+            // eslint-disable-next-line vue/no-mutating-props
+            this.maxPageNum = this.maxPageNum % 10;
+            // console.log(pageDecimical);
+            this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + pageDecimical * 10 + "");
+          } else {
+            this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + "");
+          }
         }
       });
   },
   methods: {
+    onChange() {
+      this.sorting = this.sortTitle + "," + this.sort;
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      var userId = memberData.data.id;
+      axios
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+          userId: userId,
+          keyword: "",
+        })
+        .then((response) => {
+          if (!(response.data.message == "fail")) {
+            console.log(response.data);
+            this.maxPageNum = response.data.maxpage;
+            this.topics = response.data.topics;
+
+            var pageDecimical = parseInt(this.currentPage / 10);
+            if (this.currentPage > 10) {
+              // eslint-disable-next-line vue/no-mutating-props
+              this.maxPageNum = this.maxPageNum % 10;
+              // console.log(pageDecimical);
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + pageDecimical * 10 + "");
+            } else {
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + "");
+            }
+          }
+        });
+    },
     clikeLike(topic) {
       topic.cnt = topic.cnt + 1;
       topic.recommnd = !topic.recommnd;
@@ -78,11 +142,55 @@ export default {
       topic.cnt = topic.cnt - 1;
       topic.recommnd = !topic.recommnd;
     },
+    go() {
+      this.$router.push("/enterPage");
+    },
+    next(page) {
+      this.currentPageNum = page - 1;
+
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      var userId = memberData.data.id;
+
+      axios
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+          userId: userId,
+          keyword: "",
+        })
+        .then((response) => {
+          if (!(response.data.message == "fail")) {
+            console.log(response.data);
+            this.maxPageNum = response.data.maxpage;
+            this.topics = response.data.topics;
+
+            var pageDecimical = parseInt(this.currentPage / 10);
+            if (this.currentPage > 10) {
+              // eslint-disable-next-line vue/no-mutating-props
+              this.maxPageNum = this.maxPageNum % 10;
+              // console.log(pageDecimical);
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + pageDecimical * 10 + "");
+            } else {
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + "");
+            }
+          }
+        });
+    },
   },
 };
 </script>
 
 <style scoped>
+.select {
+  margin-left: 5px;
+  border: 2px #d0d1ff solid;
+  border-radius: 3px;
+  width: 80px;
+  height: 30px;
+}
+.selectbox {
+  margin-left: 50px;
+  margin-bottom: 10px;
+  text-align: left;
+}
 .contentWindow {
   margin-left: 130px;
   min-height: 90vh;
@@ -136,5 +244,17 @@ export default {
 .topTenBottomLine button {
   font-family: "Pretendard ExtraBold";
   flex-basis: 15%;
+}
+.pagenationContainer {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.pagenationContainer i {
+  font-size: 36px;
+  color: #d0d1ff;
+}
+.pagenationContainer i:hover {
+  color: #6667ab;
 }
 </style>

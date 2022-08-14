@@ -1,6 +1,5 @@
 <template>
   <div>
-    <customSidebar />
     <div class="contentWindow">
       <div class="userInfo">
         {{ userName }}님 환영합니다!
@@ -8,11 +7,11 @@
       </div>
       <h2 class="topicTenTitle">이번주 토픽 TOP 10</h2>
       <TopicList class="topTenList" :isEnter="true">
-        <TopicArticle class="topicArticle" :isEnter="true" v-for="topic in popics" :key="topic.id" :topicId="topic.id" :topicArticleTitle="topic.title" />
+        <TopicArticle class="topicArticle" :isEnter="true" v-for="topic in topics" :key="topic.id" :topicId="topic.id" :topicArticleTitle="topic.title" />
       </TopicList>
       <div class="topTenBottomLine">
-        <customButton btnText="돌아가기" />
-        <customButton btnText="토픽 제안하기" />
+        <customButton btnText="돌아가기" @click="exit" />
+        <customButton btnText="토픽 제안게시판으로 이동" @click="topicGo" />
       </div>
     </div>
   </div>
@@ -31,14 +30,24 @@ export default {
         type: Number,
         default: 0,
       },
+      userName: sessionStorage.getItem("userName"),
+      showModal: false,
     };
   },
   mounted() {
-    axios.get(this.$store.state.baseurl + "/api/topic/top10").then((response) => {
+    axios.get(this.$store.state.baseurl + "topic/top10").then((response) => {
       console.log(response.data);
       this.currentTopicNum = response.data.maxpage;
       this.topics = response.data.topics;
     });
+  },
+  methods: {
+    exit() {
+      this.$router.go(-1);
+    },
+    topicGo() {
+      this.$router.push("/topicBoard");
+    },
   },
 };
 </script>

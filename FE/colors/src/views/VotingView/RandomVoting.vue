@@ -8,7 +8,7 @@
           <time-stamp></time-stamp>
         </div>
         <div class="titleColorVote">
-          <label for="nameColorVote" class="labelColorVote" id="nameColorVote">{{ sub_name }}</label>
+          <label for="nameColorVote" class="labelColorVote" id="nameColorVote">{{ sub_nickname }}</label>
           <label for="colorVoteTitle" class="labelColorVote"> 과(와) 가장 어울리는 색을 선택하세요.</label>
         </div>
         <div class="sidelabelColorVote">{{ vote_round }}/{{ cnt }}</div>
@@ -33,8 +33,6 @@ export default {
   },
   data() {
     return {
-      // cnt: this.$store.state.resultStore.cnt,
-      // voteRound: this.$store.state.resultStore.voteRound,
       selectedLst: [],
       show_loadingimg: false,
     };
@@ -46,16 +44,9 @@ export default {
     vote_round() {
       return this.$store.state.resultStore.voteRound;
     },
-    sub_name() {
-      return this.$store.state.resultStore.data[this.vote_round - 1].name;
+    sub_nickname() {
+      return this.$store.state.resultStore.data[this.vote_round - 1].nickname;
     },
-    // show_loadingimg() {
-    //   if (this.cnt < this.vote_round) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // },
   },
   watch: {
     vote_round(value) {
@@ -75,7 +66,7 @@ export default {
         console.log("로딩창 끔");
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
         this.bringTotalResult();
-        this.$router.push("/nameresult");
+        this.$router.push("/nickresult");
       }, 3000);
     },
     onLoadingImg() {

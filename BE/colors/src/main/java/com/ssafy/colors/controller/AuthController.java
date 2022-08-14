@@ -1,6 +1,8 @@
 package com.ssafy.colors.controller;
 
+import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.request.LoginReq;
+import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.service.AuthService;
 import com.ssafy.colors.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +26,23 @@ public class AuthController {
 
     @Autowired
     JWTUtil jwtUtil;
+
     // Login
     @PostMapping("/login")
-    public ResponseEntity<HashMap> login(@RequestBody LoginReq user){
+    public ResponseEntity<HashMap> login(@RequestBody LoginReq user) {
         System.out.println("[POST] - auth/login");
         System.out.println(user.getUserId());
         System.out.println(user.getPassword());
 
         String result = "fail";
         HashMap<String, Object> resultmap = new HashMap<>();
-        if(authService.login(user)){
+        Map<String, Object> loginresult = authService.login(user);
+        if ((boolean) loginresult.get("result")) {
             result = "success";
             resultmap.put("access-token", jwtUtil.createAccessToken(user.getUserId()));
+            resultmap.put("member", (MemberRes) loginresult.get("member"));
         }
-        resultmap.put("message",result);
+        resultmap.put("message", result);
 
         return new ResponseEntity<>(resultmap, HttpStatus.OK);
     }
@@ -51,7 +56,7 @@ public class AuthController {
         String email = (String) params.get("email");
         String code = authService.generateAndSendAuthCode(email);
 
-        if(code != null) {
+        if (code != null) {
             result.put("message", SUCCESS);
             result.put("authcode", code);
         } else {

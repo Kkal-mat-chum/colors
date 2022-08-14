@@ -9,9 +9,9 @@
         <label for="updateUserPwlabel" class="modifyLabel">비밀번호</label>
       </div>
       <div class="modifyInputs">
-        <input type="text" class="modifyInput" id="updateUserNickLabel" placeholder="닉네임을 입력해주세요." />
-        <input type="text" class="modifyInput" id="updateUserNameLabel" placeholder="이름을 입력해주세요." />
-        <input type="text" class="modifyInput" id="updateUserEmailLabel" placeholder="현재 이메일" />
+        <input type="text" class="modifyInput" id="updateUserNickLabel" v-model="userNickname" placeholder="닉네임을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserNameLabel" v-model="userName" placeholder="이름을 입력해주세요." />
+        <input type="text" class="modifyInput" id="updateUserEmailLabel" v-model="userEmail" placeholder="현재 이메일" readonly />
         <input type="password" class="modifyPwInput" id="updateUserPwLabel" placeholder="비밀번호를 입력해주세요." />
       </div>
       <div class="modifyButtons">
@@ -22,7 +22,7 @@
     <div class="update3">
       <div class="UpdateUserdummyMargin3"></div>
       <div class="modifyBottomBtns">
-        <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="testClick">testButton</customButton>
+        <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="updateMemberInfo">testButton</customButton>
         <div class="a">
           <div class="removeUser"></div>
           <div class="update3_row2">
@@ -55,31 +55,66 @@ export default {
     return {
       updatePwShowModal: false,
       deleteShowModal: false,
+      memberData: null,
+      userNickname: "",
+      userName: "",
+      userEmail: "",
     };
   },
+  mounted() {
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    this.userNickname = memberData.data.nickname;
+    this.userName = memberData.data.name;
+    this.userEmail = memberData.data.email;
+    document.getElementById("updateUserPwLabel").value = "";
+  },
   methods: {
-    testClick() {
-      console.log("123");
-    },
     //회원정보 수정
     updateMemberInfo() {
-      let userid = this.$store.state.member_id;
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      let userid = memberData.data.userId;
       let newNickName = document.getElementById("updateUserNickLabel").value;
       let newName = document.getElementById("updateUserNameLabel").value;
-      let userPassword = document.getElementById("updateUserNameLabel").value;
-      console.log(newNickName, newName);
+      let userPassword = document.getElementById("updateUserPwLabel").value;
+
+      console.log(userid, newNickName, newName, userPassword);
+      if (this.nick_validation) {
+        axios
+          .put(this.$store.state.baseurl + "member/changeinfo", {
+            userid: userid,
+            password: userPassword,
+            nickname: newNickName,
+            name: newName,
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.data.message == "success") {
+              alert("정보 수정이 완료되었습니다.");
+            } else {
+              alert("수정에 실패하였습니다.");
+            }
+          });
+      } else {
+        alert("닉네임 중복 검사가 필요합니다.");
+      }
+    },
+    checkDuplicateNickname() {
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      let new_nickname = document.getElementById("updateUserNickLabel").value;
+      var userNickname = memberData.data.nickname;
       axios
-        .post(this.$store.state.baseurl + "/api/member/changeinfo", {
-          userid: userid,
-          nickname: newNickName,
-          name: newName,
-          password: userPassword,
+        .post(this.$store.state.baseurl + "member/chknic", {
+          input_nickname: new_nickname,
         })
         .then((response) => {
-          if (response.message == "success") {
-            console.log("비밀번호를 메일로 전송");
-          } else {
-            console.log("아이디와 이메일을 다시 확인해주세요.");
+          console.log(userNickname, ":", new_nickname);
+          console.log(response.data.message);
+          if (userNickname == new_nickname || response.data.message == "not-duplicated") {
+            alert("닉네임 사용 가능");
+            this.nick_validation = true;
+          } else if (!(this.userNickname == new_nickname) || response.data.message == "duplicated") {
+            this.nick_validation = false;
+            alert("중복된 닉네임");
           }
         });
     },
@@ -95,8 +130,8 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: -70px 0 0 100px;
-  width: 537.75px;
+  margin: -60px 0 0 100px;
+  width: 75%;
   height: 558px;
   /* width: 35%;
   height: 75%; */
