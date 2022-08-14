@@ -157,24 +157,24 @@ export default {
         })
         .then((response) => {
           console.log(response);
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             alert("전송 실패");
           } else {
             if (this.$store.state.resultStore.cnt > 1) {
               //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
               for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
-                if (response.data[idx].voter != sessionStorage.getItem("userName")) {
-                  this.voteLst.push(response.data[idx]);
+                if (response.data.data[idx].voter != sessionStorage.getItem("userName")) {
+                  this.voteLst.push(response.data.data[idx]);
                 } else {
                   //본인이 선택한 내용
-                  this.mypickurl = response.data[idx].url;
-                  this.mypickcolor = response.data[idx].code;
+                  this.mypickurl = response.data.data[idx].url;
+                  this.mypickcolor = response.data.data[idx].code;
                 }
               }
             } else {
               //개인일때, top1에 data내용 저장
-              this.mypickurl = response.data.url;
-              this.mypickcolor = response.data.coed;
+              this.mypickurl = response.data.data.url;
+              this.mypickcolor = response.data.data.coed;
             }
           }
         });
@@ -188,7 +188,7 @@ export default {
       //       })
       //       .then((response) => {
       //         console.log(response);
-      //         if (response.message == "fail") {
+      //         if (response.data.message == "fail") {
       //           alert("전송 실패");
       //         }
       //       });

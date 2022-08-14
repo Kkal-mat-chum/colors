@@ -149,17 +149,17 @@ export default {
         })
         .then((response) => {
           console.log(response);
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             alert("전송 실패");
           } else {
             //랜덤미팅은 항상 여러명임
             for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
-              if (response.data[idx].voter != sessionStorage.getItem("userNick")) {
-                this.voteLst.push(response.data[idx]);
+              if (response.data.data[idx].voter != sessionStorage.getItem("userNick")) {
+                this.voteLst.push(response.data.data[idx]);
               } else {
                 //본인이 선택한 내용
-                this.mypickurl = response.data[idx].url;
-                this.mypickcolor = response.data[idx].code;
+                this.mypickurl = response.data.data[idx].url;
+                this.mypickcolor = response.data.data[idx].code;
               }
             }
           }

@@ -117,7 +117,7 @@ export default {
         // console.log(this.$store.state.tournamentResultLst);
         // 토너먼트 결과 저장 put
         this.saveVoteResult();
-        this.bringTotalResult();
+        // this.bringTotalResult();
         this.$router.push("/tournamentnameresult");
         // this.processed = "끗";
       }
@@ -136,8 +136,9 @@ export default {
           console.log(response);
           if (response.data.message == "fail") {
             alert("전송 실패");
+          } else if (response.data.message == "success") {
+            this.bringTotalResult();
           }
-          //fail이면 alert 해야하나요..?
         });
     },
     //각 투표 합산put -> 투표 결과 가져오기get

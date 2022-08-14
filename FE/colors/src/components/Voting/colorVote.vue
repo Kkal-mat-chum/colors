@@ -123,10 +123,10 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          console.log(response.message); //성공여부 확인 로그
+          console.log(response.data.message); //성공여부 확인 로그
           this.$store.state.resultStore.aloneResult = response;
-          this.$store.state.resultStore.data = response.data;
-          this.$store.state.resultStore.cnt = response.cnt;
+          this.$store.state.resultStore.data = response.data.data;
+          this.$store.state.resultStore.cnt = response.data.cnt;
           console.log("참여자 수");
           console.log(this.$store.state.resultStore.cnt);
         });
@@ -183,9 +183,9 @@ export default {
         })
         .then((response) => {
           console.log(response);
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             alert("전송 실패");
-          } else if (response.message == "success") {
+          } else if (response.data.message == "success") {
             this.bringTotalResult();
           }
         });
@@ -197,15 +197,15 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             axios
               .get(this.$store.state.baseurl + "room/vote", {
                 roomid: sessionStorage.getItem("roomId"),
                 userid: sessionStorage.getItem("userId"),
               })
               .then((response) => {
-                if (response.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data;
+                if (response.data.message == "success") {
+                  this.$store.state.resultStore.totalResultData = response.data.data;
                 } else {
                   alert("투표결과가져오기 실패");
                 }
