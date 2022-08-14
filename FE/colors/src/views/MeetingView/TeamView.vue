@@ -337,15 +337,20 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        let userNumber = this.session.streamManager.length;
-        let pull = this.mySessionId;
-        if (userNumber == 6) {
-          this.$store.dispatch("pullRoom", pull);
-        } else {
-          console.log(this.session);
-          const subscriber = this.session.subscribe(stream);
-          this.subscribers.push(subscriber);
-        }
+        // let userNumber = this.session.streamManager.length;
+        // let pull = this.mySessionId;
+        // console.log(this.session);
+        // console.log(1231311231);
+        // console.log(userNumber);
+        // if (userNumber == 6) {
+        //   this.$store.dispatch("pullRoom", pull);
+        // } else {
+        //   console.log(this.session);
+        //   const subscriber = this.session.subscribe(stream);
+        //   this.subscribers.push(subscriber);
+        // }
+        const subscriber = this.session.subscribe(stream);
+        this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...
@@ -400,15 +405,34 @@ export default {
           .catch((error) => {
             console.log("There was an error connecting to the session:", error.code, error.message);
           });
+        console.log(this.getSession(this.mySessionId));
       });
 
       window.addEventListener("beforeunload", this.leaveSession);
     },
-
+    getSession(sessionId) {
+      var connectionsNumber = 0;
+      axios
+        .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
+          auth: {
+            username: "OPENVIDUAPP",
+            password: OPENVIDU_SERVER_SECRET,
+          },
+        })
+        .then((response) => {
+          connectionsNumber = response.data.connections.numberOfElements;
+          console.log(response.data.connections.numberOfElements);
+          if (response.data.connections.numberOfElements == 6) {
+            let pull = this.mySessionId;
+            this.$store.dispatch("pullRoom", pull);
+          }
+        });
+      return connectionsNumber;
+    },
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        if (this.session.streamManager.length == 6) {
+        if (this.getSession(this.mySessionId) == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
         }
         this.session.disconnect();
