@@ -132,7 +132,10 @@ export default {
 
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.disconnect();
+      if (this.session) {
+        this.session.disconnect();
+        console.log("session disconnected");
+      }
 
       this.session = undefined;
       this.mainStreamManager = undefined;

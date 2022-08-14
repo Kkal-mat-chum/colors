@@ -155,7 +155,13 @@ export default {
   mounted() {
     console.log(this.subscribers);
   },
-
+  beforeRouteLeave(to, from, next) {
+    this.leaveSession();
+    setTimeout(() => {
+      next();
+      this.$router.go();
+    }, 100);
+  },
   methods: {
     ...mapActions(["toggleChatPanel"]),
     leaveMeeting() {
@@ -395,7 +401,7 @@ export default {
 
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.disconnect();
+      if (this.session) this.session.forceDisconnect();
 
       this.session = undefined;
       this.mainStreamManager = undefined;

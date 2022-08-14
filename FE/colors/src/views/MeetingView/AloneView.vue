@@ -112,6 +112,13 @@ export default {
       });
     });
   },
+  beforeRouteLeave(to, from, next) {
+    this.$refs.camStream.leaveSession();
+    setTimeout(() => {
+      next();
+      this.$router.go();
+    }, 100);
+  },
   methods: {
     muteAudio() {
       console.log(this.publishAudio);
