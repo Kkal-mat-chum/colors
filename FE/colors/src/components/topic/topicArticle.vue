@@ -4,7 +4,7 @@
     <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic">delete</span>
     <span class="material-symbols-rounded topicLike" v-if="isTopic & recommend" @click="clickLike">favorite</span>
     <span class="material-symbols-rounded topicLike" v-if="isTopic & !recommend" @click="clickUnLike">favorite</span>
-    <customButton class="topicEnterButton" btnText="입장하기" v-if="isEnter"></customButton>
+    <customButton class="topicEnterButton" btnText="입장하기" @click="topicRoom" v-if="isEnter"></customButton>
   </div>
 </template>
 
@@ -59,6 +59,12 @@ export default {
           this.$emit("clickUnlike", this.cnt - 1);
         }
       });
+    },
+    topicRoom() {
+      let topicId = {
+        topic_id: this.topicId,
+      };
+      this.$store.dispatch("topicMeetingRoom", topicId);
     },
   },
 };
