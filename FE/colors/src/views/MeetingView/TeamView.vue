@@ -112,7 +112,7 @@ export default {
       subscribers: [],
 
       mySessionId: sessionStorage.getItem("roomId"),
-      myUserName: "testName",
+      myUserName: JSON.parse(sessionStorage.getItem("memberData")).data.nickname,
       modelRgba: "",
       modelHex: "",
       r: 0,
@@ -125,7 +125,7 @@ export default {
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
-      memberData: JSON.parse(sessionStorage.getItem("memberData")),
+      memberData: JSON.parse(sessionStorage.getItem("memberData")).data,
       roomHeaderTitle: "",
       roomHeaderData: "",
     };
@@ -135,11 +135,11 @@ export default {
     this.setText();
     if (this.$store.state.meetingStore.roomType == "group") {
       this.roomHeaderTitle = "미팅 코드";
-      this.roomHeaderData = sessionStorage.getItem("sessionCode");
+      this.roomHeaderData = sessionStorage.getItem("roomId");
       this.myUserName = this.memberData.name;
     } else if (this.$store.state.meetingStore.roomType == "random") {
       this.roomHeaderTitle = "미팅 주제";
-      this.roomHeaderData = this.$store.state.meetingStore.groupUsers.title;
+      this.roomHeaderData = sessionStorage.getItem("toppicTitle");
       this.myUserName = this.memberData.nickname;
     }
   },
@@ -337,15 +337,8 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        let userNumber = this.session.streamManager.length;
-        let pull = this.mySessionId;
-        if (userNumber == 6) {
-          this.$store.dispatch("pullRoom", pull);
-        } else {
-          console.log(this.session);
-          const subscriber = this.session.subscribe(stream);
-          this.subscribers.push(subscriber);
-        }
+        const subscriber = this.session.subscribe(stream);
+        this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...
@@ -502,7 +495,7 @@ export default {
     },
     exit() {
       this.$router.push("/enterPage");
-      this.$router.go();
+      // this.$router.go();
     },
   },
 };

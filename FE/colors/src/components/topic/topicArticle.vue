@@ -66,6 +66,7 @@ export default {
       let topicId = {
         topic_id: this.topicId,
       };
+      sessionStorage.setItem("toppicTitle", this.topicArticleTitle);
       this.$store.dispatch("topicMeetingRoom", topicId);
     },
   },
