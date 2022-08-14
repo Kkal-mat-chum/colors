@@ -41,6 +41,7 @@ export default {
       customBorderColor5: "#d0d1ff",
       customBorderColor6: "#d0d1ff",
       customBorderColor7: "#d0d1ff",
+      // addData: "",
     };
   },
   computed: {
@@ -116,33 +117,35 @@ export default {
   methods: {
     //미팅 결과 가져오기, store에 저장
     getResult() {
-      console.log("미팅 결과 가져오기");
+      console.log(sessionStorage.getItem("roomNum"));
       axios
-        .get(this.$store.state.memberStore.baseurl + "/api/room/result", {
-          roomid: sessionStorage.getItem("roomId"),
+        .post(this.$store.state.baseurl + "room/getresult", {
+          roomid: sessionStorage.getItem("roomNum"),
         })
         .then((response) => {
-          console.log(response.message); //성공여부 확인 로그
-          this.$store.state.resultStore.aloneResult = response;
-          this.$store.state.resultStore.data = response.data;
-          this.$store.state.resultStore.cnt = response.cnt;
+          console.log(response.data.message); //성공여부 확인 로그
+          this.$store.state.resultStore.aloneResult = response.data;
+          this.$store.state.resultStore.data = response.data.data;
+          this.$store.state.resultStore.cnt = response.data.cnt;
           console.log("참여자 수");
           console.log(this.$store.state.resultStore.cnt);
         });
     },
-    testClick() {
-      console.log(this.$store.state.resultStore.voteRound);
-      this.$store.state.resultStore.voteRound++;
-    },
     //다음 라운드로 넘어가기
     nextRound() {
       if (this.rest_time == 0) {
-        // if (this.now_round < 6) {
-        // console.log("hihihihihi");
-        this.selectedLst.push({ targetid: this.$store.state.data[this.now_idx].id, code: this.nowSelected });
+        //현재 선택한거 리스트에 추가
+        var addData = new Object();
+        addData.targetid = this.$store.state.resultStore.data[this.now_idx].id;
+        addData.code = this.nowSelected;
+        addData = JSON.stringify(addData);
+        this.selectedLst.push(JSON.parse(addData));
+        this.$store.state.resultStore.voteContent = this.selctedLst;
+        // this.addData = { targetid: this.$store.state.data[this.now_idx].id, code: this.nowSelected };
+        // this.selectedLst.push(JSON.parse(JSON.stringify(this.addData)));
+        // this.selectedLst.push(this.nowSelected);
         this.$store.state.resultStore.voteRound++;
-        this.nowSelected = "";
-        console.log(this.selectedLst);
+        this.nowSelected = ""; //선택한거 초기화
         this.customBorderColor0 = "#d0d1ff";
         this.customBorderColor1 = "#d0d1ff";
         this.customBorderColor2 = "#d0d1ff";
@@ -166,11 +169,11 @@ export default {
     },
     //투표 결과 저장(개인)
     saveVoteResult() {
-      console.log("결과 전송");
+      console.log(sessionStorage.getItem("memberId"));
       console.log(this.nowSelected);
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
-          roomid: sessionStorage.getItem("roomId"),
+        .put(this.$store.state.baseurl + "room/vote", {
+          roomid: sessionStorage.getItem("roomNum"),
           userid: sessionStorage.getItem("memberId"),
           code: this.nowSelected,
         })
@@ -178,6 +181,31 @@ export default {
           console.log(response);
           if (response.message == "fail") {
             alert("전송 실패");
+          } else if (response.message == "success") {
+            this.bringTotalResult();
+          }
+        });
+    },
+    //각 투표 합산put -> 투표 결과 가져오기get
+    bringTotalResult() {
+      axios
+        .put(this.$store.state.baseurl + "room/votesum", {
+          roomid: sessionStorage.getItem("roomId"),
+        })
+        .then((response) => {
+          if (response.message == "success") {
+            axios
+              .get(this.$store.state.baseurl + "room/vote", {
+                roomid: sessionStorage.getItem("roomId"),
+                userid: sessionStorage.getItem("userId"),
+              })
+              .then((response) => {
+                if (response.message == "success") {
+                  this.$store.state.resultStore.totalResultData = response.data;
+                } else {
+                  alert("투표결과가져오기 실패");
+                }
+              });
           }
         });
     },

@@ -3,7 +3,7 @@
     <custom-sidebar></custom-sidebar>
     <div class="mainPicture">
       <!-- <div class="picture1" :style="resultTournColor" id="tournResult10" @click="test"></div> -->
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture1" />
+      <img :src="top1" class="picture1" />
       <div class="titleColor">
         {{ finalWinColor }}
         <!-- <div>컬러네임</div> -->
@@ -88,7 +88,7 @@
       <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" /> -->
     </div>
     <div class="button">
-      <custom-button btnText="닫 기" class="buttonStyle"></custom-button>
+      <custom-button btnText="닫 기" class="buttonStyle" @click="go"></custom-button>
     </div>
     <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
   </div>
@@ -106,8 +106,9 @@ export default {
     // this.saveVoteResult();
   },
   methods: {
-    test() {
-      console.log(this.$store.state.tournamentResultLst[14]);
+    go() {
+      this.$router.push("/enterPage");
+      this.$router.go();
     },
     // saveVoteResult() {
     //   console.log("결과 전송");
@@ -149,6 +150,10 @@ export default {
     },
     finalWinColor() {
       return this.$store.state.tournamentResultLst[14];
+    },
+    top1() {
+      console.log(this.$store.state.resultStore.totalResultTop1.url);
+      return this.$store.state.resultStore.totalResultTop1.url;
     },
   },
 };

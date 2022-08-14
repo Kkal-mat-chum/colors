@@ -28,7 +28,7 @@ export default {
       let userid = memberData.data.userId;
       let title = document.getElementById("topicInput").value;
       axios
-        .post(this.$store.state.baseurl + "api/topic", {
+        .post(this.$store.state.baseurl + "topic", {
           writer: userid,
           title: title,
         })

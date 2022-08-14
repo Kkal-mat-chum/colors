@@ -7,8 +7,8 @@
         </div>
         <div class="name">{{ myUserName }}</div>
         <div class="buttons">
-          <customButton class="mute" btnText="음소거" @click="muteAudio"></customButton>
-          <customButton class="videostop" btnText="비디오 중지" @click="muteVideo"></customButton>
+          <customButton class="mute" :class="{ muteActive: publishAudio }" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" :class="{ muteActive: publishVideo }" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
 
         <div class="anotherPerson">
@@ -38,7 +38,7 @@
           <h2 class="code">{{ roomHeaderData }}</h2>
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <customButton class="btn" btnText="투표하기"></customButton>
-          <customButton class="btn" btnText="종료"></customButton>
+          <customButton class="btn" btnText="종료" @click="leaveMeeting"></customButton>
         </div>
       </div>
     </div>
@@ -111,7 +111,7 @@ export default {
       publisher: undefined,
       subscribers: [],
 
-      mySessionId: sessionStorage.getItem("sessionCode"),
+      mySessionId: sessionStorage.getItem("roomId"),
       myUserName: "testName",
       modelRgba: "",
       modelHex: "",
@@ -125,7 +125,7 @@ export default {
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
-      memberData: sessionStorage.getItem("memberData"),
+      memberData: JSON.parse(sessionStorage.getItem("memberData")),
       roomHeaderTitle: "",
       roomHeaderData: "",
     };
@@ -137,28 +137,37 @@ export default {
       this.roomHeaderTitle = "미팅 코드";
       this.roomHeaderData = sessionStorage.getItem("sessionCode");
       this.myUserName = this.memberData.name;
-    } else {
+    } else if (this.$store.state.meetingStore.roomType == "random") {
       this.roomHeaderTitle = "미팅 주제";
       this.roomHeaderData = this.$store.state.meetingStore.groupUsers.title;
       this.myUserName = this.memberData.nickname;
     }
   },
   beforeMount() {
+    if (this.publishAudio) {
+      this.$store.commit("changePublishAudio");
+    }
+    if (this.publishVideo) {
+      this.$store.commit("changePublishVideo");
+    }
     this.joinSession();
   },
   mounted() {
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
     console.log(this.subscribers);
   },
-
+  beforeRouteLeave(to, from, next) {
+    this.leaveSession();
+    setTimeout(() => {
+      next();
+      this.$router.go();
+    }, 100);
+  },
   methods: {
     ...mapActions(["toggleChatPanel"]),
+    leaveMeeting() {
+      this.leaveSession();
+      this.$router.push("/enterPage");
+    },
     showOneSelectedColor() {
       if (this.count_pallete < 8) {
         this.modelHex = this.rgb2hex(this.rgba, true);
@@ -167,7 +176,6 @@ export default {
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
-
         var name = this.modelHex;
         var awsid = this.awsid;
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
@@ -329,8 +337,15 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        const subscriber = this.session.subscribe(stream);
-        this.subscribers.push(subscriber);
+        let userNumber = this.session.streamManager.length;
+        let pull = this.mySessionId;
+        if (userNumber == 6) {
+          this.$store.dispatch("pullRoom", pull);
+        } else {
+          console.log(this.session);
+          const subscriber = this.session.subscribe(stream);
+          this.subscribers.push(subscriber);
+        }
       });
 
       // On every Stream destroyed...
@@ -391,8 +406,13 @@ export default {
     },
 
     leaveSession() {
-      // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.disconnect();
+      // --- Leave the session by calling 'disconnect' method over the Session object --->
+      if (this.session) {
+        if (this.session.streamManager.length == 6) {
+          this.$store.dispatch("leaveSession", this.mySessionId);
+        }
+        this.session.disconnect();
+      }
 
       this.session = undefined;
       this.mainStreamManager = undefined;
@@ -480,6 +500,10 @@ export default {
           .catch((error) => reject(error.response));
       });
     },
+    exit() {
+      this.$router.push("/enterPage");
+      this.$router.go();
+    },
   },
 };
 </script>
@@ -514,6 +538,9 @@ body {
   width: 150px;
   height: 35px;
   margin-right: 20px;
+}
+.muteActive {
+  background-color: #bcbdfc;
 }
 .videostop {
   width: 150px;

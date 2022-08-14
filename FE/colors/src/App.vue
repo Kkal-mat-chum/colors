@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <CustomSidebar v-if="isLogin"></CustomSidebar>
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
@@ -16,16 +16,6 @@ export default {
       console.log(this.$store.getters.isLogin);
       return this.$store.getters.isLogin;
     },
-  },
-  beforeCreate() {
-    console.log("test localStroage");
-    console.log("test localStroage");
-    console.log("test localStroage");
-    console.log("test localStroage");
-    console.log(localStorage.getItem("isLogin"));
-  },
-  mounted() {
-    console.log(this.isLogin);
   },
 };
 </script>

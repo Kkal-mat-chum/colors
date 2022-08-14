@@ -74,6 +74,7 @@ export default {
         this.offLoadingImg();
         console.log("로딩창 끔");
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
+        this.bringTotalResult();
         this.$router.push("/nameresult");
       }, 3000);
     },
@@ -86,14 +87,38 @@ export default {
     //단체 투표 결과 저장
     saveTeamVoteResult() {
       axios
-        .post(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+        .post(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomId"),
           voterid: sessionStorage.getItem("memberId"),
-          content: "@@@@@@@@@@@@@@@@@@@@@@@@",
+          content: this.$store.state.resultStore.voteContent,
         })
         .then((response) => {
           if (response.message == "fail") {
             console.log("단체 미팅 결과 저장 실패");
+          }
+        });
+    },
+    //각 투표 합산put -> 투표 결과 가져오기get
+    bringTotalResult() {
+      axios
+        .put(this.$store.state.baseurl + "room/votesum", {
+          roomid: sessionStorage.getItem("roomId"),
+        })
+        .then((response) => {
+          if (response.message == "success") {
+            axios
+              .get(this.$store.state.baseurl + "room/vote", {
+                roomid: sessionStorage.getItem("roomId"),
+                userid: sessionStorage.getItem("userId"),
+              })
+              .then((response) => {
+                if (response.message == "success") {
+                  this.$store.state.resultStore.totalResultData = response.data;
+                  this.$store.state.resultStore.totalResultTop1 = response.Top1;
+                } else {
+                  alert("투표결과가져오기 실패");
+                }
+              });
           }
         });
     },

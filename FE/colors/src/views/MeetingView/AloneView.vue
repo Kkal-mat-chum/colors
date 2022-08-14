@@ -1,12 +1,11 @@
 <template>
   <div class="aloneMeeting">
-    <sidebar></sidebar>
     <div class="contents">
       <div class="camera">
-        <webcam id="webcam"></webcam>
+        <webcam id="webcam" ref="camStream"></webcam>
         <div class="buttons">
-          <customButton class="mute" btnText="음소거"></customButton>
-          <customButton class="videostop" btnText="비디오 중지"></customButton>
+          <customButton class="mute" :class="{ muteActive: publishAudio }" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" :class="{ muteActive: publishVideo }" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
       </div>
       <div class="rightSidebar">
@@ -19,8 +18,21 @@
           <colorchoice @changeColor="changeColor"></colorchoice>
         </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
-        <customButton class="votebtn" btnText="투표하기"></customButton>
-        <customButton class="exitbtn" btnText="종료"></customButton>
+        <customButton class="votebtn" btnText="투표하기" @click="goVote"></customButton>
+        <customButton class="exitbtn" btnText="종료" @click="exit"></customButton>
+        <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showModal" @close-modal="showModal = false" titleText="투표 방식 선택">
+          <cotent>
+            <div class="vote">
+              <div>
+                <customButton class="selectVotebtn" btnText="토너먼트 형식으로 투표하기" @click="goton"></customButton>
+              </div>
+              <div>
+                <customButton class="selectVotebtn" btnText="베스트 원픽 투표하기" @click="gobest"></customButton>
+              </div>
+              <div class="coment">토너먼트 형식 : 8강전부터 베스트 컬러 선택 <br />베스트 원픽 : 8개의 컬러 중 베스트 컬러 선택</div>
+            </div>
+          </cotent>
+        </custom-modal>
       </div>
     </div>
   </div>
@@ -28,17 +40,17 @@
 
 <script>
 import mixin from "@/components/videochat/colorPallete/mixin";
-import sidebar from "@/components/common/customSidebar.vue";
 import webcam from "@/components/videochat/webcamStream.vue";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import html2canvas from "html2canvas";
 import AWS from "aws-sdk";
+import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "aloneMeeting",
   components: {
-    sidebar,
     webcam,
     colorpallete,
     colorchoice,
@@ -58,7 +70,27 @@ export default {
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
+      showModal: false,
     };
+  },
+  mounted() {
+    this.r = 0;
+    this.g = 0;
+    this.b = 0;
+    this.a = 1;
+
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    let userid = memberData.data.id;
+    let roomnum = sessionStorage.getItem("roomNum");
+    console.log(roomnum);
+    axios
+      .put(this.$store.state.baseurl + "room/status", {
+        roomid: roomnum,
+        hostid: userid,
+      })
+      .then((response) => {
+        console.log(response);
+      });
   },
   computed: {
     rgba() {
@@ -76,6 +108,12 @@ export default {
         v: this.v,
       };
     },
+    publishAudio() {
+      return this.$store.getters.getPublishAudio;
+    },
+    publishVideo() {
+      return this.$store.getters.getPublishVideo;
+    },
   },
   created() {
     Object.assign(this, this.setColorValue(this.color));
@@ -89,7 +127,27 @@ export default {
       });
     });
   },
+  beforeRouteLeave(to, from, next) {
+    this.$refs.camStream.leaveSession();
+    setTimeout(() => {
+      next();
+      this.$router.go();
+    }, 100);
+  },
   methods: {
+    goton() {
+      router.push("/aloneTournament");
+    },
+    gobest() {
+      router.push("/aloneVoting");
+    },
+    muteAudio() {
+      console.log(this.publishAudio);
+      this.$refs.camStream.muteAudio();
+    },
+    muteVideo() {
+      this.$refs.camStream.muteVideo();
+    },
     // 선택한 색의 컬러코드를 store에 저장
     showOneSelectedColor() {
       if (this.count_pallete < 8) {
@@ -100,10 +158,13 @@ export default {
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
 
-        var name = this.modelHex;
+        var name = this.modelHex.substr(1);
+        console.log(name);
         var awsid = this.awsid;
+        var userid = sessionStorage.getItem("userId");
+        var count = this.count_pallete;
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
-          document.getElementById("webcam").appendChild(canvas);
+          // document.getElementById("webcam").appendChild(canvas);
           var img = canvas.toDataURL("image/jpeg");
 
           // base64 -> image file
@@ -121,44 +182,52 @@ export default {
 
           console.log(file);
 
-          // // s3 upload
-          // AWS.config.update({
-          //   region: "ap-northeast-2",
-          //   credentials: new AWS.CognitoIdentityCredentials({
-          //     IdentityPoolId: awsid,
-          //   }),
-          // });
+          // s3 upload
+          AWS.config.update({
+            region: "ap-northeast-2",
+            credentials: new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: awsid,
+            }),
+          });
 
-          // var s3 = new AWS.S3({
-          //   apiVersion: "2012-10-17",
-          //   params: {
-          //     Bucket: "ssafy7colors",
-          //   },
-          // });
+          var s3 = new AWS.S3({
+            apiVersion: "2012-10-17",
+            params: {
+              Bucket: "ssafy7colors",
+            },
+          });
 
-          // let photoKey = "/sdk/" + name + ".jpg";
+          var date = new Date();
+          var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+          var roomcode = sessionStorage.getItem("roomId");
 
-          // s3.upload(
-          //   {
-          //     Key: photoKey,
-          //     Body: file,
-          //     ACL: "public-read",
-          //   },
-          //   (err, data) => {
-          //     if (err) {
-          //       console.log(err);
-          //     }
-          //     alert("Successfully uploaded photo.");
-          //     console.log(data);
-          //   }
-          // );
+          let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + count + ".jpg";
+
+          s3.upload(
+            {
+              Key: photoKey,
+              Body: file,
+              ACL: "public-read",
+            },
+            (err, data) => {
+              if (err) {
+                console.log(err);
+              }
+              alert("Successfully uploaded photo.");
+              console.log(data);
+            }
+          );
         });
         // this.count++;
         this.count_pallete++;
       } else {
         alert("컬러 팔레트가 꽉찼습니다.");
       }
+    },
 
+    goVote() {
+      var awsid = this.awsid;
+      var userid = sessionStorage.getItem("userId");
       // file 가져오기
       AWS.config.update({
         region: "ap-northeast-2",
@@ -174,18 +243,51 @@ export default {
         },
       });
 
+      var date = new Date();
+      var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+      var roomcode = sessionStorage.getItem("roomId");
+
+      let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
+
+      console.log(photoKey);
+
       s3.listObjects(
         {
-          Delimiter: "//sdk",
+          Delimiter: "/",
+          Prefix: photoKey,
         },
         (err, data) => {
           if (err) {
             return alert("There was an error : " + err.message);
           } else {
-            console.log(data);
+            var colorsets = [];
+            var colorset = { url: "", code: "" };
+            this.lists = data.Contents;
+            this.lists.forEach((list) => {
+              var imgurl = "https://ssafy7colors.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+              var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
+              // console.log(code);
+              colorset = { url: imgurl, code: colorcode };
+              colorsets.push(colorset);
+            });
+            console.log(colorsets);
+            // 미팅 정보 db 저장
+            let roomnum = sessionStorage.getItem("roomNum");
+            let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+            let userid = memberData.data.id;
+            const colorsetResult = {
+              roomid: roomnum,
+              userid: userid,
+              colorset: colorsets,
+            };
+            console.log(colorsetResult);
+            axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
+              console.log(response);
+            });
           }
         }
       );
+      this.showModal = true;
     },
 
     dataURLtoFile(dataurl, fileName) {
@@ -215,6 +317,10 @@ export default {
       this.$store.state.g = this.g;
       this.$store.state.b = this.b;
     },
+    exit() {
+      this.$router.push("/enterPage");
+      // this.$router.go();
+    },
   },
 };
 </script>
@@ -224,6 +330,20 @@ html,
 body {
   height: 100vh;
   overflow: hidden;
+}
+.vote {
+  margin-top: 60px;
+}
+.selectVotebtn {
+  height: 50px;
+  width: 70%;
+  margin-top: 20px;
+}
+.coment {
+  text-align: right;
+  margin-top: 10%;
+  margin-right: 20px;
+  color: darkgray;
 }
 .contents {
   display: flex;
@@ -243,6 +363,9 @@ body {
 }
 .buttons {
   margin-top: 50px;
+}
+.muteActive {
+  background-color: #bcbdfc;
 }
 .mute {
   width: 150px;

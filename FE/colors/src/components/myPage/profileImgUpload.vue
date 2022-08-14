@@ -73,7 +73,7 @@ export default {
       // db 저장
 
       axios
-        .post(this.$store.state.baseurl + "api/member/changeimg", {
+        .post(this.$store.state.baseurl + "member/changeimg", {
           userid: userid,
           image_url: url,
         })

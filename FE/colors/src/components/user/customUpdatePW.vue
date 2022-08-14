@@ -58,7 +58,7 @@ export default {
       console.log(this.pwchangedouble_validation);
       if (this.pwchangedouble_validation) {
         axios
-          .put(this.$store.state.baseurl + "api/member/changepwd", {
+          .put(this.$store.state.baseurl + "member/changepwd", {
             userid: userid,
             password: newPassword,
           })

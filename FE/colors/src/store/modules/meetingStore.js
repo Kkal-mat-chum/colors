@@ -39,13 +39,12 @@ const meetingStore = {
   mutations: {
     SINGLE_MEETING(state, data) {
       state.singleUsers.push(data);
-      state.roomType = data.roomtype;
+      state.roomType = "single";
       sessionStorage.setItem("roomId", data.data.roomcode);
     },
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
-      state.roomType = data.roomtype;
-      sessionStorage.setItem("roomId", data.data.roomcode);
+      state.roomType = "group";
     },
     changePublishAudio(state) {
       state.publishAudio = !state.publishAudio;
@@ -70,9 +69,15 @@ const meetingStore = {
         method: "POST",
         data: params,
       }).then(({ data }) => {
-        commit("SINGLE_MEETING", data);
-        console.log(data.data.roomcode);
-        router.push("/alone/" + data.data.roomcode);
+        if (data.message == "success") {
+          commit("SINGLE_MEETING", data);
+          console.log(data.data);
+          sessionStorage.setItem("roomId", data.data.roomcode);
+          sessionStorage.setItem("roomNum", data.data.roomid);
+          router.push("/alone/" + data.data.roomcode);
+        } else {
+          alert("에러 발생 개발자 잘못입니다.. 죄송요 ㅠㅠ");
+        }
       });
     },
     groupMeeting({ commit }, params) {
@@ -80,14 +85,20 @@ const meetingStore = {
         url: `/room/join/group`,
         method: "POST",
         data: params,
-      }).then(({ data }) => {
-        commit("GOURP_MEETING", data);
-        if (data.data.message === "success") {
-          router.push("/group/" + sessionStorage.getItem("roomId"));
-        } else {
-          alert("입장코드를 다시 확인하세요.");
-        }
-      });
+      })
+        .then(({ data }) => {
+          console.log(data);
+          console.log(data.message);
+          commit("GOURP_MEETING", data);
+          if (data.message === "success") {
+            router.push("/team/" + sessionStorage.getItem("roomId"));
+          } else {
+            alert("입장코드를 다시 확인하세요.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     madeGroupMeeting({ commit }, params) {
       api({
@@ -96,6 +107,7 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("GOURP_MEETING", data);
+        sessionStorage.setItem("roomId", data.data.roomcode);
         router.push("/team/" + data.data.roomcode);
       });
     },
@@ -122,6 +134,40 @@ const meetingStore = {
         type: "chat",
         data: JSON.stringify(messageData),
         to: [],
+      });
+    },
+    topicMeetingRoom({ commit }, data) {
+      api({
+        url: `/room/join/random`,
+        method: "POST",
+        params: data,
+      }).then(({ data }) => {
+        if (data.message == "success") {
+          commit("TOPIC_MEETING", data);
+          console.log(data);
+          this.state.roomType = "random";
+          router.push("/team/" + sessionStorage.getItem("roomId"));
+        } else {
+          alert("방인원이 가득찼습니다.");
+        }
+      });
+    },
+    pullRoom(data) {
+      api({
+        url: `/room/capacity`,
+        method: "PUT",
+        params: data,
+      }).then(({ data }) => {
+        console.log(data);
+      });
+    },
+    leaveSession(data) {
+      api({
+        url: `/room/capacity`,
+        method: "PUT",
+        params: data,
+      }).then(({ data }) => {
+        console.log(data);
       });
     },
   },

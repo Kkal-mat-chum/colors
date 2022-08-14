@@ -6,10 +6,24 @@
         <i class="material-icons-outlined userIcon">account_circle</i>
       </div>
       <h2 class="topicTenTitle">토픽 제안 게시판</h2>
+      <div class="selectbox">
+        <select class="select" v-model="sortTitle" @change="onChange">
+          <option disabled value="">정렬종류</option>
+          <option value="regDate">등록일</option>
+          <option value="recommand">추천수</option>
+        </select>
+        <select class="select" v-model="sort" @change="onChange">
+          <option disabled value="">정렬방식</option>
+          <option value="desc">내림차순</option>
+          <option value="asc">오름차순</option>
+        </select>
+      </div>
+
       <topic-list class="topTenList" :isTopic="true">
         <topic-article
           class="topicArticle"
           :isTopic="true"
+          :isAdmin="isAdmin"
           v-for="topic in topics"
           :key="topic.id"
           :topicId="topic.id"
@@ -26,7 +40,7 @@
       </topic-list>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" @click="go" />
-        <div class="pagenationContainer">
+        <div class="panpmgenationContainer">
           <i class="material-symbols-rounded">keyboard_double_arrow_left</i>
           <i class="fa-solid fa-caret-left"></i>
           <customButton v-for="page in pages" :key="page" :btnText="page" @click="next(page)"></customButton>
@@ -59,14 +73,16 @@ export default {
       showModal: false,
       userName: sessionStorage.getItem("userName"),
       pages: null,
+      sortTitle: "regDate",
+      sort: "desc",
+      isAdmin: false,
     };
   },
   mounted() {
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     var userId = memberData.data.id;
-
     axios
-      .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+      .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
         userId: userId,
         keyword: "",
       })
@@ -75,8 +91,10 @@ export default {
           console.log(response.data);
           this.maxPageNum = response.data.maxpage;
           this.topics = response.data.topics;
-
           var pageDecimical = parseInt(this.currentPage / 10);
+          if (sessionStorage.getItem("memberData").authGrade == true) {
+            this.isAdmin = true;
+          }
           if (this.currentPage > 10) {
             // eslint-disable-next-line vue/no-mutating-props
             this.maxPageNum = this.maxPageNum % 10;
@@ -89,6 +107,33 @@ export default {
       });
   },
   methods: {
+    onChange() {
+      this.sorting = this.sortTitle + "," + this.sort;
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      var userId = memberData.data.id;
+      axios
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+          userId: userId,
+          keyword: "",
+        })
+        .then((response) => {
+          if (!(response.data.message == "fail")) {
+            console.log(response.data);
+            this.maxPageNum = response.data.maxpage;
+            this.topics = response.data.topics;
+
+            var pageDecimical = parseInt(this.currentPage / 10);
+            if (this.currentPage > 10) {
+              // eslint-disable-next-line vue/no-mutating-props
+              this.maxPageNum = this.maxPageNum % 10;
+              // console.log(pageDecimical);
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + pageDecimical * 10 + "");
+            } else {
+              this.pages = Array.from({ length: this.maxPageNum }, (item, index) => index + 1 + "");
+            }
+          }
+        });
+    },
     clikeLike(topic) {
       topic.cnt = topic.cnt + 1;
       topic.recommnd = !topic.recommnd;
@@ -107,7 +152,7 @@ export default {
       var userId = memberData.data.id;
 
       axios
-        .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
           userId: userId,
           keyword: "",
         })
@@ -134,6 +179,18 @@ export default {
 </script>
 
 <style scoped>
+.select {
+  margin-left: 5px;
+  border: 2px #d0d1ff solid;
+  border-radius: 3px;
+  width: 80px;
+  height: 30px;
+}
+.selectbox {
+  margin-left: 50px;
+  margin-bottom: 10px;
+  text-align: left;
+}
 .contentWindow {
   margin-left: 130px;
   min-height: 90vh;
