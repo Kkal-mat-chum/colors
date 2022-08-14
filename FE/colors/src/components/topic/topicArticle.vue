@@ -64,7 +64,7 @@ export default {
     },
     topicRoom() {
       let topicId = {
-        topic_id: this.topicId,
+        topicid: this.topicId,
       };
       console.log(topicId);
       this.$store.dispatch("topicMeetingRoom", topicId);
