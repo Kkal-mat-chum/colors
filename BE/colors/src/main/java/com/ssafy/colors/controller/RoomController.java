@@ -65,12 +65,47 @@ public class RoomController {
         System.out.println("[POST - /room/join/random]");
 
         Map<String, Object> result = new HashMap<>();
-        Long topicId = Long.parseLong(params.get("topic_id").toString());
+        Long topicId = Long.parseLong(params.get("topicid").toString());
 
-        List<String> roomList = roomService.findRandomRoomList(topicId);
+        String roomList = roomService.findRandomRoom(topicId);
 
         if(!roomList.isEmpty()) {
             result.put("data", roomList);
+            result.put("message", SUCCESS);
+        } else {
+            result.put("message", FAIL);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+//    @PostMapping("/join/random")
+//    public ResponseEntity<Map<String, Object>> joinRandomMeeting(@RequestBody Map<String, Object> params) {
+//        System.out.println("[POST - /room/join/random]");
+//
+//        Map<String, Object> result = new HashMap<>();
+//        Long topicId = Long.parseLong(params.get("topic_id").toString());
+//
+//        List<String> roomList = roomService.findRandomRoomList(topicId);
+//
+//        if(!roomList.isEmpty()) {
+//            result.put("data", roomList);
+//            result.put("message", SUCCESS);
+//        } else {
+//            result.put("message", FAIL);
+//        }
+//
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+
+    @PutMapping("/capacity")
+    public ResponseEntity<Map<String, Object>> changeRoomCapacityStatus(@RequestBody Map<String, Object> params) {
+        System.out.println("[PUT] - /room/capacity");
+        Long roomId = Long.parseLong(params.get("roomid").toString());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(roomService.changeRoomCapacityStatus(roomId)) {
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);
@@ -113,9 +148,9 @@ public class RoomController {
     }
 
     // 투표지 생성을 위해 미팅 결과 가져오기
-    @GetMapping("/result")
+    @PostMapping("/getresult")
     public ResponseEntity<Map<String, Object>> getMeetingResult(@RequestBody Map<String, Object> params) {
-        System.out.println("[GET] - /room/result");
+        System.out.println("[POST] - /room/getresult");
 
         Map<String, Object> result = new HashMap<>();
         Long roomId = Long.parseLong(params.get("roomid").toString());
@@ -184,9 +219,9 @@ public class RoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/vote")
+    @PostMapping("/vote/result")
     public ResponseEntity<Map<String, Object>> getVoteResult(@RequestBody Map<String, Object> params) {
-        System.out.println("[GET] - /room/vote");
+        System.out.println("[POST] - /room/vote/result");
 
         Map<String, Object> result = new HashMap<>();
         Object outputData = roomService.getVoteResult(params);
