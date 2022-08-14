@@ -18,7 +18,12 @@
           <colorchoice @changeColor="changeColor"></colorchoice>
         </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
-        <customButton class="votebtn" btnText="투표하기"></customButton>
+        <customButton class="votebtn" btnText="투표하기" @click="goVote"></customButton>
+        <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showModal" @close-modal="showModal = false" titleText="프로필 사진 변경">
+          <cotent>
+            <modify-profile></modify-profile>
+          </cotent>
+        </custom-modal>
         <customButton class="exitbtn" btnText="종료"></customButton>
       </div>
     </div>
@@ -33,6 +38,7 @@ import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import html2canvas from "html2canvas";
 import AWS from "aws-sdk";
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "aloneMeeting",
@@ -56,6 +62,7 @@ export default {
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
+      showModal: false,
     };
   },
   mounted() {
@@ -132,9 +139,11 @@ export default {
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
 
-        var name = this.modelHex;
+        var name = this.modelHex.substr(1);
+        console.log(name);
         var awsid = this.awsid;
         var userid = sessionStorage.getItem("userId");
+        var count = this.count_pallete;
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
           // document.getElementById("webcam").appendChild(canvas);
           var img = canvas.toDataURL("image/jpeg");
@@ -173,7 +182,7 @@ export default {
           var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
           var roomcode = sessionStorage.getItem("roomId");
 
-          let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + ".jpg";
+          let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + count + ".jpg";
 
           s3.upload(
             {
@@ -195,7 +204,11 @@ export default {
       } else {
         alert("컬러 팔레트가 꽉찼습니다.");
       }
+    },
 
+    goVote() {
+      var awsid = this.awsid;
+      var userid = sessionStorage.getItem("userId");
       // file 가져오기
       AWS.config.update({
         region: "ap-northeast-2",
@@ -211,15 +224,47 @@ export default {
         },
       });
 
+      var date = new Date();
+      var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+      var roomcode = sessionStorage.getItem("roomId");
+
+      let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
+
+      console.log(photoKey);
+
       s3.listObjects(
         {
-          Delimiter: "//sdk",
+          Delimiter: "/",
+          Prefix: photoKey,
         },
         (err, data) => {
           if (err) {
             return alert("There was an error : " + err.message);
           } else {
-            console.log(data);
+            var colorsets = [];
+            var colorset = { url: "", code: "" };
+            this.lists = data.Contents;
+            this.lists.forEach((list) => {
+              var imgurl = "https://ssafy7colors.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+              var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
+              // console.log(code);
+              colorset = { url: imgurl, code: colorcode };
+              colorsets.push(colorset);
+            });
+            console.log(colorsets);
+            // 미팅 정보 db 저장
+            let roomnum = sessionStorage.getItem("roomNum");
+            let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+            let userid = memberData.data.id;
+            const colorsetResult = {
+              roomid: roomnum,
+              userid: userid,
+              colorset: colorsets,
+            };
+            console.log(colorsetResult);
+            axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
+              console.log(response);
+            });
           }
         }
       );
