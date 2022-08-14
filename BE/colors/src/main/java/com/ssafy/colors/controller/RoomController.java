@@ -67,10 +67,10 @@ public class RoomController {
         Map<String, Object> result = new HashMap<>();
         Long topicId = Long.parseLong(params.get("topicid").toString());
 
-        String roomList = roomService.findRandomRoom(topicId);
+        String roomCode = roomService.findRandomRoom(topicId);
 
-        if(!roomList.isEmpty()) {
-            result.put("data", roomList);
+        if(roomCode != null) {
+            result.put("data", roomCode);
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);
