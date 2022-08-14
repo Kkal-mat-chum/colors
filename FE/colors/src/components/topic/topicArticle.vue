@@ -5,7 +5,7 @@
     <span class="material-symbols-rounded topicUnLike" v-if="isTopic & recommend" @click="clickLike">favorite</span>
     <span class="material-symbols-rounded topicLike" v-if="isTopic & !recommend" @click="clickUnLike">favorite</span>
     <span v-if="isTopic">{{ cnt }}</span>
-    <customButton class="topicEnterButton" btnText="입장하기" v-if="isEnter"></customButton>
+    <customButton class="topicEnterButton" btnText="입장하기" @click="topicRoom" v-if="isEnter"></customButton>
   </div>
 </template>
 
