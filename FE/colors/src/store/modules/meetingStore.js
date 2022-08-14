@@ -71,7 +71,7 @@ const meetingStore = {
       }).then(({ data }) => {
         commit("SINGLE_MEETING", data);
         console.log(data.data.roomcode);
-        sessionStorage.setItem("rommId", data.data.room);
+        sessionStorage.setItem("roomId", data.data.roomcode);
         router.push("/alone/" + data.data.roomcode);
       });
     },
@@ -86,7 +86,6 @@ const meetingStore = {
           console.log(data.message);
           commit("GOURP_MEETING", data);
           if (data.message === "success") {
-            console.log(1111);
             router.push("/team/" + sessionStorage.getItem("roomId"));
           } else {
             alert("입장코드를 다시 확인하세요.");
@@ -134,12 +133,31 @@ const meetingStore = {
     },
     topicMeetingRoom({ commit }, data) {
       api({
-        url: `/romm/join/random`,
+        url: `/room/join/random`,
         method: "POST",
         params: data,
       }).then(({ data }) => {
         commit("TOPIC_MEETING", data);
-        router.push("/team/");
+        console.log(data);
+        //router.push("/team/");
+      });
+    },
+    pullRoom(data) {
+      api({
+        url: `/room/full`,
+        method: "PUT",
+        params: data,
+      }).then(({ data }) => {
+        console.log(data);
+      });
+    },
+    leaveSession(data) {
+      api({
+        url: `room/notfull`,
+        method: "PUT",
+        params: data,
+      }).then(({ data }) => {
+        console.log(data);
       });
     },
   },

@@ -6,7 +6,6 @@ import meetingStore from "@/store/modules/meetingStore";
 import memberStore from "@/store/modules/memberStore";
 import topicStore from "@/store/modules/topicStore";
 import resultStore from "@/store/modules/resultStore";
-import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 export const api = createApi();
@@ -50,5 +49,4 @@ export default new Vuex.Store({
     topicStore,
     resultStore,
   },
-  plugins: [createPersistedState()],
 });
