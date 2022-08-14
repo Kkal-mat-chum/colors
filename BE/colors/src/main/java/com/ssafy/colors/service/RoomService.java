@@ -13,7 +13,9 @@ import java.util.Map;
 public interface RoomService {
     public RoomRes saveMeetingRoomInfo(RoomReq roomReq);
     public boolean checkRoomCode(String code);
+    public String findRandomRoom(long topicId);
     public List<String> findRandomRoomList(long topicId);
+    public boolean changeRoomCapacityStatus(long roomId);
     public boolean changeRoomStatus(long hostId, long roomId);
     public boolean saveMeetingResult(ResultReq results);
     public List<ResultRes> getMeetingResult(long roomId);

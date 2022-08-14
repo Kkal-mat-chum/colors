@@ -121,7 +121,7 @@ export default {
     //     })
     //     .then((response) => {
     //       console.log(response);
-    //       if (response.message == "fail") {
+    //       if (response.data.message == "fail") {
     //         alert("전송 실패");
     //       }
     //       //fail이면 alert 해야하나요..?

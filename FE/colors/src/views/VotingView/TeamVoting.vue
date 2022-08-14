@@ -93,7 +93,7 @@ export default {
           content: this.$store.state.resultStore.voteContent,
         })
         .then((response) => {
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             console.log("단체 미팅 결과 저장 실패");
           }
         });
@@ -105,16 +105,16 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             axios
               .get(this.$store.state.baseurl + "room/vote", {
                 roomid: sessionStorage.getItem("roomId"),
                 userid: sessionStorage.getItem("userId"),
               })
               .then((response) => {
-                if (response.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data;
-                  this.$store.state.resultStore.totalResultTop1 = response.Top1;
+                if (response.data.message == "success") {
+                  this.$store.state.resultStore.totalResultData = response.data.data;
+                  this.$store.state.resultStore.totalResultTop1 = response.data.Top1;
                 } else {
                   alert("투표결과가져오기 실패");
                 }

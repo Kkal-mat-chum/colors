@@ -162,15 +162,15 @@ export default {
           //roomtype에 맞게 store에 정보 저장
           var i = 0;
           for (i = 0; i < 4; i++) {
-            if (response.data[i].roomtype == "single") {
-              this.$store.state.aloneColorLst = response.data[i].code;
-              this.$store.state.aloneTop1 = response.data[i].top1.code;
-            } else if (response.data[i].roomtype == "group") {
-              this.$store.state.teamColorLst = response.data[i].code;
-              this.$store.state.teamTop1 = response.data[i].top1.code;
-            } else if (response.data[i].roomtype == "random") {
-              this.$store.state.randomColorLst = response.data[i].code;
-              this.$store.state.randomTop1 = response.data[i].top1.code;
+            if (response.data.data[i].roomtype == "single") {
+              this.$store.state.aloneColorLst = response.data.data[i].code;
+              this.$store.state.aloneTop1 = response.data.data[i].top1.code;
+            } else if (response.data.data[i].roomtype == "group") {
+              this.$store.state.teamColorLst = response.data.data[i].code;
+              this.$store.state.teamTop1 = response.data.data[i].top1.code;
+            } else if (response.data.data[i].roomtype == "random") {
+              this.$store.state.randomColorLst = response.data.data[i].code;
+              this.$store.state.randomTop1 = response.data.data[i].top1.code;
             }
           }
         });
