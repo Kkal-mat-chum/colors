@@ -119,7 +119,7 @@ export default {
     getResult() {
       console.log("미팅 결과 가져오기");
       axios
-        .get(this.$store.state.memberStore.baseurl + "/api/room/result", {
+        .get(this.$store.state.baseurl + "room/result", {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
@@ -176,7 +176,7 @@ export default {
       console.log("결과 전송");
       console.log(this.nowSelected);
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+        .put(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
           code: this.nowSelected,
@@ -193,13 +193,13 @@ export default {
     //각 투표 합산put -> 투표 결과 가져오기get
     bringTotalResult() {
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/votesum", {
+        .put(this.$store.state.baseurl + "room/votesum", {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           if (response.message == "success") {
             axios
-              .get(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+              .get(this.$store.state.baseurl + "room/vote", {
                 roomid: sessionStorage.getItem("roomId"),
                 userid: sessionStorage.getItem("userId"),
               })
