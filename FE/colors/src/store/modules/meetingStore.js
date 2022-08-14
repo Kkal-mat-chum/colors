@@ -14,7 +14,7 @@ const meetingStore = {
   },
   state: {
     userName: "",
-    roomType: "",
+    roomType: "group",
     singleUsers: [],
     singleUser: {},
     groupUsers: [],

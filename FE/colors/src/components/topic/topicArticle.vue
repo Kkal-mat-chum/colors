@@ -66,6 +66,7 @@ export default {
       let topicId = {
         topicid: this.topicId,
       };
+      sessionStorage.setItem("toppicTitle", this.topicArticleTitle);
       console.log(topicId);
       sessionStorage.setItem("topicId", this.topicId);
       console.log(2132131);
