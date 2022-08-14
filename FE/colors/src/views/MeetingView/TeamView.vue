@@ -144,6 +144,12 @@ export default {
     }
   },
   beforeMount() {
+    if (!this.publishAudio) {
+      this.$store.commit("changePublishAudio");
+    }
+    if (!this.publishVideo) {
+      this.$store.commit("changePublishVideo");
+    }
     this.joinSession();
   },
   mounted() {

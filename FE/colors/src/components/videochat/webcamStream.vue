@@ -38,11 +38,34 @@ export default {
       myUserName: "Participant" + Math.floor(Math.random() * 100),
     };
   },
+  computed: {
+    publishAudio() {
+      return this.$store.getters.getPublishAudio;
+    },
+    publishVideo() {
+      return this.$store.getters.getPublishVideo;
+    },
+  },
   beforeMount() {
+    if (!this.publishAudio) {
+      this.$store.commit("changePublishAudio");
+    }
+    if (!this.publishVideo) {
+      this.$store.commit("changePublishVideo");
+    }
     this.joinSession();
   },
 
   methods: {
+    muteAudio() {
+      this.publisher.publishAudio(this.publishAudio);
+      console.log(this.publishAudio);
+      this.$store.commit("changePublishAudio");
+    },
+    muteVideo() {
+      this.publisher.publishVideo(this.publishVideo);
+      this.$store.commit("changePublishVideo");
+    },
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
