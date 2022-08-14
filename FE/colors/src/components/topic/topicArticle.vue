@@ -4,6 +4,7 @@
     <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic">delete</span>
     <span class="material-symbols-rounded topicUnLike" v-if="isTopic & recommend" @click="clickLike">favorite</span>
     <span class="material-symbols-rounded topicLike" v-if="isTopic & !recommend" @click="clickUnLike">favorite</span>
+    <span v-if="isTopic">{{ cnt }}</span>
     <customButton class="topicEnterButton" btnText="입장하기" v-if="isEnter"></customButton>
   </div>
 </template>
@@ -40,9 +41,9 @@ export default {
     clickLike() {
       console.log("clicked like");
       axios
-        .post(this.$store.state.baseurl + "/api/vote", {
+        .post(this.$store.state.baseurl + "api/vote/", {
           topicId: this.topicId,
-          userId: this.$store.state.userId,
+          userId: sessionStorage.getItem("userId"),
         })
         .then((response) => {
           if (response.data.message == "access") {
@@ -53,7 +54,7 @@ export default {
     },
     clickUnLike() {
       console.log("clicked unlike");
-      axios.delete(this.$store.state.baseurl + "/api/vote/" + this.topicId + "/" + this.$store.userId).then((response) => {
+      axios.delete(this.$store.state.baseurl + "api/vote/" + this.topicId + "/" + sessionStorage.getItem("userId")).then((response) => {
         if (response.message == "access") {
           console.log(response.data);
           this.$emit("clicklike", this.cnt - 1);
@@ -87,12 +88,12 @@ export default {
   flex-basis: 5%;
   flex-grow: 1;
   color: red;
+  font-variation-settings: "FILL" 1;
 }
 .topicUnLike {
   flex-basis: 5%;
   flex-grow: 1;
   color: red;
-  font-variation-settings: "FILL" 1;
 }
 .topicEnterButton {
   flex-basis: 5%;
