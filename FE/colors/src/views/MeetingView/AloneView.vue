@@ -319,7 +319,7 @@ export default {
     },
     exit() {
       this.$router.push("/enterPage");
-      this.$router.go();
+      // this.$router.go();
     },
   },
 };
