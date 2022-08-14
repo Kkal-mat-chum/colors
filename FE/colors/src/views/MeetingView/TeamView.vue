@@ -147,13 +147,6 @@ export default {
     this.joinSession();
   },
   mounted() {
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
-    console.log("subscribers of the session");
     console.log(this.subscribers);
   },
 

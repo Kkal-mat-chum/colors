@@ -17,16 +17,6 @@ export default {
       return this.$store.getters.isLogin;
     },
   },
-  beforeCreate() {
-    console.log("test localStroage");
-    console.log("test localStroage");
-    console.log("test localStroage");
-    console.log("test localStroage");
-    console.log(localStorage.getItem("isLogin"));
-  },
-  mounted() {
-    console.log(this.isLogin);
-  },
 };
 </script>
 

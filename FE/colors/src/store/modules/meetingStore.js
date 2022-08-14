@@ -71,6 +71,7 @@ const meetingStore = {
       }).then(({ data }) => {
         commit("SINGLE_MEETING", data);
         console.log(data.data.roomcode);
+        sessionStorage.setItem("rommId", data.data.room);
         router.push("/alone/" + data.data.roomcode);
       });
     },
@@ -129,6 +130,16 @@ const meetingStore = {
         type: "chat",
         data: JSON.stringify(messageData),
         to: [],
+      });
+    },
+    topicMeetingRoom({ commit }, data) {
+      api({
+        url: `/romm/join/random`,
+        method: "POST",
+        params: data,
+      }).then(({ data }) => {
+        commit("TOPIC_MEETING", data);
+        router.push("/team/");
       });
     },
   },

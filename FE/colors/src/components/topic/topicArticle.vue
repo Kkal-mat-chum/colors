@@ -61,6 +61,12 @@ export default {
         }
       });
     },
+    topicRoom() {
+      let topicId = {
+        topic_id: this.topicId,
+      };
+      this.$store.dispatch("topicMeetingRoom", topicId);
+    },
   },
 };
 </script>
