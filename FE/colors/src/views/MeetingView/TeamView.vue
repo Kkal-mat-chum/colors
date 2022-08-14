@@ -144,10 +144,10 @@ export default {
     }
   },
   beforeMount() {
-    if (!this.publishAudio) {
+    if (this.publishAudio) {
       this.$store.commit("changePublishAudio");
     }
-    if (!this.publishVideo) {
+    if (this.publishVideo) {
       this.$store.commit("changePublishVideo");
     }
     this.joinSession();
