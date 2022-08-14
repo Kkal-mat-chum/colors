@@ -87,7 +87,7 @@ export default {
     //단체 투표 결과 저장
     saveTeamVoteResult() {
       axios
-        .post(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+        .post(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomId"),
           voterid: sessionStorage.getItem("memberId"),
           content: this.$store.state.resultStore.voteContent,
@@ -101,13 +101,13 @@ export default {
     //각 투표 합산put -> 투표 결과 가져오기get
     bringTotalResult() {
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/votesum", {
+        .put(this.$store.state.baseurl + "room/votesum", {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           if (response.message == "success") {
             axios
-              .get(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+              .get(this.$store.state.baseurl + "room/vote", {
                 roomid: sessionStorage.getItem("roomId"),
                 userid: sessionStorage.getItem("userId"),
               })

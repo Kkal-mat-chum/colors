@@ -23,6 +23,7 @@
         <topic-article
           class="topicArticle"
           :isTopic="true"
+          :isAdmin="isAdmin"
           v-for="topic in topics"
           :key="topic.id"
           :topicId="topic.id"
@@ -74,13 +75,14 @@ export default {
       pages: null,
       sortTitle: "regDate",
       sort: "desc",
+      isAdmin: false,
     };
   },
   mounted() {
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     var userId = memberData.data.id;
     axios
-      .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+      .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
         userId: userId,
         keyword: "",
       })
@@ -89,8 +91,10 @@ export default {
           console.log(response.data);
           this.maxPageNum = response.data.maxpage;
           this.topics = response.data.topics;
-
           var pageDecimical = parseInt(this.currentPage / 10);
+          if (sessionStorage.getItem("memberData").authGrade == true) {
+            this.isAdmin = true;
+          }
           if (this.currentPage > 10) {
             // eslint-disable-next-line vue/no-mutating-props
             this.maxPageNum = this.maxPageNum % 10;
@@ -108,7 +112,7 @@ export default {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       var userId = memberData.data.id;
       axios
-        .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
           userId: userId,
           keyword: "",
         })
@@ -148,7 +152,7 @@ export default {
       var userId = memberData.data.id;
 
       axios
-        .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
           userId: userId,
           keyword: "",
         })

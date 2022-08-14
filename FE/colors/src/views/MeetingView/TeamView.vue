@@ -137,7 +137,7 @@ export default {
       this.roomHeaderTitle = "미팅 코드";
       this.roomHeaderData = sessionStorage.getItem("sessionCode");
       this.myUserName = this.memberData.name;
-    } else {
+    } else if (this.$store.state.meetingStore.roomType == "random") {
       this.roomHeaderTitle = "미팅 주제";
       this.roomHeaderData = this.$store.state.meetingStore.groupUsers.title;
       this.myUserName = this.memberData.nickname;
@@ -176,7 +176,6 @@ export default {
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
-
         var name = this.modelHex;
         var awsid = this.awsid;
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
@@ -338,8 +337,15 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        const subscriber = this.session.subscribe(stream);
-        this.subscribers.push(subscriber);
+        let userNumber = this.session.streamManager.length;
+        let pull = this.mySessionId;
+        if (userNumber == 6) {
+          this.$store.dispatch("pullRoom", pull);
+        } else {
+          console.log(this.session);
+          const subscriber = this.session.subscribe(stream);
+          this.subscribers.push(subscriber);
+        }
       });
 
       // On every Stream destroyed...
@@ -400,8 +406,11 @@ export default {
     },
 
     leaveSession() {
-      // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.forceDisconnect();
+      // --- Leave the session by calling 'disconnect' method over the Session object --->
+      if (this.session) {
+        this.$store.dispatch("leaveSession", this.mySessionId);
+        this.session.forceDisconnect();
+      }
 
       this.session = undefined;
       this.mainStreamManager = undefined;
@@ -488,6 +497,10 @@ export default {
           .then((data) => resolve(data.token))
           .catch((error) => reject(error.response));
       });
+    },
+    exit() {
+      this.$router.push("/enterPage");
+      this.$router.go();
     },
   },
 };

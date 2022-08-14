@@ -1,5 +1,6 @@
 <template>
   <div>
+    <customSidebar />
     <div class="mypage">
       <div class="title">
         <h1>마이페이지</h1>
@@ -154,7 +155,7 @@ export default {
     },
     getMyPageData() {
       axios
-        .get(this.$store.state.baseurl + "api/room/mypage", {
+        .get(this.$store.state.baseurl + "room/mypage", {
           userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {

@@ -69,7 +69,7 @@ export default {
       authEmailCode: "",
       validateId: "",
       validatePw: "",
-      storeBaseurl: this.$store.state.memberStore.baseurl,
+      storeBaseurl: this.$store.state.baseurl,
       valid: {
         id: false,
         pw: false,
@@ -105,9 +105,9 @@ export default {
       if (this.id_validation) {
         console.log("유효한 아이디입니다.");
         console.log(this.id_validation);
-        console.log(this.$store.state.memberStore.baseurl + "api/member/chkid");
+        console.log(this.$store.state.baseurl + "member/chkid");
         axios
-          .post(this.$store.state.memberStore.baseurl + "/api/member/chkid", {
+          .post(this.$store.state.baseurl + "member/chkid", {
             input_id: new_id,
           })
           .then((response) => {
@@ -164,7 +164,7 @@ export default {
       let new_nickname = document.getElementById("nickLabel").value;
       console.log(new_nickname);
       axios
-        .post(this.$store.state.memberStore.baseurl + "/api/member/chknic", {
+        .post(this.$store.state.baseurl + "member/chknic", {
           input_nickname: new_nickname,
         })
         .then((response) => {
@@ -181,7 +181,7 @@ export default {
     checkEmail() {
       let new_email = document.getElementById("emailLabel").value;
       axios
-        .post(this.$store.state.memberStore.baseurl + "/api/auth/email", {
+        .post(this.$store.state.baseurl + "auth/email", {
           email: new_email,
         })
         .then((response) => {
@@ -222,7 +222,7 @@ export default {
 
       if (this.email_validation && this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
         axios
-          .post(this.$store.state.memberStore.baseurl + "/api/member/", {
+          .post(this.$store.state.baseurl + "member/", {
             nickname: new_nickname,
             userid: new_userid,
             password: new_password,
