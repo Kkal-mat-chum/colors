@@ -3,7 +3,7 @@
     <div class="contents">
       <div class="camera">
         <div id="main-video" class="col-md-6">
-          <userVideo class="webcam" :stream-manager="mainStreamManager" @changeStreamTrack="changeStream"></userVideo>
+          <userVideo class="webcam" id="webcam" :stream-manager="mainStreamManager" @changeStreamTrack="changeStream"></userVideo>
         </div>
         <div class="name">{{ myUserName }}</div>
         <div class="buttons">
@@ -37,7 +37,7 @@
           </div>
           <h2 class="code">{{ roomHeaderData }}</h2>
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
-          <customButton class="btn" btnText="투표하기"></customButton>
+          <customButton class="btn" btnText="투표하기" @click="goVote"></customButton>
           <customButton class="btn" btnText="종료" @click="leaveMeeting"></customButton>
         </div>
       </div>
@@ -51,7 +51,6 @@ import { mapActions } from "vuex";
 import { OpenVidu } from "openvidu-browser";
 import html2canvas from "html2canvas";
 import AWS from "aws-sdk";
-
 import mixin from "@/components/videochat/colorPallete/mixin";
 import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
@@ -168,6 +167,7 @@ export default {
       this.leaveSession();
       this.$router.push("/enterPage");
     },
+    // 선택한 색의 컬러코드를 store에 저장
     showOneSelectedColor() {
       if (this.count_pallete < 8) {
         this.modelHex = this.rgb2hex(this.rgba, true);
@@ -176,11 +176,16 @@ export default {
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
-        var name = this.modelHex;
+
+        var name = this.modelHex.substr(1);
+        console.log(name);
         var awsid = this.awsid;
+        var userid = sessionStorage.getItem("userId");
+        var count = this.count_pallete;
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
-          document.getElementById("webcam").appendChild(canvas);
+          // document.getElementById("webcam").appendChild(canvas);
           var img = canvas.toDataURL("image/jpeg");
+          console.log(img);
 
           // base64 -> image file
           var arr = img.split(","),
@@ -197,44 +202,52 @@ export default {
 
           console.log(file);
 
-          // // s3 upload
-          // AWS.config.update({
-          //   region: "ap-northeast-2",
-          //   credentials: new AWS.CognitoIdentityCredentials({
-          //     IdentityPoolId: awsid,
-          //   }),
-          // });
+          // s3 upload
+          AWS.config.update({
+            region: "ap-northeast-2",
+            credentials: new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: awsid,
+            }),
+          });
 
-          // var s3 = new AWS.S3({
-          //   apiVersion: "2012-10-17",
-          //   params: {
-          //     Bucket: "ssafy7colors",
-          //   },
-          // });
+          var s3 = new AWS.S3({
+            apiVersion: "2012-10-17",
+            params: {
+              Bucket: "ssafy7colors",
+            },
+          });
 
-          // let photoKey = "/sdk/" + name + ".jpg";
+          var date = new Date();
+          var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+          var roomcode = sessionStorage.getItem("roomId");
 
-          // s3.upload(
-          //   {
-          //     Key: photoKey,
-          //     Body: file,
-          //     ACL: "public-read",
-          //   },
-          //   (err, data) => {
-          //     if (err) {
-          //       console.log(err);
-          //     }
-          //     alert("Successfully uploaded photo.");
-          //     console.log(data);
-          //   }
-          // );
+          let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + count + ".jpg";
+
+          s3.upload(
+            {
+              Key: photoKey,
+              Body: file,
+              ACL: "public-read",
+            },
+            (err, data) => {
+              if (err) {
+                console.log(err);
+              }
+              console.log("Successfully uploaded photo.");
+              console.log(data);
+            }
+          );
         });
-        this.count++;
+        // this.count++;
         this.count_pallete++;
       } else {
         alert("컬러 팔레트가 꽉찼습니다.");
       }
+    },
 
+    goVote() {
+      var awsid = this.awsid;
+      var userid = sessionStorage.getItem("userId");
       // file 가져오기
       AWS.config.update({
         region: "ap-northeast-2",
@@ -250,18 +263,52 @@ export default {
         },
       });
 
+      var date = new Date();
+      var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+      var roomcode = sessionStorage.getItem("roomId");
+
+      let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
+
+      console.log(photoKey);
+
       s3.listObjects(
         {
-          Delimiter: "//sdk",
+          Delimiter: "/",
+          Prefix: photoKey,
         },
         (err, data) => {
           if (err) {
             return alert("There was an error : " + err.message);
           } else {
-            console.log(data);
+            var colorsets = [];
+            var colorset = { url: "", code: "" };
+            this.lists = data.Contents;
+            this.lists.forEach((list) => {
+              var imgurl = "https://ssafy7colors.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+              var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
+              // console.log(code);
+              colorset = { url: imgurl, code: colorcode };
+              colorsets.push(colorset);
+            });
+            console.log(colorsets);
+            // 미팅 정보 db 저장
+            let roomnum = sessionStorage.getItem("roomNum");
+            let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+            let userid = memberData.data.id;
+            const colorsetResult = {
+              roomid: roomnum,
+              userid: userid,
+              colorset: colorsets,
+            };
+            console.log(colorsetResult);
+            axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
+              console.log(response);
+            });
           }
         }
       );
+      this.$router.push("/teamVoting");
+      // this.$router.go();
     },
 
     dataURLtoFile(dataurl, fileName) {
@@ -393,15 +440,34 @@ export default {
           .catch((error) => {
             console.log("There was an error connecting to the session:", error.code, error.message);
           });
+        console.log(this.getSession(this.mySessionId));
       });
 
       window.addEventListener("beforeunload", this.leaveSession);
     },
-
+    getSession(sessionId) {
+      var connectionsNumber = 0;
+      axios
+        .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
+          auth: {
+            username: "OPENVIDUAPP",
+            password: OPENVIDU_SERVER_SECRET,
+          },
+        })
+        .then((response) => {
+          connectionsNumber = response.data.connections.numberOfElements;
+          console.log(response.data.connections.numberOfElements);
+          if (response.data.connections.numberOfElements == 6) {
+            let pull = this.mySessionId;
+            this.$store.dispatch("pullRoom", pull);
+          }
+        });
+      return connectionsNumber;
+    },
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        if (this.session.streamManager.length == 6) {
+        if (this.getSession(this.mySessionId) == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
         }
         this.session.disconnect();

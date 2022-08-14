@@ -13,6 +13,7 @@
 <script>
 import axios from "axios";
 import AWS from "aws-sdk";
+import router from "@/router";
 
 export default {
   data() {
@@ -62,6 +63,7 @@ export default {
             console.log(err);
           }
           alert("Successfully uploaded photo.");
+          router.go(router.currentRoute);
           console.log(data);
         }
       );
@@ -73,7 +75,7 @@ export default {
       // db 저장
 
       axios
-        .post(this.$store.state.baseurl + "member/changeimg", {
+        .put(this.$store.state.baseurl + "member/changeimg", {
           userid: userid,
           image_url: url,
         })

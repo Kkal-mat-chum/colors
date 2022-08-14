@@ -124,7 +124,6 @@ export default {
     },
     saveVoteResult() {
       console.log("결과 전송");
-      console.log(this.$store.state.resultStore.totalResultTop1.url);
       console.log(this.$store.state.tournamentResultLst[14]);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
@@ -133,11 +132,11 @@ export default {
           code: this.$store.state.tournamentResultLst[14],
         })
         .then((response) => {
-          console.log(response);
           if (response.data.message == "fail") {
             alert("전송 실패");
+          } else if (response.data.message == "success") {
+            this.bringTotalResult();
           }
-          //fail이면 alert 해야하나요..?
         });
     },
     //각 투표 합산put -> 투표 결과 가져오기get
@@ -152,7 +151,21 @@ export default {
             console.log(response.data);
             this.$store.state.resultStore.totalResultTop1 = response.data.data;
           } else {
-            alert("투표결과가져오기 실패");
+            axios
+              .post(this.$store.state.baseurl + "room/vote/result", {
+                roomid: sessionStorage.getItem("roomNum"),
+                userid: sessionStorage.getItem("memberId"),
+              })
+              .then((response) => {
+                if (response.data.message == "success") {
+                  console.log(response.data);
+                  this.$store.state.resultStore.totalResultTop1 = response.data.data;
+
+                  this.$router.push("/tournamentnameresult");
+                } else {
+                  alert("투표결과가져오기 실패");
+                }
+              });
           }
         });
     },

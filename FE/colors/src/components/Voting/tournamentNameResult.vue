@@ -104,6 +104,8 @@ export default {
   //시작할 때 axios put으로 결과 저장하는 법
   mounted() {
     // this.saveVoteResult();
+    //각 투표 합산put -> 투표 결과 가져오기get
+    console.log(this.$store.state.resultStore.totalResultTop1);
   },
   methods: {
     go() {
@@ -121,7 +123,7 @@ export default {
     //     })
     //     .then((response) => {
     //       console.log(response);
-    //       if (response.message == "fail") {
+    //       if (response.data.message == "fail") {
     //         alert("전송 실패");
     //       }
     //       //fail이면 alert 해야하나요..?

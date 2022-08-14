@@ -120,6 +120,23 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public String findRandomRoom(long topicId) {
+        Optional<Topic> topic = topicRepository.findById(topicId);
+        String output = null;
+
+        if(topic.isPresent()) {
+            RoomStatus status = RoomStatus.WAITED;
+            List<Room> rooms = roomRepository.findAccessibleRoom(topic.get(), status, false);
+
+            if(!rooms.isEmpty()) {
+                output = rooms.get(0).getRoomCode();
+            }
+        }
+
+        return output;
+    }
+
+    @Override
     public List<String> findRandomRoomList(long topicId) {
         Optional<Topic> topic = topicRepository.findById(topicId);
         List<String> result = new ArrayList<>();
@@ -137,6 +154,12 @@ public class RoomServiceImpl implements RoomService {
         });
 
         return result;
+    }
+
+    @Override
+    public boolean changeRoomCapacityStatus(long roomId) {
+        int result = roomRepository.reverseCapacity(roomId);
+        return result > 0;
     }
 
     @Override
@@ -223,6 +246,7 @@ public class RoomServiceImpl implements RoomService {
                 }
             }
             result.add(ResultRes.builder()
+                    .id(memberList.get(mIdx).getId())
                     .userid(memberList.get(mIdx).getUserId())
                     .name(memberList.get(mIdx).getName())
                     .nickname(memberList.get(mIdx).getNickname())
@@ -432,8 +456,6 @@ public class RoomServiceImpl implements RoomService {
         } catch (Exception e) {
             return null;
         }
-
-
 
 
 //        try {

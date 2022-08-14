@@ -64,9 +64,13 @@ export default {
     },
     topicRoom() {
       let topicId = {
-        topic_id: this.topicId,
+        topicid: this.topicId,
       };
       sessionStorage.setItem("toppicTitle", this.topicArticleTitle);
+      console.log(topicId);
+      sessionStorage.setItem("topicId", this.topicId);
+      console.log(2132131);
+      console.log(sessionStorage.getItem("topicId"));
       this.$store.dispatch("topicMeetingRoom", topicId);
     },
   },
