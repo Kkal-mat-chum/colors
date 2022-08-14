@@ -213,7 +213,7 @@ export default {
               if (err) {
                 console.log(err);
               }
-              alert("Successfully uploaded photo.");
+              console.log("Successfully uploaded photo.");
               console.log(data);
             }
           );

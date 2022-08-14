@@ -108,6 +108,7 @@ const meetingStore = {
       }).then(({ data }) => {
         commit("GOURP_MEETING", data);
         sessionStorage.setItem("roomId", data.data.roomcode);
+        sessionStorage.setItem("roomNum", data.data.roomid);
         router.push("/team/" + data.data.roomcode);
       });
     },

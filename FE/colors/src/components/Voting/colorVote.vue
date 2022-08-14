@@ -179,9 +179,9 @@ export default {
         })
         .then((response) => {
           console.log(response);
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             alert("전송 실패");
-          } else if (response.message == "success") {
+          } else if (response.data.message == "success") {
             this.bringTotalResult();
           }
         });
