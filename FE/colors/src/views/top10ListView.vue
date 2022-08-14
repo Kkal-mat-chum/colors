@@ -1,6 +1,5 @@
 <template>
   <div>
-    <customSidebar />
     <div class="contentWindow">
       <div class="userInfo">
         {{ userName }}님 환영합니다!
