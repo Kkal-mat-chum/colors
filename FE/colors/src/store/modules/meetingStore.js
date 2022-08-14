@@ -137,12 +137,13 @@ const meetingStore = {
         to: [],
       });
     },
-    topicMeetingRoom({ commit }, data) {
+    topicMeetingRoom({ commit }, params) {
       api({
         url: `/room/join/random`,
         method: "POST",
-        params: data,
+        data: params,
       }).then(({ data }) => {
+        console.log(data);
         if (data.message == "success") {
           commit("TOPIC_MEETING", data);
           console.log(data);
@@ -159,7 +160,10 @@ const meetingStore = {
         method: "PUT",
         params: data,
       }).then(({ data }) => {
-        console.log(data);
+        if (data.message == "success") {
+          sessionStorage.setItem("roomId", data.roomcode);
+          router.push("/team/" + sessionStorage.getItem("roomId"));
+        }
       });
     },
     leaveSession(data) {
