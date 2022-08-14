@@ -153,7 +153,7 @@ const meetingStore = {
     },
     pullRoom(data) {
       api({
-        url: `/room/full`,
+        url: `/room/capacity`,
         method: "PUT",
         params: data,
       }).then(({ data }) => {
@@ -162,7 +162,7 @@ const meetingStore = {
     },
     leaveSession(data) {
       api({
-        url: `room/notfull`,
+        url: `/room/capacity`,
         method: "PUT",
         params: data,
       }).then(({ data }) => {

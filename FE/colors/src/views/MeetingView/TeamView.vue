@@ -402,7 +402,9 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        this.$store.dispatch("leaveSession", this.mySessionId);
+        if (this.session.streamManager.length == 6) {
+          this.$store.dispatch("leaveSession", this.mySessionId);
+        }
         this.session.disconnect();
       }
 
