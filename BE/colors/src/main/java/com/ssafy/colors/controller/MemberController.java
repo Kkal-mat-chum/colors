@@ -179,7 +179,7 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/changeimg")
+    @PutMapping("/changeimg")
     public ResponseEntity<Map<String, Object>> updateMemberProfileImage(@RequestBody Map<String, Object> params) {
         System.out.println("[POST] - /member/changeimg");
 
