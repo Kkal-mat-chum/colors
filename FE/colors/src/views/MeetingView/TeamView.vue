@@ -7,8 +7,8 @@
         </div>
         <div class="name">{{ myUserName }}</div>
         <div class="buttons">
-          <customButton class="mute" btnText="음소거" @click="muteAudio"></customButton>
-          <customButton class="videostop" btnText="비디오 중지" @click="muteVideo"></customButton>
+          <customButton class="mute" :class="{ muteActive: publishAudio }" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" :class="{ muteActive: publishVideo }" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
 
         <div class="anotherPerson">
@@ -112,7 +112,7 @@ export default {
       subscribers: [],
 
       mySessionId: sessionStorage.getItem("roomId"),
-      myUserName: "",
+      myUserName: "testName",
       modelRgba: "",
       modelHex: "",
       r: 0,
@@ -125,7 +125,7 @@ export default {
       count_pallete: 0,
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
-      memberData: JSON.parse(sessionStorage.getItem("memberData")).data,
+      memberData: JSON.parse(sessionStorage.getItem("memberData")),
       roomHeaderTitle: "",
       roomHeaderData: "",
     };
@@ -511,6 +511,9 @@ body {
   width: 150px;
   height: 35px;
   margin-right: 20px;
+}
+.muteActive {
+  background-color: #bcbdfc;
 }
 .videostop {
   width: 150px;
