@@ -47,10 +47,10 @@ export default {
     },
   },
   beforeMount() {
-    if (!this.publishAudio) {
+    if (this.publishAudio) {
       this.$store.commit("changePublishAudio");
     }
-    if (!this.publishVideo) {
+    if (this.publishVideo) {
       this.$store.commit("changePublishVideo");
     }
     this.joinSession();
@@ -132,7 +132,10 @@ export default {
 
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.disconnect();
+      if (this.session) {
+        this.session.disconnect();
+        console.log("session disconnected");
+      }
 
       this.session = undefined;
       this.mainStreamManager = undefined;

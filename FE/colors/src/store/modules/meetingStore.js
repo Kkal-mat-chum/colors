@@ -145,6 +145,7 @@ const meetingStore = {
         if (data.message == "success") {
           commit("TOPIC_MEETING", data);
           console.log(data);
+          this.state.roomType = "random";
           router.push("/team/" + sessionStorage.getItem("roomId"));
         } else {
           alert("방인원이 가득찼습니다.");
