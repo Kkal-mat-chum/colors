@@ -2,10 +2,10 @@
   <div class="aloneMeeting">
     <div class="contents">
       <div class="camera">
-        <webcam id="webcam"></webcam>
+        <webcam id="webcam" ref="camStream"></webcam>
         <div class="buttons">
-          <customButton class="mute" btnText="음소거" @click="muteAudio"></customButton>
-          <customButton class="videostop" :class="{ muteActive: this.publishVideoIN }" btnText="비디오 중지" @click="muteVideo"></customButton>
+          <customButton class="mute" :class="{ muteActive: this.publishAudio }" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" :class="{ muteActive: this.publishVideo }" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
       </div>
       <div class="rightSidebar">
@@ -111,7 +111,7 @@ export default {
     publishAudio() {
       return this.$store.getters.getPublishAudio;
     },
-    publishVideoIN() {
+    publishVideo() {
       return this.$store.getters.getPublishVideo;
     },
   },
@@ -135,13 +135,11 @@ export default {
       router.push("/aloneVoting");
     },
     muteAudio() {
-      this.publisher.publishAudio(this.publishAudio);
       console.log(this.publishAudio);
-      this.$store.commit("changePublishAudio");
+      this.$refs.camStream.muteAudio();
     },
     muteVideo() {
-      this.publisher.publishVideo(this.publishVideoIN);
-      this.$store.commit("changePublishVideo");
+      this.$refs.camStream.muteVideo();
     },
     // 선택한 색의 컬러코드를 store에 저장
     showOneSelectedColor() {
