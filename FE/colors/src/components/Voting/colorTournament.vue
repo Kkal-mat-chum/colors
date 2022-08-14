@@ -117,14 +117,13 @@ export default {
         // console.log(this.$store.state.tournamentResultLst);
         // 토너먼트 결과 저장 put
         this.saveVoteResult();
-        // this.bringTotalResult();
+        this.bringTotalResult();
         this.$router.push("/tournamentnameresult");
         // this.processed = "끗";
       }
     },
     saveVoteResult() {
       console.log("결과 전송");
-      console.log(this.$store.state.resultStore.totalResultTop1.url);
       console.log(this.$store.state.tournamentResultLst[14]);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
@@ -133,7 +132,6 @@ export default {
           code: this.$store.state.tournamentResultLst[14],
         })
         .then((response) => {
-          console.log(response);
           if (response.data.message == "fail") {
             alert("전송 실패");
           } else if (response.data.message == "success") {
@@ -153,7 +151,21 @@ export default {
             console.log(response.data);
             this.$store.state.resultStore.totalResultTop1 = response.data.data;
           } else {
-            alert("투표결과가져오기 실패");
+            axios
+              .post(this.$store.state.baseurl + "room/vote/result", {
+                roomid: sessionStorage.getItem("roomNum"),
+                userid: sessionStorage.getItem("memberId"),
+              })
+              .then((response) => {
+                if (response.data.message == "success") {
+                  console.log(response.data);
+                  this.$store.state.resultStore.totalResultTop1 = response.data.data;
+
+                  this.$router.push("/tournamentnameresult");
+                } else {
+                  alert("투표결과가져오기 실패");
+                }
+              });
           }
         });
     },
