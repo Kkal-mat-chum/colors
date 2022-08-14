@@ -335,13 +335,11 @@ export default {
         let pull = this.mySessionId;
         if (userNumber == 6) {
           this.$store.dispatch("pullRoom", pull);
+        } else {
+          console.log(this.session);
+          const subscriber = this.session.subscribe(stream);
+          this.subscribers.push(subscriber);
         }
-        // if (this.session.streamManagers.length>=6) {
-        //   console.log(123),
-        // };
-        console.log(this.session);
-        const subscriber = this.session.subscribe(stream);
-        this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...

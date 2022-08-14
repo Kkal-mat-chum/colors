@@ -69,11 +69,15 @@ const meetingStore = {
         method: "POST",
         data: params,
       }).then(({ data }) => {
-        commit("SINGLE_MEETING", data);
-        console.log(data.data);
-        sessionStorage.setItem("roomId", data.data.roomcode);
-        sessionStorage.setItem("roomNum", data.data.roomid);
-        router.push("/alone/" + data.data.roomcode);
+        if (data.message == "success") {
+          commit("SINGLE_MEETING", data);
+          console.log(data.data);
+          sessionStorage.setItem("roomId", data.data.roomcode);
+          sessionStorage.setItem("roomNum", data.data.roomid);
+          router.push("/alone/" + data.data.roomcode);
+        } else {
+          alert("에러 발생 개발자 잘못입니다.. 죄송요 ㅠㅠ");
+        }
       });
     },
     groupMeeting({ commit }, params) {
@@ -138,9 +142,13 @@ const meetingStore = {
         method: "POST",
         params: data,
       }).then(({ data }) => {
-        commit("TOPIC_MEETING", data);
-        console.log(data);
-        //router.push("/team/");
+        if (data.message == "success") {
+          commit("TOPIC_MEETING", data);
+          console.log(data);
+          router.push("/team/" + sessionStorage.getItem("roomId"));
+        } else {
+          alert("방인원이 가득찼습니다.");
+        }
       });
     },
     pullRoom(data) {
