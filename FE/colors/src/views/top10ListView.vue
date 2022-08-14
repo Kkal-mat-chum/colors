@@ -33,7 +33,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(this.$store.state.baseurl + "/api/topic/top10").then((response) => {
+    axios.get(this.$store.state.baseurl + "topic/top10").then((response) => {
       console.log(response.data);
       this.currentTopicNum = response.data.maxpage;
       this.topics = response.data.topics;

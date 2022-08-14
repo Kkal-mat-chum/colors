@@ -50,7 +50,7 @@ export default {
       let login_id = document.getElementById("logInInput").value;
       let login_pw = document.getElementById("logInpageInput").value;
       axios
-        .post(this.$store.state.memberStore.baseurl + "/api/auth/login", {
+        .post(this.$store.state.baseurl + "auth/login", {
           userId: login_id,
           password: login_pw,
         })
@@ -75,7 +75,7 @@ export default {
               response.data.member.authGrade = true;
             }
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
-            axios.get(this.$store.state.memberStore.baseurl + "/api/member/" + login_id).then((response) => {
+            axios.get(this.$store.state.baseurl + "member/" + login_id).then((response) => {
               if (response.data.message == "success") {
                 //https://granya.tistory.com/4 참조 배열을 저장하는 방법
                 sessionStorage.setItem("memberData", JSON.stringify(response.data));

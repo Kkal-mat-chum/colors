@@ -35,7 +35,7 @@ export default {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.userId;
       console.log(userid);
-      axios.delete(this.$store.state.baseurl + "api/member/" + userid);
+      axios.delete(this.$store.state.baseurl + "member/" + userid);
       //localstorage 토큰 & 유저정보 제거
       window.localStorage.removeItem("access-token");
     },

@@ -6,7 +6,6 @@ const memberStore = {
     // isLogin: JSON.parse(sessionStorage.getItem("isLogin")),
     members: [],
     member: {},
-    baseurl: "http://localhost:8080", // baseurl 바꾸기...
   },
   getters: {
     isLogin(state) {
