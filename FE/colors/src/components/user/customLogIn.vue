@@ -70,6 +70,10 @@ export default {
             localStorage.setItem("isLogin", true);
             this.$store.state.memberStore.isLogin = true;
             console.log(sessionStorage.getItem("isLogin"));
+            if (response.data.member.userId == "admin") {
+              console.log(response.data.member.userId);
+              response.data.member.authGrade = true;
+            }
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
             axios.get(this.$store.state.memberStore.baseurl + "/api/member/" + login_id).then((response) => {
               if (response.data.message == "success") {

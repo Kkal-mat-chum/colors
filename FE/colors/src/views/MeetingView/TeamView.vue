@@ -170,7 +170,6 @@ export default {
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
         this.$store.state.selectedColorLst = this.selectedColorLst;
-
         var name = this.modelHex;
         var awsid = this.awsid;
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
@@ -332,6 +331,15 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
+        let userNumber = this.session.streamManager.length;
+        let pull = this.mySessionId;
+        if (userNumber == 6) {
+          this.$store.dispatch("pullRoom", pull);
+        }
+        // if (this.session.streamManagers.length>=6) {
+        //   console.log(123),
+        // };
+        console.log(this.session);
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
       });
@@ -394,8 +402,11 @@ export default {
     },
 
     leaveSession() {
-      // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.disconnect();
+      // --- Leave the session by calling 'disconnect' method over the Session object --->
+      if (this.session) {
+        this.$store.dispatch("leaveSession", this.mySessionId);
+        this.session.disconnect();
+      }
 
       this.session = undefined;
       this.mainStreamManager = undefined;
@@ -482,6 +493,10 @@ export default {
           .then((data) => resolve(data.token))
           .catch((error) => reject(error.response));
       });
+    },
+    exit() {
+      this.$router.push("/enterPage");
+      this.$router.go();
     },
   },
 };
