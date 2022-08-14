@@ -137,17 +137,17 @@ export default {
       this.roomHeaderTitle = "미팅 코드";
       this.roomHeaderData = sessionStorage.getItem("sessionCode");
       this.myUserName = this.memberData.name;
-    } else {
+    } else if (this.$store.state.meetingStore.roomType == "random") {
       this.roomHeaderTitle = "미팅 주제";
       this.roomHeaderData = this.$store.state.meetingStore.groupUsers.title;
       this.myUserName = this.memberData.nickname;
     }
   },
   beforeMount() {
-    if (!this.publishAudio) {
+    if (this.publishAudio) {
       this.$store.commit("changePublishAudio");
     }
-    if (!this.publishVideo) {
+    if (this.publishVideo) {
       this.$store.commit("changePublishVideo");
     }
     this.joinSession();
@@ -155,7 +155,13 @@ export default {
   mounted() {
     console.log(this.subscribers);
   },
-
+  beforeRouteLeave(to, from, next) {
+    this.leaveSession();
+    setTimeout(() => {
+      next();
+      this.$router.go();
+    }, 100);
+  },
   methods: {
     ...mapActions(["toggleChatPanel"]),
     leaveMeeting() {
@@ -402,7 +408,9 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        this.$store.dispatch("leaveSession", this.mySessionId);
+        if (this.session.streamManager.length == 6) {
+          this.$store.dispatch("leaveSession", this.mySessionId);
+        }
         this.session.disconnect();
       }
 

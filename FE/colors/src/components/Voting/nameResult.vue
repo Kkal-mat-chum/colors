@@ -6,7 +6,7 @@
       <img :src="top1url" :alt="top1url" class="picture1" />
       <div class="colorMatchName">
         <div class="codeNum" :style="customFontColorMypickTop1" id="top1color">{{ top1color }}</div>
-        <div :style="customFontColorMypickTop1" id="top1color">색상 이름</div>
+        <div :style="customFontColorMypickTop1" id="top1color">{{ colorname }}</div>
       </div>
     </div>
     <div class="myPick">
@@ -16,7 +16,7 @@
         <div class="myPickCode" :style="customFontColorMypickTop1" id="mypickColor">{{ mypickcolor }}</div>
       </div>
     </div>
-    <div class="otherPickTitle">
+    <div class="otherPickTitle" v-if="showResult[0]">
       <div class="otherTitle">참여자들이 추천한 색상</div>
     </div>
     <div class="otherPick">
@@ -63,6 +63,7 @@
 <script>
 import axios from "axios";
 import customButton from "../common/customButton.vue";
+import namedColors from "color-name-list";
 
 export default {
   components: {
@@ -85,6 +86,14 @@ export default {
         "--fontcolor-mypick": this.mypickcolor,
         "--fontcolor-top1": this.top1color,
       };
+    },
+    colorname: function () {
+      try {
+        let someColor = namedColors.find((color) => color.hex === this.top1color);
+        return someColor.name;
+      } catch (error) {
+        return "!!unknown!!";
+      }
     },
     customVoterCodeColor() {
       if (this.$store.state.resultStore.cnt == 2) {
@@ -151,8 +160,8 @@ export default {
       // //개인 투표의 경우
       // if (this.$store.state.resultStore.cnt == 1) {
       axios
-        .get(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomId"),
+        .post(this.$store.state.baseurl + "room/vote/result", {
+          roomid: sessionStorage.getItem("roomNum"),
           userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {
@@ -173,8 +182,10 @@ export default {
               }
             } else {
               //개인일때, top1에 data내용 저장
+              this.top1url = response.data.data.url;
+              this.top1color = response.data.data.code;
               this.mypickurl = response.data.data.url;
-              this.mypickcolor = response.data.data.coed;
+              this.mypickcolor = response.data.data.code;
             }
           }
         });

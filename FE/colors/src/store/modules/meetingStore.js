@@ -145,6 +145,7 @@ const meetingStore = {
         if (data.message == "success") {
           commit("TOPIC_MEETING", data);
           console.log(data);
+          this.state.roomType = "random";
           router.push("/team/" + sessionStorage.getItem("roomId"));
         } else {
           alert("방인원이 가득찼습니다.");
@@ -153,7 +154,7 @@ const meetingStore = {
     },
     pullRoom(data) {
       api({
-        url: `/room/full`,
+        url: `/room/capacity`,
         method: "PUT",
         params: data,
       }).then(({ data }) => {
@@ -162,7 +163,7 @@ const meetingStore = {
     },
     leaveSession(data) {
       api({
-        url: `room/notfull`,
+        url: `/room/capacity`,
         method: "PUT",
         params: data,
       }).then(({ data }) => {

@@ -40,7 +40,7 @@
       </topic-list>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" @click="go" />
-        <div class="pagenationContainer">
+        <div class="panpmgenationContainer">
           <i class="material-symbols-rounded">keyboard_double_arrow_left</i>
           <i class="fa-solid fa-caret-left"></i>
           <customButton v-for="page in pages" :key="page" :btnText="page" @click="next(page)"></customButton>

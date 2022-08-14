@@ -117,23 +117,19 @@ export default {
   methods: {
     //미팅 결과 가져오기, store에 저장
     getResult() {
-      console.log("미팅 결과 가져오기");
+      console.log(sessionStorage.getItem("roomNum"));
       axios
-        .get(this.$store.state.baseurl + "room/result", {
-          roomid: sessionStorage.getItem("roomId"),
+        .post(this.$store.state.baseurl + "room/getresult", {
+          roomid: sessionStorage.getItem("roomNum"),
         })
         .then((response) => {
           console.log(response.data.message); //성공여부 확인 로그
-          this.$store.state.resultStore.aloneResult = response;
+          this.$store.state.resultStore.aloneResult = response.data;
           this.$store.state.resultStore.data = response.data.data;
           this.$store.state.resultStore.cnt = response.data.cnt;
           console.log("참여자 수");
           console.log(this.$store.state.resultStore.cnt);
         });
-    },
-    testClick() {
-      console.log(this.$store.state.resultStore.voteRound);
-      this.$store.state.resultStore.voteRound++;
     },
     //다음 라운드로 넘어가기
     nextRound() {
@@ -173,11 +169,11 @@ export default {
     },
     //투표 결과 저장(개인)
     saveVoteResult() {
-      console.log("결과 전송");
+      console.log(sessionStorage.getItem("memberId"));
       console.log(this.nowSelected);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomId"),
+          roomid: sessionStorage.getItem("roomNum"),
           userid: sessionStorage.getItem("memberId"),
           code: this.nowSelected,
         })

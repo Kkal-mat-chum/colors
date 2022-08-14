@@ -4,8 +4,8 @@
       <div class="camera">
         <webcam id="webcam" ref="camStream"></webcam>
         <div class="buttons">
-          <customButton class="mute" :class="{ muteActive: this.publishAudio }" btnText="음소거" @click="muteAudio"></customButton>
-          <customButton class="videostop" :class="{ muteActive: this.publishVideo }" btnText="비디오 중지" @click="muteVideo"></customButton>
+          <customButton class="mute" :class="{ muteActive: publishAudio }" btnText="음소거" @click="muteAudio"></customButton>
+          <customButton class="videostop" :class="{ muteActive: publishVideo }" btnText="비디오 중지" @click="muteVideo"></customButton>
         </div>
       </div>
       <div class="rightSidebar">
@@ -126,6 +126,13 @@ export default {
         hex: this.modelHex,
       });
     });
+  },
+  beforeRouteLeave(to, from, next) {
+    this.$refs.camStream.leaveSession();
+    setTimeout(() => {
+      next();
+      this.$router.go();
+    }, 100);
   },
   methods: {
     goton() {
@@ -312,7 +319,7 @@ export default {
     },
     exit() {
       this.$router.push("/enterPage");
-      this.$router.go();
+      // this.$router.go();
     },
   },
 };
