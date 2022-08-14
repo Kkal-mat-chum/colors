@@ -67,6 +67,9 @@ export default {
         topicid: this.topicId,
       };
       console.log(topicId);
+      sessionStorage.setItem("topicId", this.topicId);
+      console.log(2132131);
+      console.log(sessionStorage.getItem("topicId"));
       this.$store.dispatch("topicMeetingRoom", topicId);
     },
   },
