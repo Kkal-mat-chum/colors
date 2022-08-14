@@ -19,12 +19,20 @@
         </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
         <customButton class="votebtn" btnText="투표하기" @click="goVote"></customButton>
-        <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showModal" @close-modal="showModal = false" titleText="프로필 사진 변경">
+        <customButton class="exitbtn" btnText="종료"></customButton>
+        <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showModal" @close-modal="showModal = false" titleText="투표 방식 선택">
           <cotent>
-            <modify-profile></modify-profile>
+            <div class="vote">
+              <div>
+                <customButton class="selectVotebtn" btnText="토너먼트 형식으로 투표하기" @click="goton"></customButton>
+              </div>
+              <div>
+                <customButton class="selectVotebtn" btnText="베스트 원픽 투표하기" @click="gobest"></customButton>
+              </div>
+              <div class="coment">토너먼트 형식 : 8강전부터 베스트 컬러 선택 <br />베스트 원픽 : 8개의 컬러 중 베스트 컬러 선택</div>
+            </div>
           </cotent>
         </custom-modal>
-        <customButton class="exitbtn" btnText="종료"></customButton>
       </div>
     </div>
   </div>
@@ -120,6 +128,12 @@ export default {
     });
   },
   methods: {
+    goton() {
+      router.push("/aloneTournament");
+    },
+    gobest() {
+      router.push("/aloneVoting");
+    },
     muteAudio() {
       this.publisher.publishAudio(this.publishAudio);
       console.log(this.publishAudio);
@@ -268,6 +282,7 @@ export default {
           }
         }
       );
+      this.showModal = true;
     },
 
     dataURLtoFile(dataurl, fileName) {
@@ -306,6 +321,20 @@ html,
 body {
   height: 100vh;
   overflow: hidden;
+}
+.vote {
+  margin-top: 60px;
+}
+.selectVotebtn {
+  height: 50px;
+  width: 70%;
+  margin-top: 20px;
+}
+.coment {
+  text-align: right;
+  margin-top: 10%;
+  margin-right: 20px;
+  color: darkgray;
 }
 .contents {
   display: flex;
