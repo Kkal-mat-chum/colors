@@ -118,6 +118,7 @@ export default {
         // console.log(this.$store.state.tournamentResultLst);
         // 토너먼트 결과 저장 put
         this.saveVoteResult();
+        this.bringTotalResult();
         this.$router.push("/tournamentnameresult");
         // this.processed = "끗";
       }
@@ -137,6 +138,29 @@ export default {
             alert("전송 실패");
           }
           //fail이면 alert 해야하나요..?
+        });
+    },
+    //각 투표 합산put -> 투표 결과 가져오기get
+    bringTotalResult() {
+      axios
+        .put(this.$store.state.memberStore.baseurl + "/api/room/votesum", {
+          roomid: sessionStorage.getItem("roomId"),
+        })
+        .then((response) => {
+          if (response.message == "success") {
+            axios
+              .get(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+                roomid: sessionStorage.getItem("roomId"),
+                userid: sessionStorage.getItem("userId"),
+              })
+              .then((response) => {
+                if (response.message == "success") {
+                  this.$store.state.resultStore.totalResultData = response.data;
+                } else {
+                  alert("투표결과가져오기 실패");
+                }
+              });
+          }
         });
     },
   },

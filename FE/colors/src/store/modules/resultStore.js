@@ -88,10 +88,11 @@ const resultStore = {
         voter: "nick3",
         url: "url3",
       },
-    ], //투표결과 불러오기 내용 담길 곳
+    ], //투표결과 가져오기 내용 담길 곳
     totalResultTop1: {
       url: "url3",
       code: "#333333",
+      name: "사람이름", //개인이면 이것까지 담김
     }, //투표 결과 탑텐 내용 담길 곳
   },
   getters: {},
