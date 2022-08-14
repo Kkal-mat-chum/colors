@@ -19,7 +19,7 @@
         </div>
         <customButton class="selectColorbtn" btnText="색상 팔레트에 담기" ref="colorchoice" @click="showOneSelectedColor"></customButton>
         <customButton class="votebtn" btnText="투표하기" @click="goVote"></customButton>
-        <customButton class="exitbtn" btnText="종료"></customButton>
+        <customButton class="exitbtn" btnText="종료" @click="exit"></customButton>
         <custom-modal class="updateUserProfileModal" id="updateUserProfileModal" v-show="showModal" @close-modal="showModal = false" titleText="투표 방식 선택">
           <cotent>
             <div class="vote">
@@ -309,6 +309,10 @@ export default {
       this.$store.state.r = this.r;
       this.$store.state.g = this.g;
       this.$store.state.b = this.b;
+    },
+    exit() {
+      this.$router.push("/enterPage");
+      this.$router.go();
     },
   },
 };
