@@ -73,19 +73,21 @@ export default {
     updateMemberInfo() {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.userId;
-      console.log(memberData);
       let newNickName = document.getElementById("updateUserNickLabel").value;
       let newName = document.getElementById("updateUserNameLabel").value;
       let userPassword = document.getElementById("updateUserPwLabel").value;
+
+      console.log(userid, newNickName, newName, userPassword);
       if (this.nick_validation) {
         axios
-          .put(this.$store.state.baseurl + "api/member/changeinfo", {
+          .put(this.$store.state.baseurl + "member/changeinfo", {
             userid: userid,
+            password: userPassword,
             nickname: newNickName,
             name: newName,
-            password: userPassword,
           })
           .then((response) => {
+            console.log(response);
             if (response.data.message == "success") {
               alert("정보 수정이 완료되었습니다.");
             } else {
@@ -101,7 +103,7 @@ export default {
       let new_nickname = document.getElementById("updateUserNickLabel").value;
       var userNickname = memberData.data.nickname;
       axios
-        .post(this.$store.state.baseurl + "api/member/chknic", {
+        .post(this.$store.state.baseurl + "member/chknic", {
           input_nickname: new_nickname,
         })
         .then((response) => {

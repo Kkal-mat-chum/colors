@@ -34,6 +34,7 @@ import colorpallete from "@/components/myPage/colorPallete.vue";
 import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import html2canvas from "html2canvas";
 import AWS from "aws-sdk";
+import axios from "axios";
 
 export default {
   name: "aloneMeeting",
@@ -59,6 +60,25 @@ export default {
       selectedColorLst: ["#000000", "#000000", "#000000", "#000000", "#000000", "#000000"],
       awsid: process.env.VUE_APP_AWS_IDENTITYPOOLID,
     };
+  },
+  mounted() {
+    this.r = 0;
+    this.g = 0;
+    this.b = 0;
+    this.a = 1;
+
+    let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+    let userid = memberData.data.id;
+    let roomnum = sessionStorage.getItem("roomNum");
+    console.log(roomnum);
+    axios
+      .put(this.$store.state.baseurl + "room/status", {
+        roomid: roomnum,
+        hostid: userid,
+      })
+      .then((response) => {
+        console.log(response);
+      });
   },
   computed: {
     rgba() {
@@ -102,8 +122,9 @@ export default {
 
         var name = this.modelHex;
         var awsid = this.awsid;
+        var userid = sessionStorage.getItem("userId");
         html2canvas(document.getElementById("webcam")).then(function (canvas) {
-          document.getElementById("webcam").appendChild(canvas);
+          // document.getElementById("webcam").appendChild(canvas);
           var img = canvas.toDataURL("image/jpeg");
 
           // base64 -> image file
@@ -121,37 +142,41 @@ export default {
 
           console.log(file);
 
-          // // s3 upload
-          // AWS.config.update({
-          //   region: "ap-northeast-2",
-          //   credentials: new AWS.CognitoIdentityCredentials({
-          //     IdentityPoolId: awsid,
-          //   }),
-          // });
+          // s3 upload
+          AWS.config.update({
+            region: "ap-northeast-2",
+            credentials: new AWS.CognitoIdentityCredentials({
+              IdentityPoolId: awsid,
+            }),
+          });
 
-          // var s3 = new AWS.S3({
-          //   apiVersion: "2012-10-17",
-          //   params: {
-          //     Bucket: "ssafy7colors",
-          //   },
-          // });
+          var s3 = new AWS.S3({
+            apiVersion: "2012-10-17",
+            params: {
+              Bucket: "ssafy7colors",
+            },
+          });
 
-          // let photoKey = "/sdk/" + name + ".jpg";
+          var date = new Date();
+          var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+          var roomcode = sessionStorage.getItem("roomId");
 
-          // s3.upload(
-          //   {
-          //     Key: photoKey,
-          //     Body: file,
-          //     ACL: "public-read",
-          //   },
-          //   (err, data) => {
-          //     if (err) {
-          //       console.log(err);
-          //     }
-          //     alert("Successfully uploaded photo.");
-          //     console.log(data);
-          //   }
-          // );
+          let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + ".jpg";
+
+          s3.upload(
+            {
+              Key: photoKey,
+              Body: file,
+              ACL: "public-read",
+            },
+            (err, data) => {
+              if (err) {
+                console.log(err);
+              }
+              alert("Successfully uploaded photo.");
+              console.log(data);
+            }
+          );
         });
         // this.count++;
         this.count_pallete++;

@@ -66,7 +66,7 @@ export default {
       let user_email = document.getElementById("idFindEmailInputInIdpwFind").value;
       // console.log(user_name, user_email);
       axios
-        .post(this.$store.state.baseurl + "api/member/findid", {
+        .post(this.$store.state.baseurl + "member/findid", {
           name: user_name,
           email: user_email,
         })
@@ -74,6 +74,7 @@ export default {
           if (response.data.message == "success") {
             this.idResultShow = true;
             this.idFindWarningShow = false;
+            this.pwResultShow = false;
             this.userid = response.data.userid;
           } else {
             this.idFindWarningShow = true;
@@ -88,7 +89,7 @@ export default {
       let user_email = document.getElementById("pwFindEmailInputInIdpwFind").value;
       // console.log(user_id, user_email);
       axios
-        .post(this.$store.state.baseurl + "api/member/findpwd", {
+        .post(this.$store.state.baseurl + "member/findpwd", {
           userid: user_id,
           email: user_email,
         })
@@ -97,6 +98,7 @@ export default {
             this.pwResultShow = true;
             this.pwFindWarningShow = false;
             console.log("비밀번호를 메일로 전송");
+            this.idResultShow = false;
           } else {
             this.pwFindWarningShow = true;
             this.pwResultShow = false;
