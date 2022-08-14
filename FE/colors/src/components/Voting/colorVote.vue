@@ -193,15 +193,15 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          if (response.message == "success") {
+          if (response.data.message == "success") {
             axios
               .get(this.$store.state.baseurl + "room/vote", {
                 roomid: sessionStorage.getItem("roomId"),
                 userid: sessionStorage.getItem("userId"),
               })
               .then((response) => {
-                if (response.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data;
+                if (response.data.message == "success") {
+                  this.$store.state.resultStore.totalResultData = response.data.data;
                 } else {
                   alert("투표결과가져오기 실패");
                 }

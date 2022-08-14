@@ -117,6 +117,8 @@ export default {
         // console.log(this.$store.state.tournamentResultLst);
         // 토너먼트 결과 저장 put
         this.saveVoteResult();
+        this.bringTotalResult();
+        this.$router.push("/tournamentnameresult");
         // this.processed = "끗";
       }
     },
@@ -132,6 +134,22 @@ export default {
         .then((response) => {
           if (response.data.message == "fail") {
             alert("전송 실패");
+          } else if (response.data.message == "success") {
+            this.bringTotalResult();
+          }
+        });
+    },
+    //각 투표 합산put -> 투표 결과 가져오기get
+    bringTotalResult() {
+      axios
+        .post(this.$store.state.baseurl + "room/vote/result", {
+          roomid: sessionStorage.getItem("roomNum"),
+          userid: sessionStorage.getItem("memberId"),
+        })
+        .then((response) => {
+          if (response.data.message == "success") {
+            console.log(response.data);
+            this.$store.state.resultStore.totalResultTop1 = response.data.data;
           } else {
             axios
               .post(this.$store.state.baseurl + "room/vote/result", {
