@@ -151,7 +151,7 @@ export default {
       // //개인 투표의 경우
       // if (this.$store.state.resultStore.cnt == 1) {
       axios
-        .get(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+        .get(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
         })

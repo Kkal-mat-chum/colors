@@ -10,12 +10,12 @@
       <!-- <div class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]">
         <img :src="require(`@/${firstImageUrl}`)" alt="sample1" class="imageColorTourn"  />
       </div> -->
-      <img src="" :alt="tournImgUrls1" class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]" />
+      <img :src="tournImgUrls1" class="imageColorTourn" id="imageColorTourn1" @click="[selectFirstImage(), selectImage()]" />
       <label for="vs" class="vsLabel">vs</label>
       <!-- <div class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]">
         <img :src="require(`@/${secondImageUrl}`)" alt="sample2" class="imageTourn" />
       </div> -->
-      <img src="" :alt="tournImgUrls2" class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]" />
+      <img :src="tournImgUrls2" class="imageColorTourn" id="imageColorTourn2" @click="[selectSecondImage(), selectImage()]" />
       <div class="dummyMarginColorTourn2"></div>
     </div>
     <div class="bodyColorTourn3">
@@ -66,25 +66,24 @@ export default {
     },
   },
   mounted() {
-    //미팅 결과 가져오기
-    this.getResult();
+    var room = sessionStorage.getItem("roomNum");
+    console.log(room);
+    axios
+      .post(this.$store.state.baseurl + "room/getresult", {
+        roomid: room,
+      })
+      .then((response) => {
+        console.log(response);
+        this.$store.state.resultStore.aloneResult = response.data;
+        this.$store.state.resultStore.data = response.data;
+        this.$store.state.resultStore.cnt = response.data.cnt;
+        this.$store.state.selectedColorLst = response.data.data[0].colors;
+        this.$store.state.aloneImageUrlLst = response.data.data[0].urls;
+      });
   },
   methods: {
     //미팅 결과 가져오기, store에 저장(memberStore, store(팔레트용))
-    getResult() {
-      axios
-        .get(this.$store.state.memberStore.baseurl + "/api/room/result", {
-          roomid: sessionStorage.getItem("roomId"),
-        })
-        .then((response) => {
-          console.log(response.message); //성공여부 확인 로그
-          this.$store.state.resultStore.aloneResult = response;
-          this.$store.state.resultStore.data = response.data;
-          this.$store.state.resultStore.cnt = response.cnt;
-          this.$store.state.selectedColorLst = response.data[0].colors;
-          this.$store.state.aloneImageUrlLst = response.data[0].urls;
-        });
-    },
+    getResult() {},
     selectFirstImage() {
       this.tournOrder.push(this.firstImageIdx);
       this.tournamentResultLst.push(this.$store.state.selectedColorLst[this.firstImageIdx]);
@@ -125,16 +124,17 @@ export default {
     },
     saveVoteResult() {
       console.log("결과 전송");
+      console.log(this.$store.state.resultStore.totalResultTop1.url);
       console.log(this.$store.state.tournamentResultLst[14]);
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
-          roomid: sessionStorage.getItem("roomId"),
+        .put(this.$store.state.baseurl + "room/vote", {
+          roomid: sessionStorage.getItem("roomNum"),
           userid: sessionStorage.getItem("memberId"),
           code: this.$store.state.tournamentResultLst[14],
         })
         .then((response) => {
           console.log(response);
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             alert("전송 실패");
           }
           //fail이면 alert 해야하나요..?
@@ -143,23 +143,16 @@ export default {
     //각 투표 합산put -> 투표 결과 가져오기get
     bringTotalResult() {
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/votesum", {
-          roomid: sessionStorage.getItem("roomId"),
+        .post(this.$store.state.baseurl + "room/vote/result", {
+          roomid: sessionStorage.getItem("roomNum"),
+          userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {
-          if (response.message == "success") {
-            axios
-              .get(this.$store.state.memberStore.baseurl + "/api/room/vote", {
-                roomid: sessionStorage.getItem("roomId"),
-                userid: sessionStorage.getItem("userId"),
-              })
-              .then((response) => {
-                if (response.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data;
-                } else {
-                  alert("투표결과가져오기 실패");
-                }
-              });
+          if (response.data.message == "success") {
+            console.log(response.data);
+            this.$store.state.resultStore.totalResultTop1 = response.data.data;
+          } else {
+            alert("투표결과가져오기 실패");
           }
         });
     },

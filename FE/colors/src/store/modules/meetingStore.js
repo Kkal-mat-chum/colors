@@ -69,11 +69,15 @@ const meetingStore = {
         method: "POST",
         data: params,
       }).then(({ data }) => {
-        commit("SINGLE_MEETING", data);
-        console.log(data.data);
-        sessionStorage.setItem("roomId", data.data.roomcode);
-        sessionStorage.setItem("roomNum", data.data.roomid);
-        router.push("/alone/" + data.data.roomcode);
+        if (data.message == "success") {
+          commit("SINGLE_MEETING", data);
+          console.log(data.data);
+          sessionStorage.setItem("roomId", data.data.roomcode);
+          sessionStorage.setItem("roomNum", data.data.roomid);
+          router.push("/alone/" + data.data.roomcode);
+        } else {
+          alert("에러 발생 개발자 잘못입니다.. 죄송요 ㅠㅠ");
+        }
       });
     },
     groupMeeting({ commit }, params) {
@@ -87,7 +91,6 @@ const meetingStore = {
           console.log(data.message);
           commit("GOURP_MEETING", data);
           if (data.message === "success") {
-            console.log(1111);
             router.push("/team/" + sessionStorage.getItem("roomId"));
           } else {
             alert("입장코드를 다시 확인하세요.");
@@ -135,12 +138,35 @@ const meetingStore = {
     },
     topicMeetingRoom({ commit }, data) {
       api({
-        url: `/romm/join/random`,
+        url: `/room/join/random`,
         method: "POST",
         params: data,
       }).then(({ data }) => {
-        commit("TOPIC_MEETING", data);
-        router.push("/team/");
+        if (data.message == "success") {
+          commit("TOPIC_MEETING", data);
+          console.log(data);
+          router.push("/team/" + sessionStorage.getItem("roomId"));
+        } else {
+          alert("방인원이 가득찼습니다.");
+        }
+      });
+    },
+    pullRoom(data) {
+      api({
+        url: `/room/full`,
+        method: "PUT",
+        params: data,
+      }).then(({ data }) => {
+        console.log(data);
+      });
+    },
+    leaveSession(data) {
+      api({
+        url: `room/notfull`,
+        method: "PUT",
+        params: data,
+      }).then(({ data }) => {
+        console.log(data);
       });
     },
   },

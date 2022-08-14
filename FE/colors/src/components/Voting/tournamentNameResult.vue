@@ -3,7 +3,7 @@
     <custom-sidebar></custom-sidebar>
     <div class="mainPicture">
       <!-- <div class="picture1" :style="resultTournColor" id="tournResult10" @click="test"></div> -->
-      <img src="@/assets/join_img1.png" alt="예시사진" class="picture1" />
+      <img :src="top1" class="picture1" />
       <div class="titleColor">
         {{ finalWinColor }}
         <!-- <div>컬러네임</div> -->
@@ -149,6 +149,9 @@ export default {
     },
     finalWinColor() {
       return this.$store.state.tournamentResultLst[14];
+    },
+    top1() {
+      return this.$store.state.resultStore.totalResultTop1.url;
     },
   },
 };
