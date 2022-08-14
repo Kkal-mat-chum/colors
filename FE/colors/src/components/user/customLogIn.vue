@@ -67,7 +67,7 @@ export default {
             sessionStorage.setItem("memberId", response.data.member.id);
             sessionStorage.setItem("userId", response.data.member.userId);
             sessionStorage.setItem("userNick", response.data.member.nickname);
-            localStorage.setItem("isLogin", true);
+            sessionStorage.setItem("isLogin", true);
             this.$store.state.memberStore.isLogin = true;
             console.log(sessionStorage.getItem("isLogin"));
             if (response.data.member.userId == "admin") {
