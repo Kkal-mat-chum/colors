@@ -41,7 +41,7 @@ export default {
     clickLike() {
       console.log("clicked like");
       axios
-        .post(this.$store.state.baseurl + "api/vote/", {
+        .post(this.$store.state.baseurl + "vote/", {
           topicId: this.topicId,
           userId: sessionStorage.getItem("userId"),
         })
@@ -54,7 +54,7 @@ export default {
     },
     clickUnLike() {
       console.log("clicked unlike");
-      axios.delete(this.$store.state.baseurl + "api/vote/" + this.topicId + "/" + sessionStorage.getItem("userId")).then((response) => {
+      axios.delete(this.$store.state.baseurl + "vote/" + this.topicId + "/" + sessionStorage.getItem("userId")).then((response) => {
         if (response.message == "access") {
           console.log(response.data);
           this.$emit("clicklike", this.cnt - 1);

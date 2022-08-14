@@ -80,7 +80,7 @@ export default {
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     var userId = memberData.data.id;
     axios
-      .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+      .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
         userId: userId,
         keyword: "",
       })
@@ -108,7 +108,7 @@ export default {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       var userId = memberData.data.id;
       axios
-        .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
           userId: userId,
           keyword: "",
         })
@@ -148,7 +148,7 @@ export default {
       var userId = memberData.data.id;
 
       axios
-        .post(this.$store.state.baseurl + "api/topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
+        .post(this.$store.state.baseurl + "topic/list?page=" + this.currentPageNum + "&sort=" + this.sorting, {
           userId: userId,
           keyword: "",
         })
