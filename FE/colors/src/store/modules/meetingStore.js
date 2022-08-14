@@ -70,8 +70,9 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("SINGLE_MEETING", data);
-        console.log(data.data.roomcode);
-        sessionStorage.setItem("rommId", data.data.room);
+        console.log(data.data);
+        sessionStorage.setItem("roomId", data.data.roomcode);
+        sessionStorage.setItem("roomNum", data.data.roomid);
         router.push("/alone/" + data.data.roomcode);
       });
     },
