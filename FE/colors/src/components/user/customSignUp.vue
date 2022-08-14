@@ -129,7 +129,7 @@ export default {
     },
     //아이디 유효성 검사
     validID(inputID) {
-      const reg = /^[a-z][a-z0-9]{5,14}$/g;
+      const reg = /(?=.*\d)(?=.[a-z]).{5,14}/g;
       if (reg.test(inputID) || !this.validateId) {
         // console.log("유효한 아이디");
         this.id_validation = true;
@@ -145,7 +145,7 @@ export default {
     },
     //비밀번호 유효성 검사
     validPW(inputPW) {
-      const reg = /^(?=.*[a-zA-Z0-9]).{8,30}$/;
+      const reg = /(?=.*\d)(?=.[a-zA-Z]).{8,30}/g;
       if (reg.test(inputPW) || !this.validatePw) {
         // console.log("유효한 비밀번호");
         this.pw_validation = true;
@@ -177,7 +177,7 @@ export default {
           }
         });
     },
-    // 이메일 인증 버튼 클릭 시 @@@@@ authNumber auth_number?
+    // 이메일 인증 버튼 클릭 시
     checkEmail() {
       let new_email = document.getElementById("emailLabel").value;
       axios
