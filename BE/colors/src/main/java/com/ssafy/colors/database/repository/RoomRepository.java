@@ -17,10 +17,20 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
     public Room findFirstByRoomCodeAndStatus(String code, RoomStatus status);
-
+    @Query("SELECT r FROM Room as r " +
+            "WHERE r.topic = :topic AND r.status = :status AND r.isFull = :full")
+    public List<Room> findAccessibleRoom(@Param("topic") Topic topic,
+                                         @Param("status") RoomStatus status,
+                                         @Param("full") boolean full);
     public List<Room> findRoomByTopicAndRoomTypeAndStatus(Topic topic, RoomType type, RoomStatus status);
 
     public Room findByIdAndHost(Long id, Member host);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true,
+            value = "update room set is_full = not(is_full) where id = :roomId ")
+    public int reverseCapacity(@Param("roomId") Long roomId);
 
     @Modifying
     @Transactional
