@@ -124,16 +124,17 @@ export default {
     },
     saveVoteResult() {
       console.log("결과 전송");
+      console.log(this.$store.state.resultStore.totalResultTop1.url);
       console.log(this.$store.state.tournamentResultLst[14]);
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
+        .put(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomNum"),
           userid: sessionStorage.getItem("memberId"),
           code: this.$store.state.tournamentResultLst[14],
         })
         .then((response) => {
           console.log(response);
-          if (response.message == "fail") {
+          if (response.data.message == "fail") {
             alert("전송 실패");
           }
           //fail이면 alert 해야하나요..?
@@ -142,23 +143,16 @@ export default {
     //각 투표 합산put -> 투표 결과 가져오기get
     bringTotalResult() {
       axios
-        .put(this.$store.state.memberStore.baseurl + "/api/room/votesum", {
-          roomid: sessionStorage.getItem("roomId"),
+        .post(this.$store.state.baseurl + "room/vote/result", {
+          roomid: sessionStorage.getItem("roomNum"),
+          userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {
-          if (response.message == "success") {
-            axios
-              .get(this.$store.state.memberStore.baseurl + "/api/room/vote", {
-                roomid: sessionStorage.getItem("roomId"),
-                userid: sessionStorage.getItem("userId"),
-              })
-              .then((response) => {
-                if (response.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data;
-                } else {
-                  alert("투표결과가져오기 실패");
-                }
-              });
+          if (response.data.message == "success") {
+            console.log(response.data);
+            this.$store.state.resultStore.totalResultTop1 = response.data.data;
+          } else {
+            alert("투표결과가져오기 실패");
           }
         });
     },
