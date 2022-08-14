@@ -39,12 +39,12 @@ const meetingStore = {
   mutations: {
     SINGLE_MEETING(state, data) {
       state.singleUsers.push(data);
-      state.roomType = data.roomtype;
+      state.roomType = "single";
       sessionStorage.setItem("roomId", data.data.roomcode);
     },
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
-      state.roomType = data.roomtype;
+      state.roomType = "group";
     },
     changePublishAudio(state) {
       state.publishAudio = !state.publishAudio;
@@ -70,7 +70,9 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("SINGLE_MEETING", data);
-        console.log(data.data.roomcode);
+        console.log(data.data);
+        sessionStorage.setItem("roomId", data.data.roomcode);
+        sessionStorage.setItem("roomNum", data.data.roomid);
         router.push("/alone/" + data.data.roomcode);
       });
     },
@@ -129,6 +131,16 @@ const meetingStore = {
         type: "chat",
         data: JSON.stringify(messageData),
         to: [],
+      });
+    },
+    topicMeetingRoom({ commit }, data) {
+      api({
+        url: `/romm/join/random`,
+        method: "POST",
+        params: data,
+      }).then(({ data }) => {
+        commit("TOPIC_MEETING", data);
+        router.push("/team/");
       });
     },
   },

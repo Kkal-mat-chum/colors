@@ -38,11 +38,34 @@ export default {
       myUserName: "Participant" + Math.floor(Math.random() * 100),
     };
   },
+  computed: {
+    publishAudio() {
+      return this.$store.getters.getPublishAudio;
+    },
+    publishVideo() {
+      return this.$store.getters.getPublishVideo;
+    },
+  },
   beforeMount() {
+    if (!this.publishAudio) {
+      this.$store.commit("changePublishAudio");
+    }
+    if (!this.publishVideo) {
+      this.$store.commit("changePublishVideo");
+    }
     this.joinSession();
   },
 
   methods: {
+    muteAudio() {
+      this.publisher.publishAudio(this.publishAudio);
+      console.log(this.publishAudio);
+      this.$store.commit("changePublishAudio");
+    },
+    muteVideo() {
+      this.publisher.publishVideo(this.publishVideo);
+      this.$store.commit("changePublishVideo");
+    },
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
@@ -89,7 +112,7 @@ export default {
               resolution: "800x420", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: true, // Whether to mirror your local video or not
+              mirror: false, // Whether to mirror your local video or not
             });
 
             this.mainStreamManager = publisher;

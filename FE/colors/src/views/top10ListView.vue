@@ -1,6 +1,5 @@
 <template>
   <div>
-    <customSidebar />
     <div class="contentWindow">
       <div class="userInfo">
         {{ userName }}님 환영합니다!
@@ -8,7 +7,7 @@
       </div>
       <h2 class="topicTenTitle">이번주 토픽 TOP 10</h2>
       <TopicList class="topTenList" :isEnter="true">
-        <TopicArticle class="topicArticle" :isEnter="true" v-for="topic in popics" :key="topic.id" :topicId="topic.id" :topicArticleTitle="topic.title" />
+        <TopicArticle class="topicArticle" :isEnter="true" v-for="topic in topics" :key="topic.id" :topicId="topic.id" :topicArticleTitle="topic.title" />
       </TopicList>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" />
