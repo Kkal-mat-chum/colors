@@ -143,7 +143,7 @@ export default {
     //투표 결과 가져오기
     saveVoteResult() {
       axios
-        .get(this.$store.state.baseurl + "room/vote", {
+        .post(this.$store.state.baseurl + "room/vote/result", {
           roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
         })
