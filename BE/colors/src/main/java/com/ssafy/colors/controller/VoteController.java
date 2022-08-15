@@ -27,6 +27,7 @@ public class VoteController {
     public ResponseEntity<HashMap> registVote(@RequestBody VoteDTO vote) {
         Long count = voteService.saveVote(vote);
         HashMap<String, Object > result = new HashMap<>();
+        result.put("message","access");
         result.put("count", count);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -38,7 +39,7 @@ public class VoteController {
         Long count = voteService.deleteVote(topicId, userId);
         HashMap<String, Object> result = new HashMap<>();
         result.put("count",count);
-
+        result.put("message","access");
         return new ResponseEntity<>(result ,HttpStatus.OK);
     }
 
