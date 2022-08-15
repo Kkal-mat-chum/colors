@@ -2,10 +2,10 @@
   <div class="topicAritcleItem" v-bind="$attrs">
     <span class="topicTitle">{{ topicArticleTitle }}</span>
     <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic">delete</span>
-    <span class="fa-solid fa-heart topicLike" v-if="isTopic & recommend" @click="clickUnLike">
+    <span class="fa-solid fa-heart topicLike" v-if="isTopic & recommend" @click="clickUnLike" style="cursor: pointer">
       <span class="topicScore">{{ cnt }}</span>
     </span>
-    <span class="fa-regular fa-heart topicLike" v-if="isTopic & !recommend" @click="clickLike">
+    <span class="fa-regular fa-heart topicLike" v-if="isTopic & !recommend" @click="clickLike" style="cursor: pointer">
       <span class="topicScore">{{ cnt }}</span>
     </span>
     <customButton class="topicEnterButton" btnText="입장하기" @click="topicRoom" v-if="isEnter"></customButton>
