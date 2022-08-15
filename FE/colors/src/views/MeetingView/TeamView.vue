@@ -38,7 +38,7 @@
           <h2 class="code">{{ roomHeaderData }}</h2>
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <!-- <customButton class="btn" btnText="투표하기" @click="goVote"></customButton> -->
-          <customButton class="btn" btnText="투표하기" @click="sendVote"></customButton>
+          <customButton class="btn" :class="{ muteActive: !ready }" btnText="투표하기" @click="sendVote"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
           <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
