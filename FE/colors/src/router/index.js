@@ -63,11 +63,13 @@ const routes = [
   {
     path: "/signup",
     name: "signUp",
+    meta: { authRequired: true },
     component: () => import("@/components/user/customSignUp.vue"),
   },
   {
     path: "/",
     name: "logIn",
+    meta: { authRequired: true },
     component: () => import("@/components/user/customLogIn.vue"),
   },
   {
@@ -151,6 +153,23 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach(function (to, from, next) {
+  if (
+    to.matched.some(function (routeInfo) {
+      return routeInfo.meta.authRequired;
+    })
+  ) {
+    next();
+  } else {
+    if (sessionStorage.getItem("access-token") != null) {
+      next();
+    } else {
+      alert("로그인하세요");
+      next({ path: "/" });
+    }
+  }
 });
 
 export default router;

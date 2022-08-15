@@ -40,6 +40,16 @@
           <customButton class="btn" btnText="투표하기" @click="goVote"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
+          <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
+            <cotent>
+              <div class="content">
+                <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 30px">시작</strong> 버튼을 눌러주세요.</p>
+                <p class="notice">시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.</p>
+              </div>
+
+              <customButton class="btn" btnText="확인" @click="showstartModal = false"></customButton>
+            </cotent>
+          </custom-modal>
         </div>
       </div>
     </div>
@@ -128,6 +138,7 @@ export default {
       memberData: JSON.parse(sessionStorage.getItem("memberData")).data,
       roomHeaderTitle: "",
       roomHeaderData: "",
+      showstartModal: false,
     };
   },
   created() {
@@ -156,6 +167,7 @@ export default {
     console.log(this.subscribers);
     if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
       this.ishost = true;
+      this.showstartModal = true;
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -191,6 +203,17 @@ export default {
       if (this.count_pallete < 8) {
         this.modelHex = this.rgb2hex(this.rgba, true);
         console.log(this.modelHex);
+        var duplicated = 0;
+        console.log(this.$store.state.selectedColorLst);
+        for (var i = 0; i < this.count_pallete; i++) {
+          if (this.$store.state.selectedColorLst[i] == this.modelHex) {
+            alert("중복된 색이 있습니다.");
+            duplicated = 1;
+          }
+        }
+        if (duplicated == 1) {
+          return;
+        }
         this.$store.commit("NEW_COLOR", { color: this.modelHex });
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
@@ -707,5 +730,15 @@ body {
 /* our */
 #local-video-undefined {
   width: 20vh;
+}
+.notice {
+  font-size: 20px;
+  margin: 20px 10px 20px 10px;
+}
+.content {
+  margin: 80px 0px 70px 0px;
+}
+.br {
+  margin: 10px;
 }
 </style>
