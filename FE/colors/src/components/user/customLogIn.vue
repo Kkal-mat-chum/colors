@@ -197,7 +197,9 @@ input::placeholder {
   width: 72%;
   justify-content: center;
 }
-/* #findIdpwModal {
-  height: 50%;
-} */
+#findIdpwModal {
+  /* height: 50%; */
+  width: 120%;
+  margin-left: -150px;
+}
 </style>
