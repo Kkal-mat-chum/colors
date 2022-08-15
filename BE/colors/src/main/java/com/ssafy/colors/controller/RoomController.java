@@ -70,7 +70,7 @@ public class RoomController {
         String roomCode = roomService.findRandomRoom(topicId);
 
         if(roomCode != null) {
-            result.put("data", roomCode);
+            result.put("roomcode", roomCode);
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);
