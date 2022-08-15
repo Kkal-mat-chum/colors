@@ -70,6 +70,7 @@ export default {
             if (response.data.message == "success") {
               console.log("비밀번호 변경 성공");
               alert("비밀번호 변경이 완료되었습니다.");
+              this.gotoMypage();
             } else {
               console.log("비밀번호 변경 실패");
               this.pw_validation = false;
@@ -93,6 +94,9 @@ export default {
       // this.valid.pw = false;
       // this.pwHasError = true;
       return;
+    },
+    gotoMypage() {
+      this.$router.push("/mypage");
     },
   },
 };
