@@ -118,6 +118,10 @@ export default {
         // 토너먼트 결과 저장 put
         this.saveVoteResult();
         this.bringTotalResult();
+
+        var index = this.tournOrder[14];
+        this.$store.state.resultStore.totalResultTop1.url = this.$store.state.aloneImageUrlLst[index];
+        this.$store.state.resultStore.totalResultTop1.code = this.$store.state.selectedColorLst[index];
         this.$router.push("/tournamentnameresult");
         // this.processed = "끗";
       }
@@ -132,10 +136,9 @@ export default {
           code: this.$store.state.tournamentResultLst[14],
         })
         .then((response) => {
+          this.bringTotalResult();
           if (response.data.message == "fail") {
             alert("전송 실패");
-          } else if (response.data.message == "success") {
-            this.bringTotalResult();
           }
         });
     },

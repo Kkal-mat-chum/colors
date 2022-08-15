@@ -2,10 +2,10 @@
   <div class="topicAritcleItem" v-bind="$attrs">
     <span class="topicTitle">{{ topicArticleTitle }}</span>
     <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic">delete</span>
-    <span class="fa-solid fa-heart topicLike" v-if="isTopic & recommend" @click="clickLike">
+    <span class="fa-solid fa-heart topicLike" v-if="isTopic & recommend" @click="clickUnLike">
       <span class="topicScore">{{ cnt }}</span>
     </span>
-    <span class="fa-regular fa-heart topicLike" v-if="isTopic & !recommend" @click="clickUnLike">
+    <span class="fa-regular fa-heart topicLike" v-if="isTopic & !recommend" @click="clickLike">
       <span class="topicScore">{{ cnt }}</span>
     </span>
     <customButton class="topicEnterButton" btnText="입장하기" @click="topicRoom" v-if="isEnter"></customButton>
@@ -50,19 +50,18 @@ export default {
         })
         .then((response) => {
           if (response.data.message == "access") {
-            console.log(this.topicId);
-            console.log(response.data);
-            this.$emit("clicklike", { cnt: this.cnt + 1, recommend: !this.recommend });
+            this.$emit("clickLike", { cnt: response.data.count, recommend: true });
           }
         });
     },
     clickUnLike() {
       console.log("clicked unlike");
-      const response = axios.delete(this.$store.state.baseurl + "vote/" + this.topicId + "/" + sessionStorage.getItem("memberId"));
-      if (response.message == "access") {
-        console.log(response.data);
-        this.$emit("clicklike", { cnt: this.cnt - 1, recommend: !this.recommend });
-      }
+      axios.delete(this.$store.state.baseurl + "vote/" + this.topicId + "/" + sessionStorage.getItem("memberId")).then((response) => {
+        console.log(response);
+        if (response.data.message == "access") {
+          this.$emit("clickLike", { cnt: response.data.count, recommend: false });
+        }
+      });
     },
     topicRoom() {
       let topicId = {
@@ -70,6 +69,8 @@ export default {
       };
       sessionStorage.setItem("toppicTitle", this.topicArticleTitle);
       console.log(topicId);
+      console.log(1231321);
+      sessionStorage.setItem("groupMeetingName", sessionStorage.getItem("userNick"));
       sessionStorage.setItem("topicId", this.topicId);
       console.log(2132131);
       console.log(sessionStorage.getItem("topicId"));
