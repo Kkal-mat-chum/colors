@@ -76,6 +76,12 @@ export default {
       console.log(sessionStorage.getItem("topicId"));
       this.$store.dispatch("topicMeetingRoom", topicId);
     },
+    deleteTopic() {
+      let topicid = this.topicId;
+      console.log(topicid);
+      sessionStorage.setItem("topicData", topicid);
+      this.$store.dispatch("deleteTopic", topicid);
+    },
   },
 };
 </script>

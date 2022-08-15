@@ -22,7 +22,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     public List<Room> findAccessibleRoom(@Param("topic") Topic topic,
                                          @Param("status") RoomStatus status,
                                          @Param("full") boolean full);
-    public List<Room> findRoomByTopicAndRoomTypeAndStatus(Topic topic, RoomType type, RoomStatus status);
 
     public Room findByIdAndHost(Long id, Member host);
 

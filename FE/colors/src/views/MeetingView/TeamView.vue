@@ -544,10 +544,14 @@ export default {
           this.numberOFparti = response.data.connections.numberOfElements;
           console.log(response);
           console.log(response.data.connections.numberOfElements);
+          console.log("값확인이전");
           if (response.data.connections.numberOfElements > 6) {
             console.log("값확인");
-            let pull = this.mySessionId;
-            this.$store.dispatch("pullRoom", pull);
+            let roomid = {
+              roomid: sessionStorage.getItem("roomNumber"),
+            };
+            console.log(roomid);
+            this.$store.dispatch("pullRoom", roomid);
           }
         });
       return this.numberOFparti;

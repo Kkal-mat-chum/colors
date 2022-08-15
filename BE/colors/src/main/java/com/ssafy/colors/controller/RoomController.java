@@ -1,5 +1,6 @@
 package com.ssafy.colors.controller;
 
+import com.ssafy.colors.database.entity.Room;
 import com.ssafy.colors.request.Colorset;
 import com.ssafy.colors.request.ResultReq;
 import com.ssafy.colors.request.RoomReq;
@@ -67,10 +68,11 @@ public class RoomController {
         Map<String, Object> result = new HashMap<>();
         Long topicId = Long.parseLong(params.get("topicid").toString());
 
-        String roomCode = roomService.findRandomRoom(topicId);
+        Room room = roomService.findRandomRoom(topicId);
 
-        if(roomCode != null) {
-            result.put("data", roomCode);
+        if(room != null) {
+            result.put("roomid", room.getId());
+            result.put("roomcode", room.getRoomCode());
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);
@@ -78,25 +80,6 @@ public class RoomController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-//    @PostMapping("/join/random")
-//    public ResponseEntity<Map<String, Object>> joinRandomMeeting(@RequestBody Map<String, Object> params) {
-//        System.out.println("[POST - /room/join/random]");
-//
-//        Map<String, Object> result = new HashMap<>();
-//        Long topicId = Long.parseLong(params.get("topic_id").toString());
-//
-//        List<String> roomList = roomService.findRandomRoomList(topicId);
-//
-//        if(!roomList.isEmpty()) {
-//            result.put("data", roomList);
-//            result.put("message", SUCCESS);
-//        } else {
-//            result.put("message", FAIL);
-//        }
-//
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
 
     @PutMapping("/capacity")
     public ResponseEntity<Map<String, Object>> changeRoomCapacityStatus(@RequestBody Map<String, Object> params) {
