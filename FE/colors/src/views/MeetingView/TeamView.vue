@@ -111,7 +111,7 @@ export default {
       subscribers: [],
 
       mySessionId: sessionStorage.getItem("roomId"),
-      myUserName: "testName",
+      myUserName: sessionStorage.getItem("groupMeetingName"),
       modelRgba: "",
       modelHex: "",
       r: 0,
@@ -469,7 +469,8 @@ export default {
         .then((response) => {
           connectionsNumber = response.data.connections.numberOfElements;
           console.log(response.data.connections.numberOfElements);
-          if (response.data.connections.numberOfElements == 6) {
+          if (response.data.connections.numberOfElements > 6) {
+            console.log("값확인");
             let pull = this.mySessionId;
             this.$store.dispatch("pullRoom", pull);
           }

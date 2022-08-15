@@ -67,6 +67,8 @@ export default {
         topicid: this.topicId,
       };
       console.log(topicId);
+      console.log(1231321);
+      sessionStorage.setItem("groupMeetingName", sessionStorage.getItem("userNick"));
       sessionStorage.setItem("topicId", this.topicId);
       console.log(2132131);
       console.log(sessionStorage.getItem("topicId"));
