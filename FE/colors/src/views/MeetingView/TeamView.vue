@@ -39,6 +39,7 @@
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <!-- <customButton class="btn" btnText="투표하기" @click="goVote"></customButton> -->
           <customButton class="btn" :class="{ muteActive: !ready }" btnText="투표하기" @click="sendVote"></customButton>
+          <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startVote"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
           <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
@@ -140,9 +141,11 @@ export default {
       roomHeaderTitle: "",
       roomHeaderData: "",
       ready: true,
+      readyAll: false,
       readys: {},
       numberOFparti: this.getSession(this.mySessionId),
       showstartModal: false,
+      ishostCopy: false,
     };
   },
   created() {
@@ -189,6 +192,7 @@ export default {
     },
     start() {
       this.ishost = false;
+      this.ishostCopy = true;
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.id;
       let roomnum = sessionStorage.getItem("roomNum");
@@ -407,6 +411,12 @@ export default {
       });
       this.ready = !vote;
     },
+    startVote() {
+      this.session.signal({
+        type: "goVote",
+        to: [],
+      });
+    },
     muteAudio() {
       this.publisher.publishAudio(this.publishAudio);
       console.log(this.publishAudio);
@@ -471,7 +481,9 @@ export default {
         if (readyNumber == this.numberOFparti) {
           console.log("Every People Ready to Vote");
           console.log("asfdjjsjfslkjflkjsflkjalkjslkjasfd");
-          this.goVote();
+          if (this.ishostCopy) {
+            this.readyAll = true;
+          }
         }
       });
 
