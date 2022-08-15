@@ -117,10 +117,10 @@ export default {
   methods: {
     //미팅 결과 가져오기, store에 저장
     getResult() {
-      console.log(sessionStorage.getItem("roomNum"));
+      console.log(sessionStorage.getItem("roomId"));
       axios
         .post(this.$store.state.baseurl + "room/getresult", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           console.log(response.data.message); //성공여부 확인 로그
@@ -172,7 +172,7 @@ export default {
       console.log(this.nowSelected);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
           code: this.nowSelected,
         })
@@ -189,13 +189,13 @@ export default {
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
-          roomid: sessionStorage.getItem("roomId"),
+          roomid: sessionStorage.getItem("roomCode"),
         })
         .then((response) => {
           if (response.data.message == "success") {
             axios
               .get(this.$store.state.baseurl + "room/vote", {
-                roomid: sessionStorage.getItem("roomId"),
+                roomid: sessionStorage.getItem("roomCode"),
                 userid: sessionStorage.getItem("userId"),
               })
               .then((response) => {

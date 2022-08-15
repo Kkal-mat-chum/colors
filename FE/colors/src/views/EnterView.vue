@@ -51,7 +51,7 @@ export default {
       let roomcode = {
         roomcode: this.roomCode,
       };
-      sessionStorage.setItem("roomId", this.roomCode);
+      sessionStorage.setItem("roomCode", this.roomCode);
       sessionStorage.setItem("groupMeetingName", sessionStorage.getItem("userName"));
       console.log(roomcode);
       this.$store.dispatch("groupMeeting", roomcode);

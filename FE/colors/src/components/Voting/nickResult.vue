@@ -144,7 +144,7 @@ export default {
     saveVoteResult() {
       axios
         .post(this.$store.state.baseurl + "room/vote/result", {
-          roomid: sessionStorage.getItem("roomId"),
+          roomid: sessionStorage.getItem("roomCode"),
           userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {

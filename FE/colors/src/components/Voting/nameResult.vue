@@ -168,7 +168,7 @@ export default {
       if (this.$store.state.resultStore.cnt == 1) {
         axios
           .post(this.$store.state.baseurl + "room/vote/result", {
-            roomid: sessionStorage.getItem("roomNum"),
+            roomid: sessionStorage.getItem("roomId"),
             userid: sessionStorage.getItem("memberId"),
           })
           .then((response) => {
@@ -200,7 +200,7 @@ export default {
         //단체, 랜덤 투표의 경우
         axios
           .post(this.$store.state.baseurl + "room/vote", {
-            roomid: sessionStorage.getItem("roomId"),
+            roomid: sessionStorage.getItem("roomCode"),
             userid: sessionStorage.getItem("memberId"),
             content: 1, //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
           })
