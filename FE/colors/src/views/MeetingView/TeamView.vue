@@ -263,7 +263,7 @@ export default {
           var s3 = new AWS.S3({
             apiVersion: "2012-10-17",
             params: {
-              Bucket: "ssafy7colors",
+              Bucket: "ssafy7color",
             },
           });
 
@@ -309,7 +309,7 @@ export default {
       var s3 = new AWS.S3({
         apiVersion: "2012-10-17",
         params: {
-          Bucket: "ssafy7colors",
+          Bucket: "ssafy7color",
         },
       });
 
@@ -334,7 +334,7 @@ export default {
             var colorset = { url: "", code: "" };
             this.lists = data.Contents;
             this.lists.forEach((list) => {
-              var imgurl = "https://ssafy7colors.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+              var imgurl = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + list.Key;
               var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
               // console.log(code);
               colorset = { url: imgurl, code: colorcode };

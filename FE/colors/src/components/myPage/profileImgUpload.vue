@@ -45,7 +45,7 @@ export default {
       var s3 = new AWS.S3({
         apiVersion: "2012-10-17",
         params: {
-          Bucket: "ssafy7colors",
+          Bucket: "ssafy7color",
         },
       });
       let today = new Date();
@@ -68,7 +68,7 @@ export default {
         }
       );
 
-      var url = "https://ssafy7colors.s3.ap-northeast-2.amazonaws.com/" + photoKey;
+      var url = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + photoKey;
 
       console.log(url);
 
