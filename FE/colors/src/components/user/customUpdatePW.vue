@@ -30,6 +30,7 @@ export default {
     return {
       pwchangedouble_validation: true,
       pw_validation: true,
+      pwdub_validation: true,
     };
   },
   methods: {
@@ -56,7 +57,9 @@ export default {
       console.log(userid);
       let newPassword = document.getElementById("updatePWInputFirst").value;
       console.log(this.pwchangedouble_validation);
-      if (this.pwchangedouble_validation) {
+      this.validPW(newPassword);
+      if (this.pwchangedouble_validation && this.pwdub_validation) {
+        console.log("비번 바꿔요");
         axios
           .put(this.$store.state.baseurl + "member/changepwd", {
             userid: userid,
@@ -75,6 +78,22 @@ export default {
           });
       }
     },
+    //비밀번호 유효성 검사
+    validPW(inputPW) {
+      const reg = /(?=.*\d)(?=.[a-zA-Z]).{8,30}/g;
+      if (reg.test(inputPW) || !this.validatePw) {
+        // console.log("유효한 비밀번호");
+        this.pwdub_validation = true;
+        // this.valid.pw = true;
+        // this.pwHasError = false;
+        return;
+      }
+      // console.log("유효하지 않은 비밀번호");
+      this.pwdub_validation = false;
+      // this.valid.pw = false;
+      // this.pwHasError = true;
+      return;
+    },
   },
 };
 </script>
@@ -91,7 +110,7 @@ body {
   height: 450px;
   /* width: 35%;
   height: 75%; */
-  margin-left: 7%;
+  margin-left: 2.5%;
   border-radius: 10px;
 }
 .titleUpdatePW {

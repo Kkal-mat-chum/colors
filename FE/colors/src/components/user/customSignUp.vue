@@ -210,15 +210,15 @@ export default {
       this.validPW(new_password); //비밀번호 유효성 검사 함수 실행
       //아이디, 비번, 닉네임, 이메일 유효하고,
       //이름이 있는지
-      if (this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
-        console.log("유효");
-      } else if (!this.id_validation && this.pw_validation) {
-        console.log("아이디 중복 확인 해주세용");
-      } else if (this.id_validation && !this.pw_validation) {
-        console.log("비밀번호 다시 확인해주세용");
-      } else {
-        console.log("아이디, 비밀번호 둘 다 다시 확인해주세용");
-      }
+      // if (this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
+      //   console.log("유효");
+      // } else if (!this.id_validation && this.pw_validation) {
+      //   console.log("아이디 중복 확인 해주세용");
+      // } else if (this.id_validation && !this.pw_validation) {
+      //   console.log("비밀번호 다시 확인해주세용");
+      // } else {
+      //   console.log("아이디, 비밀번호 둘 다 다시 확인해주세용");
+      // }
 
       if (this.email_validation && this.id_validation && this.pw_validation && this.nick_validation && !!document.getElementById("nameLabel").value) {
         axios
