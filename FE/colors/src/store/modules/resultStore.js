@@ -96,7 +96,18 @@ const resultStore = {
     }, //투표 결과 탑텐 내용 담길 곳
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    groupInit(state) {
+      state.aloneResult = {};
+      state.data = [];
+      state.cnt = 1;
+    },
+    setGroupData(state, data) {
+      state.aloneResult = data;
+      state.data = data.data;
+      state.cnt = data.cnt;
+    },
+  },
   actions: {},
 };
 export default resultStore;

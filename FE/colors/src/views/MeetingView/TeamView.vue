@@ -122,7 +122,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       ishost: false,
-      mySessionId: sessionStorage.getItem("roomId"),
+      mySessionId: sessionStorage.getItem("roomCode"),
       myUserName: JSON.parse(sessionStorage.getItem("memberData")).data.nickname,
       modelRgba: "",
       modelHex: "",
@@ -152,7 +152,7 @@ export default {
     this.setText();
     if (this.$store.state.meetingStore.roomType == "group") {
       this.roomHeaderTitle = "미팅 코드";
-      this.roomHeaderData = sessionStorage.getItem("roomId");
+      this.roomHeaderData = sessionStorage.getItem("roomCode");
       this.myUserName = this.memberData.name;
     } else if (this.$store.state.meetingStore.roomType == "random") {
       this.roomHeaderTitle = "미팅 주제";
@@ -194,7 +194,7 @@ export default {
       this.ishostCopy = true;
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.id;
-      let roomnum = sessionStorage.getItem("roomNum");
+      let roomnum = sessionStorage.getItem("roomId");
       console.log(roomnum);
       axios
         .put(this.$store.state.baseurl + "room/status", {
@@ -268,7 +268,7 @@ export default {
 
           var date = new Date();
           var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-          var roomcode = sessionStorage.getItem("roomId");
+          var roomcode = sessionStorage.getItem("roomCode");
 
           let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + count + ".jpg";
 
@@ -314,7 +314,7 @@ export default {
 
       var date = new Date();
       var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-      var roomcode = sessionStorage.getItem("roomId");
+      var roomcode = sessionStorage.getItem("roomCode");
 
       let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
 
@@ -341,7 +341,7 @@ export default {
             });
             console.log(colorsets);
             // 미팅 정보 db 저장
-            let roomnum = sessionStorage.getItem("roomNum");
+            let roomnum = sessionStorage.getItem("roomId");
             let memberData = JSON.parse(sessionStorage.getItem("memberData"));
             let userid = memberData.data.id;
             const colorsetResult = {
