@@ -86,6 +86,7 @@ export default {
   height: 40%;
 }
 .deleteNotice {
+  color: #6667ab;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
