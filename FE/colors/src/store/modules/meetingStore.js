@@ -169,6 +169,7 @@ const meetingStore = {
             topicid: sessionStorage.getItem("topicId"),
             roomtype: "random",
           };
+          this.state.roomType = "random";
           console.log(randomRoomData);
           api({
             url: `/room`,
