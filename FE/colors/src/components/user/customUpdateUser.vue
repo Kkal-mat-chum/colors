@@ -130,7 +130,7 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: -60px 0 0 100px;
+  margin: -60px 0 0px 80px;
   width: 75%;
   height: 558px;
   /* width: 35%;
@@ -256,6 +256,7 @@ body {
 #nickCheckBtn {
   /* margin-top: 5%; */
   height: 18%;
+  width: 100px;
 }
 #updateUserEmailLabel {
   background-color: #ececec;
@@ -280,5 +281,8 @@ body {
 .update3_row2 {
   display: flex;
   justify-content: space-between;
+}
+#updateUserPwModal {
+  height: 110%;
 }
 </style>
