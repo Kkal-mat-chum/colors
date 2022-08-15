@@ -460,7 +460,9 @@ export default {
           console.log("값확인이전");
           if (response.data.connections.numberOfElements > 6) {
             console.log("값확인");
-            let roomid = sessionStorage.getItem("roomNumber");
+            let roomid = {
+              roomid: sessionStorage.getItem("roomNumber"),
+            };
             console.log(roomid);
             this.$store.dispatch("pullRoom", roomid);
           }

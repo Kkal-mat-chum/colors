@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce3399ad-a3fc-4048-813c-ef04fec46954" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/service/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/colors/src/main/java/com/ssafy/colors/service/TopicService.java" afterDir="false" />
-    </list>
+    <list default="true" id="ce3399ad-a3fc-4048-813c-ef04fec46954" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +36,7 @@
       <workItem from="1659527655563" duration="76000" />
       <workItem from="1659578520916" duration="14000" />
       <workItem from="1660108802009" duration="13000" />
+      <workItem from="1660571188130" duration="91000" />
     </task>
     <servers />
   </component>

@@ -1,7 +1,7 @@
 <template>
   <div class="topicAritcleItem" v-bind="$attrs">
     <span class="topicTitle">{{ topicArticleTitle }}</span>
-    <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic" @click="deleteTopic">delete</span>
+    <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic" @click="deleteTopic" style="cursor: pointer">delete</span>
     <span class="fa-solid fa-heart topicLike" v-if="isTopic & recommend" @click="clickUnLike">
       <span class="topicScore">{{ cnt }}</span>
     </span>

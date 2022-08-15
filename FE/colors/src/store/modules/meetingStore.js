@@ -160,7 +160,7 @@ const meetingStore = {
           console.log(123213131);
           console.log(data);
           console.log(123213131);
-          sessionStorage.setItem("roomId", data.data);
+          sessionStorage.setItem("roomId", data.roomcode);
           sessionStorage.setItem("roomNumber", data.roomid);
           router.push("/team/" + sessionStorage.getItem("roomId"));
         } else {
@@ -177,20 +177,22 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomId", data.data.roomcode);
-            sessionStorage.setItem("roomNumber", data.data.roomid);
+            sessionStorage.setItem("roomId", data.roomcode);
+            sessionStorage.setItem("roomNumber", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomId"));
           });
         }
       });
     },
-    pullRoom(data) {
+    pullRoom(params) {
       api({
         url: `/room/capacity`,
         method: "PUT",
-        data: data,
+        data: params,
       }).then(({ data }) => {
+        console.log(12321321);
         if (data.message == "success") {
+          console.log(12321321);
           var randomRoomData = {
             hostid: sessionStorage.getItem("memberId"),
             topicid: sessionStorage.getItem("topicId"),
@@ -204,8 +206,8 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomId", data.data.roomcode);
-            sessionStorage.setItem("roomNumber", data.data.roomid);
+            sessionStorage.setItem("roomId", data.roomcode);
+            sessionStorage.setItem("roomNumber", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomId"));
           });
         }
