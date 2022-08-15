@@ -60,6 +60,7 @@ export default {
         hostid: this.id,
         roomtype: "group",
       };
+      sessionStorage.setItem("hostId", this.id);
       this.$store.dispatch("madeGroupMeeting", groupUser);
     },
     TopicRoom() {

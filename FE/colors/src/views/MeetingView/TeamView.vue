@@ -38,7 +38,8 @@
           <h2 class="code">{{ roomHeaderData }}</h2>
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <customButton class="btn" btnText="투표하기" @click="goVote"></customButton>
-          <customButton class="btn" btnText="종료" @click="leaveMeeting"></customButton>
+          <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
+          <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
         </div>
       </div>
     </div>
@@ -109,7 +110,7 @@ export default {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
-
+      ishost: false,
       mySessionId: sessionStorage.getItem("roomId"),
       myUserName: JSON.parse(sessionStorage.getItem("memberData")).data.nickname,
       modelRgba: "",
@@ -153,6 +154,9 @@ export default {
   },
   mounted() {
     console.log(this.subscribers);
+    if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
+      this.ishost = true;
+    }
   },
   beforeRouteLeave(to, from, next) {
     this.leaveSession();
@@ -166,6 +170,21 @@ export default {
     leaveMeeting() {
       this.leaveSession();
       this.$router.push("/enterPage");
+    },
+    start() {
+      this.ishost = false;
+      let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      let userid = memberData.data.id;
+      let roomnum = sessionStorage.getItem("roomNum");
+      console.log(roomnum);
+      axios
+        .put(this.$store.state.baseurl + "room/status", {
+          roomid: roomnum,
+          hostid: userid,
+        })
+        .then((response) => {
+          console.log(response);
+        });
     },
     // 선택한 색의 컬러코드를 store에 저장
     showOneSelectedColor() {
