@@ -23,6 +23,7 @@
     "html2canvas": "^1.4.1",
     "jquery": "^3.6.0",
     "materialize-css": "^1.0.0-rc.2",
+    "nearest-color": "^0.4.4",
     "node-sass": "^7.0.1",
     "openvidu-browser": "^2.22.0",
     "request": "^2.88.2",
