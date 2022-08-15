@@ -19,7 +19,7 @@
         </select>
       </div>
 
-      <topic-list class="topTenList" :isTopic="true">
+      <topic-list class="topTenList" :isAdmin="isAdmin" :isTopic="true">
         <topic-article
           class="topicArticle"
           :isTopic="true"
@@ -93,7 +93,7 @@ export default {
           this.maxPageNum = response.data.maxpage;
           this.topics = response.data.topics;
           var pageDecimical = parseInt(this.currentPage / 10);
-          if (sessionStorage.getItem("memberData").authGrade == true) {
+          if (sessionStorage.getItem("auth") == "true") {
             this.isAdmin = true;
           }
           if (this.currentPage > 10) {

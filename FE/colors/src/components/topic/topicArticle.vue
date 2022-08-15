@@ -1,7 +1,7 @@
 <template>
   <div class="topicAritcleItem" v-bind="$attrs">
     <span class="topicTitle">{{ topicArticleTitle }}</span>
-    <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic">delete</span>
+    <span class="material-symbols-rounded topicDelete" v-if="isAdmin & isTopic" @click="deleteTopic">delete</span>
     <span class="fa-solid fa-heart topicLike" v-if="isTopic & recommend" @click="clickUnLike">
       <span class="topicScore">{{ cnt }}</span>
     </span>
@@ -73,6 +73,12 @@ export default {
       console.log(2132131);
       console.log(sessionStorage.getItem("topicId"));
       this.$store.dispatch("topicMeetingRoom", topicId);
+    },
+    deleteTopic() {
+      let topicid = this.topicId;
+      console.log(topicid);
+      sessionStorage.setItem("topicData", topicid);
+      this.$store.dispatch("deleteTopic", topicid);
     },
   },
 };

@@ -68,10 +68,11 @@ export default {
             sessionStorage.setItem("userId", response.data.member.userId);
             sessionStorage.setItem("userNick", response.data.member.nickname);
             sessionStorage.setItem("isLogin", true);
+            sessionStorage.setItem("auth", false);
             this.$store.state.memberStore.isLogin = true;
             console.log(sessionStorage.getItem("isLogin"));
             if (response.data.member.userId == "admin") {
-              response.data.member.authGrade = true;
+              sessionStorage.setItem("auth", true);
               console.log(response.data.member.userId);
             }
             //겟으로 사용자 정보 받아서 세션스토리지에 저장해놓기
