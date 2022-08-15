@@ -37,7 +37,8 @@
           </div>
           <h2 class="code">{{ roomHeaderData }}</h2>
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
-          <customButton class="btn" btnText="투표하기" @click="goVote"></customButton>
+          <!-- <customButton class="btn" btnText="투표하기" @click="goVote"></customButton> -->
+          <customButton class="btn" :class="{ muteActive: !ready }" btnText="투표하기" @click="sendVote"></customButton>
           <customButton class="btn" btnText="종료" @click="leaveMeeting"></customButton>
         </div>
       </div>
@@ -127,6 +128,9 @@ export default {
       memberData: JSON.parse(sessionStorage.getItem("memberData")).data,
       roomHeaderTitle: "",
       roomHeaderData: "",
+      ready: true,
+      readys: {},
+      numberOFparti: this.getSession(this.mySessionId),
     };
   },
   created() {
@@ -350,6 +354,17 @@ export default {
         to: [],
       });
     },
+    sendVote() {
+      var vote = this.ready;
+      var name = this.myUserName;
+      this.readys[name] = vote;
+      this.session.signal({
+        type: "vote",
+        data: JSON.stringify(vote),
+        to: [],
+      });
+      this.ready = !vote;
+    },
     muteAudio() {
       this.publisher.publishAudio(this.publishAudio);
       console.log(this.publishAudio);
@@ -384,12 +399,14 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
+        this.getSession(this.mySessionId);
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...
       this.session.on("streamDestroyed", ({ stream }) => {
+        this.getSession(this.mySessionId);
         const index = this.subscribers.indexOf(stream.streamManager, 0);
         if (index >= 0) {
           this.subscribers.splice(index, 1);
@@ -402,6 +419,22 @@ export default {
         data.message = eventData.content;
         data.sender = event.from.data.slice(15, -2);
         this.$store.commit("SET_MESSAGES", data);
+      });
+
+      this.session.on("signal:vote", (event) => {
+        var voteData = JSON.parse(event.data);
+        var voteName = event.from.data.slice(15, -2); // Connection object of the sender
+        this.readys[voteName] = voteData;
+        var readyNumber = Object.values(this.readys).filter((readyCheck) => true == readyCheck).length;
+        if (readyNumber == this.numberOFparti) {
+          console.log("Every People Ready to Vote");
+          console.log("asfdjjsjfslkjflkjsflkjalkjslkjasfd");
+          this.goVote();
+        }
+      });
+
+      this.session.on("signal:goVote", () => {
+        this.goVote();
       });
 
       // On every asynchronous exception...
@@ -446,7 +479,6 @@ export default {
       window.addEventListener("beforeunload", this.leaveSession);
     },
     getSession(sessionId) {
-      var connectionsNumber = 0;
       axios
         .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
           auth: {
@@ -455,14 +487,15 @@ export default {
           },
         })
         .then((response) => {
-          connectionsNumber = response.data.connections.numberOfElements;
+          this.numberOFparti = response.data.connections.numberOfElements;
+          console.log(response);
           console.log(response.data.connections.numberOfElements);
           if (response.data.connections.numberOfElements == 6) {
             let pull = this.mySessionId;
             this.$store.dispatch("pullRoom", pull);
           }
         });
-      return connectionsNumber;
+      return this.numberOFparti;
     },
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
