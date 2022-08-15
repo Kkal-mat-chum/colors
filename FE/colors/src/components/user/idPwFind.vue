@@ -135,7 +135,8 @@ export default {
 .idPwFindPage {
   position: relative;
   /* border: 3px solid aqua; */
-  margin: 8%;
+  /* margin: 8%; */
+  margin-top: -50px;
   display: flex;
   flex-direction: column;
 }

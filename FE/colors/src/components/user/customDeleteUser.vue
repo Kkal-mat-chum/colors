@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body">
     <div class="deleteUserPage">
       <div class="delete2">
         <div class="dummyMarginDelete1"></div>
@@ -12,7 +12,7 @@
       <div class="delete3">
         <!-- dd -->
         <div class="dummyMarginDelete2"></div>
-        <customButton id="deleteSureBtn" btnText="확 인" @click="[goLogin(), deleteMember()]">탈퇴 확인 버튼</customButton>
+        <customButton id="deleteSureBtn" btnText="탈 퇴" @click="[goLogin(), deleteMember()]">탈퇴 확인 버튼</customButton>
         <customButton id="deleteCancleBtn" btnText="취 소" @click="goMypage">탈퇴 안함 버튼</customButton>
         <!-- <div class="dummyMarginDelete2"></div> -->
       </div>
@@ -44,15 +44,18 @@ export default {
 </script>
 
 <style scoped>
+.body {
+  margin: 0;
+}
 .deleteUserPage {
   display: flex;
   flex-direction: column;
-  width: 537.75px;
+  width: 540px;
   height: 350px;
   /* width: 35%;
   height: 75%; */
-  top: 117px;
-  margin-left: 15%;
+  top: 80px;
+  margin-left: 8%;
 }
 .titleDeleteUser {
   margin-top: 9%;
@@ -83,6 +86,7 @@ export default {
   height: 40%;
 }
 .deleteNotice {
+  color: #6667ab;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -113,5 +117,8 @@ export default {
 #deleteCancleBtn {
   width: 60%;
   margin-top: 2%;
+}
+#deleteUserModal {
+  margin-top: 10%;
 }
 </style>

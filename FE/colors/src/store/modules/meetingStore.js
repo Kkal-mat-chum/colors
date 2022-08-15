@@ -2,9 +2,18 @@ import router from "@/router";
 import { api } from "@/store";
 
 const meetingStore = {
+  data() {
+    return {
+      randomRoomData: {
+        hostid: sessionStorage.getItem("memberId"),
+        topicid: sessionStorage.getItem("topicId"),
+        roomType: "random",
+      },
+    };
+  },
   state: {
     userName: "",
-    roomType: "",
+    roomType: "group",
     singleUsers: [],
     singleUser: {},
     groupUsers: [],
@@ -108,6 +117,7 @@ const meetingStore = {
       }).then(({ data }) => {
         commit("GOURP_MEETING", data);
         sessionStorage.setItem("roomId", data.data.roomcode);
+        sessionStorage.setItem("roomNum", data.data.roomid);
         router.push("/team/" + data.data.roomcode);
       });
     },
@@ -136,29 +146,71 @@ const meetingStore = {
         to: [],
       });
     },
-    topicMeetingRoom({ commit }, data) {
+    topicMeetingRoom({ commit }, params) {
       api({
         url: `/room/join/random`,
         method: "POST",
-        params: data,
+        data: params,
       }).then(({ data }) => {
+        console.log(data);
         if (data.message == "success") {
           commit("TOPIC_MEETING", data);
           console.log(data);
           this.state.roomType = "random";
+          console.log(123213131);
+          console.log(data);
+          console.log(123213131);
+          sessionStorage.setItem("roomId", data.roomcode);
+          sessionStorage.setItem("roomNumber", data.roomid);
           router.push("/team/" + sessionStorage.getItem("roomId"));
         } else {
-          alert("방인원이 가득찼습니다.");
+          var randomRoomData = {
+            hostid: sessionStorage.getItem("memberId"),
+            topicid: sessionStorage.getItem("topicId"),
+            roomtype: "random",
+          };
+          console.log(randomRoomData);
+          api({
+            url: `/room`,
+            method: "POST",
+            data: randomRoomData,
+          }).then(({ data }) => {
+            console.log(data);
+            console.log(data.data.roomcode);
+            sessionStorage.setItem("roomId", data.roomcode);
+            sessionStorage.setItem("roomNumber", data.roomid);
+            router.push("/team/" + sessionStorage.getItem("roomId"));
+          });
         }
       });
     },
-    pullRoom(data) {
+    pullRoom(params) {
       api({
         url: `/room/capacity`,
         method: "PUT",
-        params: data,
+        data: params,
       }).then(({ data }) => {
-        console.log(data);
+        console.log(12321321);
+        if (data.message == "success") {
+          console.log(12321321);
+          var randomRoomData = {
+            hostid: sessionStorage.getItem("memberId"),
+            topicid: sessionStorage.getItem("topicId"),
+            roomtype: "random",
+          };
+          console.log(randomRoomData);
+          api({
+            url: `/room`,
+            method: "POST",
+            data: randomRoomData,
+          }).then(({ data }) => {
+            console.log(data);
+            console.log(data.data.roomcode);
+            sessionStorage.setItem("roomId", data.roomcode);
+            sessionStorage.setItem("roomNumber", data.roomid);
+            router.push("/team/" + sessionStorage.getItem("roomId"));
+          });
+        }
       });
     },
     leaveSession(data) {

@@ -78,9 +78,7 @@ public class RoomServiceImpl implements RoomService {
         // 방 코드를 정상 발급 받은 경우
         if (issued) {
             Room room = Room.builder()
-                    //.hostId(roomReq.getHostid())
                     .host(host)
-                    //.topicId(roomReq.getTopicid())
                     .topic(selectedTopic)
                     .roomCode(randomCode)
                     .roomType(roomType)
@@ -120,40 +118,20 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String findRandomRoom(long topicId) {
+    public Room findRandomRoom(long topicId) {
         Optional<Topic> topic = topicRepository.findById(topicId);
-        String output = null;
+        Room output = null;
 
         if(topic.isPresent()) {
             RoomStatus status = RoomStatus.WAITED;
             List<Room> rooms = roomRepository.findAccessibleRoom(topic.get(), status, false);
 
             if(!rooms.isEmpty()) {
-                output = rooms.get(0).getRoomCode();
+                output = rooms.get(0);
             }
         }
 
         return output;
-    }
-
-    @Override
-    public List<String> findRandomRoomList(long topicId) {
-        Optional<Topic> topic = topicRepository.findById(topicId);
-        List<String> result = new ArrayList<>();
-
-        topic.ifPresent(t -> {
-            RoomType type = RoomType.RANDOM;
-            RoomStatus status = RoomStatus.WAITED;
-            List<Room> rooms = roomRepository.findRoomByTopicAndRoomTypeAndStatus(topic.get(), type, status);
-
-            if (!rooms.isEmpty()) {
-                for (Room room : rooms) {
-                    result.add(room.getRoomCode());
-                }
-            }
-        });
-
-        return result;
     }
 
     @Override

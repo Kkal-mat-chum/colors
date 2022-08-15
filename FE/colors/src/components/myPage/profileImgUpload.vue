@@ -13,6 +13,7 @@
 <script>
 import axios from "axios";
 import AWS from "aws-sdk";
+import router from "@/router";
 
 export default {
   data() {
@@ -44,7 +45,7 @@ export default {
       var s3 = new AWS.S3({
         apiVersion: "2012-10-17",
         params: {
-          Bucket: "ssafy7colors",
+          Bucket: "ssafy7color",
         },
       });
       let today = new Date();
@@ -62,18 +63,19 @@ export default {
             console.log(err);
           }
           alert("Successfully uploaded photo.");
+          router.go(router.currentRoute);
           console.log(data);
         }
       );
 
-      var url = "https://ssafy7colors.s3.ap-northeast-2.amazonaws.com/" + photoKey;
+      var url = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + photoKey;
 
       console.log(url);
 
       // db 저장
 
       axios
-        .post(this.$store.state.baseurl + "member/changeimg", {
+        .put(this.$store.state.baseurl + "member/changeimg", {
           userid: userid,
           image_url: url,
         })

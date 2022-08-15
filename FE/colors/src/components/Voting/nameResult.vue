@@ -64,6 +64,7 @@
 import axios from "axios";
 import customButton from "../common/customButton.vue";
 import namedColors from "color-name-list";
+import nearestColor from "nearest-color";
 
 export default {
   components: {
@@ -87,12 +88,18 @@ export default {
         "--fontcolor-top1": this.top1color,
       };
     },
-    colorname: function () {
+    colorname() {
       try {
-        let someColor = namedColors.find((color) => color.hex === this.top1color);
-        return someColor.name;
+        var colorname = this.top1color.toLowerCase();
+        console.log(colorname);
+        let colors = namedColors.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+        const nearest = nearestColor.from(colors);
+        // get closest named color
+
+        return nearest(colorname).name;
       } catch (error) {
-        return "!!unknown!!";
+        console.log(error);
+        return "";
       }
     },
     customVoterCodeColor() {
@@ -157,56 +164,53 @@ export default {
     },
     //투표 결과 가져오기
     saveVoteResult() {
-      // //개인 투표의 경우
-      // if (this.$store.state.resultStore.cnt == 1) {
-      axios
-        .post(this.$store.state.baseurl + "room/vote/result", {
-          roomid: sessionStorage.getItem("roomNum"),
-          userid: sessionStorage.getItem("memberId"),
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.data.message == "fail") {
-            alert("전송 실패");
-          } else {
-            if (this.$store.state.resultStore.cnt > 1) {
-              //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
-              for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
-                if (response.data.data[idx].voter != sessionStorage.getItem("userName")) {
-                  this.voteLst.push(response.data.data[idx]);
-                } else {
-                  //본인이 선택한 내용
-                  this.mypickurl = response.data.data[idx].url;
-                  this.mypickcolor = response.data.data[idx].code;
-                }
-              }
+      //개인 투표의 경우
+      if (this.$store.state.resultStore.cnt == 1) {
+        axios
+          .post(this.$store.state.baseurl + "room/vote/result", {
+            roomid: sessionStorage.getItem("roomNum"),
+            userid: sessionStorage.getItem("memberId"),
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.data.message == "fail") {
+              alert("전송 실패");
             } else {
-              //개인일때, top1에 data내용 저장
-              this.top1url = response.data.data.url;
-              this.top1color = response.data.data.code;
-              this.mypickurl = response.data.data.url;
-              this.mypickcolor = response.data.data.code;
+              if (this.$store.state.resultStore.cnt > 1) {
+                //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
+                for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
+                  if (response.data.data[idx].voter != sessionStorage.getItem("userName")) {
+                    this.voteLst.push(response.data.data[idx]);
+                  } else {
+                    //본인이 선택한 내용
+                    this.mypickurl = response.data.data[idx].url;
+                    this.mypickcolor = response.data.data[idx].code;
+                  }
+                }
+              } else {
+                //개인일때, top1에 data내용 저장
+                this.top1url = response.data.data.url;
+                this.top1color = response.data.data.code;
+                this.mypickurl = response.data.data.url;
+                this.mypickcolor = response.data.data.code;
+              }
             }
-          }
-        });
-      //   } else if (this.$store.state.resultStore.cnt > 1) {
-      //     //단체, 랜덤 투표의 경우
-      //     axios
-      //       .post(this.$store.state.memberStore.baseurl + "/api/room/vote", {
-      //         roomid: sessionStorage.getItem("roomId"),
-      //         userid: sessionStorage.getItem("memberId"),
-      //         content: 1, //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-      //       })
-      //       .then((response) => {
-      //         console.log(response);
-      //         if (response.message == "fail") {
-      //           alert("전송 실패");
-      //         }
-      //       });
-      //   }
-      // },
-      // gotoEnterPage() {
-      //   this.$router.push("/enterPage");
+          });
+      } else if (this.$store.state.resultStore.cnt > 1) {
+        //단체, 랜덤 투표의 경우
+        axios
+          .post(this.$store.state.baseurl + "room/vote", {
+            roomid: sessionStorage.getItem("roomId"),
+            userid: sessionStorage.getItem("memberId"),
+            content: 1, //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          })
+          .then((response) => {
+            console.log(response);
+            if (response.data.message == "fail") {
+              alert("전송 실패");
+            }
+          });
+      }
     },
   },
 };
