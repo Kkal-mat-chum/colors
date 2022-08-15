@@ -47,6 +47,7 @@
 import axios from "axios";
 import CustomUpdatepw from "@/components/user/customUpdatePW.vue";
 import CustomeDeleteUser from "./customDeleteUser.vue";
+import router from "@/router";
 export default {
   components: {
     CustomUpdatepw,
@@ -64,8 +65,8 @@ export default {
   },
   mounted() {
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
-    this.userNickname = memberData.data.nickname;
-    this.userName = memberData.data.name;
+    this.userNickname = sessionStorage.getItem("userNick");
+    this.userName = sessionStorage.getItem("userName");
     this.userEmail = memberData.data.email;
     document.getElementById("updateUserPwLabel").value = "";
   },
@@ -78,6 +79,8 @@ export default {
       let newName = document.getElementById("updateUserNameLabel").value;
       let userPassword = document.getElementById("updateUserPwLabel").value;
 
+      sessionStorage.setItem("userNameBefore", newName);
+      sessionStorage.setItem("userNickBefore", newNickName);
       console.log(userid, newNickName, newName, userPassword);
       if (this.nick_validation) {
         axios
@@ -91,6 +94,9 @@ export default {
             console.log(response);
             if (response.data.message == "success") {
               alert("정보 수정이 완료되었습니다.");
+              sessionStorage.setItem("userName", sessionStorage.getItem("userNameBefore"));
+              sessionStorage.setItem("userNick", sessionStorage.getItem("userNickBefore"));
+              router.go();
             } else {
               alert("수정에 실패하였습니다.");
             }
