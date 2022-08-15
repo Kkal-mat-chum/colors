@@ -28,7 +28,7 @@ public class AuthService {
         Member findByuserId = memberRepository.findFirstByUserId(user.getUserId());
         HashMap<String, Object> result = new HashMap<>();
 
-        if (findByuserId != null && findByuserId.getPassword().equals(user.getPassword())) {
+        if (findByuserId != null && !findByuserId.isDeleted() && findByuserId.getPassword().equals(user.getPassword())) {
             MemberRes member = MemberRes.builder()
                     .id(findByuserId.getId())
                     .userId(findByuserId.getUserId())
