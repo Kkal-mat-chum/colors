@@ -34,7 +34,6 @@
             (data) => {
               topic.cnt = data.cnt;
               topic.recommend = data.recommend;
-              this.$router.go();
             }
           "
         />
