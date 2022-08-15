@@ -1,5 +1,6 @@
 package com.ssafy.colors.service;
 
+import com.ssafy.colors.database.entity.Room;
 import com.ssafy.colors.request.Colorset;
 import com.ssafy.colors.request.ResultReq;
 import com.ssafy.colors.request.RoomReq;
@@ -13,8 +14,7 @@ import java.util.Map;
 public interface RoomService {
     public RoomRes saveMeetingRoomInfo(RoomReq roomReq);
     public boolean checkRoomCode(String code);
-    public String findRandomRoom(long topicId);
-    public List<String> findRandomRoomList(long topicId);
+    public Room findRandomRoom(long topicId);
     public boolean changeRoomCapacityStatus(long roomId);
     public boolean changeRoomStatus(long hostId, long roomId);
     public boolean saveMeetingResult(ResultReq results);
