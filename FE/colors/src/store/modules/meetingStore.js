@@ -2,15 +2,6 @@ import router from "@/router";
 import { api } from "@/store";
 
 const meetingStore = {
-  data() {
-    return {
-      randomRoomData: {
-        hostid: sessionStorage.getItem("memberId"),
-        topicid: sessionStorage.getItem("topicId"),
-        roomType: "random",
-      },
-    };
-  },
   state: {
     userName: "",
     roomType: "group",

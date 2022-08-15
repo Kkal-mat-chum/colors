@@ -22,6 +22,7 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 
 export default {
   methods: {
@@ -38,6 +39,8 @@ export default {
       axios.delete(this.$store.state.baseurl + "member/" + userid);
       //localstorage 토큰 & 유저정보 제거
       window.localStorage.removeItem("access-token");
+      sessionStorage.setItem("isLogin", false);
+      router.go();
     },
   },
 };

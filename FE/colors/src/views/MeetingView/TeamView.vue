@@ -794,4 +794,6 @@ body {
 .br {
   margin: 10px;
 }
+.startInfoModal {
+}
 </style>
