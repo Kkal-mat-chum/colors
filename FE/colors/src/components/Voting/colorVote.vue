@@ -124,9 +124,8 @@ export default {
         })
         .then((response) => {
           console.log(response.data.message); //성공여부 확인 로그
-          this.$store.state.resultStore.aloneResult = response.data;
-          this.$store.state.resultStore.data = response.data.data;
-          this.$store.state.resultStore.cnt = response.data.cnt;
+          this.$store.commit("groupInit");
+          this.$store.commit("setGroupData", response.data);
           console.log("참여자 수");
           console.log(this.$store.state.resultStore.cnt);
         });
