@@ -203,6 +203,17 @@ export default {
       if (this.count_pallete < 8) {
         this.modelHex = this.rgb2hex(this.rgba, true);
         console.log(this.modelHex);
+        var duplicated = 0;
+        console.log(this.$store.state.selectedColorLst);
+        for (var i = 0; i < this.count_pallete; i++) {
+          if (this.$store.state.selectedColorLst[i] == this.modelHex) {
+            alert("중복된 색이 있습니다.");
+            duplicated = 1;
+          }
+        }
+        if (duplicated == 1) {
+          return;
+        }
         this.$store.commit("NEW_COLOR", { color: this.modelHex });
         this.selectedColorLst = this.$store.state.selectedColorLst;
         this.selectedColorLst.splice(this.count_pallete, 1, this.$store.state.storeselectedColor.color);
