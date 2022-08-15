@@ -107,7 +107,7 @@ export default {
         .then((response) => {
           if (response.data.message == "success") {
             axios
-              .get(this.$store.state.baseurl + "room/vote", {
+              .post(this.$store.state.baseurl + "room/vote", {
                 roomid: sessionStorage.getItem("roomCode"),
                 userid: sessionStorage.getItem("userId"),
               })

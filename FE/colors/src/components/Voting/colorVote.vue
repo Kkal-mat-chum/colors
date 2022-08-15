@@ -185,7 +185,7 @@ export default {
           }
         });
     },
-    //각 투표 합산put -> 투표 결과 가져오기get
+    //각 투표 합산put -> 투표 결과 가져오기
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
@@ -194,13 +194,14 @@ export default {
         .then((response) => {
           if (response.data.message == "success") {
             axios
-              .get(this.$store.state.baseurl + "room/vote", {
+              .post(this.$store.state.baseurl + "room/vote", {
                 roomid: sessionStorage.getItem("roomCode"),
                 userid: sessionStorage.getItem("userId"),
               })
               .then((response) => {
                 if (response.data.message == "success") {
                   this.$store.state.resultStore.totalResultData = response.data.data;
+                  this.$store.state.resultStore.aloneResult.data = response.data.data;
                 } else {
                   alert("투표결과가져오기 실패");
                 }
