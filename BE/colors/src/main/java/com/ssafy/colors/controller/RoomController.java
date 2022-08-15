@@ -221,7 +221,7 @@ public class RoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/mypage")
+    @PostMapping("/mypage")
     public ResponseEntity<Map<String, Object>> getMyPageData(@RequestBody Map<String, Object> params) {
         System.out.println("[GET] - /room/mypage");
 
