@@ -22,6 +22,7 @@
     <div class="update3">
       <div class="UpdateUserdummyMargin3"></div>
       <div class="modifyBottomBtns">
+        <label for="" class="modifyWarning">올바른 비밀번호를 입력해야 정보를 수정할 수 있습니다.</label>
         <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="updateMemberInfo">testButton</customButton>
         <div class="a">
           <div class="removeUser"></div>
@@ -284,5 +285,10 @@ body {
 }
 #updateUserPwModal {
   height: 110%;
+}
+.modifyWarning {
+  color: #aaaabc;
+  font-size: 16px;
+  margin: 5% 0%;
 }
 </style>
