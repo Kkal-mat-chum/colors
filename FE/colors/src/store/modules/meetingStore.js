@@ -137,7 +137,7 @@ const meetingStore = {
         to: [],
       });
     },
-    topicMeetingRoom({ commit }, params) {
+    topicMeetingRoom({ commit, state }, params) {
       api({
         url: `/room/join/random`,
         method: "POST",
@@ -147,7 +147,7 @@ const meetingStore = {
         if (data.message == "success") {
           commit("TOPIC_MEETING", data);
           console.log(data);
-          this.state.roomType = "random";
+          state.roomType = "random";
           console.log(123213131);
           console.log(data);
           console.log(123213131);
@@ -160,7 +160,7 @@ const meetingStore = {
             topicid: sessionStorage.getItem("topicId"),
             roomtype: "random",
           };
-          this.state.roomType = "random";
+          state.roomType = "random";
           console.log(randomRoomData);
           api({
             url: `/room`,
