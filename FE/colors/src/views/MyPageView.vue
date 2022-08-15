@@ -92,6 +92,7 @@ import myinfo from "@/components/myPage/myInfo.vue";
 import ModifyUser from "@/components/user/customUpdateUser.vue";
 import ModifyProfile from "@/components/myPage/profileImgUpload.vue";
 import namedColors from "color-name-list";
+import nearestColor from "nearest-color";
 export default {
   name: "MyPage",
   components: {
@@ -142,20 +143,23 @@ export default {
     },
     hoveringColorName: function () {
       try {
-        let someColor = namedColors.find((color) => color.hex === this.$store.state.hoveringColor);
-        return someColor.name;
+        var colorname = this.$store.state.hoveringColor.toLowerCase();
+        console.log(colorname);
+        let colors = namedColors.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+        const nearest = nearestColor.from(colors);
+        // get closest named color
+
+        return nearest(colorname).name;
       } catch (error) {
-        return "!!unknown!!";
+        console.log(error);
+        return "";
       }
     },
   },
   methods: {
-    testClick() {
-      console.lot("이게맞음?");
-    },
     getMyPageData() {
       axios
-        .get(this.$store.state.baseurl + "room/mypage", {
+        .post(this.$store.state.baseurl + "room/mypage", {
           userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {
@@ -171,6 +175,8 @@ export default {
             } else if (response.data.data[i].roomtype == "random") {
               this.$store.state.randomColorLst = response.data.data[i].code;
               this.$store.state.randomTop1 = response.data.data[i].top1.code;
+            } else {
+              break;
             }
           }
         });

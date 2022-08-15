@@ -31,9 +31,9 @@
           :recommend="topic.recommend"
           :cnt="topic.cnt"
           @clickLike="
-            (cnt) => {
-              topic.cnt = cnt;
-              topic.recomend = !topic.recomend;
+            (data) => {
+              topic.cnt = data.cnt;
+              topic.recommend = data.recommend;
               this.$router.go();
             }
           "

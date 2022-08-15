@@ -41,24 +41,27 @@ export default {
     topicId: Number,
   },
   methods: {
-    async clickLike() {
+    clickLike() {
       console.log("clicked like");
-      const response = await axios.post(this.$store.state.baseurl + "vote", {
-        topicId: this.topicId,
-        userId: sessionStorage.getItem("memberId"),
-      });
-      if (response.data.message == "access") {
-        console.log(this.topicId);
-        console.log(response.data);
-        this.$emit("clicklike", this.cnt + 1);
-      }
+      axios
+        .post(this.$store.state.baseurl + "vote", {
+          topicId: this.topicId,
+          userId: sessionStorage.getItem("memberId"),
+        })
+        .then((response) => {
+          if (response.data.message == "access") {
+            console.log(this.topicId);
+            console.log(response.data);
+            this.$emit("clicklike", { cnt: this.cnt + 1, recommend: !this.recommend });
+          }
+        });
     },
-    async clickUnLike() {
+    clickUnLike() {
       console.log("clicked unlike");
-      const response = await axios.delete(this.$store.state.baseurl + "vote/" + this.topicId + "/" + sessionStorage.getItem("memberId"));
+      const response = axios.delete(this.$store.state.baseurl + "vote/" + this.topicId + "/" + sessionStorage.getItem("memberId"));
       if (response.message == "access") {
         console.log(response.data);
-        this.$emit("clicklike", this.cnt - 1);
+        this.$emit("clicklike", { cnt: this.cnt - 1, recommend: !this.recommend });
       }
     },
     topicRoom() {
