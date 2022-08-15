@@ -223,7 +223,7 @@ export default {
         // console.log(this.getCurrentFaceDetectionNet());
         // await this.getCurrentFaceDetectionNet().loadFromUri("../../assets/models");
         // 파일을 로컬에서 불러올 수 없어서 로컬 http 서버에서 해당 파일을 읽어올 수 있도록 만듬
-        const Model_URL = "http://127.0.0.1:8082/";
+        const Model_URL = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/weights/";
         await this.getCurrentFaceDetectionNet().load(Model_URL);
       }
     },

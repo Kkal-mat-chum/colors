@@ -19,7 +19,7 @@
         </select>
       </div>
 
-      <topic-list class="topTenList" :isTopic="true">
+      <topic-list class="topTenList" :isAdmin="isAdmin" :isTopic="true">
         <topic-article
           class="topicArticle"
           :isTopic="true"
@@ -31,16 +31,16 @@
           :recommend="topic.recommend"
           :cnt="topic.cnt"
           @clickLike="
-            (cnt) => {
-              topic.cnt = cnt;
-              topic.recomend = !topic.recomend;
+            (data) => {
+              topic.cnt = data.cnt;
+              topic.recommend = data.recommend;
             }
           "
         />
       </topic-list>
       <div class="topTenBottomLine">
         <customButton btnText="돌아가기" @click="go" />
-        <div class="panpmgenationContainer">
+        <div class="pagenationContainer">
           <i class="material-symbols-rounded">keyboard_double_arrow_left</i>
           <i class="fa-solid fa-caret-left"></i>
           <customButton v-for="page in pages" :key="page" :btnText="page" @click="next(page)"></customButton>
@@ -92,7 +92,7 @@ export default {
           this.maxPageNum = response.data.maxpage;
           this.topics = response.data.topics;
           var pageDecimical = parseInt(this.currentPage / 10);
-          if (sessionStorage.getItem("memberData").authGrade == true) {
+          if (sessionStorage.getItem("auth") == "true") {
             this.isAdmin = true;
           }
           if (this.currentPage > 10) {

@@ -52,6 +52,7 @@ export default {
         roomcode: this.roomCode,
       };
       sessionStorage.setItem("roomId", this.roomCode);
+      sessionStorage.setItem("groupMeetingName", sessionStorage.getItem("userName"));
       console.log(roomcode);
       this.$store.dispatch("groupMeeting", roomcode);
     },
@@ -60,6 +61,8 @@ export default {
         hostid: this.id,
         roomtype: "group",
       };
+      sessionStorage.setItem("hostId", this.id);
+      sessionStorage.setItem("groupMeetingName", sessionStorage.getItem("userName"));
       this.$store.dispatch("madeGroupMeeting", groupUser);
     },
     TopicRoom() {

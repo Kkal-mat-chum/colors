@@ -152,6 +152,17 @@ export default {
     showOneSelectedColor() {
       if (this.count_pallete < 8) {
         this.modelHex = this.rgb2hex(this.rgba, true);
+        var duplicated = 0;
+        console.log(this.$store.state.selectedColorLst);
+        for (var i = 0; i < this.count_pallete; i++) {
+          if (this.$store.state.selectedColorLst[i] == this.modelHex) {
+            alert("중복된 색이 있습니다.");
+            duplicated = 1;
+          }
+        }
+        if (duplicated == 1) {
+          return;
+        }
         console.log(this.modelHex);
         this.$store.commit("NEW_COLOR", { color: this.modelHex });
         this.selectedColorLst = this.$store.state.selectedColorLst;
@@ -193,7 +204,7 @@ export default {
           var s3 = new AWS.S3({
             apiVersion: "2012-10-17",
             params: {
-              Bucket: "ssafy7colors",
+              Bucket: "ssafy7color",
             },
           });
 
@@ -213,7 +224,7 @@ export default {
               if (err) {
                 console.log(err);
               }
-              alert("Successfully uploaded photo.");
+              console.log("Successfully uploaded photo.");
               console.log(data);
             }
           );
@@ -239,7 +250,7 @@ export default {
       var s3 = new AWS.S3({
         apiVersion: "2012-10-17",
         params: {
-          Bucket: "ssafy7colors",
+          Bucket: "ssafy7color",
         },
       });
 
@@ -264,7 +275,7 @@ export default {
             var colorset = { url: "", code: "" };
             this.lists = data.Contents;
             this.lists.forEach((list) => {
-              var imgurl = "https://ssafy7colors.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+              var imgurl = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + list.Key;
               var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
               // console.log(code);
               colorset = { url: imgurl, code: colorcode };
