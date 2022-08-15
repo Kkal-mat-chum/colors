@@ -457,7 +457,8 @@ export default {
         .then((response) => {
           connectionsNumber = response.data.connections.numberOfElements;
           console.log(response.data.connections.numberOfElements);
-          if (response.data.connections.numberOfElements == 6) {
+          if (response.data.connections.numberOfElements > 6) {
+            console.log("값확인");
             let pull = this.mySessionId;
             this.$store.dispatch("pullRoom", pull);
           }
