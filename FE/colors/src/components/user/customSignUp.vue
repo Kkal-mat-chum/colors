@@ -234,7 +234,7 @@ export default {
           .then((response) => {
             if (response.data.message == "success") {
               console.log("로그인 완료");
-              router.push("/");
+              router.push("/login");
             } else {
               console.log("로그인 실패");
             }

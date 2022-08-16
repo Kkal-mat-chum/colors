@@ -178,12 +178,14 @@ const meetingStore = {
         }
       });
     },
-    pullRoom(params) {
+    pullRoom({ commit }, params) {
+      console.log(params);
       api({
         url: `/room/capacity`,
         method: "PUT",
         data: params,
       }).then(({ data }) => {
+        commit("TOPIC_MEETING", data);
         console.log(12321321);
         if (data.message == "success") {
           console.log(12321321);

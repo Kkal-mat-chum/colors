@@ -540,12 +540,13 @@ export default {
           console.log(response);
           console.log(response.data.connections.numberOfElements);
           console.log("값확인이전");
-          if (response.data.connections.numberOfElements > 6) {
+          if (response.data.connections.numberOfElements > 2) {
             console.log("값확인");
             let roomid = {
               roomid: sessionStorage.getItem("roomId"),
             };
             console.log(roomid);
+            this.leaveSession();
             this.$store.dispatch("pullRoom", roomid);
           }
         });
@@ -570,6 +571,7 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
+        this.participantUpdate(this.mySessionId);
         if (this.numberOFparti == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
         }

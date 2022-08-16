@@ -30,11 +30,11 @@ spring:
     url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://db:3306/colors?serverTimezone=UTC&characterEncoding=UTF-8
-#    username: root
-#    password: root
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: jdbc:mysql://db:3306/colors?serverTimezone=UTC&characterEncoding=UTF-8
+  #    username: root
+  #    password: root
 
   data:
     web:
@@ -62,4 +62,3 @@ logging:
         descriptor:
           sql: trace
       SQL: debug
-

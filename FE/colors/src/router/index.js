@@ -9,15 +9,17 @@ import aloneVoting from "../views/VotingView/AloneVoting.vue";
 import teamVoting from "../views/VotingView/TeamVoting.vue";
 import randomVoting from "../views/VotingView/RandomVoting.vue";
 import loadingwin from "@/components/Voting/loadingImg.vue";
+import MainView from "@/components/main/MainView.vue";
 import swal from "sweetalert";
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
+  {
+    path: "/",
+    name: "home",
+    meta: { authRequired: true },
+    component: MainView,
+  },
   {
     path: "/about",
     name: "about",
@@ -67,7 +69,7 @@ const routes = [
     component: () => import("@/components/user/customSignUp.vue"),
   },
   {
-    path: "/",
+    path: "/login",
     name: "logIn",
     meta: { authRequired: true },
     component: () => import("@/components/user/customLogIn.vue"),
