@@ -203,9 +203,9 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomCode", data.roomcode);
-            sessionStorage.setItem("roomNumber", data.roomid);
-            router.push("/team/" + sessionStorage.getItem("roomCode"));
+            sessionStorage.setItem("roomCode", data.data.roomcode);
+            sessionStorage.setItem("roomNumber", data.data.roomid);
+            router.push("/team/" + data.data.roomcode);
           });
         }
       });

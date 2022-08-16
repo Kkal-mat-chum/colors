@@ -41,11 +41,13 @@ video {
   width: 100%;
 }
 .jb-text {
+  font-family: "Pretendard";
   position: absolute;
   top: 50%;
   width: 100%;
 }
 .jb-text p {
+  font-family: "Pretendard";
   margin-top: -24px;
   text-align: center;
   font-size: 48px;

@@ -19,11 +19,11 @@
                 시작하세요!
               </span>
             </h3>
-            <img class="emoji" src="" alt="" />
+            <img class="mainImg" src="../../assets/mainLogo.png" alt="" />
             <p class="msg">
-              <span>언제, 어디서든</span>
-              <span>운동 종류, 운동 방법, 동작까지</span>
-              <span>나에게 맞는 맞춤 운동을 만나보세요.</span>
+              <span>혼자 또는 친구들과 함께</span>
+              <span>나에게 가장 어울리는</span>
+              <span>색깔을 찾아보세요!</span>
             </p>
           </div>
         </div>
@@ -34,31 +34,31 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="epiBox whiteText ebMajorPr aos-init aos-animate" data-aos="fade-up">
-              <h6>온라인 PT의 기준, SSAFIT!</h6>
+              <h6>인생색깔 찾기 기준, 깔맞춤!</h6>
               <h4>
-                <span>영상만 따라하면,</span>
+                <span>화상 미팅을 통해 </span>
                 <div>
-                  <span>나도 몸짱!</span>
+                  <div>나만의 색을 찾아보세요!</div>
                 </div>
               </h4>
               <div class="tBox aos-init aos-animate" data-aos="fade-down">
                 <div class="tBox-msg">
                   <div>
-                    <span>복근, 하체, 상체 등</span>
+                    <span>개인, 단체, 토픽</span>
                   </div>
                   <div>
-                    <span>내가 찾는 운동을 검색해 보세요.</span>
+                    <span>나에게 맞는 색깔을</span>
                   </div>
                   <div>
-                    <span>언제나, 어디서든</span>
+                    <span>친구들과 함께</span>
                   </div>
-                  <span>쉽게 운동을 배울 수 있습니다.</span>
+                  <span>찾아보세요.</span>
                 </div>
               </div>
-              <img class="mockup mc1 aos-init aos-animate" src="http://i.ytimg.com/vi/KTMeuLU3dII/0.jpg" alt="" data-aos="fade-up" data-aos-delay="850" />
-              <img class="mockup mc2 aos-init aos-animate" src="http://i.ytimg.com/vi/bvu6SUPFmYM/0.jpg" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-              <img class="mockup mc3 aos-init aos-animate" src="http://i.ytimg.com/vi/VtOqYd01LD8/0.jpg" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-              <img class="mockup mc4 aos-init aos-animate" src="http://i.ytimg.com/vi/Vx2yxXQ0Pkk/0.jpg" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+              <img class="mockup mc1 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
+              <img class="mockup mc2 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+              <img class="mockup mc3 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+              <img class="mockup mc4 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
             </div>
           </div>
         </div>
@@ -66,13 +66,12 @@
       <div class="selectBoxWrap">
         <div class="container">
           <h3>
-            <span>당신에게 FIT한</span>
-            <span>SSAFIT 프로그램</span>
+            <span>1. 토픽</span>
           </h3>
           <p class="anc">
-            온라인 운동,
+            상황별로,
             <br />
-            지금 SSAFIT에서 시작하세요.
+            자신에게 어울리는 색깔을 찾아보세요.
             <br />
             <br />
           </p>
@@ -81,50 +80,60 @@
               <div class="epiBox h100 selectBox aos-init aos-animate" data-aos="fade-up">
                 <h4>
                   <div>
-                    <span>SSAFIT</span>
+                    <span>깔맞춤,</span>
                   </div>
                   <div>
-                    <span><b>온라인 운동</b></span>
+                    <span><b>Topic 게시판</b></span>
                   </div>
-                  <span>코치없이 혼자!</span>
+                  <span>을 통해 상황에 맞는</span>
+                  <span>색깔 찾기!</span>
                 </h4>
-                <ul data-aos="fade-down" class="aos-init aos-animate">
-                  <li>운동 부위 검색</li>
-                  <li>장소에 상관없이 운동</li>
-                  <li>원하는 부위 운동 가능</li>
-                  <li>쉬운 접근성</li>
+                <ul data-aos="fade-down" class="aos-init aos-animate tablemargin">
+                  <li>면접 정장 색깔, 컬러 증명 사진 등</li>
+                  <li>상황에 따라 자신에게</li>
+                  <li>사람들과 함께</li>
+                  <li>어울리는 색상을 찾아보세요!</li>
                 </ul>
-                <img
-                  class="mockup mc7 aos-init aos-animate"
-                  src="https://images.unsplash.com/photo-1640622304931-7f9e856f787b?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687"
-                  alt=""
-                  data-aos="fade-left"
-                />
-                <b-button class="cta aos-init aos-animate" :to="{ name: 'search' }" data-aos="fade-up">모든 운동영상 보기</b-button>
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
               </div>
             </div>
+          </div>
+          <h3>
+            <span>2. 미팅</span>
+          </h3>
+          <p class="anc">
+            상황별로,
+            <br />
+            자신에게 어울리는 색깔을 찾아보세요.
+            <br />
+            <br />
+          </p>
+          <div class="row">
             <div class="col-sm-6">
               <div class="epiBox h100 selectBox plusBox aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
                 <h4>
-                  <span
-                    >SSAFIT<sup><b-icon icon="plus"></b-icon></sup
-                  ></span>
-                  <span><b>플러스</b></span>
+                  <div>
+                    <span>깔맞춤,</span>
+                  </div>
+                  <div>
+                    <span><b>Topic 게시판</b></span>
+                  </div>
+                  <span>을 통해 상황에 맞는</span>
+                  <span>색깔 찾기!</span>
                 </h4>
                 <ul data-aos="fade-down" class="aos-init aos-animate">
-                  <li>DM을 이용한 의사소통</li>
-                  <li>자주보는 영상 찜</li>
-                  <li>팔로우, 팔로워</li>
-                  <li>내 주위 헬스장 찾기</li>
+                  <li>면접 정장 색깔, 컬러 증명 사진 등</li>
+                  <li>상황에 따라 자신에게</li>
+                  <li>사람들과 함께</li>
+                  <li>어울리는 색상을 찾아보세요!</li>
                 </ul>
-                <img
-                  class="mockup mc8 aos-init aos-animate"
-                  src="https://images.unsplash.com/photo-1499711860525-c485eb341d5e?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTE0fHxwbHVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500"
-                  alt=""
-                  data-aos="fade-left"
-                />
-
-                <b-button class="cta aos-init aos-animate" :to="{ name: 'gym' }" data-aos="fade-up">헬스장 찾기</b-button>
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
               </div>
             </div>
           </div>
@@ -144,7 +153,7 @@ export default {
 .big {
   font-size: 40px;
   font-weight: 400;
-  font-family: Cafe24Ohsquare_air;
+  font-family: "Pretendard";
   letter-spacing: 0;
   word-break: keep-all;
   clear: #123;
@@ -161,13 +170,13 @@ export default {
 .text-center {
   text-align: center !important;
 }
-.emoji {
-  height: 64px;
+.mainImg {
+  height: 100px;
   display: black;
   margin: 5px auto 30px;
-  margin-top: 5px;
+  margin-top: 0;
   margin-right: auto;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   margin-left: auto;
 }
 b {
@@ -186,6 +195,7 @@ p {
 .msg span {
   display: block;
   color: black;
+  font-family: "Pretendard";
 }
 .epiBoxWrap {
   background: #ffffff url(https://img.freepik.com/free-photo/simple-white-background-with-smooth-lines-in-light-colors_476363-1080.jpg?size=626&ext=jpg&ga=GA1.2.1656392432.1636588800) no-repeat center
@@ -226,7 +236,8 @@ div[data-aos-duration="1500"] [data-aos] {
 }
 .epiBox.ebMajorPr {
   height: 520px;
-  background: rgba(17, 34, 51, 0.85);
+  width: 900px;
+  background: #d0d1ff;
 }
 [data-aos^="fade"][data-aos^="fade"] {
   transition-property: opacity, transform;
@@ -251,7 +262,9 @@ div[data-aos-duration="1500"] [data-aos] {
   margin-top: 0;
 }
 h6 {
-  display: block;
+  display: flex;
+  justify-content: left;
+  font-family: "Pretendard";
   margin-block-start: 2.33em;
   margin-block-end: 2.33em;
   margin-inline-start: 0px;
@@ -261,12 +274,14 @@ h6 {
   color: #fff;
 }
 .epiBox h4 {
+  text-align: left;
   font-size: 32px;
-  font-family: Cafe24Ohsquare_air;
+  font-family: "Pretendard";
   line-height: 40px;
   word-break: keep-all;
 }
 h4 {
+  display: flex;
   margin-bottom: 0.5rem;
   font-weight: 500;
   margin-top: 0;
@@ -362,6 +377,7 @@ h3 span {
 }
 .epiBox.h100 {
   height: calc(100% -30px);
+  padding-left: 50px;
 }
 .selectBox {
   min-height: 500px;
@@ -379,6 +395,7 @@ ul {
   margin: 0;
   padding: 0;
   display: block;
+  text-align: left;
   list-style-type: disc;
   margin-block-start: 1em;
   margin-block-end: 1em;
@@ -408,6 +425,7 @@ li {
 }
 .col-sm-6 {
   flex: 0 0 50%;
+  flex-direction: column;
   max-width: 50%;
   position: relative;
   width: 100%;
@@ -423,7 +441,7 @@ li {
 .epiBox.h4 {
   color: #123;
   font-size: 32px;
-  font-family: Cafe24Ohsquare_air;
+  font-family: "Pretendard";
   line-height: 40px;
   word-break: keep-all;
 }
@@ -481,4 +499,7 @@ li {
 sup {
   font-size: 88%;
 }
+/* .tablemargin {
+  margin-top: 30px;
+} */
 </style>

@@ -551,6 +551,7 @@ export default {
               roomid: sessionStorage.getItem("roomNumber"),
             };
             console.log(roomId);
+            this.leaveSession();
             this.$store.dispatch("pullRoom", roomId);
           }
         });
@@ -575,6 +576,7 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
+        this.participantUpdate(this.mySessionId);
         if (this.numberOFparti == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
         }
