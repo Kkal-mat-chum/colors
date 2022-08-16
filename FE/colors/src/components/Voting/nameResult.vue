@@ -64,7 +64,7 @@ import axios from "axios";
 import customButton from "../common/customButton.vue";
 import namedColors from "color-name-list";
 import nearestColor from "nearest-color";
-
+import swal from "sweetalert";
 export default {
   components: {
     customButton,

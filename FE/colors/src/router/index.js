@@ -9,7 +9,7 @@ import aloneVoting from "../views/VotingView/AloneVoting.vue";
 import teamVoting from "../views/VotingView/TeamVoting.vue";
 import randomVoting from "../views/VotingView/RandomVoting.vue";
 import loadingwin from "@/components/Voting/loadingImg.vue";
-
+import swal from "sweetalert";
 Vue.use(VueRouter);
 
 const routes = [
@@ -166,7 +166,7 @@ router.beforeEach(function (to, from, next) {
     if (sessionStorage.getItem("access-token") != null) {
       next();
     } else {
-      alert("로그인하세요");
+      swal("로그인", "로그인이 필요한 서비스입니다.", "error");
       next({ path: "/" });
     }
   }
