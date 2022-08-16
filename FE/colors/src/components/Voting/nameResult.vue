@@ -137,6 +137,7 @@ export default {
       }
     },
     showResult() {
+      console.log(this.$store.state.resultStore.cnt);
       if (this.$store.state.resultStore.cnt == 1) {
         return [false, false, false, false, false];
       } else if (this.$store.state.resultStore.cnt == 2) {
@@ -170,7 +171,7 @@ export default {
           userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {
-          console.log(response);
+          console.log(response.data);
           if (response.data.message == "fail") {
             swal("투표 결과 전송", "투표 결과를 불러오지 못하였습니다.", "error");
           } else {
@@ -185,14 +186,14 @@ export default {
                   this.mypickcolor = response.data.data[idx].code;
                 }
               }
-              this.top1url = response.data.top1.url;
-              this.top1color = response.data.top1.code;
+              this.top1url = response.data.data.top1.url;
+              this.top1color = response.data.data.top1.code;
             } else {
               //개인일때, top1에 data내용 저장
-              this.top1url = response.data.data.url;
-              this.top1color = response.data.data.code;
-              this.mypickurl = response.data.data.url;
-              this.mypickcolor = response.data.data.code;
+              this.top1url = response.data.top1.url;
+              this.top1color = response.data.top1.code;
+              this.mypickurl = response.data.top1.url;
+              this.mypickcolor = response.data.top1.code;
             }
           }
         });

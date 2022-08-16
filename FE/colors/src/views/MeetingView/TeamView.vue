@@ -162,6 +162,8 @@ export default {
     this.joinSession();
   },
   mounted() {
+    console.log(sessionStorage.getItem("roomCode"));
+    console.log(sessionStorage.getItem("roomId"));
     console.log(this.subscribers);
     if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
       this.ishost = true;
@@ -287,6 +289,112 @@ export default {
     },
 
     goVote() {
+      // var awsid = this.awsid;
+      // var userid = sessionStorage.getItem("userId");
+      // // file 가져오기
+      // AWS.config.update({
+      //   region: "ap-northeast-2",
+      //   credentials: new AWS.CognitoIdentityCredentials({
+      //     IdentityPoolId: awsid,
+      //   }),
+      // });
+
+      // var s3 = new AWS.S3({
+      //   apiVersion: "2012-10-17",
+      //   params: {
+      //     Bucket: "ssafy7color",
+      //   },
+      // });
+
+      // var date = new Date();
+      // var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+      // var roomcode = sessionStorage.getItem("roomCode");
+
+      // let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
+
+      // console.log(photoKey);
+
+      // s3.listObjects(
+      //   {
+      //     Delimiter: "/",
+      //     Prefix: photoKey,
+      //   },
+      //   (err, data) => {
+      //     if (err) {
+      //       return swal("투표하기", "There was an error : " + err.message, "error");
+      //     } else {
+      //       var colorsets = [];
+      //       var colorset = { url: "", code: "" };
+      //       this.lists = data.Contents;
+      //       this.lists.forEach((list) => {
+      //         var imgurl = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+      //         var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
+      //         // console.log(code);
+      //         colorset = { url: imgurl, code: colorcode };
+      //         colorsets.push(colorset);
+      //       });
+      //       console.log(colorsets);
+      //       // 미팅 정보 db 저장
+      //       let roomnum = sessionStorage.getItem("roomId");
+      //       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      //       let userid = memberData.data.id;
+      //       const colorsetResult = {
+      //         roomid: roomnum,
+      //         userid: userid,
+      //         colorset: colorsets,
+      //       };
+      //       console.log(colorsetResult);
+      //       axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
+      //         console.log(response);
+      //       });
+      //     }
+      //   }
+      // );
+      this.$store.state.resultStore.cnt = this.numberOFparti;
+      this.$router.push("/teamVoting");
+      // this.$router.go();
+    },
+
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], fileName, { type: mime });
+    },
+
+    setText() {
+      this.modelHex = this.rgb2hex(this.rgba, true);
+      this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;
+    },
+    changeColor(color) {
+      const { r, g, b, a, h, s, v } = this.setColorValue(color.rgba);
+      Object.assign(this, { r, g, b, a, h, s, v });
+      this.modelHex = color.hex;
+
+      this.$store.state.r = this.r;
+      this.$store.state.g = this.g;
+      this.$store.state.b = this.b;
+    },
+    sendMessage(message) {
+      var messageData = {
+        content: message,
+        secretName: this.myUserName,
+        // secretName: this.$storestate.userName,
+      };
+      this.session.signal({
+        type: "chat",
+        data: JSON.stringify(messageData),
+        to: [],
+      });
+    },
+    sendVote() {
       var awsid = this.awsid;
       var userid = sessionStorage.getItem("userId");
       // file 가져오기
@@ -348,51 +456,6 @@ export default {
           }
         }
       );
-      this.$store.state.resultStore.cnt = this.numberOFparti;
-      this.$router.push("/teamVoting");
-      // this.$router.go();
-    },
-
-    dataURLtoFile(dataurl, fileName) {
-      var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-
-      return new File([u8arr], fileName, { type: mime });
-    },
-
-    setText() {
-      this.modelHex = this.rgb2hex(this.rgba, true);
-      this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;
-    },
-    changeColor(color) {
-      const { r, g, b, a, h, s, v } = this.setColorValue(color.rgba);
-      Object.assign(this, { r, g, b, a, h, s, v });
-      this.modelHex = color.hex;
-
-      this.$store.state.r = this.r;
-      this.$store.state.g = this.g;
-      this.$store.state.b = this.b;
-    },
-    sendMessage(message) {
-      var messageData = {
-        content: message,
-        secretName: this.myUserName,
-        // secretName: this.$storestate.userName,
-      };
-      this.session.signal({
-        type: "chat",
-        data: JSON.stringify(messageData),
-        to: [],
-      });
-    },
-    sendVote() {
       var vote = this.ready;
       // var name = this.myUserName;
       // this.readys[name] = vote;
