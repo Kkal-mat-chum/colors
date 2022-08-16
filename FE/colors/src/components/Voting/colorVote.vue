@@ -26,7 +26,7 @@
 
 <script>
 import axios from "axios";
-
+import swal from "sweetalert";
 export default {
   data() {
     return {
@@ -179,7 +179,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
           } else if (response.data.message == "success") {
             this.bringTotalResult();
           }
@@ -203,7 +203,7 @@ export default {
                   this.$store.state.resultStore.totalResultData = response.data.data;
                   this.$store.state.resultStore.aloneResult.data = response.data.data;
                 } else {
-                  alert("투표결과가져오기 실패");
+                  swal("투표 결과", "투표 결과를 가져오는데에 실패하였습니다.", "error");
                 }
               });
           }

@@ -65,7 +65,7 @@ import axios from "axios";
 import customButton from "../common/customButton.vue";
 import namedColors from "color-name-list";
 import nearestColor from "nearest-color";
-
+import swal from "sweetalert";
 export default {
   components: {
     customButton,
@@ -174,7 +174,7 @@ export default {
           .then((response) => {
             console.log(response);
             if (response.data.message == "fail") {
-              alert("전송 실패");
+              swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
             } else {
               if (this.$store.state.resultStore.cnt > 1) {
                 //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
@@ -207,7 +207,7 @@ export default {
           .then((response) => {
             console.log(response);
             if (response.data.message == "fail") {
-              alert("전송 실패");
+              swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
             }
           });
       }

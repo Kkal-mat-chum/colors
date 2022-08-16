@@ -14,6 +14,7 @@
 import axios from "axios";
 import AWS from "aws-sdk";
 import router from "@/router";
+import swal from "sweetalert";
 
 export default {
   data() {
@@ -80,10 +81,10 @@ export default {
         })
         .then((response) => {
           if (response.data.message == "success") {
-            alert("등록이 완료되었습니다.");
+            swal("프로필 이미지 등록", "등록이 완료되었습니다.", "success");
             sessionStorage.setItem("memberData", sessionStorage.getItem("memberData"));
           } else {
-            alert("등록에 실패하였습니다.");
+            swal("프로필 이미지 등록", "등록에 실패하였습니다.", "error");
           }
         });
     },

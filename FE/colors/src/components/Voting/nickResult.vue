@@ -57,6 +57,7 @@
 <script>
 import axios from "axios";
 import customButton from "../common/customButton.vue";
+import swal from "sweetalert";
 
 export default {
   components: {
@@ -150,7 +151,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
           } else {
             //랜덤미팅은 항상 여러명임
             for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
