@@ -172,7 +172,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과를 불러오지 못하였습니다.", "error");
           } else {
             if (this.$store.state.resultStore.cnt > 1) {
               //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
