@@ -52,7 +52,9 @@ public class RoomController {
         Map<String, Object> result = new HashMap<>();
         String roomCode = (String) params.get("roomcode");
 
-        if(roomService.checkRoomCode(roomCode)) {
+        Room room = roomService.checkRoomCode(roomCode);
+        if(room != null) {
+            result.put("roomid", room.getId());
             result.put("message", SUCCESS);
         } else {
             result.put("message", FAIL);

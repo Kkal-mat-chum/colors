@@ -25,16 +25,16 @@ spring:
           auth: true
           starttls:
             enable: true
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-#    username: root
-#    password: root
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://db:3306/colors?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://db:3306/colors?serverTimezone=UTC&characterEncoding=UTF-8
+#    username: root
+#    password: root
 
   data:
     web:
@@ -42,7 +42,7 @@ spring:
         default-page-size: 10
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: false

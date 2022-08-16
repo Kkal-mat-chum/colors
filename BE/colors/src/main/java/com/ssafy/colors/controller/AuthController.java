@@ -5,11 +5,13 @@ import com.ssafy.colors.request.LoginReq;
 import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.service.AuthService;
 import com.ssafy.colors.util.JWTUtil;
+import com.ssafy.colors.util.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +29,12 @@ public class AuthController {
     @Autowired
     JWTUtil jwtUtil;
 
+    @Autowired
+    SHA256 sha256;
+
     // Login
     @PostMapping("/login")
-    public ResponseEntity<HashMap> login(@RequestBody LoginReq user) {
+    public ResponseEntity<HashMap> login(@RequestBody LoginReq user) throws NoSuchAlgorithmException {
         System.out.println("[POST] - auth/login");
         System.out.println(user.getUserId());
         System.out.println(user.getPassword());
