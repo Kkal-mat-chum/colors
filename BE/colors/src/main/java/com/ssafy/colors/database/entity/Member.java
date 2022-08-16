@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
     @Column(name = "user_id", length = 15, nullable = false)
     String userId;
 
-    @Column(name = "password", length = 30, nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     String password;
 
     @Column(name = "profile_url", length = 100)
