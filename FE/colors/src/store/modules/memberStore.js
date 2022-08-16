@@ -1,4 +1,5 @@
 import { api } from "@/store";
+import swal from "sweetalert";
 
 const memberStore = {
   state: {
@@ -25,10 +26,10 @@ const memberStore = {
       if (payload == 1) {
         sessionStorage.setItem("checkEmail", true);
         state.members.push(payload);
-        alert("이메일 인증이 완료됐습니다.");
+        swal("이메일 인증", "이메일 인증에 성공하였습니다.", "success");
       } else {
         sessionStorage.setItem("checkEmail", false);
-        alert("이메일 인증코드를 다시 확인하세요.");
+        swal("이메일 인증", "이메일 인증코드를 다시 확인하세요.", "error");
       }
     },
   },
@@ -45,7 +46,7 @@ const memberStore = {
         })
         .catch((err) => {
           console.log(err);
-          alert("올바른 인증코드가 아닙니다.");
+          swal("이메일 인증", "이메일 인증코드를 다시 확인하세요.", "error");
         });
     },
   },

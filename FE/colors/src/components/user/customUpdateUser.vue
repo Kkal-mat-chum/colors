@@ -27,7 +27,7 @@
         <div class="a">
           <div class="removeUser"></div>
           <div class="update3_row2">
-            <custom-button class="updateUserPw" id="pwChangeBtn" btnText="비밀번호 변경" @click="updatePwShowModal = true"></custom-button>
+            <custom-button class="updateUserPw" id="pwChangeBtn" btnText="비밀번호 변경" @click="password"></custom-button>
             <custom-button class="nickCheckBtn" id="byeBtn" btnText="회원 탈퇴" @click="deleteShowModal = true">testButton</custom-button>
             <custom-modal class="updateUserPwModal" id="updateUserPwModal" v-show="updatePwShowModal" @close-modal="updatePwShowModal = false" titleText="비밀번호 변경">
               <content><custom-updatepw></custom-updatepw></content>
@@ -48,6 +48,7 @@ import axios from "axios";
 import CustomUpdatepw from "@/components/user/customUpdatePW.vue";
 import CustomeDeleteUser from "./customDeleteUser.vue";
 import router from "@/router";
+import swal from "sweetalert";
 export default {
   components: {
     CustomUpdatepw,
@@ -71,6 +72,10 @@ export default {
     document.getElementById("updateUserPwLabel").value = "";
   },
   methods: {
+    password() {
+      swal("비밀번호 변경", "비밀번호를 변경하시겠습니까?", "info");
+      this.updatePwShowModal = true;
+    },
     //회원정보 수정
     updateMemberInfo() {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
@@ -93,16 +98,16 @@ export default {
           .then((response) => {
             console.log(response);
             if (response.data.message == "success") {
-              alert("정보 수정이 완료되었습니다.");
+              swal("회원정보수정", "회원 정보 수정이 완료되었습니다.", "success");
               sessionStorage.setItem("userName", sessionStorage.getItem("userNameBefore"));
               sessionStorage.setItem("userNick", sessionStorage.getItem("userNickBefore"));
               router.go();
             } else {
-              alert("수정에 실패하였습니다.");
+              swal("회원정보수정", "회원 정보 수정에 실패하였습니다.", "error");
             }
           });
       } else {
-        alert("닉네임 중복 검사가 필요합니다.");
+        swal("회원정보수정", "닉네임 중복 확인이 필요합니다.", "error");
       }
     },
     checkDuplicateNickname() {
@@ -117,11 +122,11 @@ export default {
           console.log(userNickname, ":", new_nickname);
           console.log(response.data.message);
           if (userNickname == new_nickname || response.data.message == "not-duplicated") {
-            alert("닉네임 사용 가능");
+            swal("닉네임 중복 확인", "해당 닉네임 사용 가능합니다.", "success");
             this.nick_validation = true;
           } else if (!(this.userNickname == new_nickname) || response.data.message == "duplicated") {
             this.nick_validation = false;
-            alert("중복된 닉네임");
+            swal("닉네임 중복 확인", "중복된 닉네임입니다.", "error");
           }
         });
     },

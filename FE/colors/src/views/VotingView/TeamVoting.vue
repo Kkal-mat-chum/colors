@@ -23,6 +23,7 @@ import axios from "axios";
 import ColorVote from "../../components/Voting/colorVote.vue";
 import TimeStamp from "../../components/Voting/customTimeStamp.vue";
 import loadingImg from "../../components/Voting/loadingImg.vue";
+import swal from "sweetalert";
 
 export default {
   components: {

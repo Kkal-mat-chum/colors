@@ -3,13 +3,25 @@
     <ul class="sidebar__nav">
       <li class="logo"><img class="logo_sidebar" src="../../assets/logo_vertical_croped.png" /></li>
       <div class="icons">
-        <i class="material-symbols-rounded loadedIcon" @click="clickHomeIcon">home</i>
-        <i class="material-icons-outlined loadedIcon" @click="clickForumIcon">forum</i>
-        <i class="material-icons-outlined loadedIcon" @click="clickMyPageIcon">account_circle</i>
+        <div class="hover">
+          <i class="material-symbols-rounded loadedIcon" @click="clickHomeIcon">home</i>
+          <img src="@/assets/meetingroom.png" class="img" @click="clickHomeIcon" />
+        </div>
+        <div class="hover">
+          <i class="material-icons-outlined loadedIcon" @click="clickForumIcon">forum</i>
+          <img src="@/assets/topic.png" class="img" @click="clickForumIcon" />
+        </div>
+        <div class="hover">
+          <i class="material-icons-outlined loadedIcon" @click="clickMyPageIcon">account_circle</i>
+          <img src="@/assets/mypage.png" class="img" @click="clickMyPageIcon" />
+        </div>
       </div>
     </ul>
     <div>
-      <i class="material-icons-outlined loadedIcon" @click="doLogout">logout</i>
+      <div class="hover">
+        <i class="material-icons-outlined loadedIcon" @click="doLogout">logout</i>
+        <img src="@/assets/logout.png" class="img" @click="doLogout" />
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +67,9 @@ export default {
   background: #ffffff;
   box-shadow: 5px 1px 40px 10px rgba(238, 238, 238, 0.4);
 }
+.hover {
+  position: relative;
+}
 
 .logo::after {
   content: "";
@@ -72,19 +87,26 @@ export default {
   margin-bottom: 2rem;
 }
 
-.loadedIcon:hover {
-  color: #6667ab !important;
-}
-
 .loadedIcon {
   text-align: center;
   font-size: 60px;
   color: #d0d1ff;
+  cursor: pointer !important;
 }
-
-.loadedIcon:hover {
-  color: #b9b9e8;
+.hover {
+  margin: 0px 10px;
+}
+.img {
+  position: absolute;
+  display: none;
+  top: 0px;
+  left: 0px;
+  widows: 120px;
+  height: 60px;
+}
+.hover:hover .img {
   cursor: pointer;
+  display: block;
 }
 
 ul.sidebar__nav {

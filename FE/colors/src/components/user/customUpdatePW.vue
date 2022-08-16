@@ -24,6 +24,7 @@
 
 <script>
 import axios from "axios";
+import swal from "sweetalert";
 
 export default {
   data() {
@@ -69,9 +70,10 @@ export default {
             console.log(response);
             if (response.data.message == "success") {
               console.log("비밀번호 변경 성공");
-              alert("비밀번호 변경이 완료되었습니다.");
+              swal("비밀번호 변경", "비밀번호 변경이 완료되었습니다.", "success");
               this.gotoMypage();
             } else {
+              swal("비밀번호 변경", "비밀번호 변경에 실패하였습니다.", "error");
               console.log("비밀번호 변경 실패");
               this.pw_validation = false;
               console.log(this.pw_validation);
