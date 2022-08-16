@@ -26,6 +26,7 @@
 
 <script>
 import axios from "axios";
+import swal from "sweetalert";
 
 export default {
   name: "aloneTournament",
@@ -66,7 +67,7 @@ export default {
     },
   },
   mounted() {
-    var room = sessionStorage.getItem("roomNum");
+    var room = sessionStorage.getItem("roomId");
     console.log(room);
     axios
       .post(this.$store.state.baseurl + "room/getresult", {
@@ -131,14 +132,14 @@ export default {
       console.log(this.$store.state.tournamentResultLst[14]);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
           code: this.$store.state.tournamentResultLst[14],
         })
         .then((response) => {
           this.bringTotalResult();
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
           }
         });
     },
@@ -146,7 +147,7 @@ export default {
     bringTotalResult() {
       axios
         .post(this.$store.state.baseurl + "room/vote/result", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {
@@ -156,7 +157,7 @@ export default {
           } else {
             axios
               .post(this.$store.state.baseurl + "room/vote/result", {
-                roomid: sessionStorage.getItem("roomNum"),
+                roomid: sessionStorage.getItem("roomId"),
                 userid: sessionStorage.getItem("memberId"),
               })
               .then((response) => {
@@ -166,7 +167,7 @@ export default {
 
                   this.$router.push("/tournamentnameresult");
                 } else {
-                  alert("투표결과가져오기 실패");
+                  swal("투표 결과", "투표 결과를 가져오는데에 실패하였습니다.", "error");
                 }
               });
           }

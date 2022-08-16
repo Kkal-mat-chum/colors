@@ -32,6 +32,7 @@ export default new Vuex.Store({
     teamTop1: "#ffffff",
     randomTop1: "#ffffff",
     hoveringColor: "색상 코드", //마이페이지에서 마우스오버할때 우측상단 표시할 색상입니다.
+    viedos: [],
   },
   getters: {},
   mutations: {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
     },
     changeHoveringColor(state, hover_color) {
       state.hoveringColor = hover_color;
+    },
+    CLEAN_VIDEOS(state) {
+      state.viedos = [];
     },
   },
   actions: {},

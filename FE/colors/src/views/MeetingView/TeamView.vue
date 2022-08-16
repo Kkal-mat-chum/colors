@@ -42,16 +42,6 @@
           <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startVote"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
-          <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
-            <cotent>
-              <div class="content">
-                <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 30px" id="notice">시작</strong> 버튼을 눌러주세요.</p>
-                <p class="notice">시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.</p>
-              </div>
-
-              <customButton class="btn" btnText="확인" @click="showstartModal = false"></customButton>
-            </cotent>
-          </custom-modal>
         </div>
       </div>
     </div>
@@ -70,6 +60,7 @@ import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import UserVideo from "@/components/videochat/UserVideo.vue";
 import UserVideo_sub from "@/components/videochat/UserVideo_sub.vue";
 import Chatpanel from "@/components/videochat/chatPanel.vue";
+import swal from "sweetalert";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -123,7 +114,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       ishost: false,
-      mySessionId: sessionStorage.getItem("roomId"),
+      mySessionId: sessionStorage.getItem("roomCode"),
       myUserName: JSON.parse(sessionStorage.getItem("memberData")).data.nickname,
       modelRgba: "",
       modelHex: "",
@@ -143,9 +134,9 @@ export default {
       ready: true,
       readyAll: false,
       readys: {},
-      numberOFparti: this.getSession(this.mySessionId),
-      showstartModal: false,
+      numberOFparti: this.participantUpdate(this.mySessionId),
       ishostCopy: false,
+      isTrackChanged: false,
     };
   },
   created() {
@@ -153,7 +144,7 @@ export default {
     this.setText();
     if (this.$store.state.meetingStore.roomType == "group") {
       this.roomHeaderTitle = "미팅 코드";
-      this.roomHeaderData = sessionStorage.getItem("roomId");
+      this.roomHeaderData = sessionStorage.getItem("roomCode");
       this.myUserName = this.memberData.name;
     } else if (this.$store.state.meetingStore.roomType == "random") {
       this.roomHeaderTitle = "미팅 주제";
@@ -174,7 +165,7 @@ export default {
     console.log(this.subscribers);
     if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
       this.ishost = true;
-      this.showstartModal = true;
+      swal("호스트 공지사항", '참여자들의 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -195,7 +186,7 @@ export default {
       this.ishostCopy = true;
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.id;
-      let roomnum = sessionStorage.getItem("roomNum");
+      let roomnum = sessionStorage.getItem("roomId");
       console.log(roomnum);
       axios
         .put(this.$store.state.baseurl + "room/status", {
@@ -215,7 +206,7 @@ export default {
         console.log(this.$store.state.selectedColorLst);
         for (var i = 0; i < this.count_pallete; i++) {
           if (this.$store.state.selectedColorLst[i] == this.modelHex) {
-            alert("중복된 색이 있습니다.");
+            swal("색상 담기", "중복된 색이 있습니다.", "error");
             duplicated = 1;
           }
         }
@@ -269,7 +260,7 @@ export default {
 
           var date = new Date();
           var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-          var roomcode = sessionStorage.getItem("roomId");
+          var roomcode = sessionStorage.getItem("roomCode");
 
           let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + count + ".jpg";
 
@@ -291,7 +282,7 @@ export default {
         // this.count++;
         this.count_pallete++;
       } else {
-        alert("컬러 팔레트가 꽉찼습니다.");
+        swal("색상 담기", "컬러 팔레트가 꽉찼습니다.", "error");
       }
     },
 
@@ -315,7 +306,7 @@ export default {
 
       var date = new Date();
       var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-      var roomcode = sessionStorage.getItem("roomId");
+      var roomcode = sessionStorage.getItem("roomCode");
 
       let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
 
@@ -328,7 +319,7 @@ export default {
         },
         (err, data) => {
           if (err) {
-            return alert("There was an error : " + err.message);
+            return swal("투표하기", "There was an error : " + err.message, "error");
           } else {
             var colorsets = [];
             var colorset = { url: "", code: "" };
@@ -342,7 +333,7 @@ export default {
             });
             console.log(colorsets);
             // 미팅 정보 db 저장
-            let roomnum = sessionStorage.getItem("roomNum");
+            let roomnum = sessionStorage.getItem("roomId");
             let memberData = JSON.parse(sessionStorage.getItem("memberData"));
             let userid = memberData.data.id;
             const colorsetResult = {
@@ -357,6 +348,7 @@ export default {
           }
         }
       );
+      this.$store.state.resultStore.cnt = this.numberOFparti;
       this.$router.push("/teamVoting");
       // this.$router.go();
     },
@@ -427,18 +419,21 @@ export default {
       this.$store.commit("changePublishVideo");
     },
     changeStream() {
-      const canvas = document.getElementById("overlay");
-
-      const canvas_stream = canvas.captureStream();
-
-      var myTrack = canvas_stream.getVideoTracks()[0];
-
-      // Replacing video track
-      this.publisher
-        .replaceTrack(myTrack)
-        .then(() => console.log("New track has been published"))
-        // .then(() => console.log(this.subscribers))
-        .catch((error) => console.error("Error replacing track", error));
+      if (!this.isTrackChanged) {
+        const canvas = document.getElementById("overlay");
+        const canvas_stream = canvas.captureStream();
+        var myTrack = canvas_stream.getVideoTracks()[0];
+        // Replacing video track
+        this.publisher
+          .replaceTrack(myTrack)
+          .then(() => {
+            console.log("New track has been published");
+            this.isTrackChanged = true;
+          })
+          .catch((error) => console.error("Error replacing track", error));
+      } else {
+        console.log("Already track has been changed");
+      }
     },
     joinSession() {
       // --- Get an OpenVidu object ---
@@ -451,14 +446,14 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...
       this.session.on("streamDestroyed", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const index = this.subscribers.indexOf(stream.streamManager, 0);
         if (index >= 0) {
           this.subscribers.splice(index, 1);
@@ -511,8 +506,8 @@ export default {
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "800x420", // The resolution of your video
-              frameRate: 30, // The frame rate of your video
+              resolution: "600x315", // The resolution of your video
+              frameRate: 25, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: false, // Whether to mirror your local video or not
             });
@@ -545,21 +540,39 @@ export default {
           console.log(response);
           console.log(response.data.connections.numberOfElements);
           console.log("값확인이전");
-          if (response.data.connections.numberOfElements > 6) {
+          if (response.data.connections.numberOfElements > 2) {
             console.log("값확인");
             let roomid = {
-              roomid: sessionStorage.getItem("roomNumber"),
+              roomid: sessionStorage.getItem("roomId"),
             };
             console.log(roomid);
+            this.leaveSession();
             this.$store.dispatch("pullRoom", roomid);
           }
+        });
+      return this.numberOFparti;
+    },
+    participantUpdate(sessionId) {
+      axios
+        .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
+          auth: {
+            username: "OPENVIDUAPP",
+            password: OPENVIDU_SERVER_SECRET,
+          },
+        })
+        .then((response) => {
+          this.numberOFparti = response.data.connections.numberOfElements;
+          console.log(response);
+          console.log(response.data.connections.numberOfElements);
+          console.log("값확인이전");
         });
       return this.numberOFparti;
     },
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        if (this.getSession(this.mySessionId) == 6) {
+        this.participantUpdate(this.mySessionId);
+        if (this.numberOFparti == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
         }
         this.session.disconnect();
@@ -707,7 +720,7 @@ body {
   display: inline-block;
 }
 .webcam_sub {
-  width: 250px;
+  width: 300px;
   margin: 10px 20px 0px 20px;
   border-radius: 15px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
@@ -793,5 +806,7 @@ body {
 }
 .br {
   margin: 10px;
+}
+.startInfoModal {
 }
 </style>

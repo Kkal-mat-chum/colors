@@ -54,6 +54,8 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import swal from "sweetalert";
+
 //이메일 인증 번호 보내는거 필요
 export default {
   data() {
@@ -114,10 +116,10 @@ export default {
             console.log(new_id);
             console.log(response);
             if (response.data.message == "not-duplicated") {
-              alert("아이디 사용 가능");
+              swal("아이디 중복 확인", "해당 아이디 사용 가능합니다.", "success");
             } else {
               this.id_duplicated = true;
-              alert("중복된 아이디");
+              swal("아이디 중복 확인", "중복된 아이디입니다.", "error");
             }
           });
       } else {
@@ -169,11 +171,11 @@ export default {
         })
         .then((response) => {
           if (response.data.message == "not-duplicated") {
-            alert("닉네임 사용 가능");
+            swal("닉네임 중복 확인", "해당 닉네임 사용 가능합니다.", "success");
             this.nick_validation = true;
           } else {
             this.nick_validation = false;
-            alert("중복된 닉네임");
+            swal("닉네임 중복 확인", "중복된 닉네임입니다.", "error");
           }
         });
     },
@@ -187,17 +189,17 @@ export default {
         .then((response) => {
           console.log(response);
           this.authEmailCode = response.data.authcode;
-          alert("이메일 인증번호가 전송되었습니다.");
+          swal("이메일 인증", "이메일 인증번호가 전송되었습니다.", "success");
         });
     },
     emailCheck() {
       let email_checknum = document.getElementById("emailcheckLabel").value;
       if (this.authEmailCode == email_checknum) {
         this.email_validation = true;
-        alert("이메일 인증이 완료되었습니다.");
+        swal("이메일 인증", "이메일 인증이 완료되었습니다.", "success");
       } else {
         this.email_validation = false;
-        alert("올바르지 않은 인증번호 입니다.");
+        swal("이메일 인증", "올바르지 않은 인증번호 입니다.", "error");
       }
     },
     // 회원 가입: 아이디,비번,
@@ -232,13 +234,13 @@ export default {
           .then((response) => {
             if (response.data.message == "success") {
               console.log("로그인 완료");
-              router.push("/");
+              router.push("/login");
             } else {
               console.log("로그인 실패");
             }
           });
       } else {
-        alert("회원정보를 다시 확인하세요.");
+        swal("회원가입", "입력한 회원정보를 다시 확인하세요.", "error");
       }
     },
   },

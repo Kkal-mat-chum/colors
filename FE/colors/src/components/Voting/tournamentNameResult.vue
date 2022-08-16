@@ -1,6 +1,5 @@
 <template>
   <div class="tournamentResultBody">
-    <custom-sidebar></custom-sidebar>
     <div class="mainPicture">
       <!-- <div class="picture1" :style="resultTournColor" id="tournResult10" @click="test"></div> -->
       <img :src="top1" class="picture1" />
@@ -96,10 +95,8 @@
 
 <script>
 // import axios from "axios";
-import customSidebar from "../common/customSidebar.vue";
 
 export default {
-  components: { customSidebar },
   //토너먼트 끝났을 때 결과 저장하기로 했어요. 안되면 이걸로 시도하기
   //시작할 때 axios put으로 결과 저장하는 법
   mounted() {
@@ -117,7 +114,7 @@ export default {
     //   console.log(this.$store.state.tournamentResultLst[14]);
     //   axios
     //     .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
-    //       roomid: sessionStorage.getItem("roomId"),
+    //       roomid: sessionStorage.getItem("roomCode"),
     //       userid: sessionStorage.getItem("memberId"),
     //       code: this.$store.state.tournamentResultLst[14],
     //     })

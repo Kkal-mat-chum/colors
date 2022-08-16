@@ -51,8 +51,8 @@ export default {
       //https://granya.tistory.com/4 참고 세션스토리지의 스트링을 배열로 변환
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       console.log(memberData);
-      this.namePersonalInfo = memberData.data.name;
-      this.nicknamePersonalInfo = memberData.data.nickname;
+      this.namePersonalInfo = sessionStorage.getItem("userName");
+      this.nicknamePersonalInfo = sessionStorage.getItem("userNick");
       this.pointPersonalInfo = memberData.data.point;
       this.emailPersonalInfo = memberData.data.email;
       // axios.get(this.$store.state.baseurl + "/api/member/changeinfo").then((response) => {

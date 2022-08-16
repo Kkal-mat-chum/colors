@@ -6,9 +6,11 @@ import com.ssafy.colors.request.LoginReq;
 import com.ssafy.colors.request.Mail;
 import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.util.RandomStringGenerator;
+import com.ssafy.colors.util.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +26,14 @@ public class AuthService {
     @Autowired
     MailService mailService;
 
-    public Map<String, Object> login(LoginReq user) {
+    @Autowired
+    SHA256 sha256;
+
+    public Map<String, Object> login(LoginReq user) throws NoSuchAlgorithmException {
         Member findByuserId = memberRepository.findFirstByUserId(user.getUserId());
         HashMap<String, Object> result = new HashMap<>();
 
-        if (findByuserId != null && findByuserId.getPassword().equals(user.getPassword())) {
+        if (findByuserId != null && !findByuserId.isDeleted() && findByuserId.getPassword().equals(sha256.encrypt(user.getPassword()))) {
             MemberRes member = MemberRes.builder()
                     .id(findByuserId.getId())
                     .userId(findByuserId.getUserId())

@@ -12,6 +12,8 @@
 
 <script>
 import axios from "axios";
+import swal from "sweetalert";
+
 export default {
   name: "TopicSuggest",
 
@@ -35,9 +37,9 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.message == "success") {
-            alert("토픽 제안 성공");
+            swal("토픽 제안", "토픽 제안 성공", "success");
           } else {
-            alert("토픽 제안 실패");
+            swal("토픽 제안", "토픽 제안 실패", "error");
           }
         });
       this.$router.go(0);

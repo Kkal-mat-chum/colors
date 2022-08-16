@@ -47,6 +47,7 @@ import html2canvas from "html2canvas";
 import AWS from "aws-sdk";
 import axios from "axios";
 import router from "@/router";
+import swal from "sweetalert";
 
 export default {
   name: "aloneMeeting",
@@ -81,7 +82,7 @@ export default {
 
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     let userid = memberData.data.id;
-    let roomnum = sessionStorage.getItem("roomNum");
+    let roomnum = sessionStorage.getItem("roomId");
     console.log(roomnum);
     axios
       .put(this.$store.state.baseurl + "room/status", {
@@ -156,7 +157,7 @@ export default {
         console.log(this.$store.state.selectedColorLst);
         for (var i = 0; i < this.count_pallete; i++) {
           if (this.$store.state.selectedColorLst[i] == this.modelHex) {
-            alert("중복된 색이 있습니다.");
+            swal("색상 담기", "중복된 색이 있습니다.", "error");
             duplicated = 1;
           }
         }
@@ -210,7 +211,7 @@ export default {
 
           var date = new Date();
           var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-          var roomcode = sessionStorage.getItem("roomId");
+          var roomcode = sessionStorage.getItem("roomCode");
 
           let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + count + ".jpg";
 
@@ -232,7 +233,7 @@ export default {
         // this.count++;
         this.count_pallete++;
       } else {
-        alert("컬러 팔레트가 꽉찼습니다.");
+        swal("색상 담기", "컬러 팔레트가 꽉찼습니다.", "error");
       }
     },
 
@@ -256,7 +257,7 @@ export default {
 
       var date = new Date();
       var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-      var roomcode = sessionStorage.getItem("roomId");
+      var roomcode = sessionStorage.getItem("roomCode");
 
       let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
 
@@ -269,7 +270,7 @@ export default {
         },
         (err, data) => {
           if (err) {
-            return alert("There was an error : " + err.message);
+            return swal("투표하기", "There was an error : " + err.message, "error");
           } else {
             var colorsets = [];
             var colorset = { url: "", code: "" };
@@ -283,7 +284,7 @@ export default {
             });
             console.log(colorsets);
             // 미팅 정보 db 저장
-            let roomnum = sessionStorage.getItem("roomNum");
+            let roomnum = sessionStorage.getItem("roomId");
             let memberData = JSON.parse(sessionStorage.getItem("memberData"));
             let userid = memberData.data.id;
             const colorsetResult = {
