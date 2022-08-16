@@ -66,7 +66,7 @@ export default {
     },
   },
   mounted() {
-    var room = sessionStorage.getItem("roomNum");
+    var room = sessionStorage.getItem("roomId");
     console.log(room);
     axios
       .post(this.$store.state.baseurl + "room/getresult", {
@@ -131,7 +131,7 @@ export default {
       console.log(this.$store.state.tournamentResultLst[14]);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
           code: this.$store.state.tournamentResultLst[14],
         })
@@ -146,7 +146,7 @@ export default {
     bringTotalResult() {
       axios
         .post(this.$store.state.baseurl + "room/vote/result", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
         })
         .then((response) => {
@@ -156,7 +156,7 @@ export default {
           } else {
             axios
               .post(this.$store.state.baseurl + "room/vote/result", {
-                roomid: sessionStorage.getItem("roomNum"),
+                roomid: sessionStorage.getItem("roomId"),
                 userid: sessionStorage.getItem("memberId"),
               })
               .then((response) => {

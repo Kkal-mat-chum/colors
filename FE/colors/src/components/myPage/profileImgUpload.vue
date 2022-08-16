@@ -62,7 +62,6 @@ export default {
           if (err) {
             console.log(err);
           }
-          alert("Successfully uploaded photo.");
           router.go(router.currentRoute);
           console.log(data);
         }
@@ -82,6 +81,7 @@ export default {
         .then((response) => {
           if (response.data.message == "success") {
             alert("등록이 완료되었습니다.");
+            sessionStorage.setItem("memberData", sessionStorage.getItem("memberData"));
           } else {
             alert("등록에 실패하였습니다.");
           }

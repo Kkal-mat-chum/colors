@@ -48,7 +48,6 @@
                 <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 30px" id="notice">시작</strong> 버튼을 눌러주세요.</p>
                 <p class="notice">시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.</p>
               </div>
-
               <customButton class="btn" btnText="확인" @click="showstartModal = false"></customButton>
             </cotent>
           </custom-modal>
@@ -123,7 +122,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       ishost: false,
-      mySessionId: sessionStorage.getItem("roomId"),
+      mySessionId: sessionStorage.getItem("roomCode"),
       myUserName: JSON.parse(sessionStorage.getItem("memberData")).data.nickname,
       modelRgba: "",
       modelHex: "",
@@ -143,7 +142,7 @@ export default {
       ready: true,
       readyAll: false,
       readys: {},
-      numberOFparti: this.getSession(this.mySessionId),
+      numberOFparti: this.participantUpdate(this.mySessionId),
       showstartModal: false,
       ishostCopy: false,
     };
@@ -153,7 +152,7 @@ export default {
     this.setText();
     if (this.$store.state.meetingStore.roomType == "group") {
       this.roomHeaderTitle = "미팅 코드";
-      this.roomHeaderData = sessionStorage.getItem("roomId");
+      this.roomHeaderData = sessionStorage.getItem("roomCode");
       this.myUserName = this.memberData.name;
     } else if (this.$store.state.meetingStore.roomType == "random") {
       this.roomHeaderTitle = "미팅 주제";
@@ -195,7 +194,7 @@ export default {
       this.ishostCopy = true;
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
       let userid = memberData.data.id;
-      let roomnum = sessionStorage.getItem("roomNum");
+      let roomnum = sessionStorage.getItem("roomId");
       console.log(roomnum);
       axios
         .put(this.$store.state.baseurl + "room/status", {
@@ -269,7 +268,7 @@ export default {
 
           var date = new Date();
           var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-          var roomcode = sessionStorage.getItem("roomId");
+          var roomcode = sessionStorage.getItem("roomCode");
 
           let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/" + name + count + ".jpg";
 
@@ -315,7 +314,7 @@ export default {
 
       var date = new Date();
       var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-      var roomcode = sessionStorage.getItem("roomId");
+      var roomcode = sessionStorage.getItem("roomCode");
 
       let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
 
@@ -342,7 +341,7 @@ export default {
             });
             console.log(colorsets);
             // 미팅 정보 db 저장
-            let roomnum = sessionStorage.getItem("roomNum");
+            let roomnum = sessionStorage.getItem("roomId");
             let memberData = JSON.parse(sessionStorage.getItem("memberData"));
             let userid = memberData.data.id;
             const colorsetResult = {
@@ -451,14 +450,14 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...
       this.session.on("streamDestroyed", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const index = this.subscribers.indexOf(stream.streamManager, 0);
         if (index >= 0) {
           this.subscribers.splice(index, 1);
@@ -557,10 +556,26 @@ export default {
         });
       return this.numberOFparti;
     },
+    participantUpdate(sessionId) {
+      axios
+        .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
+          auth: {
+            username: "OPENVIDUAPP",
+            password: OPENVIDU_SERVER_SECRET,
+          },
+        })
+        .then((response) => {
+          this.numberOFparti = response.data.connections.numberOfElements;
+          console.log(response);
+          console.log(response.data.connections.numberOfElements);
+          console.log("값확인이전");
+        });
+      return this.numberOFparti;
+    },
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        if (this.getSession(this.mySessionId) == 6) {
+        if (this.numberOFparti == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
         }
         this.session.disconnect();

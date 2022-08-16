@@ -117,16 +117,15 @@ export default {
   methods: {
     //미팅 결과 가져오기, store에 저장
     getResult() {
-      console.log(sessionStorage.getItem("roomNum"));
+      console.log(sessionStorage.getItem("roomId"));
       axios
         .post(this.$store.state.baseurl + "room/getresult", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           console.log(response.data.message); //성공여부 확인 로그
-          this.$store.state.resultStore.aloneResult = response.data;
-          this.$store.state.resultStore.data = response.data.data;
-          this.$store.state.resultStore.cnt = response.data.cnt;
+          this.$store.commit("groupInit");
+          this.$store.commit("setGroupData", response.data);
           console.log("참여자 수");
           console.log(this.$store.state.resultStore.cnt);
         });
@@ -173,7 +172,7 @@ export default {
       console.log(this.nowSelected);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
           code: this.nowSelected,
         })
@@ -186,22 +185,23 @@ export default {
           }
         });
     },
-    //각 투표 합산put -> 투표 결과 가져오기get
+    //각 투표 합산put -> 투표 결과 가져오기
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
-          roomid: sessionStorage.getItem("roomId"),
+          roomid: sessionStorage.getItem("roomCode"),
         })
         .then((response) => {
           if (response.data.message == "success") {
             axios
-              .get(this.$store.state.baseurl + "room/vote", {
-                roomid: sessionStorage.getItem("roomId"),
+              .post(this.$store.state.baseurl + "room/vote/result", {
+                roomid: sessionStorage.getItem("roomCode"),
                 userid: sessionStorage.getItem("userId"),
               })
               .then((response) => {
                 if (response.data.message == "success") {
                   this.$store.state.resultStore.totalResultData = response.data.data;
+                  this.$store.state.resultStore.aloneResult.data = response.data.data;
                 } else {
                   alert("투표결과가져오기 실패");
                 }

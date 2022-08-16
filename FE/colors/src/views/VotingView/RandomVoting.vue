@@ -79,7 +79,7 @@ export default {
     saveTeamVoteResult() {
       axios
         .post(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomId"),
+          roomid: sessionStorage.getItem("roomCode"),
           voterid: sessionStorage.getItem("memberId"),
           content: this.$store.state.resultStore.voteContent,
         })
@@ -93,13 +93,13 @@ export default {
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
-          roomid: sessionStorage.getItem("roomId"),
+          roomid: sessionStorage.getItem("roomCode"),
         })
         .then((response) => {
           if (response.data.message == "success") {
             axios
-              .get(this.$store.state.baseurl + "room/vote", {
-                roomid: sessionStorage.getItem("roomId"),
+              .post(this.$store.state.baseurl + "room/vote/result", {
+                roomid: sessionStorage.getItem("roomCode"),
                 userid: sessionStorage.getItem("userId"),
               })
               .then((response) => {

@@ -117,7 +117,7 @@ export default {
     //   console.log(this.$store.state.tournamentResultLst[14]);
     //   axios
     //     .put(this.$store.state.memberStore.baseurl + "/api/room/vote", {
-    //       roomid: sessionStorage.getItem("roomId"),
+    //       roomid: sessionStorage.getItem("roomCode"),
     //       userid: sessionStorage.getItem("memberId"),
     //       code: this.$store.state.tournamentResultLst[14],
     //     })
