@@ -1,5 +1,6 @@
 import router from "@/router";
 import { api } from "@/store";
+import swal from "sweetalert";
 
 const topicStore = {
   state: {},
@@ -14,7 +15,7 @@ const topicStore = {
       }).then(({ data }) => {
         if (data.message == "access") {
           router.go(0);
-          alert("성공적으로 삭제 되었습니다.");
+          swal("Topic 관리", "성공적으로 삭제 되었습니다.", "success");
         }
       });
     },

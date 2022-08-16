@@ -24,6 +24,7 @@ import axios from "axios";
 import ColorVote from "../../components/Voting/colorVote.vue";
 import TimeStamp from "../../components/Voting/customTimeStamp.vue";
 import loadingImg from "../../components/Voting/loadingImg.vue";
+import swal from "sweetalert";
 
 export default {
   components: {
@@ -116,7 +117,7 @@ export default {
                   this.$store.state.resultStore.totalResultData = response.data.data;
                   this.$store.state.resultStore.totalResultTop1 = response.data.Top1;
                 } else {
-                  alert("투표결과가져오기 실패");
+                  swal("투표 결과", "투표 결과를 가져오는데에 실패하였습니다.", "error");
                 }
               });
           }
