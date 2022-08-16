@@ -457,8 +457,8 @@ export default {
         }
       );
       var vote = this.ready;
-      var name = this.myUserName;
-      this.readys[name] = vote;
+      // var name = this.myUserName;
+      // this.readys[name] = vote;
       this.session.signal({
         type: "vote",
         data: JSON.stringify(vote),
@@ -533,7 +533,7 @@ export default {
 
       this.session.on("signal:vote", (event) => {
         var voteData = JSON.parse(event.data);
-        var voteName = event.from.data.slice(15, -2); // Connection object of the sender
+        var voteName = event.from.connectionId; // Connection object of the sender
         this.readys[voteName] = voteData;
         var readyNumber = Object.values(this.readys).filter((readyCheck) => true == readyCheck).length;
         if (readyNumber == this.numberOFparti) {
@@ -542,6 +542,8 @@ export default {
           if (this.ishostCopy) {
             this.readyAll = true;
           }
+        } else {
+          this.readyAll = false;
         }
       });
 
