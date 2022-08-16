@@ -134,7 +134,7 @@ export default {
       ready: true,
       readyAll: false,
       readys: {},
-      numberOFparti: this.getSession(this.mySessionId),
+      numberOFparti: this.participantUpdate(this.mySessionId),
       ishostCopy: false,
     };
   },
@@ -441,14 +441,14 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...
       this.session.on("streamDestroyed", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const index = this.subscribers.indexOf(stream.streamManager, 0);
         if (index >= 0) {
           this.subscribers.splice(index, 1);
@@ -546,10 +546,26 @@ export default {
         });
       return this.numberOFparti;
     },
+    participantUpdate(sessionId) {
+      axios
+        .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
+          auth: {
+            username: "OPENVIDUAPP",
+            password: OPENVIDU_SERVER_SECRET,
+          },
+        })
+        .then((response) => {
+          this.numberOFparti = response.data.connections.numberOfElements;
+          console.log(response);
+          console.log(response.data.connections.numberOfElements);
+          console.log("값확인이전");
+        });
+      return this.numberOFparti;
+    },
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        if (this.getSession(this.mySessionId) == 6) {
+        if (this.numberOFparti == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
         }
         this.session.disconnect();

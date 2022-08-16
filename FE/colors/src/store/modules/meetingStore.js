@@ -92,6 +92,7 @@ const meetingStore = {
           console.log(data.message);
           commit("GOURP_MEETING", data);
           if (data.message === "success") {
+            sessionStorage.setItem("roomId", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           } else {
             swal("미팅방 입장", "입장코드를 다시 확인하세요.", "error");
