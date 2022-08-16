@@ -154,7 +154,7 @@ const meetingStore = {
           console.log(data);
           console.log(123213131);
           sessionStorage.setItem("roomCode", data.roomcode);
-          sessionStorage.setItem("roomNumber", data.roomid);
+          sessionStorage.setItem("roomId", data.roomid);
           router.push("/team/" + sessionStorage.getItem("roomCode"));
         } else {
           var randomRoomData = {
@@ -172,7 +172,7 @@ const meetingStore = {
             console.log(data);
             console.log(data.data.roomcode);
             sessionStorage.setItem("roomCode", data.roomcode);
-            sessionStorage.setItem("roomNumber", data.roomid);
+            sessionStorage.setItem("roomId", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
@@ -201,7 +201,7 @@ const meetingStore = {
             console.log(data);
             console.log(data.data.roomcode);
             sessionStorage.setItem("roomCode", data.roomcode);
-            sessionStorage.setItem("roomNumber", data.roomid);
+            sessionStorage.setItem("roomId", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
