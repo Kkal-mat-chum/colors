@@ -123,11 +123,8 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          console.log(response.data); //성공여부 확인 로그
-          this.$store.commit("groupInit");
-          this.$store.commit("setGroupData", response.data);
-          console.log("!!!!!!!!!!!!!참여자 수!!!!!!!!!!!!!!");
-          console.log(this.$store.state.resultStore.cnt);
+          this.$store.state.resultStore.data = response.data.data;
+          this.$store.state.resultStore.cnt = response.data.cnt;
         });
     },
     //다음 라운드로 넘어가기
@@ -165,7 +162,6 @@ export default {
     finishRound() {
       this.saveVoteResult(); //투표 결과 저장(개인)
       this.$router.push("/nameresult"); //결과화면으로 화면이동
-      this.$router.go();
     },
     //투표 결과 저장(개인)
     saveVoteResult() {
