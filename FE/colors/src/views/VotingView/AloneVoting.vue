@@ -1,6 +1,5 @@
 <template>
   <div class="bodyColorVote">
-    <customSidebar />
     <div class="bodyColorVote11">
       <div class="dummyMarginColorVote1"></div>
       <div class="gridColorVote1">
