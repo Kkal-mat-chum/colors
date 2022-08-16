@@ -67,6 +67,7 @@ export default {
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
         this.bringTotalResult();
         this.$router.push("/nickresult");
+        this.$router.go();
       }, 3000);
     },
     onLoadingImg() {
@@ -79,7 +80,7 @@ export default {
     saveTeamVoteResult() {
       axios
         .post(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomCode"),
+          roomid: sessionStorage.getItem("roomId"),
           voterid: sessionStorage.getItem("memberId"),
           content: this.$store.state.resultStore.voteContent,
         })
@@ -93,23 +94,11 @@ export default {
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
-          roomid: sessionStorage.getItem("roomCode"),
+          roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           if (response.data.message == "success") {
-            axios
-              .post(this.$store.state.baseurl + "room/vote/result", {
-                roomid: sessionStorage.getItem("roomCode"),
-                userid: sessionStorage.getItem("userId"),
-              })
-              .then((response) => {
-                if (response.data.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data.data;
-                  this.$store.state.resultStore.totalResultTop1 = response.data.Top1;
-                } else {
-                  alert("투표결과가져오기 실패");
-                }
-              });
+            console.log("투표결과 합산 완료!!!!!!!!!!!!!!!!!!!!!!!!!!");
           }
         });
     },

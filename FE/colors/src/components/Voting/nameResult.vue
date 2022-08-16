@@ -1,6 +1,5 @@
 <template>
   <div class="resultBody">
-    <custom-sidebar></custom-sidebar>
     <h1 class="title">{{ userName }} 님과 가장 잘 어울리는 색상은?</h1>
     <div class="mainResult">
       <img :src="top1url" :alt="top1url" class="picture1" />
@@ -22,27 +21,27 @@
     <div class="otherPick">
       <div v-if="showResult[0]">
         <img :src="voteLst[0].url" :alt="voteLst[0].url" class="picture3" />
-        <div class="otherName">{{ voteLst[0].vote }}</div>
+        <div class="otherName">{{ voteLst[0].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[0].code }}</div>
       </div>
       <div v-if="showResult[1]">
         <img :src="voteLst[1].url" :alt="voteLst[1].url" class="picture3" />
-        <div class="otherName">{{ voteLst[1].vote }}</div>
+        <div class="otherName">{{ voteLst[1].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[1].code }}</div>
       </div>
       <div v-if="showResult[2]">
         <img :src="voteLst[2].url" :alt="voteLst[2].url" class="picture3" />
-        <div class="otherName">{{ voteLst[2].vote }}</div>
+        <div class="otherName">{{ voteLst[2].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[2].code }}</div>
       </div>
       <div v-if="showResult[3]">
         <img :src="voteLst[3].url" :alt="voteLst[3].url" class="picture3" />
-        <div class="otherName">{{ voteLst[3].vote }}</div>
+        <div class="otherName">{{ voteLst[3].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[3].code }}</div>
       </div>
       <div v-if="showResult[4]">
         <img :src="voteLst[4].url" :alt="voteLst[4].url" class="picture3" />
-        <div class="otherName">{{ voteLst[4].vote }}</div>
+        <div class="otherName">{{ voteLst[4].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[4].code }}</div>
       </div>
       <!-- <div class="otherPick">
@@ -156,61 +155,47 @@ export default {
     },
   },
   mounted() {
-    this.saveVoteResult();
+    this.callVoteResult();
   },
   methods: {
     gotoEnterPage() {
       this.$router.push("/enterPage");
+      this.$router.go();
     },
     //투표 결과 가져오기
-    saveVoteResult() {
-      //개인 투표의 경우
-      if (this.$store.state.resultStore.cnt == 1) {
-        axios
-          .post(this.$store.state.baseurl + "room/vote/result", {
-            roomid: sessionStorage.getItem("roomId"),
-            userid: sessionStorage.getItem("memberId"),
-          })
-          .then((response) => {
-            console.log(response);
-            if (response.data.message == "fail") {
-              alert("전송 실패");
-            } else {
-              if (this.$store.state.resultStore.cnt > 1) {
-                //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
-                for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
-                  if (response.data.data[idx].voter != sessionStorage.getItem("userName")) {
-                    this.voteLst.push(response.data.data[idx]);
-                  } else {
-                    //본인이 선택한 내용
-                    this.mypickurl = response.data.data[idx].url;
-                    this.mypickcolor = response.data.data[idx].code;
-                  }
+    callVoteResult() {
+      axios
+        .post(this.$store.state.baseurl + "room/vote/result", {
+          roomid: sessionStorage.getItem("roomId"),
+          userid: sessionStorage.getItem("memberId"),
+        })
+        .then((response) => {
+          console.log(response);
+          if (response.data.message == "fail") {
+            alert("전송 실패");
+          } else {
+            if (this.$store.state.resultStore.cnt > 1) {
+              //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
+              for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
+                if (response.data.data[idx].voter != sessionStorage.getItem("userName")) {
+                  this.voteLst.push(response.data.data[idx]);
+                } else {
+                  //본인이 선택한 내용
+                  this.mypickurl = response.data.data[idx].url;
+                  this.mypickcolor = response.data.data[idx].code;
                 }
-              } else {
-                //개인일때, top1에 data내용 저장
-                this.top1url = response.data.data.url;
-                this.top1color = response.data.data.code;
-                this.mypickurl = response.data.data.url;
-                this.mypickcolor = response.data.data.code;
               }
+              this.top1url = response.data.top1.url;
+              this.top1color = response.data.top1.code;
+            } else {
+              //개인일때, top1에 data내용 저장
+              this.top1url = response.data.data.url;
+              this.top1color = response.data.data.code;
+              this.mypickurl = response.data.data.url;
+              this.mypickcolor = response.data.data.code;
             }
-          });
-      } else if (this.$store.state.resultStore.cnt > 1) {
-        //단체, 랜덤 투표의 경우
-        axios
-          .post(this.$store.state.baseurl + "room/vote", {
-            roomid: sessionStorage.getItem("roomCode"),
-            userid: sessionStorage.getItem("memberId"),
-            content: 1, //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-          })
-          .then((response) => {
-            console.log(response);
-            if (response.data.message == "fail") {
-              alert("전송 실패");
-            }
-          });
-      }
+          }
+        });
     },
   },
 };
