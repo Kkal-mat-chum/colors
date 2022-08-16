@@ -168,7 +168,9 @@ const meetingStore = {
             data: randomRoomData,
           }).then(({ data }) => {
             console.log(data);
-            console.log(data.data.roomcode);
+            console.log("##########");
+            console.log(data.roomcode);
+            console.log(123132131);
             sessionStorage.setItem("roomId", data.roomcode);
             sessionStorage.setItem("roomNumber", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomId"));
@@ -176,12 +178,14 @@ const meetingStore = {
         }
       });
     },
-    pullRoom(params) {
+    pullRoom({ commit }, params) {
+      console.log(params);
       api({
         url: `/room/capacity`,
         method: "PUT",
         data: params,
       }).then(({ data }) => {
+        commit("TOPIC_MEETING", data);
         console.log(12321321);
         if (data.message == "success") {
           console.log(12321321);

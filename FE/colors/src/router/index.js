@@ -9,15 +9,15 @@ import aloneVoting from "../views/VotingView/AloneVoting.vue";
 import teamVoting from "../views/VotingView/TeamVoting.vue";
 import randomVoting from "../views/VotingView/RandomVoting.vue";
 import loadingwin from "@/components/Voting/loadingImg.vue";
-
+import MainView from "@/components/main/MainView.vue";
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
+  {
+    path: "/",
+    name: "home",
+    component: MainView,
+  },
   {
     path: "/about",
     name: "about",
@@ -67,7 +67,7 @@ const routes = [
     component: () => import("@/components/user/customSignUp.vue"),
   },
   {
-    path: "/",
+    path: "/login",
     name: "logIn",
     meta: { authRequired: true },
     component: () => import("@/components/user/customLogIn.vue"),
@@ -155,21 +155,21 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach(function (to, from, next) {
-  if (
-    to.matched.some(function (routeInfo) {
-      return routeInfo.meta.authRequired;
-    })
-  ) {
-    next();
-  } else {
-    if (sessionStorage.getItem("access-token") != null) {
-      next();
-    } else {
-      alert("로그인하세요");
-      next({ path: "/" });
-    }
-  }
-});
+// router.beforeEach(function (to, from, next) {
+//   if (
+//     to.matched.some(function (routeInfo) {
+//       return routeInfo.meta.authRequired;
+//     })
+//   ) {
+//     next();
+//   } else {
+//     if (sessionStorage.getItem("access-token") != null) {
+//       next();
+//     } else {
+//       alert("로그인하세요");
+//       next({ path: "/" });
+//     }
+//   }
+// });
 
 export default router;

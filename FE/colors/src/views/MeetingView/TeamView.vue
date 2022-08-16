@@ -545,13 +545,14 @@ export default {
           console.log(response);
           console.log(response.data.connections.numberOfElements);
           console.log("값확인이전");
-          if (response.data.connections.numberOfElements > 6) {
+          if (response.data.connections.numberOfElements > 2) {
             console.log("값확인");
-            let roomid = {
+            console.log(sessionStorage.getItem("roomNumber"));
+            let roomId = {
               roomid: sessionStorage.getItem("roomNumber"),
             };
-            console.log(roomid);
-            this.$store.dispatch("pullRoom", roomid);
+            console.log(roomId);
+            this.$store.dispatch("pullRoom", roomId);
           }
         });
       return this.numberOFparti;
