@@ -26,7 +26,7 @@
 
 <script>
 import axios from "axios";
-
+import swal from "sweetalert";
 export default {
   data() {
     return {
@@ -123,10 +123,10 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          console.log(response.data.message); //성공여부 확인 로그
+          console.log(response.data); //성공여부 확인 로그
           this.$store.commit("groupInit");
           this.$store.commit("setGroupData", response.data);
-          console.log("참여자 수");
+          console.log("!!!!!!!!!!!!!참여자 수!!!!!!!!!!!!!!");
           console.log(this.$store.state.resultStore.cnt);
         });
     },
@@ -165,6 +165,7 @@ export default {
     finishRound() {
       this.saveVoteResult(); //투표 결과 저장(개인)
       this.$router.push("/nameresult"); //결과화면으로 화면이동
+      this.$router.go();
     },
     //투표 결과 저장(개인)
     saveVoteResult() {
@@ -179,7 +180,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
           } else if (response.data.message == "success") {
             this.bringTotalResult();
           }
@@ -189,23 +190,11 @@ export default {
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
-          roomid: sessionStorage.getItem("roomCode"),
+          roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           if (response.data.message == "success") {
-            axios
-              .post(this.$store.state.baseurl + "room/vote/result", {
-                roomid: sessionStorage.getItem("roomCode"),
-                userid: sessionStorage.getItem("userId"),
-              })
-              .then((response) => {
-                if (response.data.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data.data;
-                  this.$store.state.resultStore.aloneResult.data = response.data.data;
-                } else {
-                  alert("투표결과가져오기 실패");
-                }
-              });
+            console.log("투표결과 합산 완료!!!!!!!!!!!!!!!!!!!!!!!!!!");
           }
         });
     },

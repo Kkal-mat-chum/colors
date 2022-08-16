@@ -1,5 +1,6 @@
 import router from "@/router";
 import { api } from "@/store";
+import swal from "sweetalert";
 
 const meetingStore = {
   state: {
@@ -76,7 +77,7 @@ const meetingStore = {
           sessionStorage.setItem("roomId", data.data.roomid);
           router.push("/alone/" + data.data.roomcode);
         } else {
-          alert("에러 발생 개발자 잘못입니다.. 죄송요 ㅠㅠ");
+          swal("미팅방 입장", "미팅방 입장에 실패하였습니다.", "error");
         }
       });
     },
@@ -94,7 +95,7 @@ const meetingStore = {
             sessionStorage.setItem("roomId", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           } else {
-            alert("입장코드를 다시 확인하세요.");
+            swal("미팅방 입장", "입장코드를 다시 확인하세요.", "error");
           }
         })
         .catch((err) => {
@@ -153,7 +154,7 @@ const meetingStore = {
           console.log(data);
           console.log(123213131);
           sessionStorage.setItem("roomCode", data.roomcode);
-          sessionStorage.setItem("roomNumber", data.roomid);
+          sessionStorage.setItem("roomId", data.roomid);
           router.push("/team/" + sessionStorage.getItem("roomCode"));
         } else {
           var randomRoomData = {
@@ -169,11 +170,9 @@ const meetingStore = {
             data: randomRoomData,
           }).then(({ data }) => {
             console.log(data);
-            console.log("##########");
-            console.log(data.roomcode);
-            console.log(123132131);
-            sessionStorage.setItem("roomId", data.roomcode);
-            sessionStorage.setItem("roomNumber", data.roomid);
+            console.log(data.data.roomcode);
+            sessionStorage.setItem("roomCode", data.roomcode);
+            sessionStorage.setItem("roomId", data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
@@ -203,9 +202,9 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomCode", data.data.roomcode);
-            sessionStorage.setItem("roomNumber", data.data.roomid);
-            router.push("/team/" + data.data.roomcode);
+            sessionStorage.setItem("roomCode", data.roomcode);
+            sessionStorage.setItem("roomId", data.roomid);
+            router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
       });

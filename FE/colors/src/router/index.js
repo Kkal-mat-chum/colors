@@ -10,6 +10,7 @@ import teamVoting from "../views/VotingView/TeamVoting.vue";
 import randomVoting from "../views/VotingView/RandomVoting.vue";
 import loadingwin from "@/components/Voting/loadingImg.vue";
 import MainView from "@/components/main/MainView.vue";
+import swal from "sweetalert";
 Vue.use(VueRouter);
 
 const routes = [
@@ -155,21 +156,21 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach(function (to, from, next) {
-//   if (
-//     to.matched.some(function (routeInfo) {
-//       return routeInfo.meta.authRequired;
-//     })
-//   ) {
-//     next();
-//   } else {
-//     if (sessionStorage.getItem("access-token") != null) {
-//       next();
-//     } else {
-//       alert("로그인하세요");
-//       next({ path: "/" });
-//     }
-//   }
-// });
+router.beforeEach(function (to, from, next) {
+  if (
+    to.matched.some(function (routeInfo) {
+      return routeInfo.meta.authRequired;
+    })
+  ) {
+    next();
+  } else {
+    if (sessionStorage.getItem("access-token") != null) {
+      next();
+    } else {
+      swal("로그인", "로그인이 필요한 서비스입니다.", "error");
+      next({ path: "/login" });
+    }
+  }
+});
 
 export default router;
