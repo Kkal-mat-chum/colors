@@ -110,11 +110,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public boolean checkRoomCode(String code) {
+    public Room checkRoomCode(String code) {
         Room room = roomRepository.findFirstByRoomCodeAndStatus(code, RoomStatus.WAITED);
 
-        if (room != null) return true;
-        else return false;
+        if (room != null) return room;
+        else return null;
     }
 
     @Override

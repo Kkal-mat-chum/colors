@@ -60,7 +60,7 @@ public class Topic extends BaseEntity {
 
     public boolean check(VoteDTO dto) {
         for (Vote v : this.voters) {
-            if (v.getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId()) && !v.isDelete()) {
+            if (v.getTopic().getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId()) && !v.isDelete()) {
                 return true;
             }
         }

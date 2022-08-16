@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface RoomService {
     public RoomRes saveMeetingRoomInfo(RoomReq roomReq);
-    public boolean checkRoomCode(String code);
+    public Room checkRoomCode(String code);
     public Room findRandomRoom(long topicId);
     public boolean changeRoomCapacityStatus(long roomId);
     public boolean changeRoomStatus(long hostId, long roomId);

@@ -17,6 +17,7 @@ const routes = [
   {
     path: "/",
     name: "home",
+    meta: { authRequired: true },
     component: MainView,
   },
   {
@@ -168,7 +169,7 @@ router.beforeEach(function (to, from, next) {
       next();
     } else {
       swal("로그인", "로그인이 필요한 서비스입니다.", "error");
-      next({ path: "/login" });
+      next({ path: "/" });
     }
   }
 });
