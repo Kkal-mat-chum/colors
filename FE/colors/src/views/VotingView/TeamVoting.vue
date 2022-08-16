@@ -96,7 +96,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           if (response.data.message == "fail") {
-            console.log("단체 미팅 결과 저장 실패");
+            swal("투표 결과", "투표 결과를 저장하는데 실패하였습니다.", "error");
           }
         });
     },
@@ -109,6 +109,8 @@ export default {
         .then((response) => {
           if (response.data.message == "success") {
             console.log("투표결과 합산 완료!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          } else {
+            swal("투표 결과", "투표 결과를 합산하는데 실패하였습니다.", "error");
           }
         });
     },
