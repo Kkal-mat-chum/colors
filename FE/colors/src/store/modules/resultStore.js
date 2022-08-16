@@ -19,9 +19,9 @@ const resultStore = {
     },
     voteContent: [], //투표 최종 결과 request content 담을 곳
     voteRound: 1, //부모 컴포넌트에 표시할 현재 투표 순서
-    cnt: 2, //팀,랜덤 미팅 참여자 수
     nowSelectColor: "", //자식 컴포넌트에서 실시간으로 선택중인색깔코드
     restTime: 15, //타이머 남은 시간
+    cnt: 2, //팀,랜덤 미팅 참여자 수
     data: [
       {
         id: 11,
@@ -96,7 +96,18 @@ const resultStore = {
     }, //투표 결과 탑텐 내용 담길 곳
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    groupInit(state) {
+      state.aloneResult = {};
+      state.data = [];
+      state.cnt = 1;
+    },
+    setGroupData(state, data) {
+      state.aloneResult = data;
+      state.data = data.data;
+      state.cnt = data.cnt;
+    },
+  },
   actions: {},
 };
 export default resultStore;

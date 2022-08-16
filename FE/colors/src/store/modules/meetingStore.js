@@ -1,16 +1,8 @@
 import router from "@/router";
 import { api } from "@/store";
+import swal from "sweetalert";
 
 const meetingStore = {
-  data() {
-    return {
-      randomRoomData: {
-        hostid: sessionStorage.getItem("memberId"),
-        topicid: sessionStorage.getItem("topicId"),
-        roomType: "random",
-      },
-    };
-  },
   state: {
     userName: "",
     roomType: "group",
@@ -49,7 +41,7 @@ const meetingStore = {
     SINGLE_MEETING(state, data) {
       state.singleUsers.push(data);
       state.roomType = "single";
-      sessionStorage.setItem("roomId", data.data.roomcode);
+      sessionStorage.setItem("roomCode", data.data.roomcode);
     },
     GOURP_MEETING(state, data) {
       state.groupUsers.push(data);
@@ -81,11 +73,11 @@ const meetingStore = {
         if (data.message == "success") {
           commit("SINGLE_MEETING", data);
           console.log(data.data);
-          sessionStorage.setItem("roomId", data.data.roomcode);
-          sessionStorage.setItem("roomNum", data.data.roomid);
+          sessionStorage.setItem("roomCode", data.data.roomcode);
+          sessionStorage.setItem("roomId", data.data.roomid);
           router.push("/alone/" + data.data.roomcode);
         } else {
-          alert("에러 발생 개발자 잘못입니다.. 죄송요 ㅠㅠ");
+          swal("미팅방 입장", "미팅방 입장에 실패하였습니다.", "error");
         }
       });
     },
@@ -100,9 +92,10 @@ const meetingStore = {
           console.log(data.message);
           commit("GOURP_MEETING", data);
           if (data.message === "success") {
-            router.push("/team/" + sessionStorage.getItem("roomId"));
+            sessionStorage.setItem("roomId", data.roomid);
+            router.push("/team/" + sessionStorage.getItem("roomCode"));
           } else {
-            alert("입장코드를 다시 확인하세요.");
+            swal("미팅방 입장", "입장코드를 다시 확인하세요.", "error");
           }
         })
         .catch((err) => {
@@ -116,8 +109,8 @@ const meetingStore = {
         data: params,
       }).then(({ data }) => {
         commit("GOURP_MEETING", data);
-        sessionStorage.setItem("roomId", data.data.roomcode);
-        sessionStorage.setItem("roomNum", data.data.roomid);
+        sessionStorage.setItem("roomCode", data.data.roomcode);
+        sessionStorage.setItem("roomId", data.data.roomid);
         router.push("/team/" + data.data.roomcode);
       });
     },
@@ -146,7 +139,7 @@ const meetingStore = {
         to: [],
       });
     },
-    topicMeetingRoom({ commit }, params) {
+    topicMeetingRoom({ commit, state }, params) {
       api({
         url: `/room/join/random`,
         method: "POST",
@@ -156,19 +149,20 @@ const meetingStore = {
         if (data.message == "success") {
           commit("TOPIC_MEETING", data);
           console.log(data);
-          this.state.roomType = "random";
+          state.roomType = "random";
           console.log(123213131);
           console.log(data);
           console.log(123213131);
-          sessionStorage.setItem("roomId", data.roomcode);
-          sessionStorage.setItem("roomNumber", data.roomid);
-          router.push("/team/" + sessionStorage.getItem("roomId"));
+          sessionStorage.setItem("roomCode", data.roomcode);
+          sessionStorage.setItem("roomId", data.roomid);
+          router.push("/team/" + sessionStorage.getItem("roomCode"));
         } else {
           var randomRoomData = {
             hostid: sessionStorage.getItem("memberId"),
             topicid: sessionStorage.getItem("topicId"),
             roomtype: "random",
           };
+          state.roomType = "random";
           console.log(randomRoomData);
           api({
             url: `/room`,
@@ -177,19 +171,21 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomId", data.roomcode);
-            sessionStorage.setItem("roomNumber", data.roomid);
-            router.push("/team/" + sessionStorage.getItem("roomId"));
+            sessionStorage.setItem("roomCode", data.roomcode);
+            sessionStorage.setItem("roomId", data.roomid);
+            router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
       });
     },
-    pullRoom(params) {
+    pullRoom({ commit }, params) {
+      console.log(params);
       api({
         url: `/room/capacity`,
         method: "PUT",
         data: params,
       }).then(({ data }) => {
+        commit("TOPIC_MEETING", data);
         console.log(12321321);
         if (data.message == "success") {
           console.log(12321321);
@@ -206,9 +202,9 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomId", data.roomcode);
-            sessionStorage.setItem("roomNumber", data.roomid);
-            router.push("/team/" + sessionStorage.getItem("roomId"));
+            sessionStorage.setItem("roomCode", data.roomcode);
+            sessionStorage.setItem("roomId", data.roomid);
+            router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
       });

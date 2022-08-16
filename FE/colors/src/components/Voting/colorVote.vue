@@ -26,7 +26,7 @@
 
 <script>
 import axios from "axios";
-
+import swal from "sweetalert";
 export default {
   data() {
     return {
@@ -117,17 +117,16 @@ export default {
   methods: {
     //미팅 결과 가져오기, store에 저장
     getResult() {
-      console.log(sessionStorage.getItem("roomNum"));
+      console.log(sessionStorage.getItem("roomId"));
       axios
         .post(this.$store.state.baseurl + "room/getresult", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          console.log(response.data.message); //성공여부 확인 로그
-          this.$store.state.resultStore.aloneResult = response.data;
-          this.$store.state.resultStore.data = response.data.data;
-          this.$store.state.resultStore.cnt = response.data.cnt;
-          console.log("참여자 수");
+          console.log(response.data); //성공여부 확인 로그
+          this.$store.commit("groupInit");
+          this.$store.commit("setGroupData", response.data);
+          console.log("!!!!!!!!!!!!!참여자 수!!!!!!!!!!!!!!");
           console.log(this.$store.state.resultStore.cnt);
         });
     },
@@ -166,6 +165,7 @@ export default {
     finishRound() {
       this.saveVoteResult(); //투표 결과 저장(개인)
       this.$router.push("/nameresult"); //결과화면으로 화면이동
+      this.$router.go();
     },
     //투표 결과 저장(개인)
     saveVoteResult() {
@@ -173,20 +173,20 @@ export default {
       console.log(this.nowSelected);
       axios
         .put(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomNum"),
+          roomid: sessionStorage.getItem("roomId"),
           userid: sessionStorage.getItem("memberId"),
           code: this.nowSelected,
         })
         .then((response) => {
           console.log(response);
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
           } else if (response.data.message == "success") {
             this.bringTotalResult();
           }
         });
     },
-    //각 투표 합산put -> 투표 결과 가져오기get
+    //각 투표 합산put -> 투표 결과 가져오기
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
@@ -194,18 +194,7 @@ export default {
         })
         .then((response) => {
           if (response.data.message == "success") {
-            axios
-              .get(this.$store.state.baseurl + "room/vote", {
-                roomid: sessionStorage.getItem("roomId"),
-                userid: sessionStorage.getItem("userId"),
-              })
-              .then((response) => {
-                if (response.data.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data.data;
-                } else {
-                  alert("투표결과가져오기 실패");
-                }
-              });
+            console.log("투표결과 합산 완료!!!!!!!!!!!!!!!!!!!!!!!!!!");
           }
         });
     },
