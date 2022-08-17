@@ -80,6 +80,7 @@ export default {
           image_url: url,
         })
         .then((response) => {
+          console.log(response.data);
           if (response.data.message == "success") {
             swal("프로필 이미지 등록", "등록이 완료되었습니다.", "success");
             sessionStorage.setItem("memberData", sessionStorage.getItem("memberData"));
