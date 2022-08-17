@@ -165,7 +165,7 @@ export default {
         .then((response) => {
           //roomtype에 맞게 store에 정보 저장
           var i = 0;
-          for (i = 0; i < 3; i++) {
+          for (i = 0; i < response.data.data.length; i++) {
             if (response.data.data[i].roomtype == "single") {
               this.$store.state.aloneColorLst = response.data.data[i].code;
               this.$store.state.aloneTop1 = response.data.data[i].top1.code;
