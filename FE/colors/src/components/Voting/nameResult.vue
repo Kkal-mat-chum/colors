@@ -186,8 +186,8 @@ export default {
                   this.mypickcolor = response.data.data[idx].code;
                 }
               }
-              this.top1url = response.data.data.top1.url;
-              this.top1color = response.data.data.top1.code;
+              this.top1url = response.data.top1.url;
+              this.top1color = response.data.top1.code;
             } else {
               //개인일때, top1에 data내용 저장
               this.top1url = response.data.top1.url;

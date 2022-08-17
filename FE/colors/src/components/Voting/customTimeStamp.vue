@@ -18,9 +18,9 @@ export default {
       auto_reload_delay: 1000, //인터벌 시간
       auto_reload_func: null, //인터벌 함수 담을 곳
       timeStr: 10,
-      fix_seconds: 15,
-      seconds: 15,
-      timeShow: "15",
+      fix_seconds: 10,
+      seconds: 10,
+      timeShow: "10",
       minutes: 0,
     };
   },

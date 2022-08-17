@@ -54,32 +54,70 @@ export default {
         return true;
       }
     },
-    imgUrl0() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[0];
-    },
-    imgUrl1() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[1];
-    },
-    imgUrl2() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[2];
-    },
-    imgUrl3() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[3];
-    },
-    imgUrl4() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[4];
-    },
-    imgUrl5() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[5];
-    },
-    imgUrl6() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[6];
-    },
-    imgUrl7() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[7];
-    },
     cnt() {
       return this.$store.state.resultStore.cnt;
+    },
+    vote_round() {
+      return this.$store.state.resultStore.voteRound;
+    },
+    loadOrNot() {
+      return this.vote_round > this.cnt;
+    },
+    imgUrl0() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[0];
+      }
+    },
+    imgUrl1() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[1];
+      }
+    },
+    imgUrl2() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[2];
+      }
+    },
+    imgUrl3() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[3];
+      }
+    },
+    imgUrl4() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[4];
+      }
+    },
+    imgUrl5() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[5];
+      }
+    },
+    imgUrl6() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[6];
+      }
+    },
+    imgUrl7() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[7];
+      }
     },
     //실시간으로 투표의 순서 - 인덱스로 쓰입니다
     now_idx() {
@@ -136,11 +174,14 @@ export default {
         addData.code = this.nowSelected;
         addData = JSON.stringify(addData);
         this.selectedLst.push(JSON.parse(addData));
-        this.$store.state.resultStore.voteContent = this.selctedLst;
+        this.$store.state.resultStore.voteContent = this.selectedLst;
+        console.log(this.$store.state.resultStore.voteContent);
+        console.log(this.selectedLst);
         // this.addData = { targetid: this.$store.state.data[this.now_idx].id, code: this.nowSelected };
         // this.selectedLst.push(JSON.parse(JSON.stringify(this.addData)));
         // this.selectedLst.push(this.nowSelected);
         this.$store.state.resultStore.voteRound++;
+        console.log(this.$store.state.resultStore.voteRound);
         this.nowSelected = ""; //선택한거 초기화
         this.customBorderColor0 = "#d0d1ff";
         this.customBorderColor1 = "#d0d1ff";
