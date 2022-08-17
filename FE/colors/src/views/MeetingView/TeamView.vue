@@ -172,6 +172,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     this.leaveSession();
+    sessionStorage.setItem("hostId", -1);
     setTimeout(() => {
       next();
       this.$router.go();
