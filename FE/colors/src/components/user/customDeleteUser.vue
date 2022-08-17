@@ -30,7 +30,7 @@ export default {
       this.$router.go(0);
     },
     goLogin() {
-      this.$router.push("/");
+      this.$router.push("/login");
     },
     deleteMember() {
       let memberData = JSON.parse(sessionStorage.getItem("memberData"));

@@ -4,18 +4,15 @@ package com.ssafy.colors.controller;
 import com.ssafy.colors.request.MemberReq;
 import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.service.MemberService;
-import com.ssafy.colors.service.S3Service;
 import com.ssafy.colors.util.ValidationChecker;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Api(value = "Member API", tags = {"Member"})
@@ -82,7 +79,7 @@ public class MemberController {
     // 회원 가입
     @PostMapping()
     @ApiOperation(value = "회원 정보 등록", notes = "입력 받은 회원의 정보를 데이터베이스에 저장한다.")
-    public ResponseEntity<Map<String, Object>> registerMember(@RequestBody @ApiParam(value = "회원가입 정보", required = true) MemberReq params) {
+    public ResponseEntity<Map<String, Object>> registerMember(@RequestBody @ApiParam(value = "회원가입 정보", required = true) MemberReq params) throws NoSuchAlgorithmException {
         System.out.println("[POST] - /member " + params);
 
         Map<String, Object> result = new HashMap<>();
@@ -144,7 +141,7 @@ public class MemberController {
     // 비밀번호 찾기
     @PostMapping("/findpwd")
     @ApiOperation(value = "임시 비밀번호 발급", notes = "회원의 아이디와 이메일을 입력받아 임시 비밀번호를 발급한다.")
-    public ResponseEntity<Map<String, Object>> findPassword(@RequestBody MemberReq params) {
+    public ResponseEntity<Map<String, Object>> findPassword(@RequestBody MemberReq params) throws NoSuchAlgorithmException {
         System.out.println("[POST] - /member/findpwd " + params);
 
         Map<String, Object> result = new HashMap<>();
@@ -161,7 +158,7 @@ public class MemberController {
     // 회원정보(이름, 닉네임) 변경
     @PutMapping("/changeinfo")
     @ApiOperation(value = "회원 정보 변경", notes = "입력받은 회원의 이름과 닉네임 정보를 변경한다.")
-    public ResponseEntity<Map<String, Object>> updateMemberInfo(@RequestBody MemberReq params) {
+    public ResponseEntity<Map<String, Object>> updateMemberInfo(@RequestBody MemberReq params) throws NoSuchAlgorithmException {
         System.out.println("[PUT] - /member/changeinfo");
 
         Map<String, Object> result = new HashMap<>();
@@ -199,7 +196,7 @@ public class MemberController {
     // 비밀번호 변경
     @PutMapping("/changepwd")
     @ApiOperation(value = "비밀번호 변경", notes = "입력받은 회원의 비밀번호를 변경한다.")
-    public ResponseEntity<Map<String, Object>> updatePassword(@RequestBody MemberReq params) {
+    public ResponseEntity<Map<String, Object>> updatePassword(@RequestBody MemberReq params) throws NoSuchAlgorithmException {
         System.out.println("[PUT] - /member/changepwd");
 
         Map<String, Object> result = new HashMap<>();
@@ -234,32 +231,5 @@ public class MemberController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    // S3 테스트
-    @Autowired
-    S3Service s3Service;
-
-    // 단일 파일 업로드
-    @PostMapping("upload")
-    public ResponseEntity<Map<String, Object>> uploadImage(MultipartFile file) throws IOException {
-        System.out.println("[POST] - /member/upload");
-        String imgPath = s3Service.uploadImage(file);
-        System.out.println(imgPath);
-
-        return null;
-    }
-
-
-    // 여러 개 업로드
-    @PostMapping("uploads")
-    public ResponseEntity<Map<String, Object>> uploadImages(List<MultipartFile> files) throws IOException {
-        System.out.println("[POST] - /member/uploads");
-
-        for (MultipartFile file : files) {
-            System.out.println(file.getOriginalFilename());
-        }
-
-        return null;
     }
 }

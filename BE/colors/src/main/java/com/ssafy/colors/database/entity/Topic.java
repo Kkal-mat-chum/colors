@@ -52,15 +52,12 @@ public class Topic extends BaseEntity {
     @OneToMany(mappedBy = "topic")
     List<Vote> voters = new ArrayList<>();
 
-//    @OneToOne(mappedBy = "topic")
-//    Room room;
-
     @OneToMany(mappedBy = "topic")
     List<Room> rooms = new ArrayList<>();
 
     public boolean check(VoteDTO dto) {
         for (Vote v : this.voters) {
-            if (v.getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId()) && !v.isDelete()) {
+            if (v.getTopic().getId().equals(dto.getTopicId()) && v.getMemberId().equals(dto.getUserId()) && !v.isDelete()) {
                 return true;
             }
         }

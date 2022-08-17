@@ -8,6 +8,7 @@
     <Sucker v-if="!suckerHide" :sucker-canvas="suckerCanvas" :sucker-area="suckerArea" @openSucker="openSucker" @selectSucker="selectSucker" />
     <Box name="HEX" :color="modelHex" @inputColor="inputHex" />
     <Box name="RGBA" :color="modelRgba" @inputColor="inputRgba" />
+    <Box name="colorName" :color="modelColor" class="colorname" />
   </div>
 </template>
 
@@ -17,6 +18,8 @@ import Saturation from "./saturation.vue";
 import Hue from "./hue.vue";
 import Sucker from "./sucker.vue";
 import Box from "./box.vue";
+import namedColors from "color-name-list";
+import nearestColor from "nearest-color";
 export default {
   components: {
     Saturation,
@@ -53,6 +56,7 @@ export default {
       hueHeight: 152,
       modelRgba: "",
       modelHex: "",
+      modelColor: "",
       r: 0,
       g: 0,
       b: 0,
@@ -133,6 +137,12 @@ export default {
       Object.assign(this, { r, g, b, a, h, s, v });
       this.modelHex = color;
       this.modelRgba = this.rgbaStringShort;
+      var colorname = this.$store.state.hoveringColor.toLowerCase();
+      console.log(colorname);
+      let colors = namedColors.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+      const nearest = nearestColor.from(colors);
+      // get closest named color
+      this.modelColor = nearest(colorname).name;
       this.$nextTick(() => {
         this.$refs.saturation.renderColor();
         this.$refs.saturation.renderSlide();
@@ -144,6 +154,12 @@ export default {
       Object.assign(this, { r, g, b, a, h, s, v });
       this.modelHex = this.hexString;
       this.modelRgba = color;
+      var colorname = this.modelHex.toLowerCase();
+      console.log(colorname);
+      let colors = namedColors.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+      const nearest = nearestColor.from(colors);
+      // get closest named color
+      this.modelColor = nearest(colorname).name;
       this.$nextTick(() => {
         this.$refs.saturation.renderColor();
         this.$refs.saturation.renderSlide();
@@ -153,6 +169,12 @@ export default {
     setText() {
       this.modelHex = this.hexString;
       this.modelRgba = this.rgbaStringShort;
+      var colorname = this.modelHex.toLowerCase();
+      console.log(colorname);
+      let colors = namedColors.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+      const nearest = nearestColor.from(colors);
+      // get closest named color
+      this.modelColor = nearest(colorname).name;
     },
     openSucker(isOpen) {
       this.$emit("openSucker", isOpen);

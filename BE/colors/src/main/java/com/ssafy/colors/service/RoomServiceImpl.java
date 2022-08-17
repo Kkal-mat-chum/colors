@@ -46,11 +46,11 @@ public class RoomServiceImpl implements RoomService {
         Topic selectedTopic = null;
 
         RoomType roomType = null;
-        if (roomReq.getRoomtype().equals("single")) {
+        if ("single".equals(roomReq.getRoomtype())) {
             roomType = RoomType.SINGLE;
-        } else if (roomReq.getRoomtype().equals("group")) {
+        } else if ("group".equals(roomReq.getRoomtype())) {
             roomType = RoomType.GROUP;
-        } else if (roomReq.getRoomtype().equals("random")) {
+        } else if ("random".equals(roomReq.getRoomtype())) {
             roomType = RoomType.RANDOM;
             selectedTopic = topicRepository.findById(roomReq.getTopicid()).get();
         } else {
@@ -110,11 +110,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public boolean checkRoomCode(String code) {
+    public Room checkRoomCode(String code) {
         Room room = roomRepository.findFirstByRoomCodeAndStatus(code, RoomStatus.WAITED);
 
-        if (room != null) return true;
-        else return false;
+        if (room != null) return room;
+        else return null;
     }
 
     @Override
@@ -150,9 +150,9 @@ public class RoomServiceImpl implements RoomService {
 
             int result = 0;
 
-            if (room.getStatus().equals(RoomStatus.WAITED)) {
+            if (RoomStatus.WAITED.equals(room.getStatus())) {
                 result = roomRepository.updateRoomStatus(roomId, host.get(), RoomStatus.STARTED);
-            } else if (room.getStatus().equals(RoomStatus.STARTED)) {
+            } else if (RoomStatus.STARTED.equals(room.getStatus())) {
                 result = roomRepository.updateRoomStatus(roomId, host.get(), RoomStatus.CLOSED);
             }
 
@@ -334,7 +334,7 @@ public class RoomServiceImpl implements RoomService {
 
         Map<String, Object> output = new HashMap<>();
 
-        if (room.getRoomType().equals(RoomType.SINGLE)) {
+        if (RoomType.SINGLE.equals(room.getRoomType())) {
             MeetingResult meetingResult = meetingResultRepository.findByRoomAndMemberAndTop1(room, member, true);
 
             output.put("name", member.getName());
@@ -350,7 +350,7 @@ public class RoomServiceImpl implements RoomService {
                 MeetingResult meetingResult = meetingResultList.get(i);
                 List<MeetingVote> meetingVotesList = meetingVoteRepository.findByMeetingResult(meetingResult);
 
-                if (room.getRoomType().equals(RoomType.GROUP)) {
+                if (RoomType.GROUP.equals(room.getRoomType())) {
                     for (int j = 0; j < meetingVotesList.size(); j++) {
                         Member voter = memberRepository.findById(meetingVotesList.get(j).getMember().getId()).get();
                         MeetingResult pick = meetingResultRepository.findById(meetingVotesList.get(j).getMeetingResult().getId()).get();
@@ -361,7 +361,7 @@ public class RoomServiceImpl implements RoomService {
                         attr.put("code", pick.getColorCode());
                         unit.add(attr);
                     }
-                } else if (room.getRoomType().equals(RoomType.RANDOM)) {
+                } else if (RoomType.RANDOM.equals(room.getRoomType())) {
                     for (int j = 0; j < meetingVotesList.size(); j++) {
                         Member voter = memberRepository.findById(meetingVotesList.get(j).getMember().getId()).get();
                         MeetingResult pick = meetingResultRepository.findById(meetingVotesList.get(j).getMeetingResult().getId()).get();
@@ -425,7 +425,7 @@ public class RoomServiceImpl implements RoomService {
                 unit.put("url", urls);
                 unit.put("code", colorCodes);
                 unit.put("top1", new Colorset(top1.getImageUrl(), top1.getColorCode()));
-                if (roomType.equals(RoomType.RANDOM)) {
+                if (RoomType.RANDOM.equals(roomType)) {
                     unit.put("title", room.getTopic().getTitle());
                 }
                 unitArr.add(unit);
@@ -434,41 +434,5 @@ public class RoomServiceImpl implements RoomService {
         } catch (Exception e) {
             return null;
         }
-
-
-//        try {
-//            List<Room> roomList = roomRepository.getRecentMeetingInfo(userId);
-//            Member member = memberRepository.findById(userId).get();
-//            List<Map<String, Object>> unitArr = new ArrayList<>();
-//
-//            for (int i = 0; i < roomList.size(); i++) {
-//                Room room = roomList.get(i);
-//                MeetingResult top1 = null;
-//                RoomType roomType = room.getRoomType();
-//
-//                List<MeetingResult> meetingResultList = meetingResultRepository.findByRoomAndMember(room, member);
-//                List<Colorset> colorsetArr = new ArrayList<>();
-//
-//                for (int j = 0; j < meetingResultList.size(); j++) {
-//                    MeetingResult meetingResult = meetingResultList.get(j);
-//                    colorsetArr.add(new Colorset(meetingResult.getImageUrl(), meetingResult.getColorCode()));
-//                    if (meetingResult.isTop1()) top1 = meetingResult;
-//                }
-//
-//                Map<String, Object> unit = new HashMap<>();
-//                unit.put("roomtype", roomType.toString().toLowerCase());
-//                unit.put("colorset", colorsetArr);
-//                unit.put("top1", new Colorset(top1.getImageUrl(), top1.getColorCode()));
-//                if (roomType.equals(RoomType.RANDOM)) {
-//                    unit.put("title", room.getTopic().getTitle());
-//                }
-//                unitArr.add(unit);
-//            }
-//            return unitArr;
-//        } catch (Exception e) {
-//            System.out.println("====================ERROR=======================");
-//            e.printStackTrace();
-//            return null;
-//        }
     }
 }

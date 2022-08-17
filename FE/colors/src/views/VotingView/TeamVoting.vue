@@ -1,6 +1,5 @@
 <template>
   <div class="bodyColorVote">
-    <customSidebar />
     <div class="bodyColorVote11">
       <div class="dummyMarginColorVote1"></div>
       <div class="gridColorVote1">
@@ -24,6 +23,7 @@ import axios from "axios";
 import ColorVote from "../../components/Voting/colorVote.vue";
 import TimeStamp from "../../components/Voting/customTimeStamp.vue";
 import loadingImg from "../../components/Voting/loadingImg.vue";
+import swal from "sweetalert";
 
 export default {
   components: {
@@ -47,7 +47,11 @@ export default {
       return this.$store.state.resultStore.voteRound;
     },
     sub_name() {
-      return this.$store.state.resultStore.data[this.vote_round - 1].name;
+      if (this.vote_round > this.cnt) {
+        return "nothing";
+      } else {
+        return this.$store.state.resultStore.data[this.vote_round - 1].name;
+      }
     },
     // show_loadingimg() {
     //   if (this.cnt < this.vote_round) {
@@ -66,10 +70,12 @@ export default {
   },
   methods: {
     loading3sec() {
+      this.vote_Round = this.cnt;
       this.onLoadingImg();
       //투표 결과 저장
       this.saveTeamVoteResult();
       console.log("로딩창 켬");
+      console.log(this.show_loadingimg);
       setTimeout(() => {
         this.offLoadingImg();
         console.log("로딩창 끔");
@@ -86,15 +92,18 @@ export default {
     },
     //단체 투표 결과 저장
     saveTeamVoteResult() {
+      console.log(this.$store.state.resultStore.voteContent);
       axios
         .post(this.$store.state.baseurl + "room/vote", {
-          roomid: sessionStorage.getItem("roomCode"),
+          roomid: sessionStorage.getItem("roomId"),
           voterid: sessionStorage.getItem("memberId"),
           content: this.$store.state.resultStore.voteContent,
         })
         .then((response) => {
+          console.log(response.data);
           if (response.data.message == "fail") {
-            console.log("단체 미팅 결과 저장 실패");
+            console.log(this.$store.state.resultStore.voteContent);
+            swal("투표 결과", "투표 결과를 저장하는데 실패하였습니다.", "error");
           }
         });
     },
@@ -102,23 +111,13 @@ export default {
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
-          roomid: sessionStorage.getItem("roomCode"),
+          roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           if (response.data.message == "success") {
-            axios
-              .post(this.$store.state.baseurl + "room/vote", {
-                roomid: sessionStorage.getItem("roomCode"),
-                userid: sessionStorage.getItem("userId"),
-              })
-              .then((response) => {
-                if (response.data.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data.data;
-                  this.$store.state.resultStore.totalResultTop1 = response.data.Top1;
-                } else {
-                  alert("투표결과가져오기 실패");
-                }
-              });
+            console.log("투표결과 합산 완료!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          } else {
+            swal("투표 결과", "투표 결과를 합산하는데 실패하였습니다.", "error");
           }
         });
     },

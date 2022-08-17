@@ -9,10 +9,17 @@ import aloneVoting from "../views/VotingView/AloneVoting.vue";
 import teamVoting from "../views/VotingView/TeamVoting.vue";
 import randomVoting from "../views/VotingView/RandomVoting.vue";
 import loadingwin from "@/components/Voting/loadingImg.vue";
-
+import MainView from "@/components/main/MainView.vue";
+import swal from "sweetalert";
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    name: "home",
+    meta: { authRequired: true },
+    component: MainView,
+  },
   // {
   //   path: "/",
   //   name: "home",
@@ -30,25 +37,16 @@ const routes = [
     path: "/enterPage",
     name: "enterPage",
     component: enterPageView,
-    meta: {
-      reload: true,
-    },
   },
   {
     path: "/topicBoard",
     name: "topicBoard",
     component: topicBoard,
-    meta: {
-      reload: true,
-    },
   },
   {
     path: "/mypage",
     name: "mypage",
     component: MyPageView,
-    meta: {
-      reload: true,
-    },
   },
   {
     path: "/alone/:id",
@@ -67,7 +65,7 @@ const routes = [
     component: () => import("@/components/user/customSignUp.vue"),
   },
   {
-    path: "/",
+    path: "/login",
     name: "logIn",
     meta: { authRequired: true },
     component: () => import("@/components/user/customLogIn.vue"),
@@ -166,7 +164,7 @@ router.beforeEach(function (to, from, next) {
     if (sessionStorage.getItem("access-token") != null) {
       next();
     } else {
-      alert("로그인하세요");
+      swal("로그인", "로그인이 필요한 서비스입니다.", "error");
       next({ path: "/" });
     }
   }

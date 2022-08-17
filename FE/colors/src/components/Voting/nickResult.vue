@@ -1,6 +1,5 @@
 <template>
   <div class="resultBody">
-    <custom-sidebar></custom-sidebar>
     <h1 class="title">{{ userNick }} 님과 가장 잘 어울리는 색상은?</h1>
     <div class="mainResult">
       <img :src="top1url" :alt="top1url" class="picture1" />
@@ -22,27 +21,27 @@
     <div class="otherPick">
       <div v-if="showResult[0]">
         <img :src="voteLst[0].url" :alt="voteLst[0].url" class="picture3" />
-        <div class="otherName">{{ voteLst[0].vote }}</div>
+        <div class="otherName">{{ voteLst[0].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[0].code }}</div>
       </div>
       <div v-if="showResult[1]">
         <img :src="voteLst[1].url" :alt="voteLst[1].url" class="picture3" />
-        <div class="otherName">{{ voteLst[1].vote }}</div>
+        <div class="otherName">{{ voteLst[1].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[1].code }}</div>
       </div>
       <div v-if="showResult[2]">
         <img :src="voteLst[2].url" :alt="voteLst[2].url" class="picture3" />
-        <div class="otherName">{{ voteLst[2].vote }}</div>
+        <div class="otherName">{{ voteLst[2].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[2].code }}</div>
       </div>
       <div v-if="showResult[3]">
         <img :src="voteLst[3].url" :alt="voteLst[3].url" class="picture3" />
-        <div class="otherName">{{ voteLst[3].vote }}</div>
+        <div class="otherName">{{ voteLst[3].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[3].code }}</div>
       </div>
       <div v-if="showResult[4]">
         <img :src="voteLst[4].url" :alt="voteLst[4].url" class="picture3" />
-        <div class="otherName">{{ voteLst[4].vote }}</div>
+        <div class="otherName">{{ voteLst[4].voter }}</div>
         <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[4].code }}</div>
       </div>
     </div>
@@ -57,6 +56,7 @@
 <script>
 import axios from "axios";
 import customButton from "../common/customButton.vue";
+import swal from "sweetalert";
 
 export default {
   components: {
@@ -134,14 +134,15 @@ export default {
     },
   },
   mounted() {
-    this.saveVoteResult();
+    this.callVoteResult();
   },
   methods: {
     gotoEnterPage() {
       this.$router.push("/enterPage");
+      this.$router.go();
     },
     //투표 결과 가져오기
-    saveVoteResult() {
+    callVoteResult() {
       axios
         .post(this.$store.state.baseurl + "room/vote/result", {
           roomid: sessionStorage.getItem("roomCode"),
@@ -150,7 +151,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
           } else {
             //랜덤미팅은 항상 여러명임
             for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
@@ -162,6 +163,8 @@ export default {
                 this.mypickcolor = response.data.data[idx].code;
               }
             }
+            this.top1url = response.data.top1.url;
+            this.top1color = response.data.top1.code;
           }
         });
     },

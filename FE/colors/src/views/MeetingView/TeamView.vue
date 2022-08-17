@@ -69,6 +69,7 @@ import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import UserVideo from "@/components/videochat/UserVideo.vue";
 import UserVideo_sub from "@/components/videochat/UserVideo_sub.vue";
 import Chatpanel from "@/components/videochat/chatPanel.vue";
+import swal from "sweetalert";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -142,9 +143,9 @@ export default {
       ready: true,
       readyAll: false,
       readys: {},
-      numberOFparti: this.getSession(this.mySessionId),
-      showstartModal: false,
+      numberOFparti: this.participantUpdate(this.mySessionId),
       ishostCopy: false,
+      isTrackChanged: false,
     };
   },
   created() {
@@ -170,14 +171,17 @@ export default {
     this.joinSession();
   },
   mounted() {
+    console.log(sessionStorage.getItem("roomCode"));
+    console.log(sessionStorage.getItem("roomId"));
     console.log(this.subscribers);
     if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
       this.ishost = true;
-      this.showstartModal = true;
+      swal("호스트 공지사항", '참여자들의 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
     }
   },
   beforeRouteLeave(to, from, next) {
     this.leaveSession();
+    sessionStorage.setItem("hostId", -1);
     setTimeout(() => {
       next();
       this.$router.go();
@@ -214,7 +218,7 @@ export default {
         console.log(this.$store.state.selectedColorLst);
         for (var i = 0; i < this.count_pallete; i++) {
           if (this.$store.state.selectedColorLst[i] == this.modelHex) {
-            alert("중복된 색이 있습니다.");
+            swal("색상 담기", "중복된 색이 있습니다.", "error");
             duplicated = 1;
           }
         }
@@ -290,72 +294,73 @@ export default {
         // this.count++;
         this.count_pallete++;
       } else {
-        alert("컬러 팔레트가 꽉찼습니다.");
+        swal("색상 담기", "컬러 팔레트가 꽉찼습니다.", "error");
       }
     },
 
     goVote() {
-      var awsid = this.awsid;
-      var userid = sessionStorage.getItem("userId");
-      // file 가져오기
-      AWS.config.update({
-        region: "ap-northeast-2",
-        credentials: new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: awsid,
-        }),
-      });
+      // var awsid = this.awsid;
+      // var userid = sessionStorage.getItem("userId");
+      // // file 가져오기
+      // AWS.config.update({
+      //   region: "ap-northeast-2",
+      //   credentials: new AWS.CognitoIdentityCredentials({
+      //     IdentityPoolId: awsid,
+      //   }),
+      // });
 
-      var s3 = new AWS.S3({
-        apiVersion: "2012-10-17",
-        params: {
-          Bucket: "ssafy7color",
-        },
-      });
+      // var s3 = new AWS.S3({
+      //   apiVersion: "2012-10-17",
+      //   params: {
+      //     Bucket: "ssafy7color",
+      //   },
+      // });
 
-      var date = new Date();
-      var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-      var roomcode = sessionStorage.getItem("roomCode");
+      // var date = new Date();
+      // var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+      // var roomcode = sessionStorage.getItem("roomCode");
 
-      let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
+      // let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
 
-      console.log(photoKey);
+      // console.log(photoKey);
 
-      s3.listObjects(
-        {
-          Delimiter: "/",
-          Prefix: photoKey,
-        },
-        (err, data) => {
-          if (err) {
-            return alert("There was an error : " + err.message);
-          } else {
-            var colorsets = [];
-            var colorset = { url: "", code: "" };
-            this.lists = data.Contents;
-            this.lists.forEach((list) => {
-              var imgurl = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + list.Key;
-              var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
-              // console.log(code);
-              colorset = { url: imgurl, code: colorcode };
-              colorsets.push(colorset);
-            });
-            console.log(colorsets);
-            // 미팅 정보 db 저장
-            let roomnum = sessionStorage.getItem("roomId");
-            let memberData = JSON.parse(sessionStorage.getItem("memberData"));
-            let userid = memberData.data.id;
-            const colorsetResult = {
-              roomid: roomnum,
-              userid: userid,
-              colorset: colorsets,
-            };
-            console.log(colorsetResult);
-            axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
-              console.log(response);
-            });
-          }
-        }
-      );
+      // s3.listObjects(
+      //   {
+      //     Delimiter: "/",
+      //     Prefix: photoKey,
+      //   },
+      //   (err, data) => {
+      //     if (err) {
+      //       return swal("투표하기", "There was an error : " + err.message, "error");
+      //     } else {
+      //       var colorsets = [];
+      //       var colorset = { url: "", code: "" };
+      //       this.lists = data.Contents;
+      //       this.lists.forEach((list) => {
+      //         var imgurl = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+      //         var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
+      //         // console.log(code);
+      //         colorset = { url: imgurl, code: colorcode };
+      //         colorsets.push(colorset);
+      //       });
+      //       console.log(colorsets);
+      //       // 미팅 정보 db 저장
+      //       let roomnum = sessionStorage.getItem("roomId");
+      //       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+      //       let userid = memberData.data.id;
+      //       const colorsetResult = {
+      //         roomid: roomnum,
+      //         userid: userid,
+      //         colorset: colorsets,
+      //       };
+      //       console.log(colorsetResult);
+      //       axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
+      //         console.log(response);
+      //       });
+      //     }
+      //   }
+      // );
+      this.$store.state.resultStore.cnt = this.numberOFparti;
       this.$router.push("/teamVoting");
       // this.$router.go();
     },
@@ -399,10 +404,77 @@ export default {
         to: [],
       });
     },
+    sendReconnect(connectionId) {
+      this.session.signal({
+        type: "reconnect",
+        to: [connectionId],
+      });
+    },
     sendVote() {
+      var awsid = this.awsid;
+      var userid = sessionStorage.getItem("userId");
+      // file 가져오기
+      AWS.config.update({
+        region: "ap-northeast-2",
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: awsid,
+        }),
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2012-10-17",
+        params: {
+          Bucket: "ssafy7color",
+        },
+      });
+
+      var date = new Date();
+      var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+      var roomcode = sessionStorage.getItem("roomCode");
+
+      let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
+
+      console.log(photoKey);
+
+      s3.listObjects(
+        {
+          Delimiter: "/",
+          Prefix: photoKey,
+        },
+        (err, data) => {
+          if (err) {
+            return swal("투표하기", "There was an error : " + err.message, "error");
+          } else {
+            var colorsets = [];
+            var colorset = { url: "", code: "" };
+            this.lists = data.Contents;
+            this.lists.forEach((list) => {
+              var imgurl = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + list.Key;
+              var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
+              // console.log(code);
+              colorset = { url: imgurl, code: colorcode };
+              colorsets.push(colorset);
+            });
+            console.log(colorsets);
+            // 미팅 정보 db 저장
+            let roomnum = sessionStorage.getItem("roomId");
+            let memberData = JSON.parse(sessionStorage.getItem("memberData"));
+            let userid = memberData.data.id;
+            const colorsetResult = {
+              roomid: roomnum,
+              userid: userid,
+              colorset: colorsets,
+            };
+            console.log(colorsetResult);
+            axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
+              console.log(response);
+            });
+          }
+        }
+      );
       var vote = this.ready;
-      var name = this.myUserName;
-      this.readys[name] = vote;
+      // var name = this.myUserName;
+      // this.readys[name] = vote;
       this.session.signal({
         type: "vote",
         data: JSON.stringify(vote),
@@ -426,18 +498,21 @@ export default {
       this.$store.commit("changePublishVideo");
     },
     changeStream() {
-      const canvas = document.getElementById("overlay");
-
-      const canvas_stream = canvas.captureStream();
-
-      var myTrack = canvas_stream.getVideoTracks()[0];
-
-      // Replacing video track
-      this.publisher
-        .replaceTrack(myTrack)
-        .then(() => console.log("New track has been published"))
-        // .then(() => console.log(this.subscribers))
-        .catch((error) => console.error("Error replacing track", error));
+      if (!this.isTrackChanged) {
+        const canvas = document.getElementById("overlay");
+        const canvas_stream = canvas.captureStream();
+        var myTrack = canvas_stream.getVideoTracks()[0];
+        // Replacing video track
+        this.publisher
+          .replaceTrack(myTrack)
+          .then(() => {
+            console.log("New track has been published");
+            this.isTrackChanged = true;
+          })
+          .catch((error) => console.error("Error replacing track", error));
+      } else {
+        console.log("Already track has been changed");
+      }
     },
     joinSession() {
       // --- Get an OpenVidu object ---
@@ -450,14 +525,14 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
       });
 
       // On every Stream destroyed...
       this.session.on("streamDestroyed", ({ stream }) => {
-        this.getSession(this.mySessionId);
+        this.participantUpdate(this.mySessionId);
         const index = this.subscribers.indexOf(stream.streamManager, 0);
         if (index >= 0) {
           this.subscribers.splice(index, 1);
@@ -474,7 +549,7 @@ export default {
 
       this.session.on("signal:vote", (event) => {
         var voteData = JSON.parse(event.data);
-        var voteName = event.from.data.slice(15, -2); // Connection object of the sender
+        var voteName = event.from.connectionId; // Connection object of the sender
         this.readys[voteName] = voteData;
         var readyNumber = Object.values(this.readys).filter((readyCheck) => true == readyCheck).length;
         if (readyNumber == this.numberOFparti) {
@@ -483,16 +558,42 @@ export default {
           if (this.ishostCopy) {
             this.readyAll = true;
           }
+        } else {
+          this.readyAll = false;
         }
       });
 
       this.session.on("signal:goVote", () => {
         this.goVote();
       });
+      this.session.on("signal:reconnect", () => {
+        console.log(this.publisher);
+        // this.publisher.reconnect();
+      });
+      this.session.on("reconnecting", () => console.warn("Oops! Trying to reconnect to the session"));
+      this.session.on("reconnected", () => console.log("Hurray! You successfully reconnected to the session"));
+      this.session.on("sessionDisconnected", (event) => {
+        if (event.reason === "networkDisconnect") {
+          console.warn("Dang-it... You lost your connection to the session");
+        }
+      });
 
       // On every asynchronous exception...
-      this.session.on("exception", ({ exception }) => {
-        console.warn(exception);
+      this.session.on("exception", (event) => {
+        if (event.name === "ICE_CONNECTION_FAILED") {
+          var stream = event.origin;
+          console.warn("Stream " + stream.streamId + " broke!");
+          console.warn("Reconnection process automatically started");
+        }
+        if (event.name === "ICE_CONNECTION_DISCONNECTED") {
+          var stream_dis = event.origin;
+          console.warn("Stream " + stream_dis.streamId + " disconnected!");
+          console.warn("Giving it some time to be restored. If not possible, reconnection process will start");
+        }
+        if (event.name == "NO_STREAM_PLAYING_EVENT") {
+          this.sendReconnect(event.origin.stream.connection.connectionId);
+        }
+        console.warn(event);
       });
 
       // --- Connect to the session with a valid user token ---
@@ -510,8 +611,8 @@ export default {
               videoSource: undefined, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "800x420", // The resolution of your video
-              frameRate: 30, // The frame rate of your video
+              resolution: "600x315", // The resolution of your video
+              frameRate: 60, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: false, // Whether to mirror your local video or not
             });
@@ -547,19 +648,39 @@ export default {
           if (response.data.connections.numberOfElements > 6) {
             console.log("값확인");
             let roomid = {
-              roomid: sessionStorage.getItem("roomNumber"),
+              roomid: sessionStorage.getItem("roomId"),
             };
             console.log(roomid);
+            this.leaveSession();
             this.$store.dispatch("pullRoom", roomid);
           }
+        });
+      return this.numberOFparti;
+    },
+    participantUpdate(sessionId) {
+      axios
+        .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}`, {
+          auth: {
+            username: "OPENVIDUAPP",
+            password: OPENVIDU_SERVER_SECRET,
+          },
+        })
+        .then((response) => {
+          this.numberOFparti = response.data.connections.numberOfElements;
+          console.log(response);
+          console.log(response.data.connections.numberOfElements);
+          console.log("값확인이전");
         });
       return this.numberOFparti;
     },
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        if (this.getSession(this.mySessionId) == 6) {
+        this.participantUpdate(this.mySessionId);
+        if (this.numberOFparti == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
+        } else if (this.numberOFparti == 1) {
+          this.start();
         }
         this.session.disconnect();
       }
@@ -706,7 +827,7 @@ body {
   display: inline-block;
 }
 .webcam_sub {
-  width: 250px;
+  width: 300px;
   margin: 10px 20px 0px 20px;
   border-radius: 15px;
   filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));

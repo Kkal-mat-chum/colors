@@ -26,7 +26,7 @@
 
 <script>
 import axios from "axios";
-
+import swal from "sweetalert";
 export default {
   data() {
     return {
@@ -54,32 +54,70 @@ export default {
         return true;
       }
     },
-    imgUrl0() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[0];
-    },
-    imgUrl1() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[1];
-    },
-    imgUrl2() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[2];
-    },
-    imgUrl3() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[3];
-    },
-    imgUrl4() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[4];
-    },
-    imgUrl5() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[5];
-    },
-    imgUrl6() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[6];
-    },
-    imgUrl7() {
-      return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[7];
-    },
     cnt() {
       return this.$store.state.resultStore.cnt;
+    },
+    vote_round() {
+      return this.$store.state.resultStore.voteRound;
+    },
+    loadOrNot() {
+      return this.vote_round > this.cnt;
+    },
+    imgUrl0() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[0];
+      }
+    },
+    imgUrl1() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[1];
+      }
+    },
+    imgUrl2() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[2];
+      }
+    },
+    imgUrl3() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[3];
+      }
+    },
+    imgUrl4() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[4];
+      }
+    },
+    imgUrl5() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[5];
+      }
+    },
+    imgUrl6() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[6];
+      }
+    },
+    imgUrl7() {
+      if (this.loadOrNot) {
+        return "Not a Url";
+      } else {
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[7];
+      }
     },
     //실시간으로 투표의 순서 - 인덱스로 쓰입니다
     now_idx() {
@@ -123,11 +161,8 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          console.log(response.data.message); //성공여부 확인 로그
-          this.$store.commit("groupInit");
-          this.$store.commit("setGroupData", response.data);
-          console.log("참여자 수");
-          console.log(this.$store.state.resultStore.cnt);
+          this.$store.state.resultStore.data = response.data.data;
+          this.$store.state.resultStore.cnt = response.data.cnt;
         });
     },
     //다음 라운드로 넘어가기
@@ -139,11 +174,14 @@ export default {
         addData.code = this.nowSelected;
         addData = JSON.stringify(addData);
         this.selectedLst.push(JSON.parse(addData));
-        this.$store.state.resultStore.voteContent = this.selctedLst;
+        this.$store.state.resultStore.voteContent = this.selectedLst;
+        console.log(this.$store.state.resultStore.voteContent);
+        console.log(this.selectedLst);
         // this.addData = { targetid: this.$store.state.data[this.now_idx].id, code: this.nowSelected };
         // this.selectedLst.push(JSON.parse(JSON.stringify(this.addData)));
         // this.selectedLst.push(this.nowSelected);
         this.$store.state.resultStore.voteRound++;
+        console.log(this.$store.state.resultStore.voteRound);
         this.nowSelected = ""; //선택한거 초기화
         this.customBorderColor0 = "#d0d1ff";
         this.customBorderColor1 = "#d0d1ff";
@@ -179,7 +217,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.message == "fail") {
-            alert("전송 실패");
+            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
           } else if (response.data.message == "success") {
             this.bringTotalResult();
           }
@@ -189,23 +227,11 @@ export default {
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
-          roomid: sessionStorage.getItem("roomCode"),
+          roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
           if (response.data.message == "success") {
-            axios
-              .post(this.$store.state.baseurl + "room/vote", {
-                roomid: sessionStorage.getItem("roomCode"),
-                userid: sessionStorage.getItem("userId"),
-              })
-              .then((response) => {
-                if (response.data.message == "success") {
-                  this.$store.state.resultStore.totalResultData = response.data.data;
-                  this.$store.state.resultStore.aloneResult.data = response.data.data;
-                } else {
-                  alert("투표결과가져오기 실패");
-                }
-              });
+            console.log("투표결과 합산 완료!!!!!!!!!!!!!!!!!!!!!!!!!!");
           }
         });
     },

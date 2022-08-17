@@ -1,6 +1,5 @@
 <template>
   <div>
-    <customSidebar />
     <div class="mypage">
       <div class="title">
         <h1>마이페이지</h1>
