@@ -45,7 +45,7 @@
           <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
             <cotent>
               <div class="content">
-                <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 30px" id="notice">시작</strong> 버튼을 눌러주세요.</p>
+                <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 24px" id="notice">시작</strong> 버튼을 눌러주세요.</p>
                 <p class="notice">시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.</p>
               </div>
               <customButton class="btn" btnText="확인" @click="showstartModal = false"></customButton>

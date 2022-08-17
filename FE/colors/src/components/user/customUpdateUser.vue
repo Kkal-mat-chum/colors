@@ -19,10 +19,10 @@
       </div>
       <div class="UpdateUserdummyMargin2"></div>
     </div>
+    <label for="" class="modifyWarning">올바른 비밀번호를 입력해야 정보를 수정할 수 있습니다.</label>
     <div class="update3">
       <div class="UpdateUserdummyMargin3"></div>
       <div class="modifyBottomBtns">
-        <label for="" class="modifyWarning">올바른 비밀번호를 입력해야 정보를 수정할 수 있습니다.</label>
         <customButton class="nickCheckBtn" id="infoChangeBtn" btnText="정보 수정" @click="updateMemberInfo">testButton</customButton>
         <div class="a">
           <div class="removeUser"></div>
@@ -137,7 +137,7 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: -60px 0 0px 80px;
+  margin: -40px 0 0px 80px;
   width: 75%;
   height: 558px;
   /* width: 35%;
@@ -193,7 +193,7 @@ body {
   background-color: #d0d1ff;
 }
 .UpdateUserdummyMargin1 {
-  width: 17%;
+  width: 13%;
 }
 .UpdateUserdummyMargin2 {
   width: 5%;
@@ -205,7 +205,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  width: 13%;
+  width: 16%;
   /* padding-left: 3%; */
   /* margin-left: 5%; */
   text-align: left;
@@ -223,7 +223,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 45%;
+  width: 50%;
 }
 .modifyInput[type="text"] {
   width: 85%;
@@ -264,13 +264,14 @@ body {
   /* margin-top: 5%; */
   height: 18%;
   width: 100px;
+  margin-left: 5%;
 }
 #updateUserEmailLabel {
   background-color: #ececec;
   color: #000000;
 }
 #infoChangeBtn {
-  margin-top: 12%;
+  margin-top: 5%;
   margin-bottom: 5%;
   height: 38.4px;
 }
@@ -295,6 +296,6 @@ body {
 .modifyWarning {
   color: #aaaabc;
   font-size: 16px;
-  margin: 5% 0%;
+  margin: 7% 0 0 0;
 }
 </style>

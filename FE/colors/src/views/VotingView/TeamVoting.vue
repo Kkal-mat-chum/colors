@@ -98,7 +98,7 @@ export default {
           }
         });
     },
-    //각 투표 합산put -> 투표 결과 가져오기get
+    //각 투표 합산put -> 투표 결과 가져오기post
     bringTotalResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
