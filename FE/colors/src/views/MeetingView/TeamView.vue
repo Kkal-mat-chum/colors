@@ -530,6 +530,7 @@ export default {
         }
       });
 
+      // get signal for chat from everyone
       this.session.on("signal:chat", (event) => {
         let eventData = JSON.parse(event.data);
         let data = new Object();
@@ -538,6 +539,7 @@ export default {
         this.$store.commit("SET_MESSAGES", data);
       });
 
+      // get signal for ready to vote(on/off)(true/false)
       this.session.on("signal:vote", (event) => {
         var voteData = JSON.parse(event.data);
         var voteName = event.from.connectionId; // Connection object of the sender
@@ -554,13 +556,19 @@ export default {
         }
       });
 
+      // get signal for move to votePage
       this.session.on("signal:goVote", () => {
         this.goVote();
       });
+
+      // get signal that my video is not palyed on subscriber's page
       this.session.on("signal:reconnect", () => {
         console.log(this.publisher);
-        // this.publisher.reconnect();
+        console.log(this.mainStreamManager);
+        this.publisher.stream.reconnect();
       });
+
+      // openvidu recommend for reconnecting video
       this.session.on("reconnecting", () => console.warn("Oops! Trying to reconnect to the session"));
       this.session.on("reconnected", () => console.log("Hurray! You successfully reconnected to the session"));
       this.session.on("sessionDisconnected", (event) => {
