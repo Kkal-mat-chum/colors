@@ -1,9 +1,7 @@
 package com.ssafy.colors.controller;
 
 
-import com.ssafy.colors.request.TopicReq;
 import com.ssafy.colors.response.Top10TopicDTO;
-import com.ssafy.colors.response.TopicDTO;
 import com.ssafy.colors.response.TopicRes;
 import com.ssafy.colors.service.TopicService;
 import io.swagger.annotations.Api;
@@ -14,14 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.JpaSort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
