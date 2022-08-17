@@ -4,20 +4,15 @@ package com.ssafy.colors.controller;
 import com.ssafy.colors.request.MemberReq;
 import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.service.MemberService;
-import com.ssafy.colors.service.S3Service;
-import com.ssafy.colors.util.SHA256;
 import com.ssafy.colors.util.ValidationChecker;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Api(value = "Member API", tags = {"Member"})
@@ -236,32 +231,5 @@ public class MemberController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    // S3 테스트
-    @Autowired
-    S3Service s3Service;
-
-    // 단일 파일 업로드
-    @PostMapping("upload")
-    public ResponseEntity<Map<String, Object>> uploadImage(MultipartFile file) throws IOException {
-        System.out.println("[POST] - /member/upload");
-        String imgPath = s3Service.uploadImage(file);
-        System.out.println(imgPath);
-
-        return null;
-    }
-
-
-    // 여러 개 업로드
-    @PostMapping("uploads")
-    public ResponseEntity<Map<String, Object>> uploadImages(List<MultipartFile> files) throws IOException {
-        System.out.println("[POST] - /member/uploads");
-
-        for (MultipartFile file : files) {
-            System.out.println(file.getOriginalFilename());
-        }
-
-        return null;
     }
 }
