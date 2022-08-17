@@ -63,7 +63,7 @@
               <div class="info">
                 <p>랜덤</p>
                 <div>
-                  <p class="randomInfo">면접 복장으로 어느 색이 잘 어울릴까요?</p>
+                  <p class="randomInfo">{{ randomTopicTitle }}</p>
                 </div>
               </div>
               <div class="colormark">
@@ -107,6 +107,7 @@ export default {
     return {
       showModal: false,
       showImgModal: false,
+      randomTopicTitle: "This is default",
       // hoveringColor: this.$store.state.hoveringColor,
     };
   },
@@ -174,6 +175,7 @@ export default {
             } else if (response.data.data[i].roomtype == "random") {
               this.$store.state.randomColorLst = response.data.data[i].code;
               this.$store.state.randomTop1 = response.data.data[i].top1.code;
+              this.randomTopicTitle = response.data.data[i].title;
             } else {
               break;
             }
