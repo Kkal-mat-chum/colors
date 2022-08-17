@@ -1,6 +1,5 @@
 package com.ssafy.colors.controller;
 
-import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.request.LoginReq;
 import com.ssafy.colors.response.MemberRes;
 import com.ssafy.colors.service.AuthService;
