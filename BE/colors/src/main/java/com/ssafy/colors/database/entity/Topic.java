@@ -52,9 +52,6 @@ public class Topic extends BaseEntity {
     @OneToMany(mappedBy = "topic")
     List<Vote> voters = new ArrayList<>();
 
-//    @OneToOne(mappedBy = "topic")
-//    Room room;
-
     @OneToMany(mappedBy = "topic")
     List<Room> rooms = new ArrayList<>();
 

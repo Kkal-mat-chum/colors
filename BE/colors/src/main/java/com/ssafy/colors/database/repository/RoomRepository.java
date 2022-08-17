@@ -4,7 +4,6 @@ import com.ssafy.colors.database.entity.Member;
 import com.ssafy.colors.database.entity.Room;
 import com.ssafy.colors.database.entity.Topic;
 import com.ssafy.colors.enumdata.RoomStatus;
-import com.ssafy.colors.enumdata.RoomType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -51,5 +50,4 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                     "                   where `user_id` = :userId)\n" +
                     "and r1.cdate = r2.maxdate and r1.room_type = r2.room_type;")
     public List<Room> getRecentMeetingInfo(@Param("userId") long userId);
-
 }

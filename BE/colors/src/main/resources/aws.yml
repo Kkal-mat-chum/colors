@@ -1,8 +1,0 @@
-cloud:
-  aws:
-    s3:
-      bucket: i7b208-s3-bucket2
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
