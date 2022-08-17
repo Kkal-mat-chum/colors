@@ -28,15 +28,9 @@ public class Room extends BaseEntity {
     @JoinColumn(name = "host_id")
     private Member host;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "topic_id", nullable = true)
-//    private Topic topic;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id", nullable = true)
     private Topic topic;
-
-//    @Column(name = "topic_id", nullable = true)
-//    Long topicId;
 
     @Column(name = "room_code", length = 15, nullable = false)
     String roomCode;
