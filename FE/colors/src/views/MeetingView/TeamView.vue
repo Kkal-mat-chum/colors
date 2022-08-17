@@ -605,7 +605,7 @@ export default {
           console.log(response);
           console.log(response.data.connections.numberOfElements);
           console.log("값확인이전");
-          if (response.data.connections.numberOfElements > 2) {
+          if (response.data.connections.numberOfElements > 6) {
             console.log("값확인");
             let roomid = {
               roomid: sessionStorage.getItem("roomId"),
