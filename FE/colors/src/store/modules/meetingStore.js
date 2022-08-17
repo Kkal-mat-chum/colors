@@ -171,8 +171,8 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomCode", data.roomcode);
-            sessionStorage.setItem("roomId", data.roomid);
+            sessionStorage.setItem("roomCode", data.data.roomcode);
+            sessionStorage.setItem("roomId", data.data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
@@ -202,8 +202,8 @@ const meetingStore = {
           }).then(({ data }) => {
             console.log(data);
             console.log(data.data.roomcode);
-            sessionStorage.setItem("roomCode", data.roomcode);
-            sessionStorage.setItem("roomId", data.roomid);
+            sessionStorage.setItem("roomCode", data.data.roomcode);
+            sessionStorage.setItem("roomId", data.data.roomid);
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
