@@ -28,6 +28,12 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+@font-face {
+  font-family: "Cafe24Dongdong";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 @font-face {
   font-family: "Pretendard Black";

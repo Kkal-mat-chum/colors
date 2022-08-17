@@ -1,6 +1,6 @@
 <template>
   <div class="logInPage">
-    <img class="mainPicture" src="../../assets/logo_horizental.png" alt="깔맞춤" />
+    <img class="mainPicture" src="../../assets/logo_horizental.png" alt="깔맞춤" @click="goHome" style="cursor: pointer" />
     <div class="logInInfo">
       <div class="logInBox">
         <div v-show="loginAlram" class="logInAlarm">아이디 또는 비밀번호를 확인하세요.</div>
@@ -41,6 +41,9 @@ export default {
     };
   },
   methods: {
+    goHome() {
+      this.$router.push("/");
+    },
     //회원가입 창으로 가기
     gotosignup() {
       this.$router.push("/signup");
