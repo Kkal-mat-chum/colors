@@ -47,7 +47,11 @@ export default {
       return this.$store.state.resultStore.voteRound;
     },
     sub_name() {
-      return this.$store.state.resultStore.data[this.vote_round - 1].name;
+      if (this.vote_round > this.cnt) {
+        return "nothing";
+      } else {
+        return this.$store.state.resultStore.data[this.vote_round - 1].name;
+      }
     },
     // show_loadingimg() {
     //   if (this.cnt < this.vote_round) {
@@ -66,17 +70,18 @@ export default {
   },
   methods: {
     loading3sec() {
+      this.vote_Round = this.cnt;
       this.onLoadingImg();
       //투표 결과 저장
       this.saveTeamVoteResult();
       console.log("로딩창 켬");
+      console.log(this.show_loadingimg);
       setTimeout(() => {
         this.offLoadingImg();
         console.log("로딩창 끔");
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
         this.bringTotalResult();
         this.$router.push("/nameresult");
-        this.$router.go();
       }, 3000);
     },
     onLoadingImg() {
@@ -87,6 +92,7 @@ export default {
     },
     //단체 투표 결과 저장
     saveTeamVoteResult() {
+      console.log(this.$store.state.resultStore.voteContent);
       axios
         .post(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomId"),
@@ -96,6 +102,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           if (response.data.message == "fail") {
+            console.log(this.$store.state.resultStore.voteContent);
             swal("투표 결과", "투표 결과를 저장하는데 실패하였습니다.", "error");
           }
         });
