@@ -9,11 +9,8 @@
               <div>
                 <span>색깔을 찾는 </span>
               </div>
-
               <span>
-                <div>
-                  <b>"깔 맞 춤"</b>
-                </div>
+                <div><b>" </b><b1>깔 맞 춤</b1><b> "</b></div>
                 지금
                 <div></div>
                 시작하세요!
@@ -31,7 +28,7 @@
     </div>
     <div class="epiBoxWrap">
       <div class="container">
-        <div class="row">
+        <div class="row1">
           <div class="col-sm-12">
             <div class="epiBox whiteText ebMajorPr aos-init aos-animate" data-aos="fade-up">
               <h6>인생색깔 찾기 기준, 깔맞춤!</h6>
@@ -75,7 +72,7 @@
             <br />
             <br />
           </p>
-          <div class="row">
+          <div class="row1">
             <div class="col-sm-6">
               <div class="epiBox h100 selectBox aos-init aos-animate" data-aos="fade-up">
                 <h4>
@@ -113,7 +110,7 @@
             <br />
             <br />
           </p>
-          <div class="row">
+          <div class="row1">
             <div class="col-sm-6">
               <div class="epiBox h100 selectBox plusBox aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
                 <h4>
@@ -134,9 +131,9 @@
                   <li>개인 또는 친구들과 함께 즐겨보세요!</li>
                 </ul>
                 <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+                <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
               </div>
             </div>
           </div>
@@ -150,7 +147,7 @@
             <br />
             <br />
           </p>
-          <div class="row">
+          <div class="row1">
             <div class="col-sm-6">
               <div class="epiBox h100 selectBox aos-init aos-animate" data-aos="fade-up">
                 <h4>
@@ -169,10 +166,10 @@
                   <li>토픽 미팅룸에서 최근 1등, 저장한 색깔을 볼 수 있습니다.</li>
                   <li>어떤 토픽에 어울렸던 색깔인지 알아 볼 수 있습니다.</li>
                 </ul>
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
+                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
                 <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+                <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
               </div>
             </div>
           </div>
@@ -221,6 +218,9 @@ export default {
 b {
   font-weight: 800;
 }
+b1 {
+  color: #d0d1ff;
+}
 p {
   font-size: 18px;
   word-break: keep-all;
@@ -250,6 +250,13 @@ div {
   display: block;
 }
 .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  justify-content: center;
+}
+.row1 {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
@@ -446,33 +453,34 @@ ul {
   margin-inline-start: 0px;
   margin-inline-end: 0px;
   padding-inline-start: 40px;
+  margin-top: 70px;
 }
 li {
   margin-left: -20px;
 }
 .selectBox .mc7 {
-  width: 280px;
-  bottom: 30px;
-  height: 350px;
-  right: 10px;
+  width: 240px;
+  bottom: 250px;
+  height: 200px;
+  right: 150px;
 }
 .selectBox .mc8 {
-  width: 280px;
-  bottom: 60px;
-  height: 350px;
-  right: 300px;
+  width: 240px;
+  bottom: 150px;
+  height: 200px;
+  right: 240px;
 }
 .selectBox .mc9 {
-  width: 280px;
-  bottom: 60px;
-  height: 400px;
-  right: 100px;
+  width: 240px;
+  bottom: 150px;
+  height: 200px;
+  right: 70px;
 }
 .selectBox .mc10 {
-  width: 280px;
-  bottom: 80px;
-  height: 350px;
-  right: 100px;
+  width: 240px;
+  bottom: 50px;
+  height: 200px;
+  right: 155px;
 }
 .selectBox .cta {
   height: 40px;
@@ -509,12 +517,6 @@ li {
 }
 .epiBox h4 span {
   display: block;
-}
-.selectBox .mc8 {
-  width: 280px;
-  bottom: 80px;
-  height: 350px;
-  right: 10px;
 }
 .epiBox .mockup {
   position: absolute;
@@ -562,7 +564,9 @@ sup {
   font-size: 88%;
 }
 .topic {
+  color: #6667ab;
   margin-left: 85px;
+  font-weight: 800;
 }
 /* .tablemargin {
   margin-top: 30px;

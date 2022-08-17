@@ -395,6 +395,12 @@ export default {
         to: [],
       });
     },
+    sendReconnect(connectionId) {
+      this.session.signal({
+        type: "reconnect",
+        to: [connectionId],
+      });
+    },
     sendVote() {
       var awsid = this.awsid;
       var userid = sessionStorage.getItem("userId");
@@ -551,10 +557,34 @@ export default {
       this.session.on("signal:goVote", () => {
         this.goVote();
       });
+      this.session.on("signal:reconnect", () => {
+        console.log(this.publisher);
+        // this.publisher.reconnect();
+      });
+      this.session.on("reconnecting", () => console.warn("Oops! Trying to reconnect to the session"));
+      this.session.on("reconnected", () => console.log("Hurray! You successfully reconnected to the session"));
+      this.session.on("sessionDisconnected", (event) => {
+        if (event.reason === "networkDisconnect") {
+          console.warn("Dang-it... You lost your connection to the session");
+        }
+      });
 
       // On every asynchronous exception...
-      this.session.on("exception", ({ exception }) => {
-        console.warn(exception);
+      this.session.on("exception", (event) => {
+        if (event.name === "ICE_CONNECTION_FAILED") {
+          var stream = event.origin;
+          console.warn("Stream " + stream.streamId + " broke!");
+          console.warn("Reconnection process automatically started");
+        }
+        if (event.name === "ICE_CONNECTION_DISCONNECTED") {
+          var stream_dis = event.origin;
+          console.warn("Stream " + stream_dis.streamId + " disconnected!");
+          console.warn("Giving it some time to be restored. If not possible, reconnection process will start");
+        }
+        if (event.name == "NO_STREAM_PLAYING_EVENT") {
+          this.sendReconnect(event.origin.stream.connection.connectionId);
+        }
+        console.warn(event);
       });
 
       // --- Connect to the session with a valid user token ---
@@ -640,6 +670,8 @@ export default {
         this.participantUpdate(this.mySessionId);
         if (this.numberOFparti == 6) {
           this.$store.dispatch("leaveSession", this.mySessionId);
+        } else if (this.numberOFparti == 1) {
+          this.start();
         }
         this.session.disconnect();
       }

@@ -173,6 +173,7 @@ const meetingStore = {
             console.log(data.data.roomcode);
             sessionStorage.setItem("roomCode", data.data.roomcode);
             sessionStorage.setItem("roomId", data.data.roomid);
+            sessionStorage.setItem("hostId", sessionStorage.getItem("memberId"));
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
@@ -204,6 +205,7 @@ const meetingStore = {
             console.log(data.data.roomcode);
             sessionStorage.setItem("roomCode", data.data.roomcode);
             sessionStorage.setItem("roomId", data.data.roomid);
+            sessionStorage.setItem("hostId", sessionStorage.getItem("memberId"));
             router.push("/team/" + sessionStorage.getItem("roomCode"));
           });
         }
