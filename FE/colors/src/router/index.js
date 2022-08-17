@@ -20,6 +20,11 @@ const routes = [
     meta: { authRequired: true },
     component: MainView,
   },
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: HomeView,
+  // },
   {
     path: "/about",
     name: "about",

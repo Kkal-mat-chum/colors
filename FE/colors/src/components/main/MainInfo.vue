@@ -66,7 +66,7 @@
       <div class="selectBoxWrap">
         <div class="container">
           <h3>
-            <span>1. 토픽</span>
+            <span class="topic">1. 토픽</span>
           </h3>
           <p class="anc">
             상황별로,
@@ -95,17 +95,19 @@
                   <li>어울리는 색상을 찾아보세요!</li>
                 </ul>
                 <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+                <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
               </div>
             </div>
           </div>
           <h3>
-            <span>2. 미팅</span>
+            <span class="topic">2. 미팅</span>
           </h3>
           <p class="anc">
-            상황별로,
+            개인, 단체 등 다양한
+            <br />
+            방을 통해
             <br />
             자신에게 어울리는 색깔을 찾아보세요.
             <br />
@@ -119,16 +121,53 @@
                     <span>깔맞춤,</span>
                   </div>
                   <div>
-                    <span><b>Topic 게시판</b></span>
+                    <span><b>Meeting Room</b></span>
                   </div>
-                  <span>을 통해 상황에 맞는</span>
+                  <span>을 통해 혼자, 친구들과</span>
+                  <span>자신에게 어울리는</span>
                   <span>색깔 찾기!</span>
                 </h4>
                 <ul data-aos="fade-down" class="aos-init aos-animate">
-                  <li>면접 정장 색깔, 컬러 증명 사진 등</li>
-                  <li>상황에 따라 자신에게</li>
-                  <li>사람들과 함께</li>
-                  <li>어울리는 색상을 찾아보세요!</li>
+                  <li>개인 미팅룸에서 토너먼트로 자신의 색깔을 찾아보세요!</li>
+                  <li>방 코드를 통해 친구들과 프라이빗하게 색깔을 찾아보세요!</li>
+                  <li>토픽별로 상황에 맞는 색깔을 찾아보세요!</li>
+                  <li>개인 또는 친구들과 함께 즐겨보세요!</li>
+                </ul>
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+              </div>
+            </div>
+          </div>
+          <h3>
+            <span class="topic">3. 마이페이지</span>
+          </h3>
+          <p class="anc">
+            코딩성 치매가 있는 당신,
+            <br />
+            마이페이지를 통해 찾아보세요.
+            <br />
+            <br />
+          </p>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="epiBox h100 selectBox aos-init aos-animate" data-aos="fade-up">
+                <h4>
+                  <div>
+                    <span>깔맞춤,</span>
+                  </div>
+                  <div>
+                    <span><b>마이페이지</b></span>
+                  </div>
+                  <span>자주 까먹는 당신을 위해</span>
+                  <span>최근 저장했던 색깔 찾기!</span>
+                </h4>
+                <ul data-aos="fade-down" class="aos-init aos-animate tablemargin">
+                  <li>개인 미팅룸에서 최근 1등, 저장한 색깔을 볼 수 있습니다.</li>
+                  <li>그룹 미팅룸에서 최근 1등, 저장한 색깔을 볼 수 있습니다.</li>
+                  <li>토픽 미팅룸에서 최근 1등, 저장한 색깔을 볼 수 있습니다.</li>
+                  <li>어떤 토픽에 어울렸던 색깔인지 알아 볼 수 있습니다.</li>
                 </ul>
                 <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
                 <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
@@ -355,6 +394,7 @@ img {
 }
 .selectBoxWrap {
   padding: 80px 0;
+  margin-left: -117px;
 }
 h3 {
   color: #123;
@@ -374,6 +414,9 @@ h3 span {
   margin-top: 0;
   margin-bottom: 1rem;
   color: black;
+  display: flex;
+  justify-content: center;
+  margin-left: 100px;
 }
 .epiBox.h100 {
   height: calc(100% -30px);
@@ -390,6 +433,7 @@ h3 span {
   position: relative;
   overflow: hidden;
   margin-bottom: 30px;
+  width: 900px;
 }
 ul {
   margin: 0;
@@ -408,9 +452,27 @@ li {
 }
 .selectBox .mc7 {
   width: 280px;
-  bottom: 80px;
+  bottom: 30px;
   height: 350px;
   right: 10px;
+}
+.selectBox .mc8 {
+  width: 280px;
+  bottom: 60px;
+  height: 350px;
+  right: 300px;
+}
+.selectBox .mc9 {
+  width: 280px;
+  bottom: 60px;
+  height: 400px;
+  right: 100px;
+}
+.selectBox .mc10 {
+  width: 280px;
+  bottom: 80px;
+  height: 350px;
+  right: 100px;
 }
 .selectBox .cta {
   height: 40px;
@@ -498,6 +560,9 @@ li {
 }
 sup {
   font-size: 88%;
+}
+.topic {
+  margin-left: 85px;
 }
 /* .tablemargin {
   margin-top: 30px;
