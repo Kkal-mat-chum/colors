@@ -42,6 +42,15 @@
           <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startVote"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
+          <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
+            <cotent>
+              <div class="content">
+                <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 24px" id="notice">시작</strong> 버튼을 눌러주세요.</p>
+                <p class="notice">시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.</p>
+              </div>
+              <customButton class="btn" btnText="확인" @click="showstartModal = false"></customButton>
+            </cotent>
+          </custom-modal>
         </div>
       </div>
     </div>
@@ -167,7 +176,7 @@ export default {
     console.log(this.subscribers);
     if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
       this.ishost = true;
-      swal("호스트 공지사항", '참여자들의 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
+      swal("호스트 공지사항", '참여자 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 미팅 진행 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -352,7 +361,9 @@ export default {
           }
         }
       );
-      this.$router.push("/teamVoting");
+      setTimeout(() => {
+        this.$router.push("/teamVoting");
+      }, 15000);
       // this.$router.go();
     },
 
@@ -468,9 +479,6 @@ export default {
         if (index >= 0) {
           this.subscribers.splice(index, 1);
         }
-        setTimeout(() => {
-          this.participantUpdate(this.mySessionId);
-        }, 100);
       });
 
       // get signal for chat from everyone
@@ -618,22 +626,21 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        this.participantUpdate(this.mySessionId);
-        if (this.numberOFparti == 6) {
-          this.$store.dispatch("leaveSession", this.mySessionId);
-        } else if (this.numberOFparti == 1) {
-          this.start();
-        }
-        this.session.disconnect();
+        this.participantUpdate(this.mySessionId).then(() => {
+          if (this.numberOFparti == 6) {
+            this.$store.dispatch("leaveSession", this.mySessionId);
+          } else if (this.numberOFparti == 1) {
+            this.start();
+          }
+          this.session.disconnect();
+        });
+        this.session = undefined;
+        this.mainStreamManager = undefined;
+        this.publisher = undefined;
+        this.subscribers = [];
+        this.OV = undefined;
+        this.$store.commit("SET_CLEARMESSAGES");
       }
-
-      this.session = undefined;
-      this.mainStreamManager = undefined;
-      this.publisher = undefined;
-      this.subscribers = [];
-      this.OV = undefined;
-      this.$store.commit("SET_CLEARMESSAGES");
-
       window.removeEventListener("beforeunload", this.leaveSession);
     },
 
@@ -781,10 +788,10 @@ body {
 }
 .rightSidebar {
   height: 96%;
-  padding-bottom: 40px;
+  padding-bottom: 25px;
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
   text-align: center;
-  width: 36vh;
+  width: 40vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -794,9 +801,6 @@ body {
   width: 37vh;
   /* height: 99%; */
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
-}
-.title {
-  margin-left: 5vh;
 }
 .title h3 {
   display: flex;
@@ -826,7 +830,7 @@ body {
 }
 
 .selectColorbtn {
-  width: 200px;
+  width: 180px;
   margin-top: 10px;
 }
 
@@ -835,7 +839,7 @@ body {
 }
 
 .btn {
-  width: 200px;
+  width: 190px;
   margin-top: 7px;
 }
 /* our */

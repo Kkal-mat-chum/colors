@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       hueWidth: 15,
-      hueHeight: 152,
+      hueHeight: 115,
       modelRgba: "",
       modelHex: "",
       modelColor: "",
