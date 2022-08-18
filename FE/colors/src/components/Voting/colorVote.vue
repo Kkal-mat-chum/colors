@@ -150,7 +150,10 @@ export default {
     },
   },
   mounted() {
-    this.getResult(); //미팅 결과 가져오기
+    setTimeout(() => {
+      this.getResult(); //미팅 결과 가져오기
+    }, 500);
+    setTimeout(() => {}, 500);
   },
   methods: {
     //미팅 결과 가져오기, store에 저장
