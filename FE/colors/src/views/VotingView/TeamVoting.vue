@@ -12,7 +12,7 @@
         </div>
         <div class="sidelabelColorVote">{{ vote_round }}/{{ cnt }}</div>
       </div>
-      <color-vote @startTime="timeStampOn"></color-vote>
+      <color-vote :loadVoteData="false" @startTime="timeStampOn"></color-vote>
     </div>
     <loadingImg v-if="show_loadingimg" :loadingText="loadingText" />
   </div>
@@ -52,7 +52,13 @@ export default {
       if (this.vote_round > this.cnt) {
         return "nothing";
       } else {
-        return this.$store.state.resultStore.data[this.vote_round - 1].name;
+        console.log(this.vote_round);
+        console.log(this.$store.state.resultStore);
+        if (this.$store.state.resultStore.data[this.vote_round - 1].name) {
+          return this.$store.state.resultStore.data[this.vote_round - 1].name;
+        } else {
+          return "nothing";
+        }
       }
     },
     // show_loadingimg() {
@@ -70,17 +76,17 @@ export default {
       }
     },
   },
-  beforeCreate() {
+  async beforeCreate() {
     console.log(sessionStorage.getItem("roomId"));
-    axios
+    await axios
       .post(this.$store.state.baseurl + "room/getresult", {
         roomid: sessionStorage.getItem("roomId"),
       })
       .then((response) => {
         console.log(response);
         this.$store.state.resultStore.aloneResult = response.data;
-        this.$store.state.resultStore.data = response.data;
-        this.$store.state.resultStore.cnt = response.data.length;
+        this.$store.state.resultStore.data = response.data.data;
+        this.$store.state.resultStore.cnt = response.data.data.length;
         this.$store.state.selectedColorLst = response.data.data[0].colors;
         this.$store.state.aloneImageUrlLst = response.data.data[0].urls;
       });
@@ -97,13 +103,13 @@ export default {
       this.saveTeamVoteResult();
       console.log("로딩창 켬");
       console.log(this.show_loadingimg);
+      this.startSumVoteResult();
       setTimeout(() => {
         this.offLoadingImg();
         console.log("로딩창 끔");
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
-        this.bringTotalResult();
         this.$router.push("/nameresult");
-      }, 5000);
+      }, 10000);
     },
     onLoadingImg() {
       this.show_loadingimg = true;
@@ -129,7 +135,7 @@ export default {
         });
     },
     //각 투표 합산put -> 투표 결과 가져오기post
-    bringTotalResult() {
+    startSumVoteResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
           roomid: sessionStorage.getItem("roomId"),

@@ -67,9 +67,9 @@ export default {
       voteLst: [],
       // voteLst: this.$store.state.resultStore.totalResultData, //다른사람들이 투표한 결과
       top1url: "",
-      top1color: "",
+      top1color: "#ffffff",
       mypickurl: "",
-      mypickcolor: "",
+      mypickcolor: "#ffffff",
       userNick: sessionStorage.getItem("userNick"),
     };
   },
@@ -133,40 +133,37 @@ export default {
       }
     },
   },
-  mounted() {
-    this.callVoteResult();
+  //투표 결과 가져오기
+  async created() {
+    await axios
+      .post(this.$store.state.baseurl + "room/vote/result", {
+        roomid: sessionStorage.getItem("roomCode"),
+        userid: sessionStorage.getItem("memberId"),
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data.message == "fail") {
+          swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
+        } else {
+          //랜덤미팅은 항상 여러명임
+          for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
+            if (response.data.data[idx].voter != sessionStorage.getItem("userNick")) {
+              this.voteLst.push(response.data.data[idx]);
+            } else {
+              //본인이 선택한 내용
+              this.mypickurl = response.data.data[idx].url;
+              this.mypickcolor = response.data.data[idx].code;
+            }
+          }
+          this.top1url = response.data.top1.url;
+          this.top1color = response.data.top1.code;
+        }
+      });
   },
   methods: {
     gotoEnterPage() {
       this.$router.push("/enterPage");
       this.$router.go();
-    },
-    //투표 결과 가져오기
-    callVoteResult() {
-      axios
-        .post(this.$store.state.baseurl + "room/vote/result", {
-          roomid: sessionStorage.getItem("roomCode"),
-          userid: sessionStorage.getItem("memberId"),
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.data.message == "fail") {
-            swal("투표 결과 전송", "투표 결과 전송에 실패하였습니다.", "error");
-          } else {
-            //랜덤미팅은 항상 여러명임
-            for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
-              if (response.data.data[idx].voter != sessionStorage.getItem("userNick")) {
-                this.voteLst.push(response.data.data[idx]);
-              } else {
-                //본인이 선택한 내용
-                this.mypickurl = response.data.data[idx].url;
-                this.mypickcolor = response.data.data[idx].code;
-              }
-            }
-            this.top1url = response.data.top1.url;
-            this.top1color = response.data.top1.code;
-          }
-        });
     },
   },
 };
