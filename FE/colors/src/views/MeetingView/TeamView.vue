@@ -298,7 +298,7 @@ export default {
       } else {
         swal("색상 담기", "컬러 팔레트가 꽉찼습니다.", "error");
       }
-      setTimeout(() => {}, 1000);
+      setTimeout(() => {}, 500);
     },
 
     gosaving() {
@@ -370,7 +370,7 @@ export default {
     goVote() {
       setTimeout(() => {
         this.$router.push("/teamVoting");
-      }, 3000);
+      }, 6000);
     },
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(","),
