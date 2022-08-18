@@ -20,6 +20,7 @@
     <div id="app"></div>
     <div id="topBtn">TOP</div>
     <!-- built files will be auto injected -->
+    <img alt="" src="https://www.baemin.com/_next/static/images/scroll@2x.png" class="Imagestyles__Image-sc-1lspwob-0 cBvFeG">
   </body>
   <script>
     $(document).ready(function () {
@@ -63,5 +64,19 @@
     #topBtn:hover {
       background-color: #6667ab; /*마우스 올렸을 때 버튼 색상*/
     }
+    .blink {
+        animation: blink-animation 1s steps(5, start) infinite;
+        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+      }
+      @keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
+      @-webkit-keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
   </style>
 </html>
