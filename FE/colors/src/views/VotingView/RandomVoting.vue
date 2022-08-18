@@ -61,11 +61,11 @@ export default {
       //투표 결과 저장
       this.saveTeamVoteResult();
       console.log("로딩창 켬");
+      this.bringTotalResult();
       setTimeout(() => {
         this.offLoadingImg();
         console.log("로딩창 끔");
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
-        this.bringTotalResult();
         this.$router.push("/nickresult");
         this.$router.go();
       }, 3000);

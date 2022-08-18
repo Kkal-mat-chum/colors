@@ -34,6 +34,12 @@ export default {
   component: {
     loadingImg,
   },
+  props: {
+    loadVoteData: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       nowSelected: "", //개별 화면에서 실시간으로 선택하고 있는 색상코드
@@ -158,11 +164,10 @@ export default {
     },
   },
   mounted() {
-    this.getResult(); //미팅 결과 가져오기
-    setTimeout(() => {
-      this.offLoadingImg();
-      this.$emit("startTime");
-    }, 1000);
+    if (this.loadVoteData) {
+      console.log("loading select result");
+      this.getResult(); //미팅 결과 가져오기
+    }
   },
   methods: {
     onLoadingImg() {
@@ -180,8 +185,8 @@ export default {
         })
         .then((response) => {
           this.$store.state.resultStore.aloneResult = response.data;
-          this.$store.state.resultStore.data = response.data;
-          this.$store.state.resultStore.cnt = response.data.length;
+          this.$store.state.resultStore.data = response.data.data;
+          this.$store.state.resultStore.cnt = response.data.data.length;
           this.$store.state.selectedColorLst = response.data.data[0].colors;
           this.$store.state.aloneImageUrlLst = response.data.data[0].urls;
         });
