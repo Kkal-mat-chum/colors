@@ -92,9 +92,9 @@ export default {
       }
     },
   },
-  async beforeCreate() {
+  beforeCreate() {
     console.log(sessionStorage.getItem("roomId"));
-    await axios
+    axios
       .post(this.$store.state.baseurl + "room/getresult", {
         roomid: sessionStorage.getItem("roomId"),
       })
@@ -143,9 +143,9 @@ export default {
       this.show_loadingimg = false;
     },
     //단체 투표 결과 저장
-    async saveTeamVoteResult() {
+    saveTeamVoteResult() {
       console.log(this.$store.state.resultStore.voteContent);
-      await axios
+      axios
         .post(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomId"),
           voterid: sessionStorage.getItem("memberId"),
