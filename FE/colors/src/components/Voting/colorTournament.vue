@@ -215,8 +215,8 @@ export default {
 }
 .imageColorTourn {
   display: inline-block;
-  width: 528px;
-  height: 380px;
+  width: 600px;
+  height: 337.5px;
   margin: 3px 10px;
   border: 3px solid #d0d1ff;
   border-radius: 15px;
