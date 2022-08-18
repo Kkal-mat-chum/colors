@@ -90,7 +90,10 @@ export default {
       this.ishost = true;
     }
     console.log(this.mySessionId);
+  },
+  beforeRouteEnter(to, from, next) {
     this.$router.go();
+    next();
   },
   beforeRouteLeave(to, from, next) {
     // this.leaveSession();
