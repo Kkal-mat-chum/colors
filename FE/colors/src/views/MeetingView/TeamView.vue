@@ -535,11 +535,11 @@ export default {
           console.warn("Stream " + stream.streamId + " broke!");
           console.warn("Reconnection process automatically started");
         }
-        if (event.name === "ICE_CONNECTION_DISCONNECTED") {
-          var stream_dis = event.origin;
-          console.warn("Stream " + stream_dis.streamId + " disconnected!");
-          console.warn("Giving it some time to be restored. If not possible, reconnection process will start");
-        }
+        // if (event.name === "ICE_CONNECTION_DISCONNECTED") {
+        //   var stream_dis = event.origin;
+        //   console.warn("Stream " + stream_dis.streamId + " disconnected!");
+        //   console.warn("Giving it some time to be restored. If not possible, reconnection process will start");
+        // }
         if (event.name == "NO_STREAM_PLAYING_EVENT") {
           this.sendReconnect(event.origin.stream.connection.connectionId);
         }
