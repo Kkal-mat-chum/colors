@@ -126,6 +126,8 @@ export default {
   font-size: 16px;
   border-radius: 10px;
   text-align: center;
+  width: 82%;
+  margin-left: 50px;
 }
 .gridButtonArea {
   grid-area: button;
@@ -136,12 +138,14 @@ export default {
   margin: 5px;
   font-size: 24px;
   font-family: "pretendard Bold";
+  margin-right: 50px;
+  margin-bottom: 10px;
 }
 .modalInfoText {
   text-align: right;
   color: lightgray;
   grid-area: footer;
   margin-top: 12px;
-  margin-right: 5px;
+  margin-right: 50px;
 }
 </style>

@@ -3,12 +3,18 @@
     <!-- https://icons8.com/preloaders/en/search/circle 의 12 segments -->
     <div class="mainSqure">
       <img src="@/assets/imagedefault/loadingimg.gif" alt="로딩 중" class="loadingImg" />
-      <label for="" class="loadinglabel">결과를 기다리는 중...</label>
+      <label for="" class="loadinglabel">{{ loadingText }}</label>
     </div>
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  props: {
+    loadingText: String,
+  },
+};
+</script>
 
 <style scoped>
 .loadingBody {

@@ -181,8 +181,8 @@ export default {
 .colorTournPage {
   /* border: 3px solid aqua; */
   margin-left: 120px;
-  height: 730px;
-  width: 1400px;
+  height: 700px;
+  width: 1380px;
 }
 .bodyColorTourn1 {
   display: flex;

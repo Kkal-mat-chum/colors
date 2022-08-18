@@ -42,6 +42,15 @@
           <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startVote"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
+          <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
+            <cotent>
+              <div class="content">
+                <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 24px" id="notice">시작</strong> 버튼을 눌러주세요.</p>
+                <p class="notice">시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.</p>
+              </div>
+              <customButton class="btn" btnText="확인" @click="showstartModal = false"></customButton>
+            </cotent>
+          </custom-modal>
         </div>
       </div>
     </div>
@@ -167,7 +176,7 @@ export default {
     console.log(this.subscribers);
     if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
       this.ishost = true;
-      swal("호스트 공지사항", '참여자들의 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
+      swal("호스트 공지사항", '참여자 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 미팅 진행 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -290,118 +299,7 @@ export default {
     },
 
     goVote() {
-      // var awsid = this.awsid;
-      // var userid = sessionStorage.getItem("userId");
-      // // file 가져오기
-      // AWS.config.update({
-      //   region: "ap-northeast-2",
-      //   credentials: new AWS.CognitoIdentityCredentials({
-      //     IdentityPoolId: awsid,
-      //   }),
-      // });
-
-      // var s3 = new AWS.S3({
-      //   apiVersion: "2012-10-17",
-      //   params: {
-      //     Bucket: "ssafy7color",
-      //   },
-      // });
-
-      // var date = new Date();
-      // var yyyymmdd = date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
-      // var roomcode = sessionStorage.getItem("roomCode");
-
-      // let photoKey = yyyymmdd + "/" + userid + "/" + roomcode + "/";
-
-      // console.log(photoKey);
-
-      // s3.listObjects(
-      //   {
-      //     Delimiter: "/",
-      //     Prefix: photoKey,
-      //   },
-      //   (err, data) => {
-      //     if (err) {
-      //       return swal("투표하기", "There was an error : " + err.message, "error");
-      //     } else {
-      //       var colorsets = [];
-      //       var colorset = { url: "", code: "" };
-      //       this.lists = data.Contents;
-      //       this.lists.forEach((list) => {
-      //         var imgurl = "https://ssafy7color.s3.ap-northeast-2.amazonaws.com/" + list.Key;
-      //         var colorcode = "#" + imgurl.slice(imgurl.length - 11, imgurl.length - 5);
-      //         // console.log(code);
-      //         colorset = { url: imgurl, code: colorcode };
-      //         colorsets.push(colorset);
-      //       });
-      //       console.log(colorsets);
-      //       // 미팅 정보 db 저장
-      //       let roomnum = sessionStorage.getItem("roomId");
-      //       let memberData = JSON.parse(sessionStorage.getItem("memberData"));
-      //       let userid = memberData.data.id;
-      //       const colorsetResult = {
-      //         roomid: roomnum,
-      //         userid: userid,
-      //         colorset: colorsets,
-      //       };
-      //       console.log(colorsetResult);
-      //       axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
-      //         console.log(response);
-      //       });
-      //     }
-      //   }
-      // );
       this.$store.state.resultStore.cnt = this.numberOFparti;
-      this.$router.push("/teamVoting");
-      // this.$router.go();
-    },
-
-    dataURLtoFile(dataurl, fileName) {
-      var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-
-      return new File([u8arr], fileName, { type: mime });
-    },
-
-    setText() {
-      this.modelHex = this.rgb2hex(this.rgba, true);
-      this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;
-    },
-    changeColor(color) {
-      const { r, g, b, a, h, s, v } = this.setColorValue(color.rgba);
-      Object.assign(this, { r, g, b, a, h, s, v });
-      this.modelHex = color.hex;
-
-      this.$store.state.r = this.r;
-      this.$store.state.g = this.g;
-      this.$store.state.b = this.b;
-    },
-    sendMessage(message) {
-      var messageData = {
-        content: message,
-        secretName: this.myUserName,
-        // secretName: this.$storestate.userName,
-      };
-      this.session.signal({
-        type: "chat",
-        data: JSON.stringify(messageData),
-        to: [],
-      });
-    },
-    sendReconnect(connectionId) {
-      this.session.signal({
-        type: "reconnect",
-        to: [connectionId],
-      });
-    },
-    sendVote() {
       var awsid = this.awsid;
       var userid = sessionStorage.getItem("userId");
       // file 가져오기
@@ -463,6 +361,58 @@ export default {
           }
         }
       );
+      setTimeout(() => {
+        this.$router.push("/teamVoting");
+      }, 15000);
+      // this.$router.go();
+    },
+
+    dataURLtoFile(dataurl, fileName) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], fileName, { type: mime });
+    },
+
+    setText() {
+      this.modelHex = this.rgb2hex(this.rgba, true);
+      this.modelRgba = `${this.r}, ${this.g}, ${this.b}, ${this.a}`;
+    },
+    changeColor(color) {
+      const { r, g, b, a, h, s, v } = this.setColorValue(color.rgba);
+      Object.assign(this, { r, g, b, a, h, s, v });
+      this.modelHex = color.hex;
+
+      this.$store.state.r = this.r;
+      this.$store.state.g = this.g;
+      this.$store.state.b = this.b;
+    },
+    sendMessage(message) {
+      var messageData = {
+        content: message,
+        secretName: this.myUserName,
+        // secretName: this.$storestate.userName,
+      };
+      this.session.signal({
+        type: "chat",
+        data: JSON.stringify(messageData),
+        to: [],
+      });
+    },
+    sendReconnect(connectionId) {
+      this.session.signal({
+        type: "reconnect",
+        to: [connectionId],
+      });
+    },
+    sendVote() {
       var vote = this.ready;
       // var name = this.myUserName;
       // this.readys[name] = vote;
@@ -516,20 +466,22 @@ export default {
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
-        this.participantUpdate(this.mySessionId);
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
+        setTimeout(() => {
+          this.participantUpdate(this.mySessionId);
+        }, 100);
       });
 
       // On every Stream destroyed...
       this.session.on("streamDestroyed", ({ stream }) => {
-        this.participantUpdate(this.mySessionId);
         const index = this.subscribers.indexOf(stream.streamManager, 0);
         if (index >= 0) {
           this.subscribers.splice(index, 1);
         }
       });
 
+      // get signal for chat from everyone
       this.session.on("signal:chat", (event) => {
         let eventData = JSON.parse(event.data);
         let data = new Object();
@@ -538,6 +490,7 @@ export default {
         this.$store.commit("SET_MESSAGES", data);
       });
 
+      // get signal for ready to vote(on/off)(true/false)
       this.session.on("signal:vote", (event) => {
         var voteData = JSON.parse(event.data);
         var voteName = event.from.connectionId; // Connection object of the sender
@@ -554,13 +507,19 @@ export default {
         }
       });
 
+      // get signal for move to votePage
       this.session.on("signal:goVote", () => {
         this.goVote();
       });
+
+      // get signal that my video is not palyed on subscriber's page
       this.session.on("signal:reconnect", () => {
         console.log(this.publisher);
-        // this.publisher.reconnect();
+        console.log(this.mainStreamManager);
+        this.publisher.stream.reconnect();
       });
+
+      // openvidu recommend for reconnecting video
       this.session.on("reconnecting", () => console.warn("Oops! Trying to reconnect to the session"));
       this.session.on("reconnected", () => console.log("Hurray! You successfully reconnected to the session"));
       this.session.on("sessionDisconnected", (event) => {
@@ -667,22 +626,21 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        this.participantUpdate(this.mySessionId);
-        if (this.numberOFparti == 6) {
-          this.$store.dispatch("leaveSession", this.mySessionId);
-        } else if (this.numberOFparti == 1) {
-          this.start();
-        }
-        this.session.disconnect();
+        this.participantUpdate(this.mySessionId).then(() => {
+          if (this.numberOFparti == 6) {
+            this.$store.dispatch("leaveSession", this.mySessionId);
+          } else if (this.numberOFparti == 1) {
+            this.start();
+          }
+          this.session.disconnect();
+        });
+        this.session = undefined;
+        this.mainStreamManager = undefined;
+        this.publisher = undefined;
+        this.subscribers = [];
+        this.OV = undefined;
+        this.$store.commit("SET_CLEARMESSAGES");
       }
-
-      this.session = undefined;
-      this.mainStreamManager = undefined;
-      this.publisher = undefined;
-      this.subscribers = [];
-      this.OV = undefined;
-      this.$store.commit("SET_CLEARMESSAGES");
-
       window.removeEventListener("beforeunload", this.leaveSession);
     },
 
@@ -830,10 +788,10 @@ body {
 }
 .rightSidebar {
   height: 96%;
-  padding-bottom: 40px;
+  padding-bottom: 25px;
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
   text-align: center;
-  width: 36vh;
+  width: 40vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -843,9 +801,6 @@ body {
   width: 37vh;
   /* height: 99%; */
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
-}
-.title {
-  margin-left: 5vh;
 }
 .title h3 {
   display: flex;
@@ -875,7 +830,7 @@ body {
 }
 
 .selectColorbtn {
-  width: 200px;
+  width: 180px;
   margin-top: 10px;
 }
 
@@ -884,7 +839,7 @@ body {
 }
 
 .btn {
-  width: 200px;
+  width: 190px;
   margin-top: 7px;
 }
 /* our */
