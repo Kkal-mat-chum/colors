@@ -95,20 +95,23 @@ export default {
 
 <style scoped>
 #profileimgfileupload {
-  width: 170px;
-  height: 170px;
+  width: 150px;
+  height: 150px;
   margin-top: 8px;
-  margin-left: 7px;
+  margin-left: 120px;
   border-radius: 50%;
   border: 8px solid #c1c4ff;
 }
 .con {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .btn {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 .submit {
   width: 100px;
 }
+/* .inputfile {
+  margin-top: -1000px;
+} */
 </style>
