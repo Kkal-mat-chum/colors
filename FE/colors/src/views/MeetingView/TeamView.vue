@@ -175,6 +175,7 @@ export default {
     if (this.publishVideo) {
       this.$store.commit("changePublishVideo");
     }
+    this.$store.commit("CLEAN_PALLETE");
     this.joinSession();
   },
   mounted() {
