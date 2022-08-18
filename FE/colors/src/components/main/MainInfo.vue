@@ -255,6 +255,7 @@ div {
   margin-right: -15px;
   margin-left: -15px;
   justify-content: center;
+  background: #fff;
 }
 .row1 {
   display: flex;
