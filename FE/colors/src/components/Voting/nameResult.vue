@@ -78,9 +78,9 @@ export default {
       voteLst: [],
       // voteLst: this.$store.state.resultStore.totalResultData, //다른사람들이 투표한 결과
       top1url: "",
-      top1color: "",
+      top1color: "#ffffff",
       mypickurl: "",
-      mypickcolor: "",
+      mypickcolor: "#ffffff",
       userName: sessionStorage.getItem("userName"),
     };
   },

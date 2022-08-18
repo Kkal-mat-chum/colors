@@ -361,7 +361,9 @@ export default {
           }
         }
       );
-      this.$router.push("/teamVoting");
+      setTimeout(() => {
+        this.$router.push("/teamVoting");
+      }, 15000);
       // this.$router.go();
     },
 
@@ -477,9 +479,6 @@ export default {
         if (index >= 0) {
           this.subscribers.splice(index, 1);
         }
-        setTimeout(() => {
-          this.participantUpdate(this.mySessionId);
-        }, 100);
       });
 
       // get signal for chat from everyone
@@ -627,22 +626,21 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        this.participantUpdate(this.mySessionId);
-        if (this.numberOFparti == 6) {
-          this.$store.dispatch("leaveSession", this.mySessionId);
-        } else if (this.numberOFparti == 1) {
-          this.start();
-        }
-        this.session.disconnect();
+        this.participantUpdate(this.mySessionId).then(() => {
+          if (this.numberOFparti == 6) {
+            this.$store.dispatch("leaveSession", this.mySessionId);
+          } else if (this.numberOFparti == 1) {
+            this.start();
+          }
+          this.session.disconnect();
+        });
+        this.session = undefined;
+        this.mainStreamManager = undefined;
+        this.publisher = undefined;
+        this.subscribers = [];
+        this.OV = undefined;
+        this.$store.commit("SET_CLEARMESSAGES");
       }
-
-      this.session = undefined;
-      this.mainStreamManager = undefined;
-      this.publisher = undefined;
-      this.subscribers = [];
-      this.OV = undefined;
-      this.$store.commit("SET_CLEARMESSAGES");
-
       window.removeEventListener("beforeunload", this.leaveSession);
     },
 
