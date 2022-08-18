@@ -4,7 +4,7 @@
       <div class="dummyMarginColorVote1"></div>
       <div class="gridColorVote1">
         <div class="sidelabelColorVote">
-          <time-stamp></time-stamp>
+          <time-stamp v-if="startTimeStamp"></time-stamp>
         </div>
         <div class="titleColorVote">
           <label for="nameColorVote" class="labelColorVote" id="nameColorVote">{{ sub_name }}</label>
@@ -12,9 +12,9 @@
         </div>
         <div class="sidelabelColorVote">{{ vote_round }}/{{ cnt }}</div>
       </div>
-      <color-vote></color-vote>
+      <color-vote @startTime="timeStampOn"></color-vote>
     </div>
-    <loadingImg v-if="show_loadingimg" />
+    <loadingImg v-if="show_loadingimg" :loadingText="loadingText" />
   </div>
 </template>
 
@@ -37,6 +37,8 @@ export default {
       // voteRound: this.$store.state.resultStore.voteRound,
       selectedLst: [],
       show_loadingimg: false,
+      loadingText: "결과를 불러오는 중 입니다",
+      startTimeStamp: false,
     };
   },
   computed: {
@@ -69,6 +71,9 @@ export default {
     },
   },
   methods: {
+    timeStampOn() {
+      this.startTimeStamp = true;
+    },
     loading3sec() {
       this.vote_Round = this.cnt;
       this.onLoadingImg();
@@ -82,7 +87,7 @@ export default {
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
         this.bringTotalResult();
         this.$router.push("/nameresult");
-      }, 3000);
+      }, 15000);
     },
     onLoadingImg() {
       this.show_loadingimg = true;
