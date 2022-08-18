@@ -39,7 +39,7 @@
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <!-- <customButton class="btn" btnText="투표하기" @click="goVote"></customButton> -->
           <customButton class="btn" :class="{ muteActive: !ready }" btnText="투표하기" @click="sendVote"></customButton>
-          <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startVote"></customButton>
+          <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startSaving"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
           <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
@@ -146,6 +146,8 @@ export default {
       numberOFparti: this.participantUpdate(this.mySessionId),
       ishostCopy: false,
       isTrackChanged: false,
+      isSave: true,
+      savings: {},
     };
   },
   created() {
@@ -296,9 +298,10 @@ export default {
       } else {
         swal("색상 담기", "컬러 팔레트가 꽉찼습니다.", "error");
       }
+      setTimeout(() => {}, 500);
     },
 
-    goVote() {
+    gosaving() {
       this.$store.state.resultStore.cnt = this.numberOFparti;
       var awsid = this.awsid;
       var userid = sessionStorage.getItem("userId");
@@ -357,16 +360,18 @@ export default {
             console.log(colorsetResult);
             axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
               console.log(response);
+              this.doneSaving();
             });
           }
         }
       );
-      setTimeout(() => {
-        this.$router.push("/teamVoting");
-      }, 15000);
-      // this.$router.go();
     },
 
+    goVote() {
+      setTimeout(() => {
+        this.$router.push("/teamVoting");
+      }, 6000);
+    },
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
@@ -423,9 +428,24 @@ export default {
       });
       this.ready = !vote;
     },
+    doneSaving() {
+      var saving = this.isSave;
+      this.session.signal({
+        type: "saving",
+        data: JSON.stringify(saving),
+        to: [],
+      });
+      this.isSave = !saving;
+    },
     startVote() {
       this.session.signal({
         type: "goVote",
+        to: [],
+      });
+    },
+    startSaving() {
+      this.session.signal({
+        type: "goSaving",
         to: [],
       });
     },
@@ -507,9 +527,29 @@ export default {
         }
       });
 
+      this.session.on("signal:saving", (event) => {
+        var savingData = JSON.parse(event.data);
+        var savingName = event.from.connectionId; // Connection object of the sender
+        console.log(event);
+        this.savings[savingName] = savingData;
+        var readyNumber = Object.values(this.savings).filter((readyCheck) => true == readyCheck).length;
+        if (readyNumber == this.numberOFparti) {
+          console.log("Every People Ready to saving");
+          console.log("asfdjjsjfslkjflkjsflkjalkjslkjasfd");
+          if (this.ishostCopy) {
+            this.startVote();
+          }
+        }
+      });
+
       // get signal for move to votePage
       this.session.on("signal:goVote", () => {
+        console.log("Start Vote");
         this.goVote();
+      });
+      this.session.on("signal:goSaving", () => {
+        console.log("Start Saving");
+        this.gosaving();
       });
 
       // get signal that my video is not palyed on subscriber's page
@@ -535,11 +575,11 @@ export default {
           console.warn("Stream " + stream.streamId + " broke!");
           console.warn("Reconnection process automatically started");
         }
-        if (event.name === "ICE_CONNECTION_DISCONNECTED") {
-          var stream_dis = event.origin;
-          console.warn("Stream " + stream_dis.streamId + " disconnected!");
-          console.warn("Giving it some time to be restored. If not possible, reconnection process will start");
-        }
+        // if (event.name === "ICE_CONNECTION_DISCONNECTED") {
+        //   var stream_dis = event.origin;
+        //   console.warn("Stream " + stream_dis.streamId + " disconnected!");
+        //   console.warn("Giving it some time to be restored. If not possible, reconnection process will start");
+        // }
         if (event.name == "NO_STREAM_PLAYING_EVENT") {
           this.sendReconnect(event.origin.stream.connection.connectionId);
         }
@@ -626,14 +666,13 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        this.participantUpdate(this.mySessionId).then(() => {
-          if (this.numberOFparti == 6) {
-            this.$store.dispatch("leaveSession", this.mySessionId);
-          } else if (this.numberOFparti == 1) {
-            this.start();
-          }
-          this.session.disconnect();
-        });
+        this.participantUpdate(this.mySessionId);
+        if (this.numberOFparti == 6) {
+          this.$store.dispatch("leaveSession", this.mySessionId);
+        } else if (this.numberOFparti == 1) {
+          this.start();
+        }
+        this.session.disconnect();
         this.session = undefined;
         this.mainStreamManager = undefined;
         this.publisher = undefined;
@@ -859,7 +898,5 @@ body {
 }
 .br {
   margin: 10px;
-}
-.startInfoModal {
 }
 </style>

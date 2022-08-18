@@ -159,48 +159,47 @@ export default {
       }
     },
   },
-  mounted() {
-    this.callVoteResult();
+  //컴포넌트가 만들어 질 때 투표 결과 가져오고 동기화
+  created() {
+    axios
+      .post(this.$store.state.baseurl + "room/vote/result", {
+        roomid: sessionStorage.getItem("roomId"),
+        userid: sessionStorage.getItem("memberId"),
+      })
+      .then((response) => {
+        console.log("api/vote/result response");
+        console.log(response.data);
+        if (response.data.message == "fail") {
+          swal("투표 결과 수신", "투표 결과를 불러오지 못하였습니다.", "error");
+        } else {
+          if (this.$store.state.resultStore.cnt > 1) {
+            //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
+            for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
+              if (response.data.data[idx].voter != sessionStorage.getItem("userName")) {
+                this.voteLst.push(response.data.data[idx]);
+              } else {
+                //본인이 선택한 내용
+                this.mypickurl = response.data.data[idx].url;
+                this.mypickcolor = response.data.data[idx].code;
+              }
+            }
+            this.top1url = response.data.top1.url;
+            this.top1color = response.data.top1.code;
+          } else {
+            //개인일때, top1에 data내용 저장
+            this.top1url = response.data.top1.url;
+            this.top1color = response.data.top1.code;
+            this.mypickurl = response.data.top1.url;
+            this.mypickcolor = response.data.top1.code;
+          }
+        }
+      });
+    setTimeout(() => {}, 3000);
   },
   methods: {
     gotoEnterPage() {
       this.$router.push("/enterPage");
       this.$router.go();
-    },
-    //투표 결과 가져오기
-    callVoteResult() {
-      axios
-        .post(this.$store.state.baseurl + "room/vote/result", {
-          roomid: sessionStorage.getItem("roomId"),
-          userid: sessionStorage.getItem("memberId"),
-        })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.message == "fail") {
-            swal("투표 결과 전송", "투표 결과를 불러오지 못하였습니다.", "error");
-          } else {
-            if (this.$store.state.resultStore.cnt > 1) {
-              //여러명 미팅일 때, 본인이 선택한 것만 따로 저장
-              for (var idx = 0; idx < this.$store.state.resultStore.cnt; idx++) {
-                if (response.data.data[idx].voter != sessionStorage.getItem("userName")) {
-                  this.voteLst.push(response.data.data[idx]);
-                } else {
-                  //본인이 선택한 내용
-                  this.mypickurl = response.data.data[idx].url;
-                  this.mypickcolor = response.data.data[idx].code;
-                }
-              }
-              this.top1url = response.data.top1.url;
-              this.top1color = response.data.top1.code;
-            } else {
-              //개인일때, top1에 data내용 저장
-              this.top1url = response.data.top1.url;
-              this.top1color = response.data.top1.code;
-              this.mypickurl = response.data.top1.url;
-              this.mypickcolor = response.data.top1.code;
-            }
-          }
-        });
     },
   },
 };
