@@ -170,7 +170,7 @@ export default {
 }
 .picture1 {
   width: 200px;
-  height: 100px;
+  height: 112.5px;
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
 }
 .titleColor {
