@@ -157,15 +157,12 @@ export default {
       this.nextRound();
     },
   },
-  beforecreated() {
-    this.onLoadingImg();
-    console.log("로딩창 켬");
-    console.log(this.show_loadingimg_colorVote);
+  mounted() {
+    this.getResult(); //미팅 결과 가져오기
     setTimeout(() => {
-      this.getResult(); //미팅 결과 가져오기
       this.offLoadingImg();
       this.$emit("startTime");
-    }, 15000);
+    }, 1000);
   },
   methods: {
     onLoadingImg() {
