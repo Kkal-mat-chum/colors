@@ -368,7 +368,9 @@ export default {
     },
 
     goVote() {
-      this.$router.push("/teamVoting");
+      setTimeout(() => {
+        this.$router.push("/teamVoting");
+      }, 3000);
     },
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(","),
