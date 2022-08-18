@@ -4,7 +4,7 @@
       <div class="dummyMarginColorVote1"></div>
       <div class="gridColorVote1">
         <div class="sidelabelColorVote">
-          <time-stamp v-if="startTimeStamp"></time-stamp>
+          <time-stamp></time-stamp>
         </div>
         <div class="titleColorVote">
           <label for="nameColorVote" class="labelColorVote" id="nameColorVote">{{ sub_name }}</label>
@@ -70,6 +70,22 @@ export default {
       }
     },
   },
+  beforeCreate() {
+    console.log(sessionStorage.getItem("roomId"));
+    axios
+      .post(this.$store.state.baseurl + "room/getresult", {
+        roomid: sessionStorage.getItem("roomId"),
+      })
+      .then((response) => {
+        console.log(response);
+        this.$store.state.resultStore.aloneResult = response.data;
+        this.$store.state.resultStore.data = response.data;
+        this.$store.state.resultStore.cnt = response.data.length;
+        this.$store.state.selectedColorLst = response.data.data[0].colors;
+        this.$store.state.aloneImageUrlLst = response.data.data[0].urls;
+      });
+    setTimeout(() => {}, 1000);
+  },
   methods: {
     timeStampOn() {
       this.startTimeStamp = true;
@@ -87,7 +103,7 @@ export default {
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
         this.bringTotalResult();
         this.$router.push("/nameresult");
-      }, 15000);
+      }, 5000);
     },
     onLoadingImg() {
       this.show_loadingimg = true;
