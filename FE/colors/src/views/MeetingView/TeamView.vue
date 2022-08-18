@@ -298,6 +298,7 @@ export default {
       } else {
         swal("색상 담기", "컬러 팔레트가 꽉찼습니다.", "error");
       }
+      setTimeout(() => {}, 1000);
     },
 
     gosaving() {
