@@ -43,17 +43,18 @@
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
           <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
-            <cotent>
+            <content>
               <div class="content">
                 <p class="notice">참여자들의 입장이 완료되면 반드시 <strong style="font-size: 24px" id="notice">시작</strong> 버튼을 눌러주세요.</p>
                 <p class="notice">시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.</p>
               </div>
               <customButton class="btn" btnText="확인" @click="showstartModal = false"></customButton>
-            </cotent>
+            </content>
           </custom-modal>
         </div>
       </div>
     </div>
+    <loadingImg v-if="show_loadingimg" :loadingText="loadingText" />
   </div>
 </template>
 
@@ -69,15 +70,16 @@ import colorchoice from "@/components/videochat/colorPallete/colorChoice.vue";
 import UserVideo from "@/components/videochat/UserVideo.vue";
 import UserVideo_sub from "@/components/videochat/UserVideo_sub.vue";
 import Chatpanel from "@/components/videochat/chatPanel.vue";
+import loadingImg from "../../components/Voting/loadingImg.vue";
 import swal from "sweetalert";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-// const OPENVIDU_SERVER_URL = "https://" + "i7b208.p.ssafy.io";
-// const OPENVIDU_SERVER_SECRET = "i7b208";
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":40001";
+const OPENVIDU_SERVER_SECRET = "i7b208";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
   name: "TeamMeeting",
@@ -87,6 +89,7 @@ export default {
     UserVideo,
     UserVideo_sub,
     Chatpanel,
+    loadingImg,
   },
   mixins: [mixin],
   computed: {
@@ -148,6 +151,8 @@ export default {
       isTrackChanged: false,
       isSave: true,
       savings: {},
+      show_loadingimg: false,
+      loadingText: "투표를 불러오는 중 입니다",
     };
   },
   created() {
@@ -191,6 +196,12 @@ export default {
   },
   methods: {
     ...mapActions(["toggleChatPanel"]),
+    onLoadingImg() {
+      this.show_loadingimg = true;
+    },
+    offLoadingImg() {
+      this.show_loadingimg = false;
+    },
     leaveMeeting() {
       this.leaveSession();
       this.$router.push("/enterPage");
@@ -369,8 +380,13 @@ export default {
 
     goVote() {
       setTimeout(() => {
-        this.$router.push("/teamVoting");
-      }, 6000);
+        this.offLoadingImg();
+        if (this.$store.state.meetingStore.roomType == "group") {
+          this.$router.push("/teamVoting");
+        } else if (this.$store.state.meetingStore.roomType == "random") {
+          this.$router.push("/teamVoting");
+        }
+      }, 4000);
     },
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(","),
@@ -537,7 +553,9 @@ export default {
           console.log("Every People Ready to saving");
           console.log("asfdjjsjfslkjflkjsflkjalkjslkjasfd");
           if (this.ishostCopy) {
-            this.startVote();
+            setTimeout(() => {
+              this.startVote();
+            }, 1000);
           }
         }
       });
@@ -548,6 +566,7 @@ export default {
         this.goVote();
       });
       this.session.on("signal:goSaving", () => {
+        this.onLoadingImg();
         console.log("Start Saving");
         this.gosaving();
       });
