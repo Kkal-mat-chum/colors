@@ -176,6 +176,13 @@
         </div>
       </div>
     </div>
+    <div id="mainfooter">
+      <div class="s1_arrow">
+        <div class="scroll-arrow"></div>
+        <div class="scroll-arrow"></div>
+        <div class="scroll-arrow"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -467,7 +474,7 @@ li {
 }
 .selectBox .mc8 {
   width: 240px;
-  bottom: 150px;
+  bottom: 90px;
   height: 200px;
   right: 240px;
 }
@@ -475,7 +482,7 @@ li {
   width: 240px;
   bottom: 150px;
   height: 200px;
-  right: 70px;
+  right: 50px;
 }
 .selectBox .mc10 {
   width: 240px;
@@ -608,5 +615,96 @@ sup {
   width: 280px;
   height: 170px;
   right: 100px;
+}
+#mainfooter {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  height: 100px;
+  width: 100%;
+  background: linear-gradient(to top, #434361dc, #ffffff00);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.footerLabel {
+  font-size: 20px;
+  display: inline-block;
+  /* margin-bottom: 15px; */
+}
+.blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+body {
+  background: #000;
+  text-align: center;
+}
+.s1_arrow {
+  display: inline-block;
+  position: relative;
+  top: 20px;
+  margin-left: -10px;
+  text-align: center;
+  animation: arrow_down 1.5s infinite;
+  margin-bottom: 100px;
+}
+.scroll-arrow {
+  width: 30px;
+  height: 30px;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  animation: arrow-wave 1s infinite;
+  animation-direction: alternate;
+}
+.scroll-arrow:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.scroll-arrow:nth-child(2) {
+  margin-top: 6px;
+  animation-delay: 0.2s;
+}
+.scroll-arrow:nth-child(3) {
+  margin-top: 6px;
+  animation-delay: 0.3s;
+}
+@keyframes arrow-wave {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes arrow_down {
+  0% {
+    top: 28px;
+  }
+  50% {
+    top: 40px;
+  }
+  100% {
+    top: 28px;
+  }
 }
 </style>
