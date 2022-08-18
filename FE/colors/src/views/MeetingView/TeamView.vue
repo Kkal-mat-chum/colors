@@ -194,7 +194,7 @@ export default {
       next();
       setTimeout(() => {
         this.$router.go();
-      }, 500);
+      }, 800);
     }, 100);
   },
   methods: {
