@@ -162,13 +162,14 @@ export default {
 .tournamentResultBody {
   display: block;
   justify-content: center;
-  margin: 0 15% 0 15%;
+  margin: 0 15% 0 18%;
+  width: 1100px;
 }
 .mainPicture {
   margin-top: 4%;
 }
 .picture1 {
-  width: 250px;
+  width: 200px;
   height: 100px;
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
 }

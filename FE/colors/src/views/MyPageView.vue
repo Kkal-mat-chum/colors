@@ -412,7 +412,7 @@ export default {
 /*모달 스타일 */
 #updateUserInfoModal {
   width: 100%;
-  height: 150%;
+  height: 160%;
   display: flex;
   justify-content: center;
   margin-top: -4%;
