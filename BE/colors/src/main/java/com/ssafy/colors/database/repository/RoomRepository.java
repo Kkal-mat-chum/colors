@@ -50,4 +50,13 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                     "                   where `user_id` = :userId)\n" +
                     "and r1.cdate = r2.maxdate and r1.room_type = r2.room_type;")
     public List<Room> getRecentMeetingInfo(@Param("userId") long userId);
+
+    @Query(nativeQuery = true,
+            value = "select r.* \n" +
+                    "from room  r\n" +
+                    "where r.id in (   select distinct `room_id` \n" +
+                    "                   from `meeting_result` \n" +
+                    "                   where `user_id` = :userId);")
+    public List<Room> getMeetingInfo(@Param("userId") long userId);
+
 }

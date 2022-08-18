@@ -21,13 +21,19 @@
     <div class="gridColorVote3">
       <customButton class="completeBtnColorVote" id="completeBtnColorVote" v-if="nextBtnShow" btnText="선택 완료" @click="finishRound">선택 완료</customButton>
     </div>
+    <loadingImg v-if="show_loadingimg_colorVote" :loadingText="loadingText" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import swal from "sweetalert";
+import loadingImg from "../../components/Voting/loadingImg.vue";
+
 export default {
+  component: {
+    loadingImg,
+  },
   data() {
     return {
       nowSelected: "", //개별 화면에서 실시간으로 선택하고 있는 색상코드
@@ -42,6 +48,8 @@ export default {
       customBorderColor6: "#d0d1ff",
       customBorderColor7: "#d0d1ff",
       // addData: "",
+      show_loadingimg_colorVote: true,
+      loadingText: "선택을 불러오는 중 입니다",
     };
   },
   computed: {
@@ -149,10 +157,23 @@ export default {
       this.nextRound();
     },
   },
-  mounted() {
-    this.getResult(); //미팅 결과 가져오기
+  beforecreated() {
+    this.onLoadingImg();
+    console.log("로딩창 켬");
+    console.log(this.show_loadingimg_colorVote);
+    setTimeout(() => {
+      this.getResult(); //미팅 결과 가져오기
+      this.offLoadingImg();
+      this.$emit("startTime");
+    }, 15000);
   },
   methods: {
+    onLoadingImg() {
+      this.show_loadingimg_colorVote = true;
+    },
+    offLoadingImg() {
+      this.show_loadingimg_colorVote = false;
+    },
     //미팅 결과 가져오기, store에 저장
     getResult() {
       console.log(sessionStorage.getItem("roomId"));
@@ -161,8 +182,11 @@ export default {
           roomid: sessionStorage.getItem("roomId"),
         })
         .then((response) => {
-          this.$store.state.resultStore.data = response.data.data;
-          this.$store.state.resultStore.cnt = response.data.cnt;
+          this.$store.state.resultStore.aloneResult = response.data;
+          this.$store.state.resultStore.data = response.data;
+          this.$store.state.resultStore.cnt = response.data.length;
+          this.$store.state.selectedColorLst = response.data.data[0].colors;
+          this.$store.state.aloneImageUrlLst = response.data.data[0].urls;
         });
     },
     //다음 라운드로 넘어가기
