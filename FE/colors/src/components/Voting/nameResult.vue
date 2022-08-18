@@ -160,8 +160,8 @@ export default {
     },
   },
   //컴포넌트가 만들어 질 때 투표 결과 가져오고 동기화
-  async created() {
-    await axios
+  created() {
+    axios
       .post(this.$store.state.baseurl + "room/vote/result", {
         roomid: sessionStorage.getItem("roomId"),
         userid: sessionStorage.getItem("memberId"),
@@ -194,6 +194,7 @@ export default {
           }
         }
       });
+    setTimeout(() => {}, 3000);
   },
   methods: {
     gotoEnterPage() {
