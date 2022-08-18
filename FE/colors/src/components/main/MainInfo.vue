@@ -52,10 +52,10 @@
                   <span>찾아보세요.</span>
                 </div>
               </div>
-              <img class="mockup mc1 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-              <img class="mockup mc2 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-              <img class="mockup mc3 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-              <img class="mockup mc4 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+              <img class="mockup mc1 aos-init aos-animate" src="../../assets/mainpage/main1alone.png" alt="" data-aos="fade-up" data-aos-delay="850" />
+              <img class="mockup mc2 aos-init aos-animate" src="../../assets/mainpage/main3team.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
+              <img class="mockup mc3 aos-init aos-animate" src="../../assets/mainpage/main2topic.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+              <img class="mockup mc4 aos-init aos-animate" src="../../assets/mainpage/main4mypage.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
             </div>
           </div>
         </div>
@@ -91,10 +91,10 @@
                   <li>사람들과 함께</li>
                   <li>어울리는 색상을 찾아보세요!</li>
                 </ul>
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-                <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainpage/topic1writing.png" alt="" data-aos="fade-up" data-aos-delay="850" id="tp1" />
+                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainpage/topic2suggest.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" id="tp2" />
+                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainpage/topic3top10.png" alt="" data-aos="fade-up-right" data-aos-delay="700" id="tp3" />
+                <!-- <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" /> -->
               </div>
             </div>
           </div>
@@ -130,10 +130,10 @@
                   <li>토픽별로 상황에 맞는 색깔을 찾아보세요!</li>
                   <li>개인 또는 친구들과 함께 즐겨보세요!</li>
                 </ul>
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-                <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainpage/meeting1team.png" alt="" data-aos="fade-up" data-aos-delay="850" id="mr1" />
+                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainpage/meeting2tournament.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" id="mr2" />
+                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainpage/meeting3alone.png" alt="" data-aos="fade-up-right" data-aos-delay="700" id="mr3" />
+                <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainpage/meeting4voting.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" id="mr4" />
               </div>
             </div>
           </div>
@@ -166,14 +166,21 @@
                   <li>토픽 미팅룸에서 최근 1등, 저장한 색깔을 볼 수 있습니다.</li>
                   <li>어떤 토픽에 어울렸던 색깔인지 알아 볼 수 있습니다.</li>
                 </ul>
-                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
-                <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainpage/mypage1hovering.png" alt="" data-aos="fade-up" data-aos-delay="850" id="myp1" />
+                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainpage/mypage2userinfo.png" alt="" data-aos="fade-up-right" data-aos-delay="1000" id="myp2" />
+                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainpage/mypage3pallets.png" alt="" data-aos="fade-up-left" data-aos-delay="700" id="myp3" />
+                <!-- <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" /> -->
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div id="mainfooter">
+      <div class="s1_arrow">
+        <div class="scroll-arrow"></div>
+        <div class="scroll-arrow"></div>
+        <div class="scroll-arrow"></div>
       </div>
     </div>
   </div>
@@ -362,7 +369,7 @@ h4 {
 }
 .epiBox.ebMajorPr .mc1 {
   width: 240px;
-  top: 30px;
+  top: 50px;
   right: 230px;
   z-index: 2;
 }
@@ -377,18 +384,18 @@ img {
   transition-delay: 1.2s;
 }
 .epiBox.ebMajorPr .mc2 {
-  width: 240px;
+  width: 260px;
   top: 140px;
-  right: 90px;
+  right: 70px;
   z-index: 3;
 }
 [data-aos][data-aos][data-aos-delay="600"].aos-animate {
   transition-delay: 0.6s;
 }
 .epiBox.ebMajorPr .mc3 {
-  width: 240px;
-  top: 180px;
-  right: 310px;
+  width: 260px;
+  top: 200px;
+  right: 325px;
   z-index: 1;
 }
 [data-aos][data-aos][data-aos-delay="1400"].aos-animate {
@@ -396,8 +403,8 @@ img {
 }
 .epiBox.ebMajorPr .mc4 {
   width: 240px;
-  top: 290px;
-  right: 120px;
+  top: 270px;
+  right: 100px;
   z-index: 4;
 }
 .selectBoxWrap {
@@ -467,7 +474,7 @@ li {
 }
 .selectBox .mc8 {
   width: 240px;
-  bottom: 150px;
+  bottom: 90px;
   height: 200px;
   right: 240px;
 }
@@ -475,7 +482,7 @@ li {
   width: 240px;
   bottom: 150px;
   height: 200px;
-  right: 70px;
+  right: 50px;
 }
 .selectBox .mc10 {
   width: 240px;
@@ -572,4 +579,148 @@ sup {
 /* .tablemargin {
   margin-top: 30px;
 } */
+#myp1 {
+  height: 130px;
+  right: 90px;
+  top: 50px;
+}
+#myp2 {
+  height: 300px;
+  width: 130px;
+  right: 300px;
+  top: 100px;
+}
+#myp3 {
+  height: 260px;
+  top: 155px;
+  right: 70px;
+  /* width: 170x; */
+}
+#mr1 {
+  width: 280px;
+  right: 120px;
+  top: 40px;
+}
+#mr2 {
+  width: 230px;
+  height: 150px;
+  right: 45px;
+  top: 135px;
+}
+#mr3 {
+  width: 220px;
+  height: 170px;
+  top: 160px;
+}
+#mr4 {
+  width: 280px;
+  height: 170px;
+  right: 100px;
+  top: 270px;
+}
+#tp1 {
+  top: 60px;
+  right: 120px;
+  height: 160px;
+  width: 220px;
+}
+#tp2 {
+  top: 170px;
+  height: 210px;
+}
+#tp3 {
+  top: 210px;
+  height: 220px;
+}
+#mainfooter {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  height: 100px;
+  width: 100%;
+  background: linear-gradient(to top, #434361dc, #ffffff00);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.footerLabel {
+  font-size: 20px;
+  display: inline-block;
+  /* margin-bottom: 15px; */
+}
+.blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+body {
+  background: #000;
+  text-align: center;
+}
+.s1_arrow {
+  display: inline-block;
+  position: relative;
+  top: 20px;
+  margin-left: -10px;
+  text-align: center;
+  animation: arrow_down 1.5s infinite;
+  margin-bottom: 100px;
+}
+.scroll-arrow {
+  width: 30px;
+  height: 30px;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  animation: arrow-wave 1s infinite;
+  animation-direction: alternate;
+}
+.scroll-arrow:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.scroll-arrow:nth-child(2) {
+  margin-top: 6px;
+  animation-delay: 0.2s;
+}
+.scroll-arrow:nth-child(3) {
+  margin-top: 6px;
+  animation-delay: 0.3s;
+}
+@keyframes arrow-wave {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes arrow_down {
+  0% {
+    top: 28px;
+  }
+  50% {
+    top: 40px;
+  }
+  100% {
+    top: 28px;
+  }
+}
 </style>

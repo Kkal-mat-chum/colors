@@ -14,7 +14,7 @@
       </div>
       <color-vote></color-vote>
     </div>
-    <loadingImg v-if="show_loadingimg" />
+    <loadingImg v-if="show_loadingimg" :loadingText="loadingText" />
   </div>
 </template>
 
@@ -35,6 +35,7 @@ export default {
     return {
       selectedLst: [],
       show_loadingimg: false,
+      loadingText: "결과를 불러오는 중 입니다",
     };
   },
   computed: {
@@ -45,7 +46,16 @@ export default {
       return this.$store.state.resultStore.voteRound;
     },
     sub_nickname() {
-      return this.$store.state.resultStore.data[this.vote_round - 1].nickname;
+      if (this.vote_round > this.cnt) {
+        return this.$store.state.resultStore.data[this.cnt - 1].nickname;
+      } else {
+        console.log(this.vote_round);
+        if (this.$store.state.resultStore.data[this.vote_round - 1].nickname) {
+          return this.$store.state.resultStore.data[this.vote_round - 1].nickname;
+        } else {
+          return "nothing";
+        }
+      }
     },
   },
   watch: {
@@ -55,20 +65,47 @@ export default {
       }
     },
   },
+  beforeCreate() {
+    console.log(sessionStorage.getItem("roomId"));
+    axios
+      .post(this.$store.state.baseurl + "room/getresult", {
+        roomid: sessionStorage.getItem("roomId"),
+      })
+      .then((response) => {
+        console.log(response);
+        this.$store.state.resultStore.aloneResult = response.data;
+        this.$store.state.resultStore.data = response.data.data;
+        this.$store.state.resultStore.cnt = response.data.data.length;
+        this.$store.state.selectedColorLst = response.data.data[0].colors;
+        this.$store.state.aloneImageUrlLst = response.data.data[0].urls;
+      });
+    setTimeout(() => {
+      console.log("RandomVoting Page Created");
+    }, 2000);
+  },
+  mounted() {
+    this.mySessionId = this.mySessionId + "vote";
+    // this.joinSession();
+    if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
+      this.ishost = true;
+    }
+    console.log(this.mySessionId);
+  },
+  beforeRouteLeave(to, from, next) {
+    // this.leaveSession();
+    sessionStorage.setItem("hostId", -1);
+    setTimeout(() => {
+      next();
+      // this.$router.go();
+    }, 100);
+  },
   methods: {
     loading3sec() {
+      this.vote_Round = this.cnt;
       this.onLoadingImg();
       //투표 결과 저장
       this.saveTeamVoteResult();
       console.log("로딩창 켬");
-      this.bringTotalResult();
-      setTimeout(() => {
-        this.offLoadingImg();
-        console.log("로딩창 끔");
-        // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
-        this.$router.push("/nickresult");
-        this.$router.go();
-      }, 3000);
     },
     onLoadingImg() {
       this.show_loadingimg = true;
@@ -87,11 +124,13 @@ export default {
         .then((response) => {
           if (response.data.message == "fail") {
             swal("투표 결과", "투표 결과를 저장하는데 실패하였습니다.", "error");
+          } else {
+            this.startSumVoteResult();
           }
         });
     },
     //각 투표 합산put -> 투표 결과 가져오기get
-    bringTotalResult() {
+    startSumVoteResult() {
       axios
         .put(this.$store.state.baseurl + "room/votesum", {
           roomid: sessionStorage.getItem("roomId"),
@@ -102,7 +141,16 @@ export default {
           } else {
             swal("투표 결과", "투표 결과를 합산하는데 실패하였습니다.", "error");
           }
+          this.move2Result();
         });
+    },
+    move2Result() {
+      setTimeout(() => {
+        this.offLoadingImg();
+        console.log("로딩창 끔");
+        // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
+        this.$router.push("/nameresult");
+      }, 4000);
     },
   },
 };

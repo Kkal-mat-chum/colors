@@ -5,7 +5,7 @@
       <img :src="top1url" :alt="top1url" class="picture1" />
       <div class="colorMatchName">
         <div class="codeNum" :style="customFontColorMypickTop1" id="top1color">{{ top1color }}</div>
-        <div :style="customFontColorMypickTop1" id="top1color">색상 이름</div>
+        <div :style="customFontColorMypickTop1" id="top1color">{{ colorname }}</div>
       </div>
     </div>
     <div class="myPick">
@@ -48,7 +48,6 @@
     <div class="cancelButton">
       <custom-button id="buttonStyle" @click="gotoEnterPage" btnText="닫 기"></custom-button>
     </div>
-    <name-colors>#ffffff</name-colors>
     <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
   </div>
 </template>
@@ -56,6 +55,8 @@
 <script>
 import axios from "axios";
 import customButton from "../common/customButton.vue";
+import namedColors from "color-name-list";
+import nearestColor from "nearest-color";
 import swal from "sweetalert";
 
 export default {
@@ -79,6 +80,20 @@ export default {
         "--fontcolor-mypick": this.mypickcolor,
         "--fontcolor-top1": this.top1color,
       };
+    },
+    colorname() {
+      try {
+        var colorname = this.top1color.toLowerCase();
+        console.log(colorname);
+        let colors = namedColors.reduce((o, { name, hex }) => Object.assign(o, { [name]: hex }), {});
+        const nearest = nearestColor.from(colors);
+        // get closest named color
+
+        return nearest(colorname).name;
+      } catch (error) {
+        console.log(error);
+        return "";
+      }
     },
     customVoterCodeColor() {
       if (this.$store.state.resultStore.cnt == 2) {
@@ -134,8 +149,8 @@ export default {
     },
   },
   //투표 결과 가져오기
-  async created() {
-    await axios
+  created() {
+    axios
       .post(this.$store.state.baseurl + "room/vote/result", {
         roomid: sessionStorage.getItem("roomCode"),
         userid: sessionStorage.getItem("memberId"),
@@ -159,6 +174,7 @@ export default {
           this.top1color = response.data.top1.code;
         }
       });
+    setTimeout(() => {}, 2000);
   },
   methods: {
     gotoEnterPage() {

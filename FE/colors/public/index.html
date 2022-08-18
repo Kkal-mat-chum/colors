@@ -20,15 +20,16 @@
     <div id="app"></div>
     <div id="topBtn">TOP</div>
     <!-- built files will be auto injected -->
-    <img alt="" src="https://www.baemin.com/_next/static/images/scroll@2x.png" class="Imagestyles__Image-sc-1lspwob-0 cBvFeG">
   </body>
   <script>
     $(document).ready(function () {
       $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
           $("#topBtn").fadeIn();
+          $("#mainfooter").fadeOut();
         } else {
           $("#topBtn").fadeOut();
+          $("#mainfooter").fadeIn();
         }
       });
 
@@ -64,19 +65,50 @@
     #topBtn:hover {
       background-color: #6667ab; /*마우스 올렸을 때 버튼 색상*/
     }
+    #mainfooter {
+      position: fixed;
+      left: 0px;
+      bottom: 0px;
+      height: 100px;
+      width: 100%;
+      background: linear-gradient(to top, #434361dc, #ffffff00);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .footerLabel {
+      font-size: 20px;
+      display: inline-block;
+      /* margin-bottom: 15px; */
+    }
     .blink {
-        animation: blink-animation 1s steps(5, start) infinite;
-        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+      animation: blink-animation 1s steps(5, start) infinite;
+      -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    }
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
       }
-      @keyframes blink-animation {
-        to {
-          visibility: hidden;
-        }
+    }
+    @-webkit-keyframes blink-animation {
+      to {
+        visibility: hidden;
       }
-      @-webkit-keyframes blink-animation {
-        to {
-          visibility: hidden;
-        }
-      }
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #6667ab;
+      border-radius: 10px;
+      box-shadow: inset 0px 0px 1px white;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: #d0d1ff;
+      border-radius: 10px;
+      box-shadow: inset 0px 0px 5px white;
+    }
   </style>
 </html>
