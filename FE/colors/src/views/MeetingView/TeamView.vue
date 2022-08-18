@@ -359,12 +359,11 @@ export default {
             console.log(colorsetResult);
             axios.post(this.$store.state.baseurl + "room/result", colorsetResult).then((response) => {
               console.log(response);
+              this.doneSaving();
             });
           }
         }
       );
-
-      this.doneSaving();
     },
 
     goVote() {
