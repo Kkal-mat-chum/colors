@@ -16,7 +16,7 @@ import java.util.List;
 public interface MeetingResultRepository extends JpaRepository<MeetingResult, Long> {
     public List<MeetingResult> findByRoomOrderByMember(Room room);
 
-    public MeetingResult findByRoomAndMemberAndTop1(Room room, Member member, boolean b);
+    public List<MeetingResult> findByRoomAndMemberAndTop1(Room room, Member member, boolean b);
 
     public List<MeetingResult> findByRoomAndMember(Room room, Member member);
 
