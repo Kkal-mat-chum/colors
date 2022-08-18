@@ -10,9 +10,6 @@
         <source src="@/assets/videos/main-video-01.mp4" type="video/mp4" />
         <strong>Your browser does not support the video tag.</strong>
       </video>
-      <div class="jb-text">
-        <p>깔 맞 춤</p>
-      </div>
     </div>
     <main-info></main-info>
   </div>
@@ -49,26 +46,31 @@ export default {
 }
 header {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 0px;
+  left: 0px;
   right: 0;
   height: 10px;
   padding: 1rem;
   z-index: 100;
-  color: white;
+  color: #a8a8bf68;
   font-weight: bold;
   display: flex;
   /* justify-content: space-between; */
   align-items: center;
   font-family: "Pretendard";
   flex-direction: row;
+  background-color: #d0d1ffcc;
 }
 .jb-box {
-  width: 100%;
+  width: 99.3%;
   height: 100vh;
   overflow: hidden;
-  margin: 0px auto;
+  margin: 0px 0px 0px 0px;
   position: relative;
+  border-width: 5px;
+  border-color: #6667ab;
+  border-style: solid;
+  border-radius: 5px;
 }
 video {
   width: 100%;
