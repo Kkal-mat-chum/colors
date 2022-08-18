@@ -363,7 +363,7 @@ export default {
       );
       setTimeout(() => {
         this.$router.push("/teamVoting");
-      }, 15000);
+      }, 10000);
       // this.$router.go();
     },
 
@@ -626,14 +626,13 @@ export default {
     leaveSession() {
       // --- Leave the session by calling 'disconnect' method over the Session object --->
       if (this.session) {
-        this.participantUpdate(this.mySessionId).then(() => {
-          if (this.numberOFparti == 6) {
-            this.$store.dispatch("leaveSession", this.mySessionId);
-          } else if (this.numberOFparti == 1) {
-            this.start();
-          }
-          this.session.disconnect();
-        });
+        this.participantUpdate(this.mySessionId);
+        if (this.numberOFparti == 6) {
+          this.$store.dispatch("leaveSession", this.mySessionId);
+        } else if (this.numberOFparti == 1) {
+          this.start();
+        }
+        this.session.disconnect();
         this.session = undefined;
         this.mainStreamManager = undefined;
         this.publisher = undefined;
