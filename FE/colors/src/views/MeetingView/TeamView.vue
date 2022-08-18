@@ -192,7 +192,7 @@ export default {
     sessionStorage.setItem("hostId", -1);
     setTimeout(() => {
       next();
-      this.$router.go();
+      // this.$router.go();
     }, 100);
   },
   methods: {
