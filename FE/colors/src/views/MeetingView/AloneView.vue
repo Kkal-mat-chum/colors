@@ -428,7 +428,7 @@ body {
 }
 
 .votebtn {
-  margin-top: 100px;
+  margin-top: 60px;
   width: 200px;
 }
 .exitbtn {

@@ -399,17 +399,28 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Map<String, Object>> getMyPageColorInfo(long userId) {
+        boolean single = false;
+        boolean group = false;
+        boolean random = false;
+
         try {
-            List<Room> roomList = roomRepository.getRecentMeetingInfo(userId);
+//          List<Room> roomList = roomRepository.getRecentMeetingInfo(userId);
+            List<Room> roomList = roomRepository.getMeetingInfo(userId);
             Member member = memberRepository.findById(userId).get();
             List<Map<String, Object>> unitArr = new ArrayList<>();
-
-            for (int i = 0; i < roomList.size(); i++) {
+            System.out.println("roomList = " + roomList);
+            for (int i = roomList.size() - 1; i > 0; i--) {
+                if (single && group && random)
+                    break;
                 Room room = roomList.get(i);
                 MeetingResult top1 = null;
                 RoomType roomType = room.getRoomType();
-
+                if ((roomType == RoomType.GROUP && group) || (roomType == RoomType.RANDOM && random) || (roomType == RoomType.SINGLE && single))
+                    continue;
                 List<MeetingResult> meetingResultList = meetingResultRepository.findByRoomAndMember(room, member);
+                if (meetingResultList.isEmpty()) {
+                    continue;
+                }
                 List<String> urls = new ArrayList<>();
                 List<String> colorCodes = new ArrayList<>();
 
@@ -419,7 +430,16 @@ public class RoomServiceImpl implements RoomService {
                     colorCodes.add(meetingResult.getColorCode());
                     if (meetingResult.isTop1()) top1 = meetingResult;
                 }
-
+                if (top1 == null) {
+                    continue;
+                }
+                if (roomType == RoomType.GROUP) {
+                    group = true;
+                } else if (roomType == RoomType.SINGLE) {
+                    single = true;
+                } else {
+                    random = true;
+                }
                 Map<String, Object> unit = new HashMap<>();
                 unit.put("roomtype", roomType.toString().toLowerCase());
                 unit.put("url", urls);
@@ -435,4 +455,5 @@ public class RoomServiceImpl implements RoomService {
             return null;
         }
     }
+
 }

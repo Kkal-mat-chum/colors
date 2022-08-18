@@ -63,7 +63,7 @@
               <div class="info">
                 <p>랜덤</p>
                 <div>
-                  <p class="randomInfo">면접 복장으로 어느 색이 잘 어울릴까요?</p>
+                  <p class="randomInfo">{{ randomTopicTitle }}</p>
                 </div>
               </div>
               <div class="colormark">
@@ -107,6 +107,7 @@ export default {
     return {
       showModal: false,
       showImgModal: false,
+      randomTopicTitle: "This is default",
       // hoveringColor: this.$store.state.hoveringColor,
     };
   },
@@ -164,7 +165,7 @@ export default {
         .then((response) => {
           //roomtype에 맞게 store에 정보 저장
           var i = 0;
-          for (i = 0; i < 3; i++) {
+          for (i = 0; i < response.data.data.length; i++) {
             if (response.data.data[i].roomtype == "single") {
               this.$store.state.aloneColorLst = response.data.data[i].code;
               this.$store.state.aloneTop1 = response.data.data[i].top1.code;
@@ -174,6 +175,7 @@ export default {
             } else if (response.data.data[i].roomtype == "random") {
               this.$store.state.randomColorLst = response.data.data[i].code;
               this.$store.state.randomTop1 = response.data.data[i].top1.code;
+              this.randomTopicTitle = response.data.data[i].title;
             } else {
               break;
             }
@@ -410,7 +412,7 @@ export default {
 /*모달 스타일 */
 #updateUserInfoModal {
   width: 100%;
-  height: 150%;
+  height: 160%;
   display: flex;
   justify-content: center;
   margin-top: -4%;
