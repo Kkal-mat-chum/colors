@@ -97,11 +97,13 @@ const routes = [
   {
     path: "/nameresult",
     name: "nameResult",
+    meta: { authRequired: true },
     component: () => import("@/components/Voting/nameResult.vue"),
   },
   {
     path: "/nickresult",
     name: "nickResult",
+    meta: { authRequired: true },
     component: () => import("@/components/Voting/nickResult.vue"),
   },
   {

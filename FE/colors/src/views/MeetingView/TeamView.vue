@@ -167,7 +167,7 @@ export default {
     console.log(this.subscribers);
     if (sessionStorage.getItem("hostId") == sessionStorage.getItem("memberId")) {
       this.ishost = true;
-      swal("호스트 공지사항", '참여자들의 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 시작을 눌러야 미팅 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
+      swal("호스트 공지사항", '참여자 입장이 완료되면 반드시 "시작" 버튼을 눌려주세요. \n 미팅 진행 중 다른 참여자들의 입장을 막을 수 있습니다.', "info");
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -798,10 +798,10 @@ body {
 }
 .rightSidebar {
   height: 96%;
-  padding-bottom: 40px;
+  padding-bottom: 25px;
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
   text-align: center;
-  width: 36vh;
+  width: 40vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -811,9 +811,6 @@ body {
   width: 37vh;
   /* height: 99%; */
   box-shadow: 5px 1px 40px rgba(168, 168, 168, 0.4);
-}
-.title {
-  margin-left: 5vh;
 }
 .title h3 {
   display: flex;
@@ -843,7 +840,7 @@ body {
 }
 
 .selectColorbtn {
-  width: 200px;
+  width: 180px;
   margin-top: 10px;
 }
 
@@ -852,7 +849,7 @@ body {
 }
 
 .btn {
-  width: 200px;
+  width: 190px;
   margin-top: 7px;
 }
 /* our */
