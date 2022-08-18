@@ -183,7 +183,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     this.leaveSession();
-    // sessionStorage.setItem("hostId", -1);
+    sessionStorage.setItem("hostId", -1);
     setTimeout(() => {
       next();
       this.$router.go();
@@ -300,7 +300,7 @@ export default {
       }
     },
 
-    async gosaving() {
+    gosaving() {
       this.$store.state.resultStore.cnt = this.numberOFparti;
       var awsid = this.awsid;
       var userid = sessionStorage.getItem("userId");
@@ -327,7 +327,7 @@ export default {
 
       console.log(photoKey);
 
-      await s3.listObjects(
+      s3.listObjects(
         {
           Delimiter: "/",
           Prefix: photoKey,
@@ -896,7 +896,5 @@ body {
 }
 .br {
   margin: 10px;
-}
-.startInfoModal {
 }
 </style>
