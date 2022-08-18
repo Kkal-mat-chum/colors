@@ -194,7 +194,7 @@ export default {
           }
         }
       });
-    setTimeout(() => {}, 3000);
+    setTimeout(() => {}, 2000);
   },
   methods: {
     gotoEnterPage() {

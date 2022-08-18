@@ -13,11 +13,11 @@ import UserVideo from "./UserVideo";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-// const OPENVIDU_SERVER_URL = "https://" + "i7b208.p.ssafy.io";
-// const OPENVIDU_SERVER_SECRET = "i7b208";
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":40001";
+const OPENVIDU_SERVER_SECRET = "i7b208";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
   name: "App",

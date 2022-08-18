@@ -45,6 +45,9 @@ export default new Vuex.Store({
     CLEAN_VIDEOS(state) {
       state.viedos = [];
     },
+    CLEAN_PALLETE(state) {
+      state.selectedColorLst = [];
+    },
   },
   actions: {},
   modules: {

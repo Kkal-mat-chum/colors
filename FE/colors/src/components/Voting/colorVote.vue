@@ -79,56 +79,56 @@ export default {
     },
     imgUrl0() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[0];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[0];
       }
     },
     imgUrl1() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[1];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[1];
       }
     },
     imgUrl2() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[2];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[2];
       }
     },
     imgUrl3() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[3];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[3];
       }
     },
     imgUrl4() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[4];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[4];
       }
     },
     imgUrl5() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[5];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[5];
       }
     },
     imgUrl6() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[6];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[6];
       }
     },
     imgUrl7() {
       if (this.loadOrNot) {
-        return "Not a Url";
+        return this.$store.state.resultStore.data[this.$store.state.resultStore.cnt - 1].urls[7];
       } else {
         return this.$store.state.resultStore.data[this.$store.state.resultStore.voteRound - 1].urls[7];
       }
