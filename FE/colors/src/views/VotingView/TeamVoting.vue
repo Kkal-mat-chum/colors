@@ -92,7 +92,7 @@ export default {
       });
     setTimeout(() => {
       console.log("TeamVoting Page Created");
-    }, 2000);
+    }, 500);
   },
   mounted() {
     this.mySessionId = this.mySessionId + "vote";
@@ -101,10 +101,6 @@ export default {
       this.ishost = true;
     }
     console.log(this.mySessionId);
-  },
-  beforeRouteEnter(to, from, next) {
-    this.$router.go();
-    next();
   },
   beforeRouteLeave(to, from, next) {
     // this.leaveSession();
