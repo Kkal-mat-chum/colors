@@ -91,9 +91,9 @@
                   <li>사람들과 함께</li>
                   <li>어울리는 색상을 찾아보세요!</li>
                 </ul>
-                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainpage/topic1writing.png" alt="" data-aos="fade-up" data-aos-delay="850" />
-                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainpage/topic2suggest.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" />
-                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainpage/topic3top10.png" alt="" data-aos="fade-up-right" data-aos-delay="700" />
+                <img class="mockup mc7 aos-init aos-animate" src="../../assets/mainpage/topic1writing.png" alt="" data-aos="fade-up" data-aos-delay="850" id="tp1" />
+                <img class="mockup mc8 aos-init aos-animate" src="../../assets/mainpage/topic2suggest.png" alt="" data-aos="fade-up-left" data-aos-delay="1000" id="tp2" />
+                <img class="mockup mc9 aos-init aos-animate" src="../../assets/mainpage/topic3top10.png" alt="" data-aos="fade-up-right" data-aos-delay="700" id="tp3" />
                 <!-- <img class="mockup mc10 aos-init aos-animate" src="../../assets/mainLogo.png" alt="" data-aos="fade-up-right" data-aos-delay="1150" /> -->
               </div>
             </div>
@@ -592,21 +592,37 @@ sup {
 #mr1 {
   width: 280px;
   right: 120px;
+  top: 40px;
 }
 #mr2 {
   width: 230px;
   height: 150px;
-  right: 50px;
-  top: 145px;
+  right: 45px;
+  top: 135px;
 }
 #mr3 {
   width: 220px;
   height: 170px;
-  top: 170px;
+  top: 160px;
 }
 #mr4 {
   width: 280px;
   height: 170px;
   right: 100px;
+  top: 270px;
+}
+#tp1 {
+  top: 60px;
+  right: 120px;
+  height: 160px;
+  width: 220px;
+}
+#tp2 {
+  top: 170px;
+  height: 210px;
+}
+#tp3 {
+  top: 210px;
+  height: 220px;
 }
 </style>
