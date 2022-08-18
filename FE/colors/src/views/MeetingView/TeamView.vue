@@ -385,7 +385,7 @@ export default {
         if (this.$store.state.meetingStore.roomType == "group") {
           this.$router.push("/teamVoting");
         } else if (this.$store.state.meetingStore.roomType == "random") {
-          this.$router.push("/teamVoting");
+          this.$router.push("/randomVoting");
         }
       }, 4000);
     },
