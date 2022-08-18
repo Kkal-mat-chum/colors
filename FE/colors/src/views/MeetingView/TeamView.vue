@@ -75,11 +75,11 @@ import swal from "sweetalert";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":40001";
-const OPENVIDU_SERVER_SECRET = "i7b208";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":40001";
+// const OPENVIDU_SERVER_SECRET = "i7b208";
 
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 export default {
   name: "TeamMeeting",
@@ -191,10 +191,7 @@ export default {
     this.leaveSession();
     sessionStorage.setItem("hostId", -1);
     setTimeout(() => {
-      next();
-      setTimeout(() => {
-        this.$router.go();
-      }, 800);
+      next().then(() => this.$router.go());
     }, 100);
   },
   methods: {
