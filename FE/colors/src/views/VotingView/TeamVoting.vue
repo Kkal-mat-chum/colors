@@ -90,7 +90,7 @@ export default {
         this.$store.state.selectedColorLst = response.data.data[0].colors;
         this.$store.state.aloneImageUrlLst = response.data.data[0].urls;
       });
-    setTimeout(() => {}, 1000);
+    setTimeout(() => {}, 5000);
   },
   methods: {
     timeStampOn() {
@@ -103,7 +103,6 @@ export default {
       this.saveTeamVoteResult();
       console.log("로딩창 켬");
       console.log(this.show_loadingimg);
-      this.startSumVoteResult();
       setTimeout(() => {
         this.offLoadingImg();
         console.log("로딩창 끔");
@@ -118,9 +117,9 @@ export default {
       this.show_loadingimg = false;
     },
     //단체 투표 결과 저장
-    saveTeamVoteResult() {
+    async saveTeamVoteResult() {
       console.log(this.$store.state.resultStore.voteContent);
-      axios
+      await axios
         .post(this.$store.state.baseurl + "room/vote", {
           roomid: sessionStorage.getItem("roomId"),
           voterid: sessionStorage.getItem("memberId"),
@@ -131,6 +130,8 @@ export default {
           if (response.data.message == "fail") {
             console.log(this.$store.state.resultStore.voteContent);
             swal("투표 결과", "투표 결과를 저장하는데 실패하였습니다.", "error");
+          } else {
+            this.startSumVoteResult();
           }
         });
     },
