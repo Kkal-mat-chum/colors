@@ -1,61 +1,65 @@
 <template>
   <div class="resultBody">
-    <h1 class="title">{{ userName }} 님과 가장 잘 어울리는 색상은?</h1>
-    <div class="mainResult">
-      <img :src="top1url" :alt="top1url" class="picture1" />
-      <div class="colorMatchName">
-        <div class="codeNum" :style="customFontColorMypickTop1" id="top1color">{{ top1color }}</div>
-        <div :style="customFontColorMypickTop1" id="top1color">{{ colorname }}</div>
+    <div class="voteBody">
+      <div class="titlediv">
+        <h1 class="title">{{ userName }} 님과 가장 잘 어울리는 색상은?</h1>
       </div>
-    </div>
-    <div class="myPick">
-      <img :src="mypickurl" :alt="mypickurl" class="picture2" />
-      <div class="myColorPick">
-        <div class="myPickName">{{ userName }}님의 픽</div>
-        <div class="myPickCode" :style="customFontColorMypickTop1" id="mypickColor">{{ mypickcolor }}</div>
+      <div class="mainResult">
+        <img :src="top1url" :alt="top1url" class="picture1" />
+        <div class="colorMatchName">
+          <div class="codeNum" :style="customFontColorMypickTop1" id="top1color">{{ top1color }}</div>
+          <div :style="customFontColorMypickTop1" id="top1color">{{ colorname }}</div>
+        </div>
       </div>
-    </div>
-    <div class="otherPickTitle" v-if="showResult[0]">
-      <div class="otherTitle">참여자들이 추천한 색상</div>
-    </div>
-    <div class="otherPick">
-      <div v-if="showResult[0]">
-        <img :src="voteLst[0].url" :alt="voteLst[0].url" class="picture3" />
-        <div class="otherName">{{ voteLst[0].voter }}</div>
-        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[0].code }}</div>
+      <div class="myPick">
+        <img :src="mypickurl" :alt="mypickurl" class="picture2" />
+        <div class="myColorPick">
+          <div class="myPickName">{{ userName }}님의 픽</div>
+          <div class="myPickCode" :style="customFontColorMypickTop1" id="mypickColor">{{ mypickcolor }}</div>
+        </div>
       </div>
-      <div v-if="showResult[1]">
-        <img :src="voteLst[1].url" :alt="voteLst[1].url" class="picture3" />
-        <div class="otherName">{{ voteLst[1].voter }}</div>
-        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[1].code }}</div>
+      <div class="otherPickTitle" v-if="showResult[0]">
+        <div class="otherTitle">참여자들이 추천한 색상</div>
       </div>
-      <div v-if="showResult[2]">
-        <img :src="voteLst[2].url" :alt="voteLst[2].url" class="picture3" />
-        <div class="otherName">{{ voteLst[2].voter }}</div>
-        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[2].code }}</div>
-      </div>
-      <div v-if="showResult[3]">
-        <img :src="voteLst[3].url" :alt="voteLst[3].url" class="picture3" />
-        <div class="otherName">{{ voteLst[3].voter }}</div>
-        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[3].code }}</div>
-      </div>
-      <div v-if="showResult[4]">
-        <img :src="voteLst[4].url" :alt="voteLst[4].url" class="picture3" />
-        <div class="otherName">{{ voteLst[4].voter }}</div>
-        <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[4].code }}</div>
-      </div>
-      <!-- <div class="otherPick">
+      <div class="otherPick">
+        <div v-if="showResult[0]">
+          <img :src="voteLst[0].url" :alt="voteLst[0].url" class="picture3" />
+          <div class="otherName">{{ voteLst[0].voter }}</div>
+          <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[0].code }}</div>
+        </div>
+        <div v-if="showResult[1]">
+          <img :src="voteLst[1].url" :alt="voteLst[1].url" class="picture3" />
+          <div class="otherName">{{ voteLst[1].voter }}</div>
+          <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[1].code }}</div>
+        </div>
+        <div v-if="showResult[2]">
+          <img :src="voteLst[2].url" :alt="voteLst[2].url" class="picture3" />
+          <div class="otherName">{{ voteLst[2].voter }}</div>
+          <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[2].code }}</div>
+        </div>
+        <div v-if="showResult[3]">
+          <img :src="voteLst[3].url" :alt="voteLst[3].url" class="picture3" />
+          <div class="otherName">{{ voteLst[3].voter }}</div>
+          <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[3].code }}</div>
+        </div>
+        <div v-if="showResult[4]">
+          <img :src="voteLst[4].url" :alt="voteLst[4].url" class="picture3" />
+          <div class="otherName">{{ voteLst[4].voter }}</div>
+          <div class="otherCode" :style="customVoterCodeColor" id="customeVoterCode1">{{ voteLst[4].code }}</div>
+        </div>
+        <!-- <div class="otherPick">
       <div v-for="(voteData, index) in voteLst" :key="index" :voteName="voteData.voter" :voteImgUrl="voteData.url" :voteColor="voteData.code">
         <img :src="voteImgUrl" :alt="voteImgUrl" class="picture3" />
         <div class="otherName">{{ voteName }}</div>
         <div class="otherCode">{{ voteColor }}</div>
       </div> -->
-      <!-- <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" /> -->
+        <!-- <img src="@/assets/join_img1.png" alt="예시사진" class="picture3" /> -->
+      </div>
+      <div class="cancelButton">
+        <custom-button id="buttonStyle" @click="gotoEnterPage" btnText="닫 기"></custom-button>
+      </div>
+      <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
     </div>
-    <div class="cancelButton">
-      <custom-button id="buttonStyle" @click="gotoEnterPage" btnText="닫 기"></custom-button>
-    </div>
-    <div class="ment">최근 색상 정보는 마이페이지에서 확인하실 수 있습니다.</div>
   </div>
 </template>
 
@@ -208,17 +212,24 @@ export default {
   font-style: normal;
   font-size: 36px;
   color: #4a4d74;
+  padding-top: 20px;
+  padding-bottom: 7px;
 }
 .resultBody {
   display: block;
   justify-content: center;
-  margin: 0 15% 0 15%;
+  margin: 3% 0 0 18%;
+  width: 1100px;
+}
+.voteBody {
+  margin: 0 15% 0 12%;
+  padding-bottom: calc(80 / 1100 * 100%);
 }
 .mainResult {
   display: flex;
   flex-direction: row;
   margin-top: 4%;
-  margin-left: 20%;
+  margin-left: 17%;
   width: 884px;
   height: 220px;
 }
@@ -237,14 +248,16 @@ export default {
 .picture1 {
   width: 250px;
   height: 150px;
+  border-radius: 10px;
+  filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
 }
 .colorMatchName {
-  width: 35%;
+  width: 40%;
   margin-top: 2%;
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 30px;
   line-height: 50px;
   color: #ffd5d1;
 }
@@ -258,25 +271,30 @@ export default {
 .myPick {
   display: flex;
   flex-direction: row;
-  margin-left: 30%;
-  margin-top: -4%;
+  margin-left: 25%;
+  margin-top: -3%;
+  margin-bottom: 2%;
 }
 .picture2 {
   width: 200px;
-  height: 100px;
+  height: 110px;
+  border-radius: 10px;
+  filter: drop-shadow(6px 6px 4px rgba(0, 0, 0, 0.25));
 }
 .picture3 {
   width: 150px;
   height: 80px;
+  border-radius: 10px;
 }
 .myColorPick {
-  margin-left: 5%;
+  margin-left: 7%;
+  margin-top: 15px;
 }
 .myPickCode {
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
-  font-size: 36px;
+  font-size: 30px;
   color: #ffd5d1;
   margin-left: 5%;
 }
@@ -290,21 +308,21 @@ export default {
 .otherName {
   font-family: "Pretendard";
   font-style: normal;
-  font-weight: 400;
-  font-size: 36px;
+  font-weight: 550;
+  font-size: 30px;
   color: #4a4d74;
 }
 .otherCode {
   font-family: "Pretendard";
   font-style: normal;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 20px;
   color: #b7b1ff;
 }
 .cancelButton {
   display: flex;
   flex-direction: row-reverse;
-  margin-right: 10%;
+  margin: 2% 10% 2% 0;
 }
 #buttonStyle {
   font-size: 15px;
@@ -321,6 +339,7 @@ export default {
   font-style: normal;
   margin-right: 10%;
   margin-top: 1%;
+  margin-bottom: 1%;
   font-weight: 400;
   font-size: 15px;
   color: #aaaabc;
