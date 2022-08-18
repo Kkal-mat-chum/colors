@@ -39,7 +39,7 @@
           <customButton class="btn" btnText="채팅" @click="toggleChatPanel"></customButton>
           <!-- <customButton class="btn" btnText="투표하기" @click="goVote"></customButton> -->
           <customButton class="btn" :class="{ muteActive: !ready }" btnText="투표하기" @click="sendVote"></customButton>
-          <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startVote"></customButton>
+          <customButton class="btn" btnText="투표 시작" v-if="ishostCopy & readyAll" @click="startSaving"></customButton>
           <customButton class="btn" btnText="시작" v-if="ishost" @click="start"></customButton>
           <customButton class="btn" btnText="종료" v-if="!ishost" @click="leaveMeeting"></customButton>
           <custom-modal class="startInfoModal" id="startInfoModal" v-show="showstartModal" @close-modal="showstartModal = false" titleText="호스트 공지사항">
@@ -146,6 +146,8 @@ export default {
       numberOFparti: this.participantUpdate(this.mySessionId),
       ishostCopy: false,
       isTrackChanged: false,
+      isSave: true,
+      savings: {},
     };
   },
   created() {
@@ -181,7 +183,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     this.leaveSession();
-    sessionStorage.setItem("hostId", -1);
+    // sessionStorage.setItem("hostId", -1);
     setTimeout(() => {
       next();
       this.$router.go();
@@ -298,7 +300,7 @@ export default {
       }
     },
 
-    goVote() {
+    async gosaving() {
       this.$store.state.resultStore.cnt = this.numberOFparti;
       var awsid = this.awsid;
       var userid = sessionStorage.getItem("userId");
@@ -325,7 +327,7 @@ export default {
 
       console.log(photoKey);
 
-      s3.listObjects(
+      await s3.listObjects(
         {
           Delimiter: "/",
           Prefix: photoKey,
@@ -361,12 +363,13 @@ export default {
           }
         }
       );
-      setTimeout(() => {
-        this.$router.push("/teamVoting");
-      }, 10000);
-      // this.$router.go();
+
+      this.doneSaving();
     },
 
+    goVote() {
+      this.$router.push("/teamVoting");
+    },
     dataURLtoFile(dataurl, fileName) {
       var arr = dataurl.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
@@ -423,9 +426,24 @@ export default {
       });
       this.ready = !vote;
     },
+    doneSaving() {
+      var saving = this.isSave;
+      this.session.signal({
+        type: "saving",
+        data: JSON.stringify(saving),
+        to: [],
+      });
+      this.isSave = !saving;
+    },
     startVote() {
       this.session.signal({
         type: "goVote",
+        to: [],
+      });
+    },
+    startSaving() {
+      this.session.signal({
+        type: "goSaving",
         to: [],
       });
     },
@@ -507,9 +525,29 @@ export default {
         }
       });
 
+      this.session.on("signal:saving", (event) => {
+        var savingData = JSON.parse(event.data);
+        var savingName = event.from.connectionId; // Connection object of the sender
+        console.log(event);
+        this.savings[savingName] = savingData;
+        var readyNumber = Object.values(this.savings).filter((readyCheck) => true == readyCheck).length;
+        if (readyNumber == this.numberOFparti) {
+          console.log("Every People Ready to saving");
+          console.log("asfdjjsjfslkjflkjsflkjalkjslkjasfd");
+          if (this.ishostCopy) {
+            this.startVote();
+          }
+        }
+      });
+
       // get signal for move to votePage
       this.session.on("signal:goVote", () => {
+        console.log("Start Vote");
         this.goVote();
+      });
+      this.session.on("signal:goSaving", () => {
+        console.log("Start Saving");
+        this.gosaving();
       });
 
       // get signal that my video is not palyed on subscriber's page
