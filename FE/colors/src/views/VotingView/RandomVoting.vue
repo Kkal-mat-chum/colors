@@ -149,7 +149,7 @@ export default {
         this.offLoadingImg();
         console.log("로딩창 끔");
         // 데이터 요청 보내고 받기@@@@@@@@@@@@@@@@@@@@@@
-        this.$router.push("/nameresult");
+        this.$router.push("/nickresult");
       }, 4000);
     },
   },
