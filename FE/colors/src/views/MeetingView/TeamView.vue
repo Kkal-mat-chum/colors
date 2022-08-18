@@ -298,7 +298,7 @@ export default {
       }
     },
 
-    goVote() {
+    async goVote() {
       this.$store.state.resultStore.cnt = this.numberOFparti;
       var awsid = this.awsid;
       var userid = sessionStorage.getItem("userId");
@@ -325,7 +325,7 @@ export default {
 
       console.log(photoKey);
 
-      s3.listObjects(
+      await s3.listObjects(
         {
           Delimiter: "/",
           Prefix: photoKey,
@@ -363,7 +363,7 @@ export default {
       );
       setTimeout(() => {
         this.$router.push("/teamVoting");
-      }, 10000);
+      }, 20000);
       // this.$router.go();
     },
 
