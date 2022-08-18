@@ -91,10 +91,6 @@ export default {
     }
     console.log(this.mySessionId);
   },
-  beforeRouteEnter(to, from, next) {
-    this.$router.go();
-    next();
-  },
   beforeRouteLeave(to, from, next) {
     // this.leaveSession();
     sessionStorage.setItem("hostId", -1);

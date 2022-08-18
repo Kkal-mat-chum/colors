@@ -12,7 +12,7 @@ export default {
   components: { CustomSidebar },
   computed: {
     isLogin() {
-      console.log("FE updated 220819 07:20");
+      console.log("FE updated 220819 08:30");
       return this.$store.getters.isLogin;
     },
   },

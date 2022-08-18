@@ -191,10 +191,7 @@ export default {
     this.leaveSession();
     sessionStorage.setItem("hostId", -1);
     setTimeout(() => {
-      next();
-      setTimeout(() => {
-        this.$router.go();
-      }, 800);
+      next().then(() => this.$router.go());
     }, 100);
   },
   methods: {
