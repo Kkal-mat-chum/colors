@@ -92,7 +92,7 @@ export default {
       });
     setTimeout(() => {
       console.log("TeamVoting Page Created");
-    }, 2000);
+    }, 500);
   },
   mounted() {
     this.mySessionId = this.mySessionId + "vote";
