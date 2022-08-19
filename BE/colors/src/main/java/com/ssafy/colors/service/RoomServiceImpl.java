@@ -192,45 +192,36 @@ public class RoomServiceImpl implements RoomService {
         Room room = roomRepository.findById(roomId).get();
 
         List<Member> memberList = meetingResultRepository.findDistinctMember(room);
-
+        for(Member m : memberList){
+            System.out.println("member = " + m);
+        }
         List<MeetingResult> resultList = meetingResultRepository.findByRoomOrderByMember(room);
-
+        for(MeetingResult m : resultList){
+            System.out.println("MeetingResult = " + m);
+        }
         if (!resultList.isEmpty()) {
             List<ResultRes> result = new ArrayList<>();
 
-            List<String> urls = new ArrayList<>();
-            List<String> codes = new ArrayList<>();
-            int mIdx = 0;
-            for (int i = 0; i < resultList.size(); i++) {
+            for(int i =0 ; i<memberList.size(); i++){
+                Member member = memberList.get(i);
+                result.add(
+                        new ResultRes(member.getId(), member.getUserId(),member.getName(),member.getNickname(),
+                                new ArrayList<String>(),new ArrayList<String>()));
+            }
+            for(int i = 0 ; i<resultList.size(); i++){
                 MeetingResult cur = resultList.get(i);
-                if (memberList.get(mIdx).getUserId().equals(cur.getMember().getUserId())) {
-                    urls.add(resultList.get(i).getImageUrl());
-                    codes.add(resultList.get(i).getColorCode());
-                } else {
-                    result.add(ResultRes.builder()
-                            .id(memberList.get(mIdx).getId())
-                            .userid(memberList.get(mIdx).getUserId())
-                            .name(memberList.get(mIdx).getName())
-                            .nickname(memberList.get(mIdx).getNickname())
-                            .urls(urls)
-                            .colors(codes)
-                            .build());
-
-                    urls = new ArrayList<>();
-                    codes = new ArrayList<>();
-                    urls.add(resultList.get(i).getImageUrl());
-                    codes.add(resultList.get(i).getColorCode());
-                    mIdx++;
+                for(int j =0 ;j<result.size(); j++){
+                    if(cur.getMember().getUserId().equals(result.get(j).getUserid())){
+                        result.get(j).getUrls().add(cur.getImageUrl());
+                        result.get(j).getColors().add(cur.getColorCode());
+                        break;
+                    }
                 }
             }
-            result.add(ResultRes.builder()
-                    .id(memberList.get(mIdx).getId())
-                    .userid(memberList.get(mIdx).getUserId())
-                    .name(memberList.get(mIdx).getName())
-                    .nickname(memberList.get(mIdx).getNickname())
-                    .urls(urls)
-                    .colors(codes)
-                    .build());
+            for(ResultRes r :result){
+                System.out.println("ResultRes = " + r);
+            }
+            System.out.println("result = " + result);
 
             return result;
         } else {
@@ -335,7 +326,7 @@ public class RoomServiceImpl implements RoomService {
         Map<String, Object> output = new HashMap<>();
 
         if (RoomType.SINGLE.equals(room.getRoomType())) {
-            MeetingResult meetingResult = meetingResultRepository.findByRoomAndMemberAndTop1(room, member, true);
+            MeetingResult meetingResult = meetingResultRepository.findByRoomAndMemberAndTop1(room, member, true).get(0);
 
             output.put("name", member.getName());
             output.put("url", meetingResult.getImageUrl());
@@ -385,7 +376,8 @@ public class RoomServiceImpl implements RoomService {
 
         Room room = roomRepository.findById(roomId).get();
         Member member = memberRepository.findById(userId).get();
-        MeetingResult meetingResult = meetingResultRepository.findByRoomAndMemberAndTop1(room, member, true);
+//        MeetingResult meetingResult = meetingResultRepository.findByRoomAndMemberAndTop1(room, member, true);
+        MeetingResult meetingResult = meetingResultRepository.findByRoomAndMemberAndTop1(room, member, true).get(0);
 
         if (meetingResult != null) {
             return Colorset.builder()
