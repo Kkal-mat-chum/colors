@@ -1,0 +1,85 @@
+<!doctype html><html lang=""><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="icon" href="favicon.ico"/><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/><link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"/><script src="https://kit.fontawesome.com/dbe16f2016.js" crossorigin="anonymous"></script><script src="https://code.jquery.com/jquery-3.4.1.min.js"></script><title>깔맞춤</title><script defer="defer" src="/js/chunk-vendors.f6f2c40e.js"></script><script defer="defer" src="/js/app.80377015.js"></script><link href="/css/chunk-vendors.3851fddd.css" rel="stylesheet"><link href="/css/app.3e984704.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but colors doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div><div id="topBtn">TOP</div></body><script>$(document).ready(function () {
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 100) {
+          $("#topBtn").fadeIn();
+          $("#mainfooter").fadeOut();
+        } else {
+          $("#topBtn").fadeOut();
+          $("#mainfooter").fadeIn();
+        }
+      });
+
+      $("#topBtn").click(function () {
+        $("html, body").animate(
+          {
+            scrollTop: 0,
+          },
+          500
+        );
+        return false;
+      });
+    });</script><style>#topBtn {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border: 1px solid #fff;
+      color: #fff;
+      text-align: center;
+      line-height: 50px;
+      border-radius: 10px;
+      background-color: #d0d1ff; /*버튼 색상*/
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    #topBtn:hover {
+      background-color: #6667ab; /*마우스 올렸을 때 버튼 색상*/
+    }
+    #mainfooter {
+      position: fixed;
+      left: 0px;
+      bottom: 0px;
+      height: 100px;
+      width: 100%;
+      background: linear-gradient(to top, #434361dc, #ffffff00);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .footerLabel {
+      font-size: 20px;
+      display: inline-block;
+      /* margin-bottom: 15px; */
+    }
+    .blink {
+      animation: blink-animation 1s steps(5, start) infinite;
+      -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    }
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+    @-webkit-keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #6667ab;
+      border-radius: 10px;
+      box-shadow: inset 0px 0px 1px white;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: #d0d1ff;
+      border-radius: 10px;
+      box-shadow: inset 0px 0px 5px white;
+    }</style></html>
