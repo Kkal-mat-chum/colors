@@ -179,6 +179,7 @@ export default {
     this.joinSession();
   },
   mounted() {
+    this.$store.state.resultStore.voteRound = 1;
     console.log(sessionStorage.getItem("roomCode"));
     console.log(sessionStorage.getItem("roomId"));
     console.log(this.subscribers);

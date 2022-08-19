@@ -152,7 +152,7 @@ export default {
   created() {
     axios
       .post(this.$store.state.baseurl + "room/vote/result", {
-        roomid: sessionStorage.getItem("roomCode"),
+        roomid: sessionStorage.getItem("roomId"),
         userid: sessionStorage.getItem("memberId"),
       })
       .then((response) => {
