@@ -1,6 +1,11 @@
 # colors
 # 깔맞춤
 
+## .env.local 파일 수정
+```
+해당 내용을 작성하여 프로젝트를 시작하세요.
+```
+
 ## Project setup
 ```
 npm install
