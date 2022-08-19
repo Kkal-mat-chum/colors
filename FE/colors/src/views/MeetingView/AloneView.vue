@@ -79,7 +79,7 @@ export default {
     this.g = 0;
     this.b = 0;
     this.a = 1;
-
+    this.$store.state.resultStore.voteRound = 1;
     let memberData = JSON.parse(sessionStorage.getItem("memberData"));
     let userid = memberData.data.id;
     let roomnum = sessionStorage.getItem("roomId");
