@@ -15,26 +15,26 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   mail:
-    host: smtp.gmail.com
+    host: host
     port: 587
-    username: b208.colors@gmail.com
-    password: aizfzkfawrjwwjii
+    username: username
+    password: password
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+  # datasource:
+  #   driver-class-name: com.mysql.cj.jdbc.Driver
+  #   url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+  #   username: ssafy
+  #   password: ssafy
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/colors?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: ssafy
-    password: ssafy
-  #  datasource:
-  #    driver-class-name: com.mysql.cj.jdbc.Driver
-  #    url: jdbc:mysql://db:3306/colors?serverTimezone=UTC&characterEncoding=UTF-8
-  #    username: root
-  #    password: root
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     url: jdbc:mysql://db:3306/colors?serverTimezone=UTC&characterEncoding=UTF-8
+     username: username
+     password: password
 
   data:
     web:
