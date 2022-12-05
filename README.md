@@ -49,7 +49,7 @@
   SSAFY 대전캠퍼스 7th B208
   |   Name(Git)   | [송다경](https://github.com/sa11k/) | [김민영](https://github.com/minyule) | [김찬일](https://github.com/chanilkim) | [이한기](https://github.com/hanenergy) | [강민성](https://github.com/pfcskms1997) | [오정환](https://github.com/Ojeonghwan) |
   | :------: | :------: | :------: | :------: | :------: | :------: | :------: |
-  | Github | <a href="https://github.com/sa11k"><img height="50px" width="50px" src="https://avatars.githubusercontent.com/u/63536606?v=4" alt="송다경 프로필"/></a> | <a href="https://github.com/minyule"><img height="50px" width="50px" src="https://avatars.githubusercontent.com/u/97648239?v=4" alt="김민영 프로필"/></a> | <a href="https://github.com/chanilkim"><img height="50px" width="50px" src="https://avatars.githubusercontent.com/u/26215601?v=4" alt="김찬일 프로필"/></a> | <a href="https://github.com/hanenergy"><img height="50px" width="50px" src="https://avatars.githubusercontent.com/u/99132471?v=4" alt="이한기 프로필"/></a> | <a href="https://github.com/pfcskms1997"><img height="50px" width="50px" src="https://avatars.githubusercontent.com/u/62384846?v=4" alt="강민성 프로필"/></a> | <a href="https://github.com/Ojeonghwan"><img height="50px" width="50px" src="https://avatars.githubusercontent.com/u/104410092?v=4" alt="오정환 프로필"/></a> |
+  | Github | <a href="https://github.com/sa11k"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/63536606?v=4" alt="송다경 프로필"/></a> | <a href="https://github.com/minyule"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/97648239?v=4" alt="김민영 프로필"/></a> | <a href="https://github.com/chanilkim"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/26215601?v=4" alt="김찬일 프로필"/></a> | <a href="https://github.com/hanenergy"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/99132471?v=4" alt="이한기 프로필"/></a> | <a href="https://github.com/pfcskms1997"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/62384846?v=4" alt="강민성 프로필"/></a> | <a href="https://github.com/Ojeonghwan"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/104410092?v=4" alt="오정환 프로필"/></a> |
   | Position | :crown: / Frontend | Frontend | Frontend | Frontend | Backend | Backend |
 
 </br>
@@ -57,7 +57,7 @@
 ## 2. 프로젝트 설계
    ### 1) Figma [(link)](https://www.figma.com/file/0pfzHeX6s46qoyzQOuOdr2/%EA%B9%94%EB%A7%9E%EC%B6%A4?node-id=226%3A767)
    ### 2) 개발환경
-   | Backend | Frontend | CI/CD | 협업툴 |
+   | Backend | Frontend | CI/CD | Collaboration Tools |
    | :------ | :------- | :---- | :----- |
    | Java Open-JDK zulu 8.33.0.1 | Vue 2.6.14 | AWS EC2 | GitLab |
    | SpringBoot Gradle 2.7.2 | Vue/cli 5.0.8 | Ubuntu 20.04 LTS | Jira |
