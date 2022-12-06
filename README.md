@@ -46,7 +46,7 @@
   | 07. 30. ~ 07. 15. | OpenVidu를 이용한 화상 미팅 서비스 개발 / Face-Detection 적용 / Rest API 서버 개발 |
   | 08. 16. ~ 08. 19. | 서비스 배포 및 유지보수 |
   ### 4) 구성원
-  SSAFY 대전캠퍼스 7th B208
+  **SSAFY 7th 대전캠퍼스 B208**
   |   Name(Git)   | [송다경](https://github.com/sa11k/) | [김민영](https://github.com/minyule) | [김찬일](https://github.com/chanilkim) | [이한기](https://github.com/hanenergy) | [강민성](https://github.com/pfcskms1997) | [오정환](https://github.com/Ojeonghwan) |
   | :------: | :------: | :------: | :------: | :------: | :------: | :------: |
   | Github | <a href="https://github.com/sa11k"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/63536606?v=4" alt="송다경 프로필"/></a> | <a href="https://github.com/minyule"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/97648239?v=4" alt="김민영 프로필"/></a> | <a href="https://github.com/chanilkim"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/26215601?v=4" alt="김찬일 프로필"/></a> | <a href="https://github.com/hanenergy"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/99132471?v=4" alt="이한기 프로필"/></a> | <a href="https://github.com/pfcskms1997"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/62384846?v=4" alt="강민성 프로필"/></a> | <a href="https://github.com/Ojeonghwan"><img height="75px" width="75px" src="https://avatars.githubusercontent.com/u/104410092?v=4" alt="오정환 프로필"/></a> |
