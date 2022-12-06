@@ -79,7 +79,7 @@
 ## 3. 프로젝트 소개
 | 전체 기능 요약 |
 | :-----------: |
-| <img src="README-asset/gif/1-%EC%A0%84%EC%B2%B4%20%EA%B8%B0%EB%8A%A5.gif" width="60%" alt="전체기능요약"/> |
+| <img src="README-asset/gif/1-%EC%A0%84%EC%B2%B4%20%EA%B8%B0%EB%8A%A5.gif" width="80%" alt="전체기능요약"/> |
 
 
 ## 4. 프로젝트 파일 구조
