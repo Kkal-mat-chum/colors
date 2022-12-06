@@ -77,10 +77,13 @@
 </br>
 
 ## 3. 프로젝트 소개
+| 전체 기능 요약 |
+| :-----------: |
+| ![전체기능](README-asset/gif/1-%EC%A0%84%EC%B2%B4%20%EA%B8%B0%EB%8A%A5.gif) |
 
 
 ## 4. 프로젝트 파일 구조
- >  Frontend
+ >  **Frontend**
 ```
 colors
 ├── build
@@ -114,7 +117,7 @@ colors
 
 
 
-> Backend
+> **Backend**
 ```
 └── colors
       ├── config
