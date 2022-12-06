@@ -81,6 +81,18 @@
 | :-----------: |
 | <img src="README-asset/gif/1-%EC%A0%84%EC%B2%B4%20%EA%B8%B0%EB%8A%A5.gif" width="80%" alt="전체기능요약"/> |
 
+| 미팅 참여 | 색상 팔레트 |
+| :------: | :-------: |
+| ![미팅참여](README-asset/gif/2-%EA%B7%B8%EB%A3%B9%EB%AF%B8%ED%8C%85.gif) | ![팔레트](README-asset/gif/3-%ED%8C%94%EB%A0%88%ED%8A%B8.gif) |
+
+| 원 픽 방식 | 토너먼트 방식 |
+| :------: | :-------: |
+| ![원픽](README-asset/gif/4-%EC%9B%90%ED%94%BD.gif) | ![토너먼트](README-asset/gif/5-%ED%86%A0%EB%84%88%EB%A8%BC%ED%8A%B8.gif) |
+
+| 결과 화면 | 마이페이지 |
+| :------: | :-------: |
+| ![결과화면](README-asset/gif/6-%EA%B2%B0%EA%B3%BC.gif) | ![마이페이지](README-asset/gif/7-%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.gif) |
+
 
 ## 4. 프로젝트 파일 구조
  >  **Frontend**
