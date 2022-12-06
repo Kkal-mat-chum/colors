@@ -11,9 +11,9 @@
 
 
 [2. 프로젝트 설계](#2-프로젝트-설계)
-- [Figma](#1-figma)
+- [Figma](#1-figma-link)
 - [개발환경](#2-개발환경)
-- [ERD](#3-erd-link)
+- [ERD](#3-erd)
 - [아키텍처](#4-아키텍처)
 - [REST API](#5-rest-api-link)
 
